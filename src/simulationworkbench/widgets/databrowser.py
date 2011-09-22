@@ -1,0 +1,171 @@
+import logging
+import os
+import random
+from PySide.QtCore import Slot, Qt
+from PySide.QtGui import QWidget, QFileDialog, QCheckBox
+import time
+from basics.widgets.selectabletableheader import SelectableTableHeader
+from datamanagement.entitydata import EntityData
+from services.dataservice import DataService
+#import simulationworkbench
+from simulationworkbench.widgets.databrowsermodel import DataBrowserModel
+#from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
+#from simulationworkbench.widgets.selectabletableheader import SelectableTableHeader
+from simulationworkbench.widgets.ui_databrowser import Ui_DataBrowser
+
+class DataBrowser(QWidget, Ui_DataBrowser):
+    """
+    @since: 2011-08-24
+    """
+    __author__ = "Moritz Wade"
+    __contact__ = "wade@zib.de"
+    __copyright__ = "Zuse Institute Berlin 2011"
+
+
+
+    def __init__(self, parent, id, dataSet):
+        super(DataBrowser, self).__init__(parent)
+        self.setupUi(self)
+
+        self._simWorkbench = None
+        self.dataService = None
+
+        self.id = id
+        self.data = dataSet
+
+        # create the custom selectable table header
+        self.selectableHeader = SelectableTableHeader(Qt.Horizontal, self.tableView)
+        self.selectableHeader.setNonSelectableIndexes([0])
+        self.selectableHeader.sectionSelectionChanged.connect(self.on_columnSelectionChanged)
+
+        self.tableView.setHorizontalHeader(self.selectableHeader)
+
+        # create the data model
+        self.dataModel = DataBrowserModel(self, self.id, self.data)
+        self.tableView.setModel(self.dataModel)
+
+        self._setUpSelectionCheckBox()
+        self._updateInfoPane()
+
+
+    def getId(self):
+        return self.id
+    
+    def setSimulationWorkbench(self, simWorkbench):
+        self._simWorkbench = simWorkbench
+
+    def getSelectionCheckBox(self):
+        return self._selectionCheckBox
+
+    def isSelected(self):
+        checkState = self._selectionCheckBox.checkState()
+        return True if checkState == Qt.Checked else False
+
+
+    def _setUpSelectionCheckBox(self):
+        self._selectionCheckBox = QCheckBox()
+        self._selectionCheckBox.setChecked(True)
+        infoText = "Select or deselect this data (e.g. to be included in plots and computations)."
+        self._selectionCheckBox.setStatusTip(infoText)
+        self._selectionCheckBox.setToolTip(infoText)
+
+        self._selectionCheckBox.stateChanged.connect(self._selectionChanged)
+
+    def _updateInfoPane(self):
+        """
+        Updates the info pane with basic info about the loaded data
+        and the data file (if any).
+        """
+        self.lineEditInfoSpecies.setText(str(self.data.getNumOfRealData()))
+        self.lineEditInfoDataType.setText(self.data.type)
+
+        self.lineEditInfoFormat.setText(self.data.format)
+
+        filepath = self.data.filename
+        if os.path.exists(filepath):
+            self.lineEditInfoPath.setText(filepath)
+
+            filesize = os.path.getsize(filepath)
+            filesize = filesize / 1024 # displaying kB
+            self.lineEditInfoFilesize.setText("%s kB" % filesize)
+
+            timeLastModifiedEpoch = os.path.getmtime(filepath)
+            timeLastModified = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime(timeLastModifiedEpoch))
+            self.lineEditInfoLastModified.setText(str(timeLastModified))
+        else:
+            noFileText = "No File"
+            self.lineEditInfoPath.setText(noFileText)
+            self.lineEditInfoFilesize.setText(noFileText)
+            self.lineEditInfoLastModified.setText(noFileText)
+
+
+    def remove(self):
+        """
+        Cleans up stuff then destroys self.
+
+        It's not sure whether this is really needed
+        but it might serve to close some memory holes
+        (e.g. dangling references somewhere).
+        """
+        del self.dataModel
+        del self
+
+    @Slot()
+    def on_actionPlot_triggered(self):
+        dataDict = {self.data.filename: self.data}
+        self._simWorkbench.plotExpData(dataDict)
+
+    @Slot()
+    def on_buttonPerturb_clicked(self):
+        """
+        Perturbs the data by the % given
+        in self.spinBoxPerturb.
+        """
+        percentage = self.spinBoxPerturb.value()
+        factor = percentage / 100.0
+
+
+        for entity, entityData in self.data.getData().items():
+            id = entity.getId() if type(entity) == EntityData else str(entity)
+            logging.debug("Perturbing data of EntityData: %s" % id)
+            for i in xrange(len(entityData.datapoints)):
+                value = entityData.datapoints[i]
+                if not value:   # for None values
+                    continue
+                fraction = value * factor   # fraction of value that will be added or substracted
+                #newValue = value + random.uniform(-1 * fraction, fraction)
+                newValue = value + random.uniform(-1, 1) * fraction
+                #                    newValue = value - fraction if random.random() < 0.5 else value + fraction
+                entityData.setDatapoint(i, newValue)
+
+    @Slot("")
+    def on_buttonSaveAs_clicked(self):
+        logging.debug("Saving data. Displaying file chooser...")
+        file_choices = "Tab-Delimited Text File *.txt (*.txt)"
+
+        path = unicode(QFileDialog.getSaveFileName(self, 'Save file', '', file_choices)[0])
+
+        if not path.endswith(".txt"):
+            path += ".txt"
+
+        if path:
+            if not self.dataService:
+                self.dataService = DataService()
+
+            id = self.data.getId()
+            self.dataService.save_data_as_csv(id, path)
+            logging.info("Saved data to %s" % path)
+
+    def _selectionChanged(self, state):
+        """
+        This SLOT is connected to the stateChanged SIGNAL of
+        the internal self._selectionCheckBox. It changes the
+        isSelected boolean of the underlying self.data DataSet.
+        """
+        isSelected = True if state == Qt.Checked else False
+        self.data.setSelected(isSelected)
+
+    def on_columnSelectionChanged(self, index, selected):
+        entityData = self.dataModel.getEntityData(index)
+        if entityData and type(entityData) == EntityData:
+            entityData.setSelected(selected)

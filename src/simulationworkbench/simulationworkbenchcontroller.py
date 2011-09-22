@@ -1,0 +1,1132 @@
+import random
+import time
+from PySide.QtCore import QSize, Slot, Qt
+from PySide.QtGui import QSortFilterProxyModel, QTabBar, QCheckBox, QMessageBox, QWidget, QTableWidgetItem, QWidget, QFileDialog
+#from PySide.Qt import Qt, QTableWidgetItem, QWidget, QFileDialog
+from backend_parkincpp.parkincppbackend import ParkinCppBackend
+from parkincpp import parkin
+import services.dataservice
+import datamanagement.dataset
+import backend
+import parametertablemodel, speciestablemodel
+from services.statusbarservice import StatusBarService
+import simulationworkbench
+import logging
+from simulationworkbench.parametersetstablemodel import ParameterSetsTableModel
+from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
+from simulationworkbench.widgets.databrowser import DataBrowser
+from simulationworkbench.widgets.dataimportwidget import DataImportWidget
+from simulationworkbench.widgets.resultswindowcontroller import ResultsWindowController
+from simulationworkbench.widgets.timepointchooser import TimepointChooser
+import widgets
+
+from basics.helpers import filehelpers, machineepsilon
+from simulationworkbench.speciestablemodel import SpeciesTableModel
+from simulationworkbench.parametertablemodel import ParameterTableModel
+#from backend_fortran.fortranbackend import FortranBackend
+from services.progressbarservice import ProgressBarService
+from services.dataservice import DataService
+from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
+from simulationworkbench.widgets.tablewidgetcontroller import TableWidgetController
+from backend.exceptions import InitError
+#from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
+#from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
+
+
+DEFAULT_TIMEUNIT = "s"
+
+
+
+class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
+    """
+    This is the Controller (more in the line of a code-behind file)
+    for the Simulation Workbench.
+
+    The UI is handled separately by QT Designer 4 with the
+    simulationworkbench_v*.ui file.
+
+    @since: 2010-06-16
+    """
+    __author__ = "Moritz Wade"
+    __contact__ = "wade@zib.de"
+    __copyright__ = "Zuse Institute Berlin 2010"
+
+
+    def __init__(self, parent=None, parkinController=None):
+        """
+        Constructor
+        """
+        super(SimulationWorkbenchController, self).__init__(parent)
+        self.setupUi(self)
+
+        self.computeDetailedSensitivitiesButton.setEnabled(True)    # DEBUGGING!
+
+        self.parkinController = parkinController
+        self.sbmlModel = None
+        self.speciesSliders = {}
+
+        self.speciesTableModel = None
+        self.parametersTableModel = None
+
+        self.dataBrowserWidgets = {}
+
+        self.resultsWindow = None # will be created on first creation of plot/table
+        self.timepointChooser = None
+
+        self.dataService = DataService()
+        self.statusBarService = StatusBarService()
+
+        self.backendBioParkinCpp = None
+        self.backendFortran = None
+        self.currentBackend = None
+
+        self.optionStartTime = backend.settingsandvalues.DEFAULT_STARTTIME
+        self.optionEndTime = backend.settingsandvalues.DEFAULT_ENDTIME
+        self.optionTimeUnit = DEFAULT_TIMEUNIT
+
+        self.optionRTOL = backend.settingsandvalues.DEFAULT_RTOL
+        self.optionATOL = backend.settingsandvalues.DEFAULT_ATOL
+        self.optionXTOL = backend.settingsandvalues.DEFAULT_XTOL
+        self.optionMaxNumNewtonSteps = backend.settingsandvalues.DEFAULT_MAX_NUM_NEWTON_STEPS
+        self.optionSDSpecies = backend.settingsandvalues.DEFAULT_SD_SPECIES #obsolete
+        self.optionNOROWSCAL = False # backend.settingsandvalues.DEFAULT_NO_AUTO_ROW_SCALING
+        self.optionJACGEN = backend.settingsandvalues.DEFAULT_JACOBIAN
+        self.optionNONLIN = backend.settingsandvalues.DEFAULT_PROBLEM_TYPE
+        self.optionRSCAL = backend.settingsandvalues.DEFAULT_RESIDUAL_SCALING
+        self.optionLPOS = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
+
+#        self.integrateUsingMeasuredTimepoints = False
+
+        self.currentExpDataFilename = ""
+        self.currentExpData = []
+
+#        self.machineEpsilon = machineepsilon.getMachineEpsilon()
+        self.machineEpsilon = parkin.EPMACH
+
+        self.setUpInputFields()
+        self.setUpDataBrowser()
+
+        if self.parkinController: #should always be the case
+            self.parkinController.modelClosed.connect(self.clear)
+            self.parkinController.activeModelChanged.connect(self.on_activeModelChanged)
+            self.on_activeModelChanged()
+
+            # set GUI logger
+
+    #        self.logger = logging.getLogger() #gets root logger
+    #        loggingHandler = QtStatusLoggingHandler(self.statusBar())
+    #        self.logger.addHandler(loggingHandler)
+
+    #        self.loggingView = QtLoggingView(self)
+    #        #self.loggingView.set
+    #        loggingHandler = QtLoggingHandler(self.loggingView)
+    #        loggingHandler.setLevel(logging.INFO)
+    #        self.logger.addHandler(loggingHandler)
+    #        # filling log dock area (was set up in QtDesigner)
+    #        self.logDockWidget.setWidget(self.loggingView)
+    #        #self.logDockWidget.setFixedHeight(50)
+
+    def on_activeModelChanged(self, activeModelController=None):
+        try:
+            if not activeModelController:   # should only happen when called directly from self.__init__()
+                activeModelController = self.parkinController.ActiveModelController
+
+            if activeModelController:
+                logging.info("Prepared model from file '%s' for simulation." % activeModelController.filename)
+                self.setSBMLModel(activeModelController.sbmlModel)
+            else:
+                self.clear()
+
+        except Exception, e:
+            logging.debug("SimulationWorkbenchController.activeModelChanged() - Error: %s" % e)
+
+    def setSBMLModel(self, model):
+        """
+        Set the model which should be simulated, etc.
+        Also invokes self._initialize() to fill Tables, etc. with data.
+        """
+        if model == self.sbmlModel: # everything's already initialized, we don't do anything
+            return
+
+        self.sbmlModel = model  # None is a valid value! (e.g. after closing the last model)
+
+        if not self.sbmlModel:
+            return
+
+        self.sbmlModel.createParameterSetForFit()
+
+        #self.getListOfParameterSets()# = model.ListOfParameterSets
+        if not self.getListOfParameterSets():
+            logging.error(
+                "SimulationWorkbench: Encountered a model without a ListOfParameterSets. This should never happen.")
+            #        self.listOfParameterSets.changed.connect(self.parameterSetsChanged)
+
+        self._initialize()
+        if self.currentBackend:
+            self.currentBackend.isCompilationNeeded = True
+
+
+    def _initialize(self):
+        """
+        Sets up the main UI parts. Fills tables with data, etc.
+        """
+        self.setWindowTitle(self.sbmlModel.filename.split('/')[-1])
+        self._initializeTables()
+
+
+    def _initializeTables(self):
+        """
+        Sets up all the tables (models + views).
+        """
+
+        # Species Tab
+        speciesEntities = self.sbmlModel.SbmlSpecies
+        self.speciesTableModel = SpeciesTableModel(speciesEntities)
+        self.speciesTableModel.dataChanged.connect(self.speciesChanged)
+
+        # use a generic QSortFilterProxyModel for sorting
+        speciesProxyModel = QSortFilterProxyModel(self)
+        speciesProxyModel.setSourceModel(self.speciesTableModel)
+
+        self.speciesTableView.setModel(speciesProxyModel)
+        self.speciesTableView.setSortingEnabled(True)
+        self.speciesTableView.sortByColumn(0, Qt.AscendingOrder)
+        self.speciesTableView.resizeColumnsToContents()
+
+
+        # Parameter Tab
+        paramEntities = self.sbmlModel.SbmlParameters
+        self.parametersTableModel = ParameterTableModel(paramEntities, self.sbmlModel)
+        self.parametersTableModel.dataChanged.connect(self.parameterChanged)
+
+        # use a generic QSortFilterProxyModel for sorting
+        parametersProxyModel = QSortFilterProxyModel(self)
+        parametersProxyModel.setSourceModel(self.parametersTableModel)
+
+        self.parametersTableView.setModel(parametersProxyModel)
+        self.parametersTableView.setSortingEnabled(True)
+        self.parametersTableView.sortByColumn(0, Qt.AscendingOrder)
+        # self.parametersTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
+        self.parametersTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
+        self.parametersTableView.hideColumn(parametertablemodel.COLUMN.ESTIMATE)
+        self.parametersTableView.resizeColumnsToContents()
+
+
+        # Sensitivity Tab
+
+        # use 2nd generic QSortFilterProxyModel for sorting
+        sensitivityProxyModel = QSortFilterProxyModel(self)
+        sensitivityProxyModel.setSourceModel(self.parametersTableModel)
+
+        self.sensitivityTableView.setModel(sensitivityProxyModel)
+        self.sensitivityTableView.setSortingEnabled(True)
+        self.sensitivityTableView.sortByColumn(0, Qt.AscendingOrder)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.UNIT)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.ESTIMATE)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
+        self.sensitivityTableView.resizeColumnsToContents()
+
+
+        sensitivitySpeciesProxyModel = QSortFilterProxyModel(self)
+        sensitivitySpeciesProxyModel.setSourceModel(self.speciesTableModel)
+        
+        self.tableViewSensitivitySpecies.setModel(sensitivitySpeciesProxyModel)
+        self.tableViewSensitivitySpecies.setSortingEnabled(True)
+        self.tableViewSensitivitySpecies.sortByColumn(0, Qt.AscendingOrder)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.COMPARTMENT)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.INITIALQUANTITY)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.UNIT)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.SCALE)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.QUANTITYTYPE)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISCONSTANT)
+        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISBC)
+        self.tableViewSensitivitySpecies.resizeColumnsToContents()
+
+
+        # Fit Tab
+
+        # use 2nd generic QSortFilterProxyModel for sorting
+        estimateParamsProxyModel = QSortFilterProxyModel(self)
+        estimateParamsProxyModel.setSourceModel(self.parametersTableModel)
+
+        self.estimateParamsTableView.setModel(estimateParamsProxyModel)
+        self.estimateParamsTableView.setSortingEnabled(True)
+        self.estimateParamsTableView.sortByColumn(0, Qt.AscendingOrder)
+        #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
+        #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.UNIT)
+        self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
+        self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
+        self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
+        self.estimateParamsTableView.resizeColumnsToContents()
+
+
+        # Parameter Sets Tab
+        self.parameterSetsTableModel = ParameterSetsTableModel(self.getListOfParameterSets())
+        self.parameterSetsTableModel.dataChanged.connect(self.parameterChanged)
+        self.parameterSetsTableView.setModel(self.parameterSetsTableModel)
+        self.parameterSetsTableView.resizeColumnsToContents()
+
+    def clear(self):
+        """
+        Clears all Views (e.g. when the last model is closed).
+        """
+        self.speciesTableView.setModel(None)
+        self.parametersTableView.setModel(None)
+        self.parameterSetsTableView.setModel(None)
+        self.sensitivityTableView.setModel(None)
+        self.tableViewSensitivitySpecies.setModel(None)
+        self.estimateParamsTableView.setModel(None)
+        self.sbmlModel = None
+        self.currentBackend = None
+
+
+    def _createSimulationPlot(self):
+        """
+        Gets the data selected in the dataSourcesTable and plots it to the
+        plot tab by inserting a PlotWidget into the Tab.
+        """
+        logging.debug("Creating Plot...")
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
+        plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                          title="Simulation (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
+        self.updateSelectedExpData()
+        if not self.checkBoxPlotExpData.isChecked():
+            plotWidget.updateDataSources(self.dataService.get_simulation_data())
+        else:
+            selectedExpData = self.dataService.get_selected_experimental_data()
+            plotWidget.setPlotStyle(widgets.plotwidgetcontroller.PLOT_LINE, plotNumber=0)
+            if selectedExpData:
+                for j in xrange(len(selectedExpData)):
+                    plotWidget.setPlotStyle(widgets.plotwidgetcontroller.PLOT_CIRCLE, plotNumber=j+1)
+                plotWidget.updateDataSources([self.dataService.get_simulation_data(),
+                                              selectedExpData])
+            else:
+                plotWidget.updateDataSources(self.dataService.get_simulation_data())
+
+
+        self.resultsWindow.addResultSubWindow(plotWidget)
+        self.resultsWindow.show()
+
+
+
+    def _createSimulationDataTable(self):
+        logging.debug("Creating data table (simulated data)...")
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        # TODO: Either remove the old table widget or store all table widgets in a []/{}
+        dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                                title="Simulation (Table) - %s" % time.strftime("%H:%M:%S",
+                                                                                                time.localtime()))
+        #self.dataTableWidget.updateDataSources(self.dataService.get_data_sources_with_dataIDs())
+        dataTableWidget.sortColumn = 0 # sort by Timepoint
+        dataTableWidget.updateDataSources(self.dataService.get_simulation_data())
+        #subWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, "Simulation (Table)")
+
+        self.resultsWindow.addResultSubWindow(dataTableWidget)
+        self.resultsWindow.show()
+
+
+    def _createSensitivityOverviewPlot(self):
+        logging.debug("Creating data plot (sensitivity data)...")
+        if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW:
+            return
+
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        sensData = self.dataService.get_sensitivity_trajectory_data()
+        if not sensData:
+            return
+
+        # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
+        plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                          title="Sensitivity (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
+
+        plotWidget.updateDataSources(sensData)
+        self.resultsWindow.addResultSubWindow(plotWidget)
+
+        self.resultsWindow.show()
+        self.resultsWindow.raise_()
+        self.resultsWindow.activateWindow()
+
+
+    def _createSensitivityDetailsTable(self):
+        if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS:
+            return
+
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        sensData = self.dataService.get_sensitivity_details_data()
+
+        if sensData:
+            self.computeDetailedSensitivitiesButton.setEnabled(True)
+        else:
+            self.computeDetailedSensitivitiesButton.setEnabled(False)
+
+        for key in sensData.keys():
+            logging.debug("Creating data table (sensitivity data)...")
+            # TODO: Either remove the old table widget or store all table widgets in a []/{}
+            dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                                    title="%s - %s" % (
+                                                        key, time.strftime("%H:%M:%S", time.localtime())))
+            dataTableWidget.sortColumn = -1
+            dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
+            if backend.settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM in key:
+                #dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
+                dataTableWidget.sortColumn = 2 # automatically sort those tables by sensitivity
+                #self.dataTableWidget.updateDataSources(self.dataService.get_sensitivity_data_with_dataIDs())
+            dataTableWidget.updateDataSources(sensData, dataID=key)
+            #            sbuWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, key)
+
+            self.resultsWindow.addResultSubWindow(dataTableWidget)
+
+            #        self.resultsWindow.getMdiArea().setCurrentIndex(self.resultsWindow.getMdiArea().count() - 1)
+
+
+    def _createEstimatedParametersTable(self):
+        if self.currentBackend.mode != backend.settingsandvalues.MODE_PARAMETER_ESTIMATION:
+            return
+
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        estimatedParamData = self.dataService.get_estimated_param_data()
+        if not estimatedParamData:
+            logging.debug(
+                "SimulationWorkbenchController._updateEstimatedParametersTable(): Don't have any estimated data to display.")
+            return
+
+        for key in estimatedParamData.keys():
+            logging.debug("Creating data table (estimated parameters)...")
+            # TODO: Either remove the old table widget or store all table widgets in a []/{}
+            dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                                    title="Par. Identification - %s" % time.strftime("%H:%M:%S",
+                                                                                                     time.localtime()))
+            dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
+            dataTableWidget.updateDataSources(estimatedParamData, dataID=key)
+            #subWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, "Estimated Parameters")
+
+            self.resultsWindow.addResultSubWindow(dataTableWidget)
+            self.parkinController.ActiveModelController.sbmlModel.createParameterSetWithFittedValues(
+                estimatedParamData[key])
+
+            #        self.resultsWindow.getMdiArea().setCurrentIndex(self.resultsWindow.getMdiArea().count() - 1)
+
+
+    def _setUpBackend(self, mode):
+        if not self.sbmlModel:
+            logging.info("Cannot set up computation backend. No model loaded.")
+            return
+
+        if self.currentBackend:
+            self.currentBackend.finishedSignal.disconnect(self.backendRunFinished)
+
+        self.currentBackend = self._getCurrentBackend()
+        self.currentBackend.finishedSignal.connect(self.backendRunFinished)
+
+        self.progressBarService = ProgressBarService()
+        self.progressBarService.connect_to_thread(self.currentBackend)
+
+        settings = {
+            backend.settingsandvalues.SETTING_STARTTIME: self.optionStartTime,
+            backend.settingsandvalues.SETTING_ENDTIME: self.optionEndTime,
+            backend.settingsandvalues.SETTING_RTOL: self.optionRTOL,
+            backend.settingsandvalues.SETTING_ATOL: self.optionATOL,
+            backend.settingsandvalues.SETTING_XTOL: self.optionXTOL,
+            backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS: self.optionMaxNumNewtonSteps,
+            backend.settingsandvalues.SETTING_SD_SPECIES: self.optionSDSpecies,
+            backend.settingsandvalues.SETTING_NO_AUTO_ROW_SCALING: self.checkBoxNoAutoRowScale.isChecked(),
+            backend.settingsandvalues.SETTING_JACOBIAN: self.optionJACGEN,
+            backend.settingsandvalues.SETTING_PROBLEM_TYPE: self.optionNONLIN,
+            backend.settingsandvalues.SETTING_RESIDUAL_SCALING: self.optionRSCAL,
+            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS: self.optionLPOS,
+            backend.settingsandvalues.SETTING_IDENTIFICATION_BACKEND: backend.settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND[self.comboBoxBackendSelect.currentIndex()]
+        }
+
+        try:
+            self.currentBackend.setMode(mode)
+            self.currentBackend.initialize(self.sbmlModel, settings)
+        except Exception as e:
+            logging.error("SimulationWorkbenchController: Can't initialize integrator. Error: %s" % e)
+            raise
+
+    def setUpInputFields(self):
+        """
+        Sets up various input fields with their standard values (that have been previously loaded
+        into class variables).
+        """
+        self.lineEditStartTime.setText(str(self.optionStartTime))
+        self.lineEditEndTime.setText(str(self.optionEndTime))
+        self.lineEditRTOL.setText(str(self.optionRTOL))
+        self.lineEditATOL.setText(str(self.optionATOL))
+        self.lineEditXTOL.setText(str(self.optionXTOL))
+        self.lineEditMaxNumNewtonSteps.setText(str(self.optionMaxNumNewtonSteps))
+
+        self.checkBoxNoAutoRowScale.setChecked(self.optionNOROWSCAL == True)
+        self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1)
+        self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1)
+        self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1)
+        self.comboBoxParameterConstraintsSelect.setCurrentIndex(int(self.optionLPOS) - 1)
+
+    #        self.lineEditSDSpecies.setText(str(self.optionSDSpecies))
+
+    def _getCurrentBackend(self, getNew=False):
+        if not self.backendBioParkinCpp or getNew:
+            self.backendBioParkinCpp = ParkinCppBackend()
+        return self.backendBioParkinCpp
+
+        # 2011-09-13: The approach changed. The drop down is no longer used
+        # to select a different backend but to set a mode *within*
+        # the PARKINcpp backend (done during self._setUpBackend())
+
+#        dropDownIndex = self.comboBoxBackendSelect.currentIndex()
+#        if dropDownIndex == 0 or getNew:  # PARKINcpp is selected
+#            if not self.backendBioParkinCpp:
+#                self.backendBioParkinCpp = ParkinCppBackend()
+#            return self.backendBioParkinCpp
+#
+#            ### this is now disabled
+#        #        elif dropDownIndex == 1:    # FORTRAN Code Generation is selected
+#        #            if not self.backendFortran or getNew:
+#        #                self.backendFortran = FortranBackend()
+#        #            return self.backendFortran
+#        else:
+#            logging.debug(
+#                "SimulationWorkbenchController._getCurrentBackend(): The selected item in the Backend ComboBox is not supported.")
+#            return
+
+
+
+    ####### functionality for handling experimental data #######
+
+#    def browseExpData(self):
+#        """
+#        Shows a file open dialog.
+#        """
+#
+#        homeDir = filehelpers.getHomeDir()
+#        openDir = self.currentExpDataFilename if self.currentExpDataFilename else homeDir
+#        filenameTuple = QFileDialog.getOpenFileName(parent=self,
+#                                               caption="Browse for data file...",
+#                                               directory=openDir,
+#                                               filter="BioPARKIN CSV data file (*.csv *.txt);;Legacy PARKIN data file (*.dat);;All filetypes (*.*")
+#
+#        self.setCurrentExpDataDirectory(filenameTuple[0])
+#
+#    def setCurrentExpDataDirectory(self, filename):
+#        self.currentExpDataFilename = filename
+#        self.lineEditExpData.setText(self.currentExpDataFilename)
+
+    def updateExpData(self, readFile=False):
+        # dataService = DataService()
+
+        if readFile:
+            self.currentExpDataFilename = self.lineEditExpData.text()
+            format = self.getExpDataFileFormat()
+
+            self.dataService.load_data([self.currentExpDataFilename], type=services.dataservice.EXPERIMENTAL,
+                                                                    parkinController=self.parkinController,
+                                                                    format=format)
+
+        expData = self.dataService.get_experimental_data()
+        self.showExpDataInfo(expData)
+
+    def getExpDataFileFormat(self):
+        filename = self.currentExpDataFilename
+        if filename.endswith("csv") or filename.endswith("txt"):
+            format = datamanagement.dataset.FORMAT_EXP_SIMPLE_CSV
+        elif filename.endswith("dat"):
+            format = datamanagement.dataset.FORMAT_EXP_PARKIN
+        else:
+            format = None
+
+        return format
+
+
+    def showExpDataInfo(self, expData):
+        if not expData:
+            logging.debug("SimulationWorkbenchController - showExpDataInfo: No data")
+            self.tableWidgetExpData.setColumnCount(0)
+            self.tableWidgetExpData.setRowCount(0)
+            return
+
+        expDataTableColHeaders = []
+        expDataTableRowHeaders = ["# Species", "Format", "Select"]
+        #tableData = [[None for i in range(len(expData.items()))] for j in range(len(expDataTableRowHeaders))]
+        tableData = []
+        self.currentExpData = []
+        for key, dataSet in expData.items():
+            expDataTableColHeaders.append(key)
+            currentData = [dataSet.getNumOfRealData(), dataSet.getFormat(), dataSet.isSelected()]
+            self.currentExpData.append(dataSet)
+            tableData.append(currentData)
+
+        self.tableWidgetExpData.setColumnCount(len(expDataTableColHeaders))
+        self.tableWidgetExpData.setRowCount(len(expDataTableRowHeaders))
+        self.tableWidgetExpData.setHorizontalHeaderLabels(expDataTableColHeaders)
+        self.tableWidgetExpData.setVerticalHeaderLabels(expDataTableRowHeaders)
+
+        for col in xrange(len(tableData)):
+            for row in xrange(len(tableData[col])):
+                data = tableData[col][row]
+                if type(data) != bool:
+                    newItem = QTableWidgetItem(str(data))
+                    newItem.setFlags(Qt.ItemIsEnabled)
+                    self.tableWidgetExpData.setItem(row, col, newItem)
+                else:
+                    newItem = QTableWidgetItem(QTableWidgetItem.Type)
+                    newItem.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+                    if data == True:
+                        newItem.setCheckState(Qt.Checked)
+                    else:
+                        newItem.setCheckState(Qt.Unchecked)
+                    newItem.setTextAlignment(Qt.AlignCenter)
+                    self.tableWidgetExpData.setItem(row, col, newItem)
+
+    def plotExpData(self, data=None):
+        logging.debug("Creating Experimental Data Plot...")
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        if not data:
+#            self.updateSelectedExpData()
+            data = self.dataService.get_selected_experimental_data()
+
+        plotWidgetExp = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                                             title="Experimental (Plot) - %s" % time.strftime("%H:%M:%S",
+                                                                                              time.localtime()))
+        plotWidgetExp.setPlotStyle(simulationworkbench.widgets.plotwidgetcontroller.PLOT_POINT)
+        plotWidgetExp.updateDataSources(data)   #also plots the data; accepts single dataDict and lists
+        self.resultsWindow.addResultSubWindow(plotWidgetExp)
+
+
+    def updateStatusBar(self, msg, time=1000):
+    #        if time < 0:
+    #            self.statusBar().showMessage(msg)
+    #        else:
+    #            self.statusBar().showMessage(msg, time)
+        self.statusBarService.showMessage(msg, time)
+
+    def updateSelectedExpData(self):
+    #        selectedIndices = self.getSelectedDataSetIndices()
+    #
+    #        for index in xrange(len(self.currentExpData)):
+    #            dataSet = self.currentExpData[index]
+    #            dataSet.setSelected(index in selectedIndices)
+    #            if index in selectedIndices:
+    #                self.dataService.select_data(dataSet, True)
+    #            else:
+    #                self.dataService.select_data(dataSet, False)
+    #
+    #        return len(selectedIndices)
+        # TODO!
+        try:
+            return len(self.dataService.get_experimental_data())
+        except:
+            return 0
+
+
+#    def removeSelectedExpData(self):
+#        self.updateSelectedExpData()
+#        selectedIndices = self.getSelectedDataSetIndices()
+#
+#        for index in selectedIndices:
+#            dataSet = self.currentExpData[index]
+#            self.dataService.remove_data(dataSet)
+#            # del self.currentExpData[index] # this causes potentially an index error in connection with pseudo-data
+#
+#        expData = self.dataService.get_experimental_data()
+#        self.showExpDataInfo(expData)
+
+
+    #    def getSelectedDataSetIndices(self):
+    #        selectedDataSetIndices = []
+    #        row = 2 # TODO: This should not be hardcoded... Real solution is to use a complete DataModel instead of the ad hoc table...
+    #        numCols = self.tableWidgetExpData.columnCount()
+    #        for col in xrange(numCols):
+    #            item = self.tableWidgetExpData.item(row, col)
+    #            checkState = item.checkState()
+    #            if checkState == Qt.Checked:
+    #                selectedDataSetIndices.append(col)
+    #
+    #        return selectedDataSetIndices
+
+
+    def getListOfParameterSets(self):
+        return self.sbmlModel.ListOfParameterSets
+
+    #    def statusBar(self):
+    #        return self.parkinController.statusBar()
+
+
+    def setUpDataBrowser(self):
+        """
+        Adds the small "Load Data UI" to the start "+" tab.
+        Also hides the close button of that tab.
+        """
+        dataImportWidget = DataImportWidget(self.dataBrowserPlusTab, self.parkinController)
+        dataImportWidget.updatedDataEvent.connect(self.updateDataBrowser)
+        self.dataBrowserTabWidget.addTab(dataImportWidget,
+                                         "+") # I create the tab here, because the layout is funky, otherwise
+
+        self.dataBrowserTabWidget.removeTab(0)  # remove the tab placed their by default
+
+        # hide the close button of the always-visible "+" tab
+        self.dataBrowserTabWidget.tabBar().setTabButton(0, QTabBar.RightSide, None)
+
+        # connect tab close signal
+        self.dataBrowserTabWidget.tabCloseRequested.connect(self.on_dataBrowserTabCloseRequested)
+
+
+    def computeDetailedSensitivities(self, timepoints):
+        try:
+           self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS)
+           self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
+           self.currentBackend.setTimepointsForDetailedSensitivities(timepoints)
+           #            self.currentBackend.start()  # using the threading mechanism
+           # for debugging (to be able to set breakpoints):
+           self.currentBackend.run() # only call this directly for testing
+        except InitError:
+            logging.info("Computation aborted. Couldn't initialize integrator.")
+        except Exception, e:
+            logging.debug("Computation aborted. Exception: %s" % e)
+            raise
+
+
+    def initializeThresholdsSpecies(self):
+
+        if not self.askForThresholdConfirmation():
+            return
+
+        # else: init of thresholds is a go
+        for species in self.sbmlModel.SbmlSpecies:
+            species.setThreshold(self.machineEpsilon)
+            self.speciesTableModel.layoutChanged.emit()
+
+    def initializeThresholdsParameters(self):
+
+        if not self.askForThresholdConfirmation():
+            return
+
+        # else: init of thresholds is a go
+        for param in self.sbmlModel.SbmlParameters:
+            param.setThreshold(self.machineEpsilon)
+            self.parametersTableModel.layoutChanged.emit()
+
+
+    def askForThresholdConfirmation(self):
+        # show warning dialog
+        msgBox = QMessageBox()
+        infoText = \
+"""<b>The threshold describes the value below which a Species/Parameter is considered to be zero.</b><br>
+<br>
+Ideally, thresholds should be set <b>by hand</b>.<br>
+<br>
+If you select Yes, all thresholds will be set to the current machine accuracy (which depends on operating system and CPU).<br>
+<br>
+Please, be aware that these default values <b>might not be the correct choice</b>. To ensure correct results (e.g. sensitivities), set a sensible threshold.<br>
+"""
+        msgBox.setText(infoText)
+        infoTextShort = "Do you want to set all thresholds to default values?"
+        msgBox.setInformativeText(infoTextShort)
+        msgBox.setWindowTitle(infoTextShort)
+        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msgBox.setDefaultButton(QMessageBox.Yes)
+        msgBox.setIcon(QMessageBox.Question)
+#        msgBox.setWindowIcon(None)
+        clickedButton = msgBox.exec_()
+
+        if clickedButton == QMessageBox.No:
+            return False
+
+        return True
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+    ######### SLOTS ###########
+
+
+    @Slot("")
+    def on_actionSimulate_triggered(self):
+        try:
+        #print "Simulating!"
+        #            self.statusBar().showMessage("Simulation running...")    # TODO: Provide messages via log mechanism
+
+
+            #self.progressBarService = ProgressBarService()
+            #originalStatusBar = self.progressBarService.getStatusBar()
+            self._setUpBackend(mode=backend.settingsandvalues.MODE_INTEGRATE)
+            #self.currentBackend.setStatusBar(self.statusBar())
+            if self.currentBackend:
+                self.currentBackend.start()  # using the threading mechanism
+#                self.currentBackend.run()  # for debugging
+
+            #self.progressBarService.setStatusBar(originalStatusBar)
+        #            self.statusBar().showMessage("Simulation finished.", 5000)
+        except InitError:
+            logging.info("Computation aborted. Couldn't initialize integrator.")
+            #            self.statusBar().showMessage("Simulation aborted...")
+            self.updateStatusBar("Simulation aborted...")
+        except Exception, e:
+            logging.debug("Computation aborted. Exception: %s" % e)
+            #            self.statusBar().showMessage("Simulation aborted...")
+            self.updateStatusBar("Simulation aborted...")
+            raise
+
+
+    @Slot("")
+    def on_actionComputeSensitivityOverview_triggered(self):
+        try:
+            self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW)
+            self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
+#            self.currentBackend.start()  # using the threading mechanism TODO: (this doesn't seem to work... why?)
+            # for debugging (to be able to set breakpoints):
+            self.currentBackend.run() # only call this directly for testing
+        except InitError:
+            logging.info("Computation aborted. Couldn't initialize integrator.")
+        except Exception, e:
+            logging.debug("Computation aborted. Exception: %s" % e)
+            raise
+
+    @Slot("")
+    def on_actionCompute_Detailed_Sensitivities_triggered(self):
+        """
+        Instantiates a TimepointChooser and let's the user
+        choose timepoints. :)
+        The dialog's accepted SIGNAL is connected to
+        self.on_timeChooser_accepted().
+        """
+        if not self.timepointChooser:
+            self.timepointChooser = TimepointChooser(self)
+            self.timepointChooser.accepted.connect(self.on_timeChooser_accepted)
+        self.timepointChooser.show()
+        self.timepointChooser.raise_()
+        self.timepointChooser.activateWindow()
+
+    def on_timeChooser_accepted(self):
+        """
+        This is called when the TimepointChooser was
+        successfully (hopefully) used to select timepoints.
+        This initiates the computation of "detailed sensitivities".
+        """
+        timepoints = self.timepointChooser.getTimepoints()
+        self.computeDetailedSensitivities(timepoints)
+
+
+    @Slot("")
+    def on_actionEstimateParameterValues_triggered(self):
+        """
+        Starts the parameter value estimation.
+        """
+
+        try:
+            self._setUpBackend(mode=backend.settingsandvalues.MODE_PARAMETER_ESTIMATION)
+            self.currentBackend.setParamsForEstimation(self.parametersTableModel.paramToEstimateMap)
+            #            self.currentBackend.start()  # using the threading mechanism
+            # for debugging (to be able to set breakpoints):
+            self.currentBackend.run() # only call this directly for testing
+        except InitError:
+            logging.info("Computation aborted. Couldn't initialize PARKINcpp library.")
+        except Exception, e:
+            logging.debug("Computation aborted. Exception: %s" % e)
+            raise
+
+
+    @Slot("")
+    def on_lineEditStartTime_editingFinished(self):
+        """
+        Ensures that only floats are entered into the start time field.
+        """
+        try:
+            self.optionStartTime = float(self.lineEditStartTime.text())
+        except:
+            #self.lineEditStartTime.setText(str(parkinintegrator.DEFAULT_STARTTIME))
+            self.lineEditStartTime.setText(str(self.optionStartTime))   #set last valid value
+            return
+
+
+    @Slot("")
+    def on_lineEditEndTime_editingFinished(self):
+        """
+        Ensures that only floats are entered into the EndTime field.
+        """
+        try:
+            self.optionEndTime = float(self.lineEditEndTime.text())
+        except:
+            self.lineEditEndTime.setText(str(self.optionEndTime))
+            return
+
+
+
+
+    @Slot("")
+    def on_lineEditRTOL_editingFinished(self):
+        """
+        Ensures that only floats are entered into the lineEditRTOL field.
+        """
+        try:
+            self.optionRTOL = float(self.lineEditRTOL.text())
+        except:
+            self.lineEditRTOL.setText(str(self.optionRTOL))
+            return
+
+
+
+    @Slot("")
+    def on_lineEditATOL_editingFinished(self):
+        """
+        Ensures that only floats are entered into the lineEditATOL field.
+        """
+        try:
+            self.optionATOL = float(self.lineEditATOL.text())
+        except:
+            self.lineEditATOL.setText(str(self.optionATOL))
+            return
+
+
+    @Slot("")
+    def on_lineEditXTOL_editingFinished(self):
+        '''
+        Ensures that only floats are entered into the lineEditXTOL field.
+        '''
+        try:
+            self.optionXTOL = float(self.lineEditXTOL.text())
+        except:
+            self.lineEditXTOL.setText(str(self.optionXTOL))
+            return
+
+
+    @Slot("")
+    def on_lineEditTimeUnit_editingFinished(self):
+        """
+        Ensures that only strings are entered into the lineEditTimeUnit field.
+        """
+        try:
+            self.optionTimeUnit = str(self.lineEditTimeUnit.text())
+        except:
+            self.lineEditTimeUnit.setText(str(self.optionTimeUnit))
+            return
+
+
+    def backendRunFinished(self, text):
+    #        self.statusBar().showMessage("Updating results...")
+        self.updateStatusBar("Updating results...")
+        if text == backend.settingsandvalues.FINISHED_INTEGRATION:
+            self._createSimulationDataTable()
+            self._createSimulationPlot()
+        elif text == backend.settingsandvalues.FINISHED_SENSITIVITY_OVERVIEW:
+            self._createSensitivityOverviewPlot()
+        elif text == backend.settingsandvalues.FINISHED_SENSITIVITY_DETAILS:
+            self._createSensitivityDetailsTable()
+        elif text == backend.settingsandvalues.FINISHED_PARAMETER_ESTIMATION:
+            self._createEstimatedParametersTable()
+
+        self.updateStatusBar("Results updated.", 5000)
+
+        #self.splitterLeftRight.moveSplitter(250, 1)
+
+
+
+    def speciesChanged(self, upperLeftindex, lowerRightIndex):
+        return
+
+
+    def parameterChanged(self, upperLeftIndex, lowerRightIndex):
+        return
+
+    def on_checkBoxNoAutoRowScale_toggled(self, isChecked):
+        self.optionNOROWSCAL = isChecked
+
+    def on_comboBoxJacobianSelect_currentIndexChanged(self):
+        self.optionJACGEN = self.comboBoxJacobianSelect.currentIndex() + 1
+
+    def on_comboBoxProblemTypeSelect_currentIndexChanged(self):
+        self.optionNONLIN = self.comboBoxProblemTypeSelect.currentIndex() + 1
+
+    def on_comboBoxResidualScalingSelect_currentIndexChanged(self):
+        self.optionRSCAL = self.comboBoxResidualScalingSelect.currentIndex() + 1
+
+    def on_comboBoxParameterConstraintsSelect_currentIndexChanged(self):
+        self.optionLPOS = self.comboBoxParameterConstraintsSelect.currentIndex() + 1
+        #
+        #TODO: include more constraints,
+        #      so far, only a positivity constraint (exp trafo) is available
+
+
+
+    def selectAllSensitivity(self, doSelect):
+        if self.parametersTableModel:
+            self.parametersTableModel.selectAllSensitivity(doSelect)
+
+    def invertSelectionSensitivity(self):
+        if self.parametersTableModel:
+            self.parametersTableModel.invertSelectionSensitivity()
+
+
+
+    def selectAllSensitivitySpecies(self, doSelect):
+        if self.speciesTableModel:
+            self.speciesTableModel.selectAllSensitivity(doSelect)
+
+    def invertSelectionSensitivitySpecies(self):
+        if self.speciesTableModel:
+            self.speciesTableModel.invertSelectionSensitivity()
+
+
+    def selectAllEstimation(self, doSelect):
+        if self.parametersTableModel:
+            self.parametersTableModel.selectAllEstimation(doSelect)
+
+    def invertSelectionEstimation(self):
+        if self.parametersTableModel:
+            self.parametersTableModel.invertSelectionEstimation()
+
+    ##### Other SLOTs ####
+
+
+    @Slot("")
+    def on_actionSelectAllParametersForSensitivity_triggered(self):
+        self.selectAllSensitivity(True)
+
+    @Slot("")
+    def on_actionDeselectAllParametersForSensitivity_triggered(self):
+        self.selectAllSensitivity(False)
+
+
+    @Slot("")
+    def on_actionInvertSelectionOfParametersForSensitivity_triggered(self):
+        self.invertSelectionSensitivity()
+
+
+
+    @Slot("")
+    def on_actionSelectAllSpeciesForSensitivity_triggered(self):
+        self.selectAllSensitivitySpecies(True)
+
+    @Slot("")
+    def on_actionDeselectAllSpeciesForSensitivity_triggered(self):
+        self.selectAllSensitivitySpecies(False)
+
+    @Slot("")
+    def on_actionInvertSelectionOfSpeciesForSensitivity_triggered(self):
+        self.invertSelectionSensitivitySpecies()
+
+
+
+    @Slot("")
+    def on_actionSelect_All_Parameters_for_Estimation_triggered(self):
+        self.selectAllEstimation(True)
+
+    @Slot("")
+    def on_actionDeselect_All_Parameters_for_Estimation_triggered(self):
+        self.selectAllEstimation(False)
+
+    @Slot("")
+    def on_actionInvert_Selection_of_Parameters_for_Estimation_triggered(self):
+        self.invertSelectionEstimation()
+
+
+    #### SLOTs and methods for handling parameter set interactions ####
+
+    @Slot("")
+    def on_actionNew_Parameter_Set_triggered(self):
+        if self.getListOfParameterSets():
+            self.getListOfParameterSets().createNewParameterSet(duplicate=False)
+
+    @Slot("")
+    def on_actionDuplicate_Parameter_Set_triggered(self):
+        if self.getListOfParameterSets():
+            self.getListOfParameterSets().createNewParameterSet(duplicate=True)
+
+    @Slot("")
+    def on_actionRemove_Parameter_Set_triggered(self):
+        if self.getListOfParameterSets():
+            self.getListOfParameterSets().removeParameterSet()
+
+
+    #### Data Browser-related SLOTs ####
+
+    def updateDataBrowser(self, expData):
+        """
+        Go through *all* the loaded experimental data
+        and create tabs for data for which no tab yet exists.
+
+        @todo: Make the whole managing of data more sensible (especially within
+        DataService, so that it's easy to get only "new" data after something [e.g. a file]
+        has been loaded).
+        """
+        if not expData:
+            return
+
+        for filepath, data in expData.items():
+            logging.debug("SimulationWorkbenchController.updateDataBrowser: Handling data from file %s" % filepath)
+            # todo: is the filename a good identifier in this case? what about data that is not from a file...?
+            if filepath in self.dataBrowserWidgets.keys():  # there's already a tab for that data
+                continue
+
+            # create tab for data
+            dataBrowser = DataBrowser(None, filepath, data) # provide no parent here; normal way of adding tabs
+            dataBrowser.setSimulationWorkbench(self)
+            self.dataBrowserWidgets[filepath] = dataBrowser
+
+            filename = filepath.rsplit("/", 1)[1]
+            numTabs = self.dataBrowserTabWidget.count()
+            self.dataBrowserTabWidget.insertTab(numTabs - 1, dataBrowser,
+                                                filename) # returns index of new tab; not needed here
+            self.dataBrowserTabWidget.setCurrentIndex(numTabs - 1)
+
+            tabBar = self.dataBrowserTabWidget.tabBar()
+            tabBar.setTabButton(numTabs - 1, QTabBar.LeftSide, dataBrowser.getSelectionCheckBox())
+
+    def on_dataBrowserTabCloseRequested(self, tabIndex):
+        """
+        This Slot is called when the user klicks on the "close tab"
+        icon of a Data Browser tab.
+        It cleans up references (e.g. in the self.dataBrowserWidgets
+        management dict), asks the Data Browser to remove itself
+        (e.g. internal clean up) and, finally, removes the tab.
+        The data that was shown inside the tab is also removed from
+        the DataService.
+        """
+        dataBrowser = self.dataBrowserTabWidget.widget(tabIndex)
+        self.dataBrowserWidgets.pop(dataBrowser.getId())
+        self.dataService.remove_data(dataBrowser.data)
+        dataBrowser.remove()
+        self.dataBrowserTabWidget.removeTab(tabIndex)
+
+
+    @Slot("")
+    def on_buttonPlotAllData_clicked(self):
+        data = self.dataService.get_experimental_data()
+        self.plotExpData(data)
+
+
+    @Slot("")
+    def on_buttonPlotSelectedData_clicked(self):
+        self.plotExpData()
+
+
+    @Slot("")
+    def on_buttonInitializeThresholdsSpecies_clicked(self):
+        self.initializeThresholdsSpecies()
+
+    @Slot("")
+    def on_buttonInitializeThresholdsParameters_clicked(self):
+        self.initializeThresholdsParameters()

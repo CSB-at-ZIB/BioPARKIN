@@ -1,0 +1,1490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SimulationWindow</class>
+ <widget class="QMainWindow" name="SimulationWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Simulation Workbench</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>10</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QSplitter" name="splitterLeftRight">
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>5</number>
+      </property>
+      <property name="midLineWidth">
+       <number>5</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="opaqueResize">
+       <bool>false</bool>
+      </property>
+      <property name="handleWidth">
+       <number>15</number>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QTabWidget" name="actionTabWidget">
+          <property name="tabPosition">
+           <enum>QTabWidget::West</enum>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabSpecies">
+           <attribute name="title">
+            <string>&amp;Species</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QTableView" name="speciesTableView"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QPushButton" name="simulateButtonSpecies">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>&amp;Simulate</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="resetButtonSpecies">
+                  <property name="text">
+                   <string>&amp;Reset Species</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabParameters">
+           <attribute name="title">
+            <string>&amp;Parameters</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QTableView" name="parametersTableView"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QPushButton" name="simulateButtonParams">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>&amp;Simulate</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="resetButtonParams">
+                  <property name="text">
+                   <string>&amp;Reset Parameters</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabParameterSets">
+           <attribute name="title">
+            <string>Parameter Sets</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_18">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QTableView" name="parameterSetsTableView"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonParamSetNew">
+                  <property name="text">
+                   <string>New</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonParamSetDuplicate">
+                  <property name="text">
+                   <string>Duplicate</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonParamSetRemove">
+                  <property name="text">
+                   <string>Remove</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabSensitivity">
+           <attribute name="title">
+            <string>&amp;Sensitivity</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QTableView" name="sensitivityTableView"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QPushButton" name="buttonSelectAllSensitivity">
+                  <property name="text">
+                   <string>Select All</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonDeselectAllSensitivity">
+                  <property name="text">
+                   <string>Deselect All</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonInvertSelectionSensitivity">
+                  <property name="text">
+                   <string>Invert Selection</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="computeSensitivitiesButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Compute Sensitivities</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelSensitivitiesText">
+                <property name="text">
+                 <string>(If you want to compute sensitivities based on measured time points, got to the Settings tab.)</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabFit">
+           <attribute name="title">
+            <string>&amp;Fit</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QTableView" name="estimateParamsTableView"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_15">
+                <item>
+                 <widget class="QPushButton" name="buttonSelectAllParamEst">
+                  <property name="text">
+                   <string>Select All</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonDeselectAllParamEst">
+                  <property name="text">
+                   <string>Deselect All</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonInvertSelectionParamEst">
+                  <property name="text">
+                   <string>Invert Selection</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="estimateParamsButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Estimate Parameters</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabExperimentalData">
+           <attribute name="title">
+            <string>Experimental &amp;Data</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QToolBox" name="experimentalDataToolBox">
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <widget class="QWidget" name="pageMainFeatures">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>932</width>
+                 <height>593</height>
+                </rect>
+               </property>
+               <attribute name="label">
+                <string>Main Features</string>
+               </attribute>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_10">
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <item>
+                     <widget class="QLineEdit" name="lineEditExpData"/>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="buttonBrowseExpData">
+                      <property name="text">
+                       <string>Browse...</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="buttonImportExpData">
+                      <property name="text">
+                       <string>Import</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QTableWidget" name="tableWidgetExpData"/>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QPushButton" name="buttonPlotExperimentalData">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                        <horstretch>2</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>Plot Experimental Data</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_5">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>498</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="buttonExpDataRemoveSelected">
+                      <property name="text">
+                       <string>Remove Selected</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="pageAdvancedFeatures">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>335</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <attribute name="label">
+                <string>Advanced Features</string>
+               </attribute>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_11">
+                    <item>
+                     <widget class="QLabel" name="perturbExpDataLabel">
+                      <property name="text">
+                       <string>Perturbation Factor:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDoubleSpinBox" name="perturbExpDataDoubleSpinBox">
+                      <property name="suffix">
+                       <string> %</string>
+                      </property>
+                      <property name="decimals">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <double>100.000000000000000</double>
+                      </property>
+                      <property name="singleStep">
+                       <double>0.500000000000000</double>
+                      </property>
+                      <property name="value">
+                       <double>5.000000000000000</double>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="perturbExpDataPushButton">
+                      <property name="text">
+                       <string>Perturb Experimental Data</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>368</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>458</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabSettings">
+           <attribute name="title">
+            <string>&amp;Settings</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QGroupBox" name="groupBox">
+                <property name="title">
+                 <string>General Settings</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <item>
+                    <widget class="QLabel" name="labelComputationBackend">
+                     <property name="toolTip">
+                      <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
+                     </property>
+                     <property name="statusTip">
+                      <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
+                     </property>
+                     <property name="text">
+                      <string>Computation Backend:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="comboBoxBackendSelect">
+                     <item>
+                      <property name="text">
+                       <string>PARKINcpp</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="autoRefreshCheckBox">
+                   <property name="text">
+                    <string>&amp;Automatically Simulate on Changes</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBoxPlotExpData">
+                   <property name="text">
+                    <string>Include Experimental Data in Simulation Plots</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBoxTimes">
+                <property name="title">
+                 <string>Time Settings</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="labelStartTime">
+                   <property name="text">
+                    <string>Start Time</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEditStartTime">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="labelEndTime">
+                   <property name="text">
+                    <string>End Time</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="lineEditEndTime">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="labelTimeUnit">
+                   <property name="text">
+                    <string>Time Unit</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="lineEditTimeUnit">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="labelNumIntervals">
+                   <property name="text">
+                    <string># Intervals</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEditNumIntervals">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBoxUseMeasuredTimepoints">
+                   <property name="text">
+                    <string>Use Measured Timepoints (taken from Currently Loaded Experimental Data)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="labelIntervalSize">
+                   <property name="text">
+                    <string>Interval Size</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="lineEditIntervalSize"/>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBoxTolerances">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="title">
+                 <string>Expert Settings</string>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_2">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="labelRTOL">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>RTOL</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="lineEditRTOL">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="labelATOL">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>ATOL</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEditATOL">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="lineEditSDSpecies">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="labelSDSpecies">
+                   <property name="toolTip">
+                    <string>Standard Deviation assumed for Species where no SD is available in the loaded data.</string>
+                   </property>
+                   <property name="statusTip">
+                    <string>Standard Deviation assumed for Species where no SD is available in the loaded data.</string>
+                   </property>
+                   <property name="text">
+                    <string>SD for Species</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkBoxAssumeSD">
+                   <property name="toolTip">
+                    <string>Assume Standard Deviation for all Parameters (otherwise only Species without loaded SD will use the given value)</string>
+                   </property>
+                   <property name="statusTip">
+                    <string>Assume Standard Deviation for all Parameters (otherwise only Species without loaded SD will use the given value)</string>
+                   </property>
+                   <property name="text">
+                    <string>Assume SD for all Species</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>238</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="simulateButtonSettings">
+                <property name="text">
+                 <string>Simulate</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QSplitter" name="splitter">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="opaqueResize">
+           <bool>false</bool>
+          </property>
+          <property name="handleWidth">
+           <number>15</number>
+          </property>
+          <property name="childrenCollapsible">
+           <bool>false</bool>
+          </property>
+          <widget class="QTabWidget" name="dataTabWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="tabPosition">
+            <enum>QTabWidget::East</enum>
+           </property>
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+           <property name="tabsClosable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionClose"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>&amp;Actions</string>
+    </property>
+    <addaction name="actionSimulate"/>
+    <addaction name="actionComputeSensitivities"/>
+    <addaction name="actionReset"/>
+   </widget>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>&amp;Data</string>
+    </property>
+    <addaction name="actionImport"/>
+    <addaction name="actionSaveData"/>
+   </widget>
+   <widget class="QMenu" name="menuPlot">
+    <property name="title">
+     <string>&amp;Plot</string>
+    </property>
+    <addaction name="actionSavePlot"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuActions"/>
+   <addaction name="menuData"/>
+   <addaction name="menuPlot"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionClose">
+   <property name="text">
+    <string>&amp;Close</string>
+   </property>
+   <property name="toolTip">
+    <string>Close the Workbench</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionSimulate">
+   <property name="text">
+    <string>&amp;Simulate</string>
+   </property>
+   <property name="toolTip">
+    <string>Simulate with current settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>&amp;Reset</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>&amp;Import</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionSaveData">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionSavePlot">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Plot</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionAutoRefresh">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Auto Refresh</string>
+   </property>
+   <property name="toolTip">
+    <string>Simulation will occur automatically if enabled</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionComputeSensitivities">
+   <property name="text">
+    <string>Compute Sensitivities</string>
+   </property>
+   <property name="toolTip">
+    <string>Compute sensitivities of the currently selected Species</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionResetSpecies">
+   <property name="text">
+    <string>Reset Species</string>
+   </property>
+   <property name="toolTip">
+    <string>Resets all Species values</string>
+   </property>
+  </action>
+  <action name="actionResetParameters">
+   <property name="text">
+    <string>Reset Parameters</string>
+   </property>
+   <property name="toolTip">
+    <string>Resets all Parameter values</string>
+   </property>
+  </action>
+  <action name="actionEstimateParameterValues">
+   <property name="text">
+    <string>Estimate Parameter Values</string>
+   </property>
+   <property name="toolTip">
+    <string>Starts the parameter value estimation process</string>
+   </property>
+  </action>
+  <action name="actionPerturbExperimentalData">
+   <property name="text">
+    <string>Perturb Experimental Data</string>
+   </property>
+   <property name="toolTip">
+    <string>Perturbs the loaded experimental data by the given percentage.</string>
+   </property>
+  </action>
+  <action name="actionSelectAllParametersForSensitivity">
+   <property name="text">
+    <string>Select All Parameters for Sensitivity</string>
+   </property>
+  </action>
+  <action name="actionDeselectAllParametersForSensitivity">
+   <property name="text">
+    <string>Deselect All Parameters for Sensitivity</string>
+   </property>
+  </action>
+  <action name="actionInvertSelectionOfParametersForSensitivity">
+   <property name="text">
+    <string>Invert Selection of Parameters for Sensitivity</string>
+   </property>
+  </action>
+  <action name="actionSelect_All_Parameters_for_Estimation">
+   <property name="text">
+    <string>Select All Parameters for Estimation</string>
+   </property>
+  </action>
+  <action name="actionDeselect_All_Parameters_for_Estimation">
+   <property name="text">
+    <string>Deselect All Parameters for Estimation</string>
+   </property>
+  </action>
+  <action name="actionInvert_Selection_of_Parameters_for_Estimation">
+   <property name="text">
+    <string>Invert Selection of Parameters for Estimation</string>
+   </property>
+  </action>
+  <action name="actionNew_Parameter_Set">
+   <property name="text">
+    <string>New Parameter Set</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new Parameter Set</string>
+   </property>
+  </action>
+  <action name="actionDuplicate_Parameter_Set">
+   <property name="text">
+    <string>Duplicate Parameter Set</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new Parameter Set by duplicating the selected one</string>
+   </property>
+  </action>
+  <action name="actionRemove_Parameter_Set">
+   <property name="text">
+    <string>Remove Parameter Set</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove selected Parameter Set</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>actionTabWidget</tabstop>
+  <tabstop>speciesTableView</tabstop>
+  <tabstop>simulateButtonSpecies</tabstop>
+  <tabstop>resetButtonSpecies</tabstop>
+  <tabstop>parametersTableView</tabstop>
+  <tabstop>simulateButtonParams</tabstop>
+  <tabstop>resetButtonParams</tabstop>
+  <tabstop>sensitivityTableView</tabstop>
+  <tabstop>computeSensitivitiesButton</tabstop>
+  <tabstop>estimateParamsTableView</tabstop>
+  <tabstop>estimateParamsButton</tabstop>
+  <tabstop>lineEditExpData</tabstop>
+  <tabstop>buttonBrowseExpData</tabstop>
+  <tabstop>buttonImportExpData</tabstop>
+  <tabstop>tableWidgetExpData</tabstop>
+  <tabstop>buttonPlotExperimentalData</tabstop>
+  <tabstop>perturbExpDataDoubleSpinBox</tabstop>
+  <tabstop>perturbExpDataPushButton</tabstop>
+  <tabstop>comboBoxBackendSelect</tabstop>
+  <tabstop>autoRefreshCheckBox</tabstop>
+  <tabstop>checkBoxPlotExpData</tabstop>
+  <tabstop>checkBoxUseMeasuredTimepoints</tabstop>
+  <tabstop>lineEditStartTime</tabstop>
+  <tabstop>lineEditEndTime</tabstop>
+  <tabstop>lineEditNumIntervals</tabstop>
+  <tabstop>lineEditIntervalSize</tabstop>
+  <tabstop>lineEditTimeUnit</tabstop>
+  <tabstop>lineEditRTOL</tabstop>
+  <tabstop>lineEditATOL</tabstop>
+  <tabstop>lineEditSDSpecies</tabstop>
+  <tabstop>dataTabWidget</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>activated()</signal>
+   <receiver>SimulationWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>499</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>simulateButtonSpecies</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSimulate</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>686</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetButtonSpecies</sender>
+   <signal>clicked()</signal>
+   <receiver>actionResetSpecies</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>686</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>computeSensitivitiesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionComputeSensitivities</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>669</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>simulateButtonParams</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSimulate</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>686</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetButtonParams</sender>
+   <signal>clicked()</signal>
+   <receiver>actionResetParameters</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>686</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditStartTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>270</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>757</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditEndTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>237</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>794</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditNumIntervals</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>207</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>267</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelStartTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>174</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>158</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelEndTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelNumIntervals</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>251</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>estimateParamsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionEstimateParameterValues</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>519</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>perturbExpDataPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionPerturbExperimentalData</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelIntervalSize</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>186</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>91</x>
+     <y>289</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxUseMeasuredTimepoints</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditIntervalSize</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>473</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>simulateButtonSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSimulate</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>506</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonDeselectAllSensitivity</sender>
+   <signal>clicked()</signal>
+   <receiver>actionDeselectAllParametersForSensitivity</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>656</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonInvertSelectionSensitivity</sender>
+   <signal>clicked()</signal>
+   <receiver>actionInvertSelectionOfParametersForSensitivity</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>656</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonSelectAllSensitivity</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSelectAllParametersForSensitivity</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>656</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonDeselectAllParamEst</sender>
+   <signal>clicked()</signal>
+   <receiver>actionDeselect_All_Parameters_for_Estimation</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonInvertSelectionParamEst</sender>
+   <signal>clicked()</signal>
+   <receiver>actionInvert_Selection_of_Parameters_for_Estimation</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonSelectAllParamEst</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSelect_All_Parameters_for_Estimation</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonParamSetDuplicate</sender>
+   <signal>clicked()</signal>
+   <receiver>actionDuplicate_Parameter_Set</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>852</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonParamSetNew</sender>
+   <signal>clicked()</signal>
+   <receiver>actionNew_Parameter_Set</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>771</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonParamSetRemove</sender>
+   <signal>clicked()</signal>
+   <receiver>actionRemove_Parameter_Set</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>933</x>
+     <y>675</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

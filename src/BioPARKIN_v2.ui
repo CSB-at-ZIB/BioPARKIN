@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Moritz Wade, ZIB 2010</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>BioPARKIN</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>images/2010-12-22 - Poem Icon v1.png</normaloff>images/2010-12-22 - Poem Icon v1.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="mainTabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabModel">
+       <attribute name="title">
+        <string>Model</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QSplitter" name="masterDetailSplitter">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="lineWidth">
+            <number>5</number>
+           </property>
+           <property name="midLineWidth">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="childrenCollapsible">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="layoutWidget">
+            <layout class="QVBoxLayout" name="modelListLayout">
+             <property name="margin">
+              <number>11</number>
+             </property>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QMdiArea" name="_mdiArea">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="background">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>160</red>
+              <green>160</green>
+              <blue>160</blue>
+             </color>
+            </brush>
+           </property>
+           <property name="documentMode">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="bottomLayout">
+          <item>
+           <widget class="QCheckBox" name="showNetworkViewCheckBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Show Network View (under development)</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>778</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
+    <addaction name="actionClose_Model"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionODEGenerator"/>
+   </widget>
+   <widget class="QMenu" name="menuSimulation">
+    <property name="title">
+     <string>Simulation</string>
+    </property>
+    <addaction name="actionSimulate"/>
+    <addaction name="actionComputeSensitivities"/>
+    <addaction name="actionEstimateParameterValues"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuSimulation"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="fileToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave_as"/>
+   <addaction name="actionSave"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionODEGenerator"/>
+   <addaction name="actionShow_Results_Window"/>
+   <addaction name="separator"/>
+   <addaction name="actionShow_Warnings"/>
+  </widget>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-new.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New...</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new project</string>
+   </property>
+   <property name="statusTip">
+    <string>Create a new project</string>
+   </property>
+   <property name="whatsThis">
+    <string>Create a new project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-open.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open SBML file</string>
+   </property>
+   <property name="statusTip">
+    <string>Open SBML file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-save.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current project</string>
+   </property>
+   <property name="statusTip">
+    <string>Save current project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-save-as.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-save-as.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save &amp;as...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current project with a new filename</string>
+   </property>
+   <property name="statusTip">
+    <string>Save current project with a new filename</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/system-shutdown.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/system-shutdown.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quit the Application</string>
+   </property>
+   <property name="statusTip">
+    <string>Quit the Application</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-status-32px/images/tango-icon-theme/32x32/status/dialog-information.png</normaloff>:/tango-status-32px/images/tango-icon-theme/32x32/status/dialog-information.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionLogViewer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Log Viewer</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide the Log Viewer</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-system.png</normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-system.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Open the Settings window</string>
+   </property>
+   <property name="statusTip">
+    <string>Open the Settings window</string>
+   </property>
+  </action>
+  <action name="actionSpecies">
+   <property name="text">
+    <string>Species</string>
+   </property>
+  </action>
+  <action name="actionCompartments">
+   <property name="text">
+    <string>Compartments</string>
+   </property>
+  </action>
+  <action name="actionReactions">
+   <property name="text">
+    <string>Reactions</string>
+   </property>
+  </action>
+  <action name="actionIntegrate">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-other.png</normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-other.png</iconset>
+   </property>
+   <property name="text">
+    <string>Integrate</string>
+   </property>
+   <property name="toolTip">
+    <string>Starts the selected integrator for the current problem</string>
+   </property>
+   <property name="statusTip">
+    <string>Start Integration</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionShowPlots">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-accessories.png</normaloff>:/tango-categories-32px/images/tango-icon-theme/32x32/categories/applications-accessories.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Plots</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Plots</string>
+   </property>
+  </action>
+  <action name="actionShow_Data_Manager">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-properties.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/document-properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Data Manager</string>
+   </property>
+   <property name="toolTip">
+    <string>Allows to define data sources</string>
+   </property>
+  </action>
+  <action name="actionODEGenerator">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/format-justify-fill.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/format-justify-fill.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show generated ODEs</string>
+   </property>
+   <property name="toolTip">
+    <string>Show generated ODEs</string>
+   </property>
+   <property name="statusTip">
+    <string>Show generated ODEs</string>
+   </property>
+  </action>
+  <action name="actionSBMLEntities">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>SBML Entities</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide the SBML Entities</string>
+   </property>
+   <property name="statusTip">
+    <string>Show/Hide the SBML Entities</string>
+   </property>
+  </action>
+  <action name="actionProperties">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide the Properties</string>
+   </property>
+   <property name="statusTip">
+    <string>Show/Hide the Properties</string>
+   </property>
+  </action>
+  <action name="actionSimulate">
+   <property name="text">
+    <string>&amp;Simulate</string>
+   </property>
+   <property name="toolTip">
+    <string>Simulate with current settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="actionComputeSensitivities">
+   <property name="text">
+    <string>Compute Sensitivities</string>
+   </property>
+   <property name="toolTip">
+    <string>Compute sensitivities of the currently selected Species</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
+   </property>
+  </action>
+  <action name="actionEstimateParameterValues">
+   <property name="text">
+    <string>Estimate Parameter Values</string>
+   </property>
+   <property name="toolTip">
+    <string>Starts the parameter value estimation process</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+F</string>
+   </property>
+  </action>
+  <action name="actionClose_Model">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionShow_Results_Window">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/window-new.png</normaloff>:/tango-actions-32px/images/tango-icon-theme/32x32/actions/window-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Results Window</string>
+   </property>
+   <property name="toolTip">
+    <string>Opens a Window with Results (Tables, Plots, Sensitivities, etc.) if they have already been calculated.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+R</string>
+   </property>
+  </action>
+  <action name="actionShow_Warnings">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/tango-status-32px/images/tango-icon-theme/32x32/status/weather-clear.png</normaloff>:/tango-status-32px/images/tango-icon-theme/32x32/status/weather-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Warnings</string>
+   </property>
+   <property name="toolTip">
+    <string>Opens a Window showing recent Warnings and Errors</string>
+   </property>
+   <property name="statusTip">
+    <string>Opens a Window showing recent Warnings and Errors</string>
+   </property>
+   <property name="whatsThis">
+    <string>Opens a Window showing recent Warnings and Errors</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+W</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showNetworkViewCheckBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>_mdiArea</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>645</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
