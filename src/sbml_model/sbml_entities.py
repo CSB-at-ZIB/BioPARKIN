@@ -52,6 +52,7 @@ class SBMLEntity(QObject):
 
     idChanged = Signal(object, str, str)
     selectionChange = Signal(bool)
+    hasChanged = Signal()
 
 
     def __init__(self, entity=None, label=None, parent=None):

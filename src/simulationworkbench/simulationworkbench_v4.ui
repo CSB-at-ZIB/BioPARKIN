@@ -31,6 +31,390 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="tabSettings">
+      <attribute name="title">
+       <string>&amp;Settings</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>General Settings</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="labelComputationBackend">
+              <property name="toolTip">
+               <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
+              </property>
+              <property name="statusTip">
+               <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
+              </property>
+              <property name="text">
+               <string>Identification Backend:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxBackendSelect">
+              <item>
+               <property name="text">
+                <string>PARKIN</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>NLSCON</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxPlotExpData">
+            <property name="text">
+             <string>Include Experimental Data in Simulation Plots</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxTimes">
+         <property name="title">
+          <string>Time Settings</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelStartTime">
+            <property name="text">
+             <string>Start Time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditStartTime">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelEndTime">
+            <property name="text">
+             <string>End Time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEditEndTime">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelTimeUnit">
+            <property name="text">
+             <string>Time Unit</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEditTimeUnit">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxTolerances">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Expert Settings</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelRTOL">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Relative Tolerance used by the integrator</string>
+            </property>
+            <property name="statusTip">
+             <string>Relative Tolerance used by the integrator</string>
+            </property>
+            <property name="whatsThis">
+             <string>Relative Tolerance used by the integrator</string>
+            </property>
+            <property name="text">
+             <string>Relative Tolerance (RTOL)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditRTOL">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelATOL">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Absolute tolerance used by the integrator</string>
+            </property>
+            <property name="statusTip">
+             <string>Absolute tolerance used by the integrator</string>
+            </property>
+            <property name="whatsThis">
+             <string>Absolute tolerance used by the integrator</string>
+            </property>
+            <property name="text">
+             <string>Absolute Tolerance (ATOL)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEditATOL">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelXTOL">
+            <property name="toolTip">
+             <string>Required tolerance for Gauß Newton</string>
+            </property>
+            <property name="statusTip">
+             <string>Required tolerance for Gauß Newton</string>
+            </property>
+            <property name="whatsThis">
+             <string>Required tolerance for Gauß Newton</string>
+            </property>
+            <property name="text">
+             <string>Required Tolerance (XTOL)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEditXTOL"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelJACGEN">
+            <property name="text">
+             <string>Jacobian</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelNONLIN">
+            <property name="text">
+             <string>Problem Type</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="comboBoxProblemTypeSelect">
+            <item>
+             <property name="text">
+              <string>linear</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>mildly nonlinear</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>highly nonlinear</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>extremely nonlinear</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelRSCAL">
+            <property name="text">
+             <string>Residual Scaling</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QComboBox" name="comboBoxResidualScalingSelect">
+            <item>
+             <property name="text">
+              <string>no extra scaling</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>relative scaling (w.r.t. upper/lower machine bound)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>absolute scaling (w.r.t. upper/lower machine bound)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="labelLPOS">
+            <property name="text">
+             <string>Parameter Constraints</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QComboBox" name="comboBoxParameterConstraintsSelect">
+            <item>
+             <property name="text">
+              <string>no constraints</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>strictly positive (exponential transformation)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="checkBoxNoAutoRowScale">
+            <property name="text">
+             <string>No Automatic Row Scaling of Jacobian</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBoxJacobianSelect">
+            <item>
+             <property name="text">
+              <string>Variational Equations</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Numerical Differentiation</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Numerical Diff. with Feedback</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEditMaxNumNewtonSteps">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelMaxNumNewtonSteps">
+            <property name="text">
+             <string>Max. # Newton Steps</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>307</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="simulateButtonSettings">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Simulate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tabSpecies">
       <attribute name="title">
        <string>&amp;Species</string>
@@ -185,250 +569,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabSensitivity">
-      <attribute name="title">
-       <string>&amp;Sensitivity</string>
-      </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_10">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_9">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0">
-           <property name="spacing">
-            <number>10</number>
-           </property>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QLabel" name="labelSensitivitySelectParams">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>3</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Select Parameters</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTableView" name="sensitivityTableView">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>3</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <item>
-                <widget class="QPushButton" name="buttonSelectAllSensitivity">
-                 <property name="text">
-                  <string>Select All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="buttonDeselectAllSensitivity">
-                 <property name="text">
-                  <string>Deselect All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="buttonInvertSelectionSensitivity">
-                 <property name="text">
-                  <string>Invert Selection</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item>
-              <widget class="QLabel" name="labelSensitivitySelectSpecies">
-               <property name="text">
-                <string>Select Species</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTableView" name="tableViewSensitivitySpecies">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_14">
-               <item>
-                <widget class="QPushButton" name="buttonSelectAllSensitivitySpecies">
-                 <property name="text">
-                  <string>Select All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="buttonDeselectAllSensitivitySpecies">
-                 <property name="text">
-                  <string>Deselect All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="buttonInvertSelectionSensitivitySpecies">
-                 <property name="text">
-                  <string>Invert Selection</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <item>
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="computeSensitivityOverviewButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Sensitivity Overview</string>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="computeDetailedSensitivitiesButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Detailed Sensitivities</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabFit">
-      <attribute name="title">
-       <string>&amp;Fit</string>
-      </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_16">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QTableView" name="estimateParamsTableView"/>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_15">
-           <item>
-            <widget class="QPushButton" name="buttonSelectAllParamEst">
-             <property name="text">
-              <string>Select All</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="buttonDeselectAllParamEst">
-             <property name="text">
-              <string>Deselect All</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="buttonInvertSelectionParamEst">
-             <property name="text">
-              <string>Invert Selection</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="estimateParamsButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Identify Parameters</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Data Browser</string>
@@ -492,366 +632,264 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabSettings">
+     <widget class="QWidget" name="tabSensitivity">
       <attribute name="title">
-       <string>&amp;Settings</string>
+       <string>&amp;Sensitivity</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_12">
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="verticalLayout_9">
          <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>General Settings</string>
+          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0">
+           <property name="spacing">
+            <number>10</number>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="labelComputationBackend">
-                <property name="toolTip">
-                 <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
-                </property>
-                <property name="statusTip">
-                 <string>Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)</string>
-                </property>
-                <property name="text">
-                 <string>Identification Backend:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboBoxBackendSelect">
-                <item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QLabel" name="labelSensitivitySelectParams">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>3</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Select Parameters</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableView" name="sensitivityTableView">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>3</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
+               <item>
+                <widget class="QPushButton" name="buttonSelectAllSensitivity">
                  <property name="text">
-                  <string>PARKIN</string>
+                  <string>Select All</string>
                  </property>
-                </item>
-                <item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="buttonDeselectAllSensitivity">
                  <property name="text">
-                  <string>NLSCON</string>
+                  <string>Deselect All</string>
                  </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxPlotExpData">
-              <property name="text">
-               <string>Include Experimental Data in Simulation Plots</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="buttonInvertSelectionSensitivity">
+                 <property name="text">
+                  <string>Invert Selection</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QLabel" name="labelSensitivitySelectSpecies">
+               <property name="text">
+                <string>Select Species</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableView" name="tableViewSensitivitySpecies">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_14">
+               <item>
+                <widget class="QPushButton" name="buttonSelectAllSensitivitySpecies">
+                 <property name="text">
+                  <string>Select All</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="buttonDeselectAllSensitivitySpecies">
+                 <property name="text">
+                  <string>Deselect All</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="buttonInvertSelectionSensitivitySpecies">
+                 <property name="text">
+                  <string>Invert Selection</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBoxTimes">
-           <property name="title">
-            <string>Time Settings</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="labelStartTime">
-              <property name="text">
-               <string>Start Time</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEditStartTime">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelEndTime">
-              <property name="text">
-               <string>End Time</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEditEndTime">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="labelTimeUnit">
-              <property name="text">
-               <string>Time Unit</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEditTimeUnit">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBoxTolerances">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="title">
-            <string>Expert Settings</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="labelRTOL">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>Relative Tolerance used by the integrator</string>
-              </property>
-              <property name="statusTip">
-               <string>Relative Tolerance used by the integrator</string>
-              </property>
-              <property name="whatsThis">
-               <string>Relative Tolerance used by the integrator</string>
-              </property>
-              <property name="text">
-               <string>Relative Tolerance (RTOL)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEditRTOL">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelATOL">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>Absolute tolerance used by the integrator</string>
-              </property>
-              <property name="statusTip">
-               <string>Absolute tolerance used by the integrator</string>
-              </property>
-              <property name="whatsThis">
-               <string>Absolute tolerance used by the integrator</string>
-              </property>
-              <property name="text">
-               <string>Absolute Tolerance (ATOL)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEditATOL">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="labelXTOL">
-              <property name="toolTip">
-               <string>Required tolerance for Gauß Newton</string>
-              </property>
-              <property name="statusTip">
-               <string>Required tolerance for Gauß Newton</string>
-              </property>
-              <property name="whatsThis">
-               <string>Required tolerance for Gauß Newton</string>
-              </property>
-              <property name="text">
-               <string>Required Tolerance (XTOL)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEditXTOL"/>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="labelJACGEN">
-              <property name="text">
-               <string>Jacobian</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="labelNONLIN">
-              <property name="text">
-               <string>Problem Type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QComboBox" name="comboBoxProblemTypeSelect">
-              <item>
-               <property name="text">
-                <string>linear</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>mildly nonlinear</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>highly nonlinear</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>extremely nonlinear</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="labelRSCAL">
-              <property name="text">
-               <string>Residual Scaling</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QComboBox" name="comboBoxResidualScalingSelect">
-              <item>
-               <property name="text">
-                <string>no extra scaling</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>relative scaling (w.r.t. upper/lower machine bound)</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>absolute scaling (w.r.t. upper/lower machine bound)</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QLabel" name="labelLPOS">
-              <property name="text">
-               <string>Parameter Constraints</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <widget class="QComboBox" name="comboBoxParameterConstraintsSelect">
-              <item>
-               <property name="text">
-                <string>no constraints</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>strictly positive (exponential transformation)</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QCheckBox" name="checkBoxNoAutoRowScale">
-              <property name="text">
-               <string>No Automatic Row Scaling of Jacobian</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QComboBox" name="comboBoxJacobianSelect">
-              <item>
-               <property name="text">
-                <string>Variational Equations</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Numerical Differentiation</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Numerical Diff. with Feedback</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEditMaxNumNewtonSteps">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="labelMaxNumNewtonSteps">
-              <property name="text">
-               <string>Max. # Newton Steps</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
+          <widget class="Line" name="line">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>238</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="simulateButtonSettings">
-           <property name="text">
-            <string>Simulate</string>
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="computeSensitivityOverviewButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Sensitivity Overview</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="computeDetailedSensitivitiesButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Detailed Sensitivities</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabFit">
+      <attribute name="title">
+       <string>&amp;Fit</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTableView" name="estimateParamsTableView"/>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <item>
+            <widget class="QPushButton" name="buttonSelectAllParamEst">
+             <property name="text">
+              <string>Select All</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonDeselectAllParamEst">
+             <property name="text">
+              <string>Deselect All</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonInvertSelectionParamEst">
+             <property name="text">
+              <string>Invert Selection</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="estimateParamsButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Identify Parameters</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

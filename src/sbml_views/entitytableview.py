@@ -189,12 +189,16 @@ class EntityTableView(QWidget, Ui_EntityTableView):
         """
         # for now, we ignore that there is a range of indexes
         logging.debug("EntityTableView.currentEntityModelChanged(): Entered.")
-        if self.mainModel:
-            self.mainModel.entityHasChanged(self.sbmlEntity)
+#        if self.mainModel:
+#            self.mainModel.entityHasChanged(self.sbmlEntity)
+        if self.sbmlEntity:
+            self.sbmlEntity.hasChanged.emit()
 
     def currentEntityModelChangedStructurally(self, entity, type):
         logging.debug("EntityTableView.currentEntityModelChangedStructurally(): Entered.")
-        if self.mainModel:
-            self.mainModel.structuralEntityChange(entity, type)
+#        if self.mainModel:
+#            self.mainModel.structuralEntityChange(entity, type)
+        if self.sbmlEntity:
+            self.sbmlEntity.hasChanged.emit()
         
         

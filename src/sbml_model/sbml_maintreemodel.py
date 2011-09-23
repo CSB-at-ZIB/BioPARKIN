@@ -5,7 +5,7 @@ Created on Apr 1, 2010
 '''
 
 #from PySide.QtCore import *
-from PySide.QtCore import QAbstractItemModel, SIGNAL, Qt, QModelIndex, Signal
+from PySide.QtCore import QAbstractItemModel, SIGNAL, Qt, QModelIndex, Signal, QObject
 
 import libsbml
 ##
@@ -65,6 +65,15 @@ class SBMLMainTreeModel(QAbstractItemModel):
         #self.rootChildren= [self.CompartmentWrapper, self.SpeciesWrapper, self.ReactionWrapper]
         #self.reset()
 #        self.modelIndexToEntityMap = {}
+
+        self._connectToSignals(self.CompartmentWrapper)
+        self._connectToSignals(self.SpeciesWrapper)
+        self._connectToSignals(self.ReactionWrapper)
+        self._connectToSignals(self.ParameterWrapper)
+        self._connectToSignals(self.RateRuleWrapper)
+        self._connectToSignals(self.AlgebraicRuleWrapper)
+        self._connectToSignals(self.AssignmentRuleWrapper)
+        self._connectToSignals(self.EventWrapper)
 
         
         if self.MainModel:
@@ -277,7 +286,7 @@ class SBMLMainTreeModel(QAbstractItemModel):
         return (index.internalPointer() if index.isValid() else self.root)
 #        return (index.internalPointer() if index.isValid() else None)
         
-    def entityHasChanged(self, entity):
+    def entityHasChanged(self, entity=None):
         '''
         Is called, when an entity has changed.
         Creates the correct "QModelIndex"es and emits
@@ -286,10 +295,13 @@ class SBMLMainTreeModel(QAbstractItemModel):
         @param entity: The entity that has changed.
         @type entity: SBMLEntity
         '''
-        row = entity.Parent.getRowOfChild(entity)
-        index1 = self.createIndex(row, 0, entity)
-        index2 = self.createIndex(row, 1, entity)
-        self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index1, index2)
+        if not entity:
+            self.dataChanged.emit(QModelIndex(), QModelIndex())
+        else:
+            row = entity.Parent.getRowOfChild(entity)
+            index1 = self.createIndex(row, 0, entity)
+            index2 = self.createIndex(row, 1, entity)
+            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index1, index2)
         
     
       # methods necessary for editable models
@@ -338,3 +350,9 @@ class SBMLMainTreeModel(QAbstractItemModel):
         '''
         self.structuralChange.emit(entity,type)
     
+    def _connectToSignals(self, sbmlEntity):
+        sbmlEntity.hasChanged.connect(self.entityHasChanged)
+        numChildren = sbmlEntity.getChildrenCount()
+        if numChildren > 0:
+           for i in xrange(numChildren):
+               self._connectToSignals(sbmlEntity.getChild(i))

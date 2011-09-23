@@ -138,8 +138,10 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
             logging.debug("PlotWidgetController._updateView: Error occurred: %s" % e)
 
     def _clearView(self):
-        self.axes.clear()
-        self.canvas.draw()
+        if self.axes:
+            self.axes.clear()
+        if self.canvas:
+            self.canvas.draw()
 
 
     def setAxesAndData(self):

@@ -59,7 +59,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         super(SimulationWorkbenchController, self).__init__(parent)
         self.setupUi(self)
 
-#        self.computeDetailedSensitivitiesButton.setEnabled(True)    # DEBUGGING!
+        self.computeDetailedSensitivitiesButton.setEnabled(True)
 
         self.parkinController = parkinController
         self.sbmlModel = None
@@ -706,6 +706,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             return
 
         # else: init of thresholds is a go
+#        self.speciesTableModel.bef
         for species in self.sbmlModel.SbmlSpecies:
             species.setThreshold(self.machineEpsilon)
             self.speciesTableModel.layoutChanged.emit()
