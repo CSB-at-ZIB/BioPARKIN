@@ -59,7 +59,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         super(SimulationWorkbenchController, self).__init__(parent)
         self.setupUi(self)
 
-        self.computeDetailedSensitivitiesButton.setEnabled(True)    # DEBUGGING!
+#        self.computeDetailedSensitivitiesButton.setEnabled(True)    # DEBUGGING!
 
         self.parkinController = parkinController
         self.sbmlModel = None
@@ -725,7 +725,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         # show warning dialog
         msgBox = QMessageBox()
         infoText = \
-"""<b>The threshold describes the value below which a Species/Parameter is considered to be zero.</b><br>
+"""<b>The threshold describes the value below which an absolute error concept is applied to the respective Species/Parameter.</b><br>
 <br>
 Ideally, thresholds should be set <b>by hand</b>.<br>
 <br>

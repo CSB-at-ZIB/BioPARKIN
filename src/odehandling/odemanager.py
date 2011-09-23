@@ -1,8 +1,3 @@
-'''
-Created on Apr 21, 2010
-
-@author: bzfwadem
-'''
 from backend.exceptions import InitError
 from odehandling.odewrapper import ODEWrapper
 from odehandling.parameterwrapper import ParameterWrapper
@@ -10,12 +5,8 @@ from odehandling.specieswrapper import SpeciesWrapper
 from odehandling.odegenerator import ODEGenerator
 from odehandling.reactionwrapper import ReactionWrapper
 from odehandling.assignmentrulewrapper import AssignmentRuleWrapper
-import libsbml
 from odehandling.compartmentwrapper import CompartmentWrapper
 from services.dataservice import DataService
-import logging
-import backend_fortran
-
 
 
 class ODEManager(object):

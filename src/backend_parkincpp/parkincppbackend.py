@@ -691,6 +691,9 @@ class ParkinCppBackend(BaseBackend):
             logging.debug("ParkinCppBackend._computeSensitivityDetails(): No timepoints set, aborting.")
             return False
 
+        # necessary to have scales...
+        self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
+
         timepointsVector = Vector(len(self.sensitivityTimepoints))
         for i, timepoint in enumerate(self.sensitivityTimepoints):
             timepointsVector[i] = timepoint
@@ -804,8 +807,9 @@ class ParkinCppBackend(BaseBackend):
             return None
 
         logging.info("Preparing sensitivity data...")
-        
-        listOfSpecies = self.bioPar.getSpecies()
+
+        listOfSpecies = self.bioSystem.getSpecies()
+#        listOfSpecies = self.bioPar.getSpecies()
         # listOfParams = self.bioPar.getCurrentParameter()
         
         speciesParameterSensitivity = DataSet(None)
