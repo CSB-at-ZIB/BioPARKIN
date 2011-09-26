@@ -13,8 +13,11 @@ COLUMN = enum("COLUMN", "PROPERTY, VALUE")
 COLUMN_COUNT = 2
 COMPARTMENT_ROW = enum('ROW', 'ID, NAME, COMPARTMENTTYPE, SPATIALDIMENSIONS, SIZE, UNITS, OUTSIDE, CONSTANT')
 COMPARTMENT_ROW_COUNT = 8
-SPECIES_ROW = enum("ROW", "ID, NAME, SPECIESTYPE, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
-SPECIES_ROW_COUNT = 9
+
+#SPECIES_ROW = enum("ROW", "ID, NAME, SPECIESTYPE, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
+SPECIES_ROW = enum("ROW", "ID, NAME, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
+SPECIES_ROW_COUNT = 8
+
 REACTION_ROW = enum('ROW', 'ID, NAME, REVERSIBLE, REACTANTS, PRODUCTS, MODIFIERS, MATH')
 REACTION_ROW_COUNT = 7
 PARAMETER_ROW = enum('ROW', 'ID, NAME, VALUE, UNITS, CONSTANT, SCOPE')
@@ -153,14 +156,14 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == SPECIES_ROW.NAME:
                     return "Name"
-                elif row == SPECIES_ROW.SPECIESTYPE:
-                    return "Species Type"
+#                elif row == SPECIES_ROW.SPECIESTYPE:
+#                    return "Species Type"
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return "Compartment"
                 elif row == SPECIES_ROW.INITIALQUANTITY:
                     return "Initial Quantity"
                 elif row == SPECIES_ROW.SUBSTANCEUNITS:
-                    return "Substance Units"
+                    return "Unit"
                 elif row == SPECIES_ROW.QUANTITYTYPE:
                     return "Quantity Type"
                 elif row == SPECIES_ROW.CONSTANT:
@@ -172,8 +175,8 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return species.getName()
                 elif row == SPECIES_ROW.ID:
                     return species.getId()
-                elif row == SPECIES_ROW.SPECIESTYPE:
-                    return species.getSpeciesType()
+#                elif row == SPECIES_ROW.SPECIESTYPE:
+#                    return species.getSpeciesType()
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return species.getCompartment()
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -547,7 +550,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
         elif self.dataMode == sbml_entities.TYPE.SPECIES:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.REACTION:
-            return self.flagsReaction(index)    # only Reactions get a special flags method
+            return self.flagsGeneral(index)    # not any more: only Reactions get a special flags method
         elif self.dataMode == sbml_entities.TYPE.PARAMETER:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.RULE:
@@ -560,10 +563,11 @@ class SBMLEntityTableModel(QAbstractTableModel):
 
     def flagsGeneral(self, index):
         row = index.row()
-        if index.column() == COLUMN.VALUE:
+        if index.column() == COLUMN.VALUE and row == 1: # 1 is hardcoded; "Name" always has to be at 2nd position
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
         else:
-            return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
+            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
+            return None
 
 
     def flagsReaction(self, index):
@@ -924,11 +928,13 @@ class SBMLEntityTableModel(QAbstractTableModel):
         '''
         if species.isSetInitialConcentration():
             initialConcentration = species.getInitialConcentration()
-            return "%f (concentration)" % initialConcentration
+            #return "%f (concentration)" % initialConcentration
+            return initialConcentration
 
         elif species.isSetInitialAmount():
             initialAmount = species.getInitialAmount()
-            return "%f (amount)" % initialAmount
+            #return "%f (amount)" % initialAmount
+            return initialAmount
 
     def getQuantityType(self, species):
         if species.isSetInitialConcentration():
