@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Mon Sep 26 10:05:17 2011
+# Created: Mon Sep 26 10:40:07 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -67,14 +67,22 @@ class Ui_SimulationWorkbench(object):
         self.lineEditEndTime.setText("")
         self.lineEditEndTime.setObjectName("lineEditEndTime")
         self.gridLayout.addWidget(self.lineEditEndTime, 1, 1, 1, 1)
-        self.labelTimeUnit = QtGui.QLabel(self.groupBoxTimes)
+        self.verticalLayout_4.addWidget(self.groupBoxTimes)
+        self.groupBoxPlot = QtGui.QGroupBox(self.tabSettings)
+        self.groupBoxPlot.setObjectName("groupBoxPlot")
+        self.horizontalLayout_20 = QtGui.QHBoxLayout(self.groupBoxPlot)
+        self.horizontalLayout_20.setObjectName("horizontalLayout_20")
+        self.horizontalLayout_12 = QtGui.QHBoxLayout()
+        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.labelTimeUnit = QtGui.QLabel(self.groupBoxPlot)
         self.labelTimeUnit.setObjectName("labelTimeUnit")
-        self.gridLayout.addWidget(self.labelTimeUnit, 2, 0, 1, 1)
-        self.lineEditTimeUnit = QtGui.QLineEdit(self.groupBoxTimes)
+        self.horizontalLayout_12.addWidget(self.labelTimeUnit)
+        self.lineEditTimeUnit = QtGui.QLineEdit(self.groupBoxPlot)
         self.lineEditTimeUnit.setText("")
         self.lineEditTimeUnit.setObjectName("lineEditTimeUnit")
-        self.gridLayout.addWidget(self.lineEditTimeUnit, 2, 1, 1, 1)
-        self.verticalLayout_4.addWidget(self.groupBoxTimes)
+        self.horizontalLayout_12.addWidget(self.lineEditTimeUnit)
+        self.horizontalLayout_20.addLayout(self.horizontalLayout_12)
+        self.verticalLayout_4.addWidget(self.groupBoxPlot)
         self.groupBoxTolerances = QtGui.QGroupBox(self.tabSettings)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -163,7 +171,7 @@ class Ui_SimulationWorkbench(object):
         self.labelMaxNumNewtonSteps.setObjectName("labelMaxNumNewtonSteps")
         self.gridLayout_2.addWidget(self.labelMaxNumNewtonSteps, 3, 0, 1, 1)
         self.verticalLayout_4.addWidget(self.groupBoxTolerances)
-        spacerItem1 = QtGui.QSpacerItem(20, 307, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        spacerItem1 = QtGui.QSpacerItem(20, 272, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem1)
         self.horizontalLayout_11 = QtGui.QHBoxLayout()
         self.horizontalLayout_11.setObjectName("horizontalLayout_11")
@@ -493,6 +501,7 @@ class Ui_SimulationWorkbench(object):
         self.groupBoxTimes.setTitle(QtGui.QApplication.translate("SimulationWorkbench", "Time Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.labelStartTime.setText(QtGui.QApplication.translate("SimulationWorkbench", "Start Time", None, QtGui.QApplication.UnicodeUTF8))
         self.labelEndTime.setText(QtGui.QApplication.translate("SimulationWorkbench", "End Time", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBoxPlot.setTitle(QtGui.QApplication.translate("SimulationWorkbench", "Plot Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.labelTimeUnit.setText(QtGui.QApplication.translate("SimulationWorkbench", "Time Unit", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBoxTolerances.setTitle(QtGui.QApplication.translate("SimulationWorkbench", "Expert Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.labelRTOL.setToolTip(QtGui.QApplication.translate("SimulationWorkbench", "Relative Tolerance used by the integrator", None, QtGui.QApplication.UnicodeUTF8))
