@@ -26,8 +26,11 @@ REACTION_ROW_COUNT = 5
 
 PARAMETER_ROW = enum('ROW', 'ID, NAME, VALUE, UNITS, CONSTANT, SCOPE')
 PARAMETER_ROW_COUNT = 6
-RULE_ROW = enum('ROW', 'ID, NAME, TYPE, MATH, VARIABLE, VARIABLETYPE')
-RULE_ROW_COUNT = 6
+
+#RULE_ROW = enum('ROW', 'ID, NAME, TYPE, MATH, VARIABLE, VARIABLETYPE')
+RULE_ROW = enum('ROW', 'ID, NAME, MATH, VARIABLE')
+RULE_ROW_COUNT = 4
+
 EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION, DELAYED, DELAYEXPRESSION')
 EVENT_ROW_COUNT = 7
 
@@ -377,41 +380,41 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == RULE_ROW.NAME:
                     return "Name"
-                elif row == RULE_ROW.TYPE:
-                    return "Type"
+#                elif row == RULE_ROW.TYPE:
+#                    return "Type"
                 elif row == RULE_ROW.MATH:
                     return "Formula"
                 elif row == RULE_ROW.VARIABLE:
                     return "Variable"
-                elif row == RULE_ROW.VARIABLETYPE:
-                    return "Variable type"
+#                elif row == RULE_ROW.VARIABLETYPE:
+#                    return "Variable type"
             elif column == COLUMN.VALUE:
                 if row == RULE_ROW.NAME:
                     return rule.getName()
                 elif row == RULE_ROW.ID:
                     return rule.getId()
-                elif row == RULE_ROW.TYPE:
-                    return rule.getType()
+#                elif row == RULE_ROW.TYPE:
+#                    return rule.getType()
                 elif row == RULE_ROW.MATH:
                     return rule.getFormula()
                 elif row == RULE_ROW.VARIABLE:
                     return rule.getVariable()
-                elif row == RULE_ROW.VARIABLETYPE:
-                    return "todo" #rule.getConstant()
+#                elif row == RULE_ROW.VARIABLETYPE:
+#                    return "todo" #rule.getConstant()
         if role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == RULE_ROW.NAME:
                     return rule.getName()
                 elif row == RULE_ROW.ID:
                     return rule.getId()
-                elif row == RULE_ROW.TYPE:
-                    return rule.getType()
+#                elif row == RULE_ROW.TYPE:
+#                    return rule.getType()
                 elif row == RULE_ROW.MATH:
                     return rule.getFormula()
                 elif row == RULE_ROW.VARIABLE:
                     return rule.getVariable()
-                elif row == RULE_ROW.VARIABLETYPE:
-                    return "todo" #rule.getConstant()
+#                elif row == RULE_ROW.VARIABLETYPE:
+#                    return "todo" #rule.getConstant()
 
 
     def dataEvent(self, index, role=Qt.DisplayRole):
@@ -558,7 +561,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
         elif self.dataMode == sbml_entities.TYPE.PARAMETER:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.RULE:
-            return self.flagsGeneral(index)
+            return self.flagsRule(index)
         elif self.dataMode == sbml_entities.TYPE.EVENT:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.NONE:
@@ -577,7 +580,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
     def flagsReaction(self, index):
         row = index.row()
         if (index.column() == COLUMN.VALUE and
-            (row == REACTION_ROW.NAME or row == REACTION_ROW.MATH)): # 1 is hardcoded; "Name" always has to be at 2nd position
+            (row == REACTION_ROW.NAME or row == REACTION_ROW.MATH)):
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
         else:
             return None
@@ -590,6 +593,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
 #        else:
 #            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
 #            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
+
+
+    def flagsRule(self, index):
+        row = index.row()
+        if (index.column() == COLUMN.VALUE and
+            (row == RULE_ROW.NAME or row == RULE_ROW.VARIABLE or row == RULE_ROW.MATH)):
+            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
+        else:
+            return None
 
     def setData(self, index, value, role=Qt.EditRole):
         if not index.isValid():
