@@ -11,8 +11,10 @@ import sbml_mainmodel
 
 COLUMN = enum("COLUMN", "PROPERTY, VALUE")
 COLUMN_COUNT = 2
-COMPARTMENT_ROW = enum('ROW', 'ID, NAME, COMPARTMENTTYPE, SPATIALDIMENSIONS, SIZE, UNITS, OUTSIDE, CONSTANT')
-COMPARTMENT_ROW_COUNT = 8
+
+#COMPARTMENT_ROW = enum('ROW', 'ID, NAME, COMPARTMENTTYPE, SPATIALDIMENSIONS, SIZE, UNITS, OUTSIDE, CONSTANT')
+COMPARTMENT_ROW = enum('ROW', 'ID, NAME, SIZE')
+COMPARTMENT_ROW_COUNT = 3
 
 #SPECIES_ROW = enum("ROW", "ID, NAME, SPECIESTYPE, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
 SPECIES_ROW = enum("ROW", "ID, NAME, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
@@ -97,47 +99,47 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == COMPARTMENT_ROW.NAME:
                     return "Name"
-                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-                    return "Compartment Type"
-                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-                    return "Spatial Dimensions"
+#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
+#                    return "Compartment Type"
+#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
+#                    return "Spatial Dimensions"
                 elif row == COMPARTMENT_ROW.SIZE:
                     return "Size"
-                elif row == COMPARTMENT_ROW.UNITS:
-                    return "Units"
-                elif row == COMPARTMENT_ROW.OUTSIDE:
-                    return "Outside"
+#                elif row == COMPARTMENT_ROW.UNITS:
+#                    return "Units"
+#                elif row == COMPARTMENT_ROW.OUTSIDE:
+#                    return "Outside"
             elif column == COLUMN.VALUE:
                 if row == COMPARTMENT_ROW.ID:
                     return compartment.getId()
                 elif row == COMPARTMENT_ROW.NAME:
                     return compartment.getName()
-                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-                    return compartment.getCompartmentType()
-                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-                    return compartment.getSpatialDimensions()
+#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
+#                    return compartment.getCompartmentType()
+#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
+#                    return compartment.getSpatialDimensions()
                 elif row == COMPARTMENT_ROW.SIZE:
                     return compartment.getSize()
-                elif row == COMPARTMENT_ROW.UNITS:
-                    return compartment.getUnits()
-                elif row == COMPARTMENT_ROW.OUTSIDE:
-                    return compartment.getOutside()
+#                elif row == COMPARTMENT_ROW.UNITS:
+#                    return compartment.getUnits()
+#                elif row == COMPARTMENT_ROW.OUTSIDE:
+#                    return compartment.getOutside()
         elif role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == COMPARTMENT_ROW.ID:
                     return compartment.getId()
                 elif row == COMPARTMENT_ROW.NAME:
                     return compartment.getName()
-                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-                    return compartment.getCompartmentType()
-                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-                    return compartment.getSpatialDimensions()
+#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
+#                    return compartment.getCompartmentType()
+#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
+#                    return compartment.getSpatialDimensions()
                 elif row == COMPARTMENT_ROW.SIZE:
                     return compartment.getSize()
-                elif row == COMPARTMENT_ROW.UNITS:
-                    return compartment.getUnits()
-                elif row == COMPARTMENT_ROW.OUTSIDE:
-                    return compartment.getOutside()
+#                elif row == COMPARTMENT_ROW.UNITS:
+#                    return compartment.getUnits()
+#                elif row == COMPARTMENT_ROW.OUTSIDE:
+#                    return compartment.getOutside()
 
 
     def dataSpecies(self, index, role=Qt.DisplayRole):
@@ -196,8 +198,8 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return species.getName()
                 elif row == SPECIES_ROW.ID:
                     return species.getId()
-                elif row == SPECIES_ROW.SPECIESTYPE:
-                    return species.getSpeciesType()
+#                elif row == SPECIES_ROW.SPECIESTYPE:
+#                    return species.getSpeciesType()
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return species.getCompartment()
                 elif row == SPECIES_ROW.INITIALQUANTITY:
