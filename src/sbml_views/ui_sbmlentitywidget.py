@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\sbml_views\sbmlentitywidget.ui'
 #
-# Created: Tue Sep 20 10:15:24 2011
+# Created: Mon Sep 26 07:57:22 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -33,29 +33,6 @@ class Ui_SBMLEntityWidget(object):
         self.treeView.setUniformRowHeights(True)
         self.treeView.setObjectName("treeView")
         self.verticalLayout.addWidget(self.treeView)
-        self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.buttonAdd = QtGui.QToolButton(SBMLEntityWidget)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/editadd"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.buttonAdd.setIcon(icon)
-        self.buttonAdd.setObjectName("buttonAdd")
-        self.horizontalLayout.addWidget(self.buttonAdd)
-        self.buttonRemove = QtGui.QToolButton(SBMLEntityWidget)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/editdelete"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.buttonRemove.setIcon(icon1)
-        self.buttonRemove.setObjectName("buttonRemove")
-        self.horizontalLayout.addWidget(self.buttonRemove)
-        self.buttonCopy = QtGui.QToolButton(SBMLEntityWidget)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/editcopy"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.buttonCopy.setIcon(icon2)
-        self.buttonCopy.setObjectName("buttonCopy")
-        self.horizontalLayout.addWidget(self.buttonCopy)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(SBMLEntityWidget)
         QtCore.QMetaObject.connectSlotsByName(SBMLEntityWidget)
@@ -63,8 +40,5 @@ class Ui_SBMLEntityWidget(object):
     def retranslateUi(self, SBMLEntityWidget):
         SBMLEntityWidget.setWindowTitle(QtGui.QApplication.translate("SBMLEntityWidget", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.labelEntityTree.setText(QtGui.QApplication.translate("SBMLEntityWidget", "Entity Tree", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonAdd.setText(QtGui.QApplication.translate("SBMLEntityWidget", "Add", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonRemove.setText(QtGui.QApplication.translate("SBMLEntityWidget", "Remove", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonCopy.setText(QtGui.QApplication.translate("SBMLEntityWidget", "Duplicate", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

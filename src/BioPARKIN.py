@@ -77,7 +77,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 #    svn_revision = "$Rev: 824 $"  # using the svn:keywords "Rev"
 #    svn_revision_clean = svn_revision.split(" ")[1]
 #    __version__ = "1.0.11 Build %s" % svn_revision_clean
-    __version__ = "1.1.4"
+    __version__ = "1.1.5"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"

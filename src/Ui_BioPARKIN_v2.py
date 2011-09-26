@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\BioPARKIN_v2.ui'
 #
-# Created: Wed Sep 21 15:21:44 2011
+# Created: Mon Sep 26 07:57:22 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,16 +55,6 @@ class Ui_MainWindow(object):
         self._mdiArea.setDocumentMode(False)
         self._mdiArea.setObjectName("_mdiArea")
         self.verticalLayout.addWidget(self.splitter_2)
-        self.bottomLayout = QtGui.QHBoxLayout()
-        self.bottomLayout.setObjectName("bottomLayout")
-        self.showNetworkViewCheckBox = QtGui.QCheckBox(self.tabModel)
-        self.showNetworkViewCheckBox.setEnabled(True)
-        self.showNetworkViewCheckBox.setChecked(False)
-        self.showNetworkViewCheckBox.setObjectName("showNetworkViewCheckBox")
-        self.bottomLayout.addWidget(self.showNetworkViewCheckBox)
-        spacerItem = QtGui.QSpacerItem(778, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.bottomLayout.addItem(spacerItem)
-        self.verticalLayout.addLayout(self.bottomLayout)
         self.mainTabWidget.addTab(self.tabModel, "")
         self.horizontalLayout.addWidget(self.mainTabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -217,17 +207,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.mainTabWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL("triggered()"), MainWindow.close)
-        QtCore.QObject.connect(self.showNetworkViewCheckBox, QtCore.SIGNAL("clicked(bool)"), self._mdiArea.setVisible)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "BioPARKIN", None, QtGui.QApplication.UnicodeUTF8))
-        self.showNetworkViewCheckBox.setText(QtGui.QApplication.translate("MainWindow", "Show Network View (under development)", None, QtGui.QApplication.UnicodeUTF8))
-        self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.tabModel), QtGui.QApplication.translate("MainWindow", "Model", None, QtGui.QApplication.UnicodeUTF8))
+        self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.tabModel), QtGui.QApplication.translate("MainWindow", "Model Overview", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "&Help", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "Simulation", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "Actions", None, QtGui.QApplication.UnicodeUTF8))
         self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "&New...", None, QtGui.QApplication.UnicodeUTF8))
