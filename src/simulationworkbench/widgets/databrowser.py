@@ -132,6 +132,8 @@ class DataBrowser(QWidget, Ui_DataBrowser):
 
 
         for entity, entityData in self.data.getData().items():
+            if not entityData.isSelected():
+                continue
             id = entity.getId() if type(entity) == EntityData else str(entity)
             logging.debug("Perturbing data of EntityData: %s" % id)
             for i in xrange(len(entityData.datapoints)):
