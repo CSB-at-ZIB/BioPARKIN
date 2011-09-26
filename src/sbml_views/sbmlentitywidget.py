@@ -62,59 +62,59 @@ class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
         #self.connect(self.selectionModel, SIGNAL("currentChanged(QModelIndex,QModelIndex)"), self.selectionChanged)
         
     
-    @Slot("")
-    def on_buttonAdd_clicked(self):
-        self.addEntity()
-        
-        
-    def addEntity(self):
-        """
-        Adds a new entity (Species, Reaction, ...) based on the currently selected
-        entity (or category).
-        """
-        # getting currently selected entity (e.g. if it's a Species, we have to add another Species)
-        if not self.model:
-            logging.info("No network selected. Can't add anything.")
-            return
-
-        currentIndex = self.selectionModel.currentIndex()
-        sbmlEntity = currentIndex.internalPointer()
-        
-        sbmlLevel = self.model.MainModel.SbmlDocument.Item.getLevel()
-        sbmlVersion = self.model.MainModel.SbmlDocument.Item.getVersion()
-        
-        if sbmlEntity is None or not isinstance(sbmlEntity, SBMLEntity):
-            return
-        
-        if sbmlEntity.Type == sbml_entities.TYPE.SPECIES or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Species"):
-            self.model.MainModel.addSpecies()   # without ID, etc. standard values are used
-        elif sbmlEntity.Type == sbml_entities.TYPE.COMPARTMENT or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Compartments"):
-            self.model.MainModel.addCompartment()   # without ID, etc. standard values are used
-        elif sbmlEntity.Type == sbml_entities.TYPE.REACTION or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Reactions"):
-            self.model.MainModel.addReaction()   # without ID, etc. standard values are used
-        elif sbmlEntity.Type == sbml_entities.TYPE.PARAMETER or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Parameters"):
-            self.model.MainModel.addParameter()   # without ID, etc. standard values are used
-        elif sbmlEntity.Type == sbml_entities.TYPE.RULE or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Rules"):
-            self.model.MainModel.addRateRule()   # without ID, etc. standard values are used
-        
-        
-        
-    
-    @Slot("")
-    def on_buttonRemove_clicked(self):
-        self.removeEntity()
-        
-        
-    
-    def removeEntity(self):
-        """
-        Removes the currently selected entity.
-        """
-        if not self.model:
-            logging.info("No network selected. Can't remove anything.")
-            return
-
-        currentIndex = self.selectionModel.currentIndex()
-        sbmlEntity = currentIndex.internalPointer()
-                
-        self.model.MainModel.removeEntity(sbmlEntity) # takes optional index argument
+#    @Slot("")
+#    def on_buttonAdd_clicked(self):
+#        self.addEntity()
+#
+#
+#    def addEntity(self):
+#        """
+#        Adds a new entity (Species, Reaction, ...) based on the currently selected
+#        entity (or category).
+#        """
+#        # getting currently selected entity (e.g. if it's a Species, we have to add another Species)
+#        if not self.model:
+#            logging.info("No network selected. Can't add anything.")
+#            return
+#
+#        currentIndex = self.selectionModel.currentIndex()
+#        sbmlEntity = currentIndex.internalPointer()
+#
+#        sbmlLevel = self.model.MainModel.SbmlDocument.Item.getLevel()
+#        sbmlVersion = self.model.MainModel.SbmlDocument.Item.getVersion()
+#
+#        if sbmlEntity is None or not isinstance(sbmlEntity, SBMLEntity):
+#            return
+#
+#        if sbmlEntity.Type == sbml_entities.TYPE.SPECIES or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Species"):
+#            self.model.MainModel.addSpecies()   # without ID, etc. standard values are used
+#        elif sbmlEntity.Type == sbml_entities.TYPE.COMPARTMENT or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Compartments"):
+#            self.model.MainModel.addCompartment()   # without ID, etc. standard values are used
+#        elif sbmlEntity.Type == sbml_entities.TYPE.REACTION or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Reactions"):
+#            self.model.MainModel.addReaction()   # without ID, etc. standard values are used
+#        elif sbmlEntity.Type == sbml_entities.TYPE.PARAMETER or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Parameters"):
+#            self.model.MainModel.addParameter()   # without ID, etc. standard values are used
+#        elif sbmlEntity.Type == sbml_entities.TYPE.RULE or (sbml_entities.TYPE.NONE and sbmlEntity.Label == "Rules"):
+#            self.model.MainModel.addRateRule()   # without ID, etc. standard values are used
+#
+#
+#
+#
+#    @Slot("")
+#    def on_buttonRemove_clicked(self):
+#        self.removeEntity()
+#
+#
+#
+#    def removeEntity(self):
+#        """
+#        Removes the currently selected entity.
+#        """
+#        if not self.model:
+#            logging.info("No network selected. Can't remove anything.")
+#            return
+#
+#        currentIndex = self.selectionModel.currentIndex()
+#        sbmlEntity = currentIndex.internalPointer()
+#
+#        self.model.MainModel.removeEntity(sbmlEntity) # takes optional index argument

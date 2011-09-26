@@ -7,9 +7,9 @@ Created on Jun 25, 2010
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 
-COLUMN = enum.enum("ROW",
-                   "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, UNIT, SCALE, QUANTITYTYPE, ISCONSTANT, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
-NUM_COLUMNS = 11 # keep in sync with COLUMN!
+#COLUMN = enum.enum("ROW", "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, UNIT, SCALE, QUANTITYTYPE, ISCONSTANT, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
+COLUMN = enum.enum("ROW", "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, SCALE, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
+NUM_COLUMNS = 8 # keep in sync with COLUMN!
 
 class SpeciesTableModel(QAbstractTableModel):
     """
@@ -75,25 +75,25 @@ class SpeciesTableModel(QAbstractTableModel):
                     return scale
                 else:
                     return "N/A"
-            elif column == COLUMN.UNIT:
-                unit = species.getSubstanceUnits()
-                if unit is None or unit == "":
-                    return "N/A"
-                else:
-                    return unit
-            elif column == COLUMN.QUANTITYTYPE:
-                return self.getQuantityType(species)
-            elif column == COLUMN.ISCONSTANT:
-#                return species.getConstant()
-                return  # don't display true/false strings
+#            elif column == COLUMN.UNIT:
+#                unit = species.getSubstanceUnits()
+#                if unit is None or unit == "":
+#                    return "N/A"
+#                else:
+#                    return unit
+#            elif column == COLUMN.QUANTITYTYPE:
+#                return self.getQuantityType(species)
+#            elif column == COLUMN.ISCONSTANT:
+##                return species.getConstant()
+#                return  # don't display true/false strings
             elif column == COLUMN.ISBC:
 #                return species.getBoundaryCondition()
                 return # don't display true/false strings
 
         if role == Qt.CheckStateRole:
-            if column == COLUMN.ISCONSTANT:
-                return Qt.Checked if species.getConstant() else Qt.Unchecked
-            elif column == COLUMN.ISBC:
+#            if column == COLUMN.ISCONSTANT:
+#                return Qt.Checked if species.getConstant() else Qt.Unchecked
+            if column == COLUMN.ISBC:
                 return Qt.Checked if species.getBoundaryCondition() else Qt.Unchecked
             elif column == COLUMN.COMPUTESENSITIVITY:
                 return Qt.Checked if sbmlEntity.getComputeSensitivity() else Qt.Unchecked
@@ -105,6 +105,8 @@ class SpeciesTableModel(QAbstractTableModel):
                 return str(self.getInitialValue(species))
             elif column == COLUMN.SCALE:
                 return str(sbmlEntity.getThreshold())
+            elif column == COLUMN.NAME:
+                return str(sbmlEntity.getName())
             else:
                 return None
 
@@ -124,16 +126,16 @@ class SpeciesTableModel(QAbstractTableModel):
                 return "Compartment"
             elif section == COLUMN.INITIALQUANTITY:
                 return "Initial Quantity"
-            elif section == COLUMN.UNIT:
-                return "Unit"
+#            elif section == COLUMN.UNIT:
+#                return "Unit"
             elif section == COLUMN.SCALE:
                 return "Threshold"
-            elif section == COLUMN.QUANTITYTYPE:
-                return "Quantity Type"
-            elif section == COLUMN.ISCONSTANT:
-                return "Constant"
+#            elif section == COLUMN.QUANTITYTYPE:
+#                return "Quantity Type"
+#            elif section == COLUMN.ISCONSTANT:
+#                return "Constant"
             elif section == COLUMN.ISBC:
-                return "Boundary Condition"
+                return "Disable (b.c.)"
             elif section == COLUMN.COMPUTESENSITIVITY:
                 return "Compute Sensitivity"
         return None
@@ -160,18 +162,18 @@ class SpeciesTableModel(QAbstractTableModel):
         if not index.isValid():
             return Qt.NoItemFlags
 
-        if index.column() == COLUMN.ISCONSTANT:
-            return (Qt.ItemIsUserCheckable
-                    | Qt.ItemIsEnabled
-                    #| Qt.ItemIsSelectable
-            )
+#        if index.column() == COLUMN.ISCONSTANT:
+#            return (Qt.ItemIsUserCheckable
+#                    | Qt.ItemIsEnabled
+#                    #| Qt.ItemIsSelectable
+#            )
             
-        elif index.column() == COLUMN.ISBC or index.column() == COLUMN.COMPUTESENSITIVITY:
+        if index.column() == COLUMN.ISBC or index.column() == COLUMN.COMPUTESENSITIVITY:
             return (Qt.ItemIsUserCheckable
                     | Qt.ItemIsEnabled
             )
 
-        elif index.column() == (COLUMN.INITIALQUANTITY) or index.column() == (COLUMN.SCALE):
+        elif index.column() == (COLUMN.INITIALQUANTITY) or index.column() == (COLUMN.SCALE) or index.column() == (COLUMN.NAME):
             return (Qt.ItemIsEnabled
                     | Qt.ItemIsEditable
             )
@@ -195,18 +197,24 @@ class SpeciesTableModel(QAbstractTableModel):
                         sbmlEntity.setThreshold(float(value))
                     except:
                         return False
+                elif column == COLUMN.NAME:
+                    try:
+                        sbmlEntity.setName(str(value))
+                    except:
+                        return False
 
             if role == Qt.CheckStateRole:
                 isChecked = value == Qt.Checked
-                if column == COLUMN.ISCONSTANT:
-                    species.setConstant(isChecked)
-                elif column == COLUMN.ISBC:
+#                if column == COLUMN.ISCONSTANT:
+#                    species.setConstant(isChecked)
+                if column == COLUMN.ISBC:
                     species.setBoundaryCondition(isChecked)
                 elif column == COLUMN.COMPUTESENSITIVITY:
                     sbmlEntity.setComputeSensitivity(isChecked)
 
             self.Dirty = True
-            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            #self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            self.dataChanged.emit(index, index)
             return True
 
         return False

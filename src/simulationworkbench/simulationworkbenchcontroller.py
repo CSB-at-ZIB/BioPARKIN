@@ -191,6 +191,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.speciesTableView.setModel(speciesProxyModel)
         self.speciesTableView.setSortingEnabled(True)
         self.speciesTableView.sortByColumn(0, Qt.AscendingOrder)
+        self.speciesTableView.hideColumn(speciestablemodel.COLUMN.COMPUTESENSITIVITY)
         self.speciesTableView.resizeColumnsToContents()
 
 
@@ -237,10 +238,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.tableViewSensitivitySpecies.sortByColumn(0, Qt.AscendingOrder)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.COMPARTMENT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.INITIALQUANTITY)
-        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.UNIT)
+#        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.UNIT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.SCALE)
-        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.QUANTITYTYPE)
-        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISCONSTANT)
+#        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.QUANTITYTYPE)
+#        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISCONSTANT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISBC)
         self.tableViewSensitivitySpecies.resizeColumnsToContents()
 

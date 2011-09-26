@@ -210,6 +210,14 @@ class SBMLEntity(QObject):
         self.Item.setId(str(id))
         self.idChanged.emit(self, str(id), oldId)
 
+    def getName(self):
+        if self.Item:
+            return self.Item.getName()
+    
+    def setName(self, name):
+        self.Item.setName(str(name))
+        self.changed.emit()
+
     def getValue(self):
         return self.Item.getValue()
 
