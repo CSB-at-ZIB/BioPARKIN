@@ -112,7 +112,7 @@ class ParameterSetsTableModel(QAbstractTableModel):
         if orientation == Qt.Vertical:
             maxWidth = len(str(self.paramSets.numParameters()))+1
             if section == ROW.ID:
-                return " %s |  ID" % ("#".rjust(maxWidth))
+                return " %s |  Name" % ("#".rjust(maxWidth))
             elif section == ROW.ACTIVE:
                 return " %s |  Active" % (" ".rjust(maxWidth))
             elif section == ROW.SELECTED:

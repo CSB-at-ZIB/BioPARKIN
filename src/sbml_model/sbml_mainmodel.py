@@ -861,6 +861,7 @@ class SBMLMainModel(QObject):
                         continue
 
                 if allParamValuesIdentical: # reached if a whole Set is iterated through without encountering a wrong value
+                    self.ListOfParameterSets.setDefaulSet(parSet) # set this as the default set
                     return  # just return; we don't need to create the Set with default values
 
 
@@ -883,6 +884,7 @@ class SBMLMainModel(QObject):
         else:
             self.ListOfParameterSets = ListOfParameterSets(newSet)
             #            self.ListOfParameterSets.append(newSet)
+        self.ListOfParameterSets.setDefaulSet(newSet)
 
 
     def getValueFromActiveSet(self, id):

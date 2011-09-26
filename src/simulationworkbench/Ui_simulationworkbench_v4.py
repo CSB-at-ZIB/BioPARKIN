@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Mon Sep 26 07:57:23 2011
+# Created: Mon Sep 26 10:05:17 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -246,9 +246,6 @@ class Ui_SimulationWorkbench(object):
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
         spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_17.addItem(spacerItem5)
-        self.buttonParamSetNew = QtGui.QPushButton(self.tabParameterSets)
-        self.buttonParamSetNew.setObjectName("buttonParamSetNew")
-        self.horizontalLayout_17.addWidget(self.buttonParamSetNew)
         self.buttonParamSetDuplicate = QtGui.QPushButton(self.tabParameterSets)
         self.buttonParamSetDuplicate.setObjectName("buttonParamSetDuplicate")
         self.horizontalLayout_17.addWidget(self.buttonParamSetDuplicate)
@@ -477,7 +474,6 @@ class Ui_SimulationWorkbench(object):
         QtCore.QObject.connect(self.buttonInvertSelectionParamEst, QtCore.SIGNAL("clicked()"), self.actionInvert_Selection_of_Parameters_for_Estimation.trigger)
         QtCore.QObject.connect(self.buttonSelectAllParamEst, QtCore.SIGNAL("clicked()"), self.actionSelect_All_Parameters_for_Estimation.trigger)
         QtCore.QObject.connect(self.buttonParamSetDuplicate, QtCore.SIGNAL("clicked()"), self.actionDuplicate_Parameter_Set.trigger)
-        QtCore.QObject.connect(self.buttonParamSetNew, QtCore.SIGNAL("clicked()"), self.actionNew_Parameter_Set.trigger)
         QtCore.QObject.connect(self.buttonParamSetRemove, QtCore.SIGNAL("clicked()"), self.actionRemove_Parameter_Set.trigger)
         QtCore.QObject.connect(self.computeDetailedSensitivitiesButton, QtCore.SIGNAL("clicked()"), self.actionCompute_Detailed_Sensitivities.trigger)
         QtCore.QObject.connect(self.buttonDeselectAllSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionDeselectAllSpeciesForSensitivity.trigger)
@@ -537,9 +533,8 @@ class Ui_SimulationWorkbench(object):
         self.buttonInitializeThresholdsParameters.setText(QtGui.QApplication.translate("SimulationWorkbench", "Initialize Thresholds", None, QtGui.QApplication.UnicodeUTF8))
         self.simulateButtonParams.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabParameters), QtGui.QApplication.translate("SimulationWorkbench", "&Parameters", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonParamSetNew.setText(QtGui.QApplication.translate("SimulationWorkbench", "New", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonParamSetDuplicate.setText(QtGui.QApplication.translate("SimulationWorkbench", "Duplicate", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonParamSetRemove.setText(QtGui.QApplication.translate("SimulationWorkbench", "Remove", None, QtGui.QApplication.UnicodeUTF8))
+        self.buttonParamSetDuplicate.setText(QtGui.QApplication.translate("SimulationWorkbench", "Duplicate Selected", None, QtGui.QApplication.UnicodeUTF8))
+        self.buttonParamSetRemove.setText(QtGui.QApplication.translate("SimulationWorkbench", "Remove Selected", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabParameterSets), QtGui.QApplication.translate("SimulationWorkbench", "Parameter Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.dataBrowserTabWidget.setTabText(self.dataBrowserTabWidget.indexOf(self.dataBrowserPlusTab), QtGui.QApplication.translate("SimulationWorkbench", "+", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonPlotAllData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot All Data", None, QtGui.QApplication.UnicodeUTF8))

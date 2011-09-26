@@ -543,23 +543,16 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="buttonParamSetNew">
-             <property name="text">
-              <string>New</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="buttonParamSetDuplicate">
              <property name="text">
-              <string>Duplicate</string>
+              <string>Duplicate Selected</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="buttonParamSetRemove">
              <property name="text">
-              <string>Remove</string>
+              <string>Remove Selected</string>
              </property>
             </widget>
            </item>
@@ -1227,22 +1220,6 @@
    <hints>
     <hint type="sourcelabel">
      <x>618</x>
-     <y>817</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonParamSetNew</sender>
-   <signal>clicked()</signal>
-   <receiver>actionNew_Parameter_Set</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>537</x>
      <y>817</y>
     </hint>
     <hint type="destinationlabel">

@@ -44,8 +44,14 @@ class ListOfParameterSets(QObject):
             self.defaultSet = paramSet
 
     def createNewParameterSet(self, duplicate=False):
-        id = "New Set" if not duplicate else "Duplicate Set"
         baseSet = self.selectedSet if self.selectedSet else self.defaultSet
+
+        #id = "New Set" if not duplicate else "Duplicate Set"
+        if not duplicate:
+            id = "New Set"
+        else:
+            id = "Duplicate of %s" % baseSet.getId()
+
         newSet = ParameterSet(id, baseSet=baseSet, duplicate=duplicate)
 
         self.activeSet = newSet
@@ -92,6 +98,12 @@ class ListOfParameterSets(QObject):
 
     def getActiveSet(self):
         return self.activeSet
+
+    def setDefaulSet(self, set):
+        self.defaultSet = set
+
+    def getDefaultSet(self):
+        return self.defaultSet
 
     def __getitem__(self, item):
         return self._list[item]
