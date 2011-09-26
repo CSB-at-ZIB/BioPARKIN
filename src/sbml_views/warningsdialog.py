@@ -104,6 +104,8 @@ class WarningsDialog(QDialog, Ui_WarningsDialog):
             
     def _showDialog(self):
         self.show()
+        scrollBar = self.errorMsgTextEdit.verticalScrollBar()
+        scrollBar.setValue(scrollBar.maximum())
         if self.warningAction:
             # set no warning icon
             self.warningAction.setIcon(self.iconNoWarning)
