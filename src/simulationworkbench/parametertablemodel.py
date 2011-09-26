@@ -4,9 +4,9 @@ from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 import libsbml
 
-COLUMN = enum.enum("ROW",
-                   "NUMBER, SCOPE, ID, NAME, INITIALVALUE, UNIT, SCALE, ISCONSTANT, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
-NUM_COLUMNS = 10 # keep in sync with COLUMN!
+#COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, UNIT, SCALE, ISCONSTANT, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
+COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
+NUM_COLUMNS = 8 # keep in sync with COLUMN!
 
 class ParameterTableModel(QAbstractTableModel):
     """
@@ -79,6 +79,9 @@ class ParameterTableModel(QAbstractTableModel):
                 return param.getName()
             elif column == COLUMN.INITIALVALUE:
                 #return param.getValue()
+                if not param.getConstant():
+                    return "Dynamic"
+                
                 combinedId = sbmlEntity.getCombinedId()
                 #                if self.getActiveSet():
                 #                    return self.getActiveSet()[combinedId].getValue()
@@ -95,14 +98,14 @@ class ParameterTableModel(QAbstractTableModel):
                 else:
                     return "N/A"
 
-            elif column == COLUMN.UNIT:
-                unit = param.getUnits()
-                if unit is None or unit == "":
-                    return "N/A"
-                else:
-                    return unit
-            elif column == COLUMN.ISCONSTANT:
-                return param.getConstant()
+#            elif column == COLUMN.UNIT:
+#                unit = param.getUnits()
+#                if unit is None or unit == "":
+#                    return "N/A"
+#                else:
+#                    return unit
+#            elif column == COLUMN.ISCONSTANT:
+#                return param.getConstant()
             elif column == COLUMN.SCOPE:
                 parent = param.getParentSBMLObject()
                 if parent:
@@ -122,10 +125,10 @@ class ParameterTableModel(QAbstractTableModel):
                 return None
             elif column == COLUMN.INITIALVALUE:
                 return None
-            elif column == COLUMN.UNIT:
-                return None
-            elif column == COLUMN.ISCONSTANT:
-                return Qt.Checked if param.getConstant() else Qt.Unchecked
+#            elif column == COLUMN.UNIT:
+#                return None
+#            elif column == COLUMN.ISCONSTANT:
+#                return Qt.Checked if param.getConstant() else Qt.Unchecked
             elif column == COLUMN.SCOPE:
                 return None
             elif column == COLUMN.COMPUTESENSITIVITY:
@@ -148,6 +151,8 @@ class ParameterTableModel(QAbstractTableModel):
                     return None
             elif column == COLUMN.SCALE:
                 return str(sbmlEntity.getThreshold())
+            elif column == COLUMN.NAME:
+                return param.getName()
             else:
                 return None
 
@@ -168,12 +173,12 @@ class ParameterTableModel(QAbstractTableModel):
                     return "Value (from Set %s)" % self.getActiveSet().getId()
                 else:
                     return "No active Set!"
-            elif section == COLUMN.UNIT:
-                return "Unit"
+#            elif section == COLUMN.UNIT:
+#                return "Unit"
             elif section == COLUMN.SCALE:
                 return "Threshold"
-            elif section == COLUMN.ISCONSTANT:
-                return "Constant"
+#            elif section == COLUMN.ISCONSTANT:
+#                return "Constant"
             elif section == COLUMN.SCOPE:
                 return "Scope"
             elif section == COLUMN.COMPUTESENSITIVITY:
@@ -197,13 +202,14 @@ class ParameterTableModel(QAbstractTableModel):
         if not index.isValid():
             return Qt.NoItemFlags
 
-        if index.column() == COLUMN.ISCONSTANT or index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
+        #if index.column() == COLUMN.ISCONSTANT or index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
+        if index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
             return (Qt.ItemIsUserCheckable
                     | Qt.ItemIsEnabled
                     #| Qt.ItemIsSelectable
             )
 
-        elif index.column() == (COLUMN.INITIALVALUE) or index.column() == (COLUMN.SCALE):
+        elif index.column() == (COLUMN.INITIALVALUE) or index.column() == (COLUMN.SCALE) or index.column() == (COLUMN.NAME):
             return (Qt.ItemIsEnabled
                     | Qt.ItemIsEditable
             )
@@ -230,11 +236,16 @@ class ParameterTableModel(QAbstractTableModel):
                         sbmlEntity.setThreshold(float(value))
                     except:
                         return False
+                elif column == COLUMN.NAME:
+                    try:
+                        sbmlEntity.setName(str(value))
+                    except:
+                        return False
 
             if role == Qt.CheckStateRole:
                 isChecked = value == Qt.Checked
-                if column == COLUMN.ISCONSTANT:
-                    param.setConstant(isChecked)
+#                if column == COLUMN.ISCONSTANT:
+#                    param.setConstant(isChecked)
                 if column == COLUMN.COMPUTESENSITIVITY:
                     #self.paramsToSensitivityMap[param] = isChecked
                     self.paramsToSensitivityMap[sbmlEntity] = isChecked
@@ -242,7 +253,8 @@ class ParameterTableModel(QAbstractTableModel):
                     self.paramToEstimateMap[sbmlEntity] = isChecked
 
             self.Dirty = True
-            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            #self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+            self.dataChanged.emit(index, index)
             return True
 
         return False
