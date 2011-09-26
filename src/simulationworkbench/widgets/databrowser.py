@@ -23,7 +23,6 @@ class DataBrowser(QWidget, Ui_DataBrowser):
     __copyright__ = "Zuse Institute Berlin 2011"
 
 
-
     def __init__(self, parent, id, dataSet):
         super(DataBrowser, self).__init__(parent)
         self.setupUi(self)
@@ -56,7 +55,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
 
     def getId(self):
         return self.id
-    
+
     def setSimulationWorkbench(self, simWorkbench):
         self._simWorkbench = simWorkbench
 
@@ -85,7 +84,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         self.lineEditInfoSpecies.setText(str(self.data.getNumOfRealData()))
         self.lineEditInfoDataType.setText(self.data.type)
 
-#        self.lineEditInfoFormat.setText(self.data.format)
+        #        self.lineEditInfoFormat.setText(self.data.format)
 
         filepath = self.data.filename
         if os.path.exists(filepath):
@@ -130,7 +129,6 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         percentage = self.spinBoxPerturb.value()
         factor = percentage / 100.0
 
-
         for entity, entityData in self.data.getData().items():
             if not entityData.isSelected():
                 continue
@@ -163,6 +161,21 @@ class DataBrowser(QWidget, Ui_DataBrowser):
             id = self.data.getId()
             self.dataService.save_data_as_csv(id, path)
             logging.info("Saved data to %s" % path)
+
+
+    @Slot()
+    def on_buttonTimeshift_clicked(self):
+        """
+        Timeshift data within this DataBrowser (i.e. DataSet).
+        Not only shift the global timepoints but also the timepoint lists
+        within the individiual EntityData objects.
+        """
+        try:
+            shiftValue = float(self.lineEditTimeshift.text())
+            self.dataModel.doTimeshift(shiftValue)
+        except Exception, e:
+            logging.error("DataBrowser.on_buttonTimeshift_clicked(): Error while timeshifting the data: %s" % e)
+
 
     def _selectionChanged(self, state):
         """

@@ -1,6 +1,7 @@
 import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex
 from basics.helpers import enum
+from datamanagement.entitydata import EntityData
 
 STATE = enum.enum("STATE", "CHECKED, UNCHECKED, NODATA")
 
@@ -204,7 +205,26 @@ class DataBrowserModel(QAbstractTableModel):
         dataId = self.dataEntityIds[column]
         self.dataSet.getData(dataId).setDatapoint(row, value)
 
+    def doTimeshift(self, shift):
 
+        try:
+            #self.beginResetModel()#
+            self.modelAboutToBeReset.emit()
+            
+
+            logging.debug("Timeshifting data of DataSet: %s" % self.dataSet.getId())
+            self.dataSet.dataDescriptors = [float(x) + shift for x in self.dataSet.dataDescriptors]  # only works on non-text descriptors
+
+            for entity, entityData in self.dataSet.getData().items():
+                id = entity.getId() if type(entity) == EntityData else str(entity)
+                logging.debug("Timeshifting data of EntityData: %s" % id)
+                entityData.dataDescriptors = [float(x) + shift for x in entityData.dataDescriptors]
+
+#            self.endResetModel()
+            self._initData()
+            self.modelReset.emit()
+        except Exception, e:
+            logging.error("DataBrowserModel.doTimeshift(): Error while timeshifting the data: %s" % e)
 
         ###### SLOTS #######
 
