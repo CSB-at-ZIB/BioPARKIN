@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\tablewidget_v1.ui'
 #
-# Created: Mon Sep 26 07:59:43 2011
+# Created: Mon Sep 26 08:08:47 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -102,7 +102,7 @@ class Ui_TableWidget(object):
         self.checkBoxOrientation.setText(QtGui.QApplication.translate("TableWidget", "Switch rows vs. columns", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSaveTable.setText(QtGui.QApplication.translate("TableWidget", "Save Data...", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSetExperimentalData.setText(QtGui.QApplication.translate("TableWidget", "Add Data to \'Experimental Data\'", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage2), QtGui.QApplication.translate("TableWidget", "Actions", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage2), QtGui.QApplication.translate("TableWidget", "Settings && Actions", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave.setText(QtGui.QApplication.translate("TableWidget", "Save", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave.setToolTip(QtGui.QApplication.translate("TableWidget", "Save the current plot.", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAddToExperimentalData.setText(QtGui.QApplication.translate("TableWidget", "Add Data to Experimental Data", None, QtGui.QApplication.UnicodeUTF8))

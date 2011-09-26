@@ -77,7 +77,7 @@
       </widget>
       <widget class="QWidget" name="tabWidgetPage2" native="true">
        <attribute name="title">
-        <string>Actions</string>
+        <string>Settings &amp;&amp; Actions</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
