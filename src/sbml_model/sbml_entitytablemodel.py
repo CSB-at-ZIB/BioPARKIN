@@ -31,8 +31,9 @@ PARAMETER_ROW_COUNT = 6
 RULE_ROW = enum('ROW', 'ID, NAME, MATH, VARIABLE')
 RULE_ROW_COUNT = 4
 
-EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION, DELAYED, DELAYEXPRESSION')
-EVENT_ROW_COUNT = 7
+#EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION, DELAYED, DELAYEXPRESSION')
+EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION')
+EVENT_ROW_COUNT = 5
 
 QUANTITY_CONCENTRATION = "concentration"
 QUANTITY_AMOUNT = "amount"
@@ -439,10 +440,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "Expression"
                 elif row == EVENT_ROW.TRIGGEREXPRESSION:
                     return "Trigger"
-                elif row == EVENT_ROW.DELAYED:
-                    return "Delayed"
-                elif row == EVENT_ROW.DELAYEXPRESSION:
-                    return "Delay Expression"
+#                elif row == EVENT_ROW.DELAYED:
+#                    return "Delayed"
+#                elif row == EVENT_ROW.DELAYEXPRESSION:
+#                    return "Delay Expression"
             elif column == COLUMN.VALUE:
                 if row == EVENT_ROW.NAME:
                     return event.getName()
@@ -468,15 +469,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     trigger = event.getTrigger()
                     expression = libsbml.formulaToString(trigger.getMath())
                     return expression
-                elif row == EVENT_ROW.DELAYED:
-                    return "True" if event.isSetDelay() else "False"
-                elif row == EVENT_ROW.DELAYEXPRESSION:
-                    if event.isSetDelay():
-                        delayObject = event.getDelay()
-                        delay = libsbml.formulaToString(delayObject.getMath())
-                        return delay
-                    else:
-                        return "No Delay"
+#                elif row == EVENT_ROW.DELAYED:
+#                    return "True" if event.isSetDelay() else "False"
+#                elif row == EVENT_ROW.DELAYEXPRESSION:
+#                    if event.isSetDelay():
+#                        delayObject = event.getDelay()
+#                        delay = libsbml.formulaToString(delayObject.getMath())
+#                        return delay
+#                    else:
+#                        return "No Delay"
         if role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == EVENT_ROW.NAME:
@@ -503,15 +504,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     trigger = event.getTrigger()
                     expression = libsbml.formulaToString(trigger.getMath())
                     return expression
-                elif row == EVENT_ROW.DELAYED:
-                    return "True" if event.isSetDelay() else "False"
-                elif row == EVENT_ROW.DELAYEXPRESSION:
-                    if event.isSetDelay():
-                        delayObject = event.getDelay()
-                        delay = libsbml.formulaToString(delayObject.getMath())
-                        return delay
-                    else:
-                        return "No Delay"
+#                elif row == EVENT_ROW.DELAYED:
+#                    return "True" if event.isSetDelay() else "False"
+#                elif row == EVENT_ROW.DELAYEXPRESSION:
+#                    if event.isSetDelay():
+#                        delayObject = event.getDelay()
+#                        delay = libsbml.formulaToString(delayObject.getMath())
+#                        return delay
+#                    else:
+#                        return "No Delay"
 
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -563,7 +564,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
         elif self.dataMode == sbml_entities.TYPE.RULE:
             return self.flagsRule(index)
         elif self.dataMode == sbml_entities.TYPE.EVENT:
-            return self.flagsGeneral(index)
+            return self.flagsEvent(index)
         elif self.dataMode == sbml_entities.TYPE.NONE:
             return
 
@@ -599,6 +600,14 @@ class SBMLEntityTableModel(QAbstractTableModel):
         row = index.row()
         if (index.column() == COLUMN.VALUE and
             (row == RULE_ROW.NAME or row == RULE_ROW.VARIABLE or row == RULE_ROW.MATH)):
+            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
+        else:
+            return None
+
+    def flagsEvent(self, index):
+        row = index.row()
+        if (index.column() == COLUMN.VALUE and
+            (row == EVENT_ROW.NAME or row == EVENT_ROW.TARGET or row == EVENT_ROW.EXPRESSION or row == EVENT_ROW.TRIGGEREXPRESSION)):
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
         else:
             return None
@@ -786,16 +795,16 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     rule.setId(str(value))
                 elif row == RULE_ROW.NAME:
                     rule.setName(str(value))
-                elif row == RULE_ROW.TYPE:
-                    #rule.setValue(float(value))
-                    pass # TODO 
+#                elif row == RULE_ROW.TYPE:
+#                    #rule.setValue(float(value))
+#                    pass # TODO
                 elif row == RULE_ROW.MATH:
                     rule.setFormula(str(value))
                 elif row == RULE_ROW.VARIABLE:
                     rule.setVariable(str(value))
-                elif row == RULE_ROW.VARIABLETYPE:
-                    #rule.setConstant(typehelpers.stringToBool(value))
-                    pass # TODO
+#                elif row == RULE_ROW.VARIABLETYPE:
+#                    #rule.setConstant(typehelpers.stringToBool(value))
+#                    pass # TODO
 
 #                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
