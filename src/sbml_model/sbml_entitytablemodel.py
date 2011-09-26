@@ -20,8 +20,10 @@ COMPARTMENT_ROW_COUNT = 3
 SPECIES_ROW = enum("ROW", "ID, NAME, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
 SPECIES_ROW_COUNT = 8
 
-REACTION_ROW = enum('ROW', 'ID, NAME, REVERSIBLE, REACTANTS, PRODUCTS, MODIFIERS, MATH')
-REACTION_ROW_COUNT = 7
+#REACTION_ROW = enum('ROW', 'ID, NAME, REVERSIBLE, REACTANTS, PRODUCTS, MODIFIERS, MATH')
+REACTION_ROW = enum('ROW', 'ID, NAME, REACTANTS, PRODUCTS, MATH')
+REACTION_ROW_COUNT = 5
+
 PARAMETER_ROW = enum('ROW', 'ID, NAME, VALUE, UNITS, CONSTANT, SCOPE')
 PARAMETER_ROW_COUNT = 6
 RULE_ROW = enum('ROW', 'ID, NAME, TYPE, MATH, VARIABLE, VARIABLETYPE')
@@ -243,14 +245,14 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == REACTION_ROW.NAME:
                     return "Name"
-                elif row == REACTION_ROW.REVERSIBLE:
-                    return "Reversible"
+#                elif row == REACTION_ROW.REVERSIBLE:
+#                    return "Reversible"
                 elif row == REACTION_ROW.REACTANTS:
                     return "Reactants"
                 elif row == REACTION_ROW.PRODUCTS:
                     return "Products"
-                elif row == REACTION_ROW.MODIFIERS:
-                    return "Modifiers"
+#                elif row == REACTION_ROW.MODIFIERS:
+#                    return "Modifiers"
                 elif row == REACTION_ROW.MATH:
                     return "Math"
             elif column == COLUMN.VALUE:
@@ -258,15 +260,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return reaction.getName()
                 elif row == REACTION_ROW.ID:
                     return reaction.getId()
-                elif row == REACTION_ROW.REVERSIBLE:
-                    return reaction.getReversible()
+#                elif row == REACTION_ROW.REVERSIBLE:
+#                    return reaction.getReversible()
                 elif row == REACTION_ROW.REACTANTS:
                     return self.getReactants(reaction)
                     #return "test"
                 elif row == REACTION_ROW.PRODUCTS:
                     return self.getProducts(reaction)
-                elif row == REACTION_ROW.MODIFIERS:
-                    return self.getModifiers(reaction)
+#                elif row == REACTION_ROW.MODIFIERS:
+#                    return self.getModifiers(reaction)
                 elif row == REACTION_ROW.MATH:
                     return self.getReactionMath(reaction)
         if role == Qt.EditRole:
@@ -275,15 +277,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return reaction.getName()
                 elif row == REACTION_ROW.ID:
                     return reaction.getId()
-                elif row == REACTION_ROW.REVERSIBLE:
-                    return reaction.getReversible()
+#                elif row == REACTION_ROW.REVERSIBLE:
+#                    return reaction.getReversible()
                 elif row == REACTION_ROW.REACTANTS:
                     return self.getReactants(reaction)
                     #return "test"
                 elif row == REACTION_ROW.PRODUCTS:
                     return self.getProducts(reaction)
-                elif row == REACTION_ROW.MODIFIERS:
-                    return self.getModifiers(reaction)
+#                elif row == REACTION_ROW.MODIFIERS:
+#                    return self.getModifiers(reaction)
                 elif row == REACTION_ROW.MATH:
                     return self.getReactionMath(reaction)
 
@@ -307,7 +309,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
                 elif row == PARAMETER_ROW.VALUE:
                     return "Value"
                 elif row == PARAMETER_ROW.UNITS:
-                    return "Units"
+                    return "Unit"
                 elif row == PARAMETER_ROW.CONSTANT:
                     return "Constant"
                 elif row == PARAMETER_ROW.SCOPE:
@@ -552,7 +554,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
         elif self.dataMode == sbml_entities.TYPE.SPECIES:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.REACTION:
-            return self.flagsGeneral(index)    # not any more: only Reactions get a special flags method
+            return self.flagsReaction(index)    # not any more: only Reactions get a special flags method
         elif self.dataMode == sbml_entities.TYPE.PARAMETER:
             return self.flagsGeneral(index)
         elif self.dataMode == sbml_entities.TYPE.RULE:
@@ -574,15 +576,20 @@ class SBMLEntityTableModel(QAbstractTableModel):
 
     def flagsReaction(self, index):
         row = index.row()
-        if index.column() == COLUMN.VALUE and not (
-        row == REACTION_ROW.REACTANTS    # previously: some rows are not editable
-        or row == REACTION_ROW.PRODUCTS  # now: they can be edited (handled in setData)
-        or row == REACTION_ROW.MODIFIERS):
+        if (index.column() == COLUMN.VALUE and
+            (row == REACTION_ROW.NAME or row == REACTION_ROW.MATH)): # 1 is hardcoded; "Name" always has to be at 2nd position
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
-
         else:
-            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
-            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
+            return None
+#        if index.column() == COLUMN.VALUE and not (
+#        row == REACTION_ROW.REACTANTS    # previously: some rows are not editable
+#        or row == REACTION_ROW.PRODUCTS  # now: they can be edited (handled in setData)
+#        or row == REACTION_ROW.MODIFIERS):
+#            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
+#
+#        else:
+#            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
+#            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
 
     def setData(self, index, value, role=Qt.EditRole):
         if not index.isValid():
@@ -619,16 +626,16 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     compartment.setId(str(value))
                 elif row == COMPARTMENT_ROW.NAME:
                     compartment.setName(str(value))
-                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-                    compartment.setCompartmentType(str(value))
-                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-                    compartment.setSpatialDimensions(int(value)) # should be a uint
+#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
+#                    compartment.setCompartmentType(str(value))
+#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
+#                    compartment.setSpatialDimensions(int(value)) # should be a uint
                 elif row == COMPARTMENT_ROW.SIZE:
                     compartment.setSize(float(value))
                 elif row == COMPARTMENT_ROW.UNITS:
                     compartment.setUnits(str(value))
-                elif row == COMPARTMENT_ROW.OUTSIDE:
-                    compartment.setOutside(str(value))
+#                elif row == COMPARTMENT_ROW.OUTSIDE:
+#                    compartment.setOutside(str(value))
 #                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
@@ -652,8 +659,8 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     self.entity.setId(str(value))
                 elif row == SPECIES_ROW.NAME:
                     species.setName(str(value))
-                elif row == SPECIES_ROW.SPECIESTYPE:
-                    species.setSpeciesType(str(value))
+#                elif row == SPECIES_ROW.SPECIESTYPE:
+#                    species.setSpeciesType(str(value))
                 elif row == SPECIES_ROW.COMPARTMENT:
                     species.setCompartment(str(value))
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -688,8 +695,8 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     reaction.setId(str(value))
                 elif row == REACTION_ROW.NAME:
                     reaction.setName(str(value))
-                elif row == REACTION_ROW.REVERSIBLE:
-                    reaction.setReversible(typehelpers.stringToBool(value))
+#                elif row == REACTION_ROW.REVERSIBLE:
+#                    reaction.setReversible(typehelpers.stringToBool(value))
                 elif row == REACTION_ROW.REACTANTS:
                     success = self.entity.setReactants(str(value))
                     if success:
@@ -698,10 +705,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     success = self.entity.setProducts(str(value))
                     if success:
                         self.structuralChange.emit(self.entity, sbml_mainmodel.CHANGETYPE.CHANGE_PRODUCTS)
-                elif row == REACTION_ROW.MODIFIERS:
-                    success = self.entity.setModifiers(str(value))
-                    if success:
-                        self.structuralChange.emit(self.entity, sbml_mainmodel.CHANGETYPE.CHANGE_MODIFIERS)
+#                elif row == REACTION_ROW.MODIFIERS:
+#                    success = self.entity.setModifiers(str(value))
+#                    if success:
+#                        self.structuralChange.emit(self.entity, sbml_mainmodel.CHANGETYPE.CHANGE_MODIFIERS)
                 elif row == REACTION_ROW.MATH:
                     try:
                         kineticLaw = reaction.getKineticLaw()
