@@ -92,7 +92,8 @@ class DataBrowserModel(QAbstractTableModel):
             0 <= index.column() <= len(self.dataEntityIds)):
             return Qt.NoItemFlags
 
-        return Qt.ItemIsEnabled | Qt.ItemIsEditable   # per default, everything is editable
+        #return Qt.ItemIsEnabled | Qt.ItemIsEditable   # per default, everything is editable
+        return Qt.ItemIsEnabled
 
 
     def setData(self, index, value, role=Qt.EditRole):

@@ -19,6 +19,7 @@ import time
 import traceback
 import logging
 import logging.handlers
+from services.optionsservice import OptionsService
 
 
 try:
@@ -138,6 +139,9 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
                   action="store_true", dest=OPTION_DEBUG, default=False,
                   help="Include debugging information in console and file log")
         self.options, args = parser.parse_args()
+
+        self.optionsService = OptionsService()
+        self.optionsService.setDebug(self.options.debug)
 
         # set logging options
         if self.options.debug:

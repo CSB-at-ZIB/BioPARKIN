@@ -12,6 +12,7 @@ from simulationworkbench.widgets.databrowsermodel import DataBrowserModel
 #from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
 #from simulationworkbench.widgets.selectabletableheader import SelectableTableHeader
 from simulationworkbench.widgets.ui_databrowser import Ui_DataBrowser
+from services.optionsservice import OptionsService
 
 class DataBrowser(QWidget, Ui_DataBrowser):
     """
@@ -33,6 +34,8 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         self.id = id
         self.data = dataSet
 
+        self.optionsService = OptionsService()
+
         # create the custom selectable table header
         self.selectableHeader = SelectableTableHeader(Qt.Horizontal, self.tableView)
         self.selectableHeader.setNonSelectableIndexes([0])
@@ -46,6 +49,9 @@ class DataBrowser(QWidget, Ui_DataBrowser):
 
         self._setUpSelectionCheckBox()
         self._updateInfoPane()
+
+        if not self.optionsService.getDebug():
+            self.groupBoxPerturbation.setVisible(False)
 
 
     def getId(self):
@@ -79,7 +85,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         self.lineEditInfoSpecies.setText(str(self.data.getNumOfRealData()))
         self.lineEditInfoDataType.setText(self.data.type)
 
-        self.lineEditInfoFormat.setText(self.data.format)
+#        self.lineEditInfoFormat.setText(self.data.format)
 
         filepath = self.data.filename
         if os.path.exists(filepath):
