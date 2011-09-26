@@ -245,8 +245,8 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
             logging.error("PlotWidgetController: Can't compute colors without data.")
             return
 
-        if self.plotColors: # only compute once
-            return
+#        if self.plotColors: # only compute once
+#            return
 
         try:
             numItems = self.getNumberOfDataItems()

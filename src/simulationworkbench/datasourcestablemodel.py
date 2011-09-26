@@ -281,7 +281,7 @@ class DataSourcesTableModel(QAbstractTableModel):
         self.dataChanged.emit(QModelIndex(), QModelIndex())
 
     def getNumberOfDataItems(self):
-        return self.rowCount(None)
+        return self.rowCount(None) * self.columnCount(None)
 
     def getEntityIDs(self):
         return self.dataIDs
