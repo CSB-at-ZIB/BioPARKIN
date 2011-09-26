@@ -106,6 +106,16 @@ class AbstractViewController(object):
             return self.dataSourceTableModel.getEntityIDs()
 
 
+
+    def getSourceIDs(self):
+        if self.dataSourceTableModel:
+            return self.dataSourceTableModel.getSourceIDs()
+
+    def getSelectedCombinations(self):
+        if self.dataSourceTableModel:
+            return self.dataSourceTableModel.getSelectedCombinations()
+
+
     def _updateDataView(self):
         selectedData = self._getSelectedData()
         if not selectedData:

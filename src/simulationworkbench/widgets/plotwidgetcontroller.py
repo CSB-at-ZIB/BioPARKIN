@@ -222,10 +222,10 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
                             plotStyle = self.plotStyle[0]   # 0 as key always exists
 
                         # handle colour (prepend the colour code to style string)
-                        if label in self.plotColors:    # for string-based DataSet keys (e.g. loaded data file)
-                            color = self.plotColors[label]
-                        elif entityData.sbmlEntity and entityData.sbmlEntity in self.plotColors: # for sbmlEntity-based DataSet keys (e.g. simulation run)
-                            color = self.plotColors[entityData.sbmlEntity]
+                        if (originID, label) in self.plotColors:    # for string-based DataSet keys (e.g. loaded data file)
+                            color = self.plotColors[(originID, label)]
+                        elif entityData.sbmlEntity and (originID, entityData.sbmlEntity) in self.plotColors: # for sbmlEntity-based DataSet keys (e.g. simulation run)
+                            color = self.plotColors[(originID, entityData.sbmlEntity)]
                         else:
                             color = "black" # default... should never happen :)
                             logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
@@ -249,19 +249,25 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
 #            return
 
         try:
-            numItems = self.getNumberOfDataItems()
-            if not numItems:
-                return
+#            numItems = self.getNumberOfDataItems()
+#            if not numItems:
+#                return
+#
+#            entityIDs = self.getSelectedEntityIDs()
+#            if not entityIDs:
+#                return
+#
+#            sourceIDs = self.getSelectedSourceIDs()
+#            if not sourceIDs:
+#                return
 
-            ids = self.getEntityIDs()
-            if not ids:
-                return
+#            if len(entityIDs) != numItems:
+#                logging.debug("PlotWidgetController.computeColors(): Error. Number of data items does not add up.")
+#                return
 
-            if len(ids) != numItems:
-                logging.debug("PlotWidgetController.computeColors(): Error. Number of data items does not add up.")
-                return
+            selectedSourceEntityTuples = self.getSelectedCombinations()
 
-#            numItems = len(dataList)
+            numItems = len(selectedSourceEntityTuples)
 
             #colormap = colormaps.get_cmap("Set1")   # more default look would be "hsv"
             colors = self.map_colors(range(numItems), DEFAULT_COLORMAP)
@@ -271,8 +277,12 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
             #if not type(self.plotColors) == dict:
             self.plotColors = {}
 
-            for i, id in enumerate(ids):
-                self.plotColors[id] = colors[i]
+            for i, sourceEntityCombination in enumerate(selectedSourceEntityTuples):
+                self.plotColors[sourceEntityCombination] = colors[i]
+
+#            for i, entityID in enumerate(entityIDs):
+#                for j, sourceID in enumerate(sourceIDs):
+#                    self.plotColors[(entityID, sourceID)] = colors[i*j]
 
 #            for i, entity in enumerate(dataList):
 #                self.plotColors[entity[0].getId()] = colors[i]

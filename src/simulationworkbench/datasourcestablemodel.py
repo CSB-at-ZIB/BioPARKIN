@@ -285,3 +285,15 @@ class DataSourcesTableModel(QAbstractTableModel):
 
     def getEntityIDs(self):
         return self.dataIDs
+
+    def getSourceIDs(self):
+        return self.dataSources.keys()
+
+    def getSelectedCombinations(self):
+        selectedCombinations = []
+        for col, (sourceID, dataSet) in enumerate(self.dataSources.items()):
+            for row, entityID in enumerate(dataSet.getData().keys()):
+                if self.dataMatrix[col+1][row] ==  STATE.CHECKED:
+                    selectedCombinations.append((sourceID, entityID))
+        return selectedCombinations
+            
