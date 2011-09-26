@@ -64,7 +64,7 @@ class SBMLMainModel(QObject):
         self.SbmlReactions = None
         self.SbmlParameters = None
         self.SbmlRateRules = None
-        self.SbmlAlgebraicRules = None
+#        self.SbmlAlgebraicRules = None
         self.SbmlAssignmentRules = None
         self.SbmlEvents = None
 
@@ -77,7 +77,7 @@ class SBMLMainModel(QObject):
         self.ReactionWrapper = None
         self.ParameterWrapper = None
         self.RateRuleWrapper = None
-        self.AlgebraicRuleWrapper = None
+#        self.AlgebraicRuleWrapper = None
         self.AssignmentRuleWrapper = None
         self.EventsWrapper = None
 
@@ -180,8 +180,8 @@ class SBMLMainModel(QObject):
         self.ReactionWrapper = self.createSBMLEntity(sbmlobject=None, label="Reactions", parent=self.SbmlModel)
         self.ParameterWrapper = self.createSBMLEntity(sbmlobject=None, label="Parameters", parent=self.SbmlModel)
         self.RateRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Rate Rules", parent=self.SbmlModel)
-        self.AlgebraicRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Algebraic Rules",
-                                                          parent=self.SbmlModel)
+#        self.AlgebraicRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Algebraic Rules",
+#                                                          parent=self.SbmlModel)
         self.AssignmentRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Assignment Rules",
                                                            parent=self.SbmlModel)
         self.EventsWrapper = self.createSBMLEntity(sbmlobject=None, label="Events", parent=self.SbmlModel)

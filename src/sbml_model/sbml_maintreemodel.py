@@ -59,7 +59,7 @@ class SBMLMainTreeModel(QAbstractItemModel):
         self.ReactionWrapper = self.MainModel.ReactionWrapper
         self.ParameterWrapper = self.MainModel.ParameterWrapper
         self.RateRuleWrapper = self.MainModel.RateRuleWrapper
-        self.AlgebraicRuleWrapper = self.MainModel.AlgebraicRuleWrapper
+#        self.AlgebraicRuleWrapper = self.MainModel.AlgebraicRuleWrapper
         self.AssignmentRuleWrapper = self.MainModel.AssignmentRuleWrapper
         self.EventWrapper = self.MainModel.EventsWrapper
         #self.rootChildren= [self.CompartmentWrapper, self.SpeciesWrapper, self.ReactionWrapper]
@@ -71,7 +71,7 @@ class SBMLMainTreeModel(QAbstractItemModel):
         self._connectToSignals(self.ReactionWrapper)
         self._connectToSignals(self.ParameterWrapper)
         self._connectToSignals(self.RateRuleWrapper)
-        self._connectToSignals(self.AlgebraicRuleWrapper)
+#        self._connectToSignals(self.AlgebraicRuleWrapper)
         self._connectToSignals(self.AssignmentRuleWrapper)
         self._connectToSignals(self.EventWrapper)
 
@@ -179,11 +179,11 @@ class SBMLMainTreeModel(QAbstractItemModel):
                 return
             if index.column() == COLUMN.ID:
                 return "Rate Rules"
-        elif node == self.AlgebraicRuleWrapper:
-            if role == Qt.UserRole: # used for sorting; set fixed sorting
-                return
-            if index.column() == COLUMN.ID:
-                return "Algebraic Rules"
+#        elif node == self.AlgebraicRuleWrapper:
+#            if role == Qt.UserRole: # used for sorting; set fixed sorting
+#                return
+#            if index.column() == COLUMN.ID:
+#                return "Algebraic Rules"
         elif node == self.AssignmentRuleWrapper:
             if role == Qt.UserRole: # used for sorting; set fixed sorting
                 return
@@ -232,9 +232,15 @@ class SBMLMainTreeModel(QAbstractItemModel):
 #            if index.column() == COLUMN.TYPE:
 #                return "TypeTest"
             if index.column() == COLUMN.ID:
-                return node.Item.getId()
+                if node.Item:
+                    return node.Item.getId()
+                else:
+                    return None
             if index.column() == COLUMN.NAME:
-                return node.Item.getName()
+                if node.Item:
+                    return node.Item.getName()
+                else:
+                    return None
 
 
     def headerData(self, section, orientation, role):
