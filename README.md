@@ -12,9 +12,9 @@ This software package is released under the LGPL 3.0, see LICENSE file.
 
 ## Technical Overview
 
-BioPARKIN is the graphical user interface (GUI) building upon PARKINcpp. PARKINcpp is another of our projects and can be found at github.com/CSB-at-ZIB/PARKINcpp.
+BioPARKIN is the graphical user interface (GUI) building upon PARKINcpp. PARKINcpp is another of our projects and can be found at the [accompanying github repository](http://github.com/CSB-at-ZIB/PARKINcpp).
 
-It is the numerical core that BioPARKIN uses. It's written in performance-optimized C++. It is also available under the LGPL 3.0.
+PARKINcpp is the numerical core that is used by BioPARKIN. It's written in performance-optimized C++ and is also available under the LGPL 3.0.
 
 We decided to split the projects in two because the PARKINcpp library might be useful on its own (for integrating in other software tools, etc.).
 
@@ -38,4 +38,3 @@ BioPARKIN uses the following open-source libraries:
   * (this is currently not used in the code, but might soon be, once we re-enable graphical model network views)
 * [StableDict](http://pypi.python.org/pypi/StableDict/0.2) >= 0.2 
   * (this is a leftover from Python 2.6, we will switch to Python 2.7 OrderedDicts soon)
-* Todo: Add the other libs...
