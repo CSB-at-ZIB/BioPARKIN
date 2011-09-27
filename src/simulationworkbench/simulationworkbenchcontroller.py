@@ -11,6 +11,7 @@ import services.dataservice
 import datamanagement.dataset
 import backend
 import parametertablemodel, speciestablemodel
+from services.optionsservice import OptionsService
 from services.statusbarservice import StatusBarService
 import simulationworkbench
 import logging
@@ -75,6 +76,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
         self.dataService = DataService()
         self.statusBarService = StatusBarService()
+        self.optionsService = OptionsService()
 
         self.backendBioParkinCpp = None
         self.backendFortran = None
@@ -694,9 +696,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS)
             self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
             self.currentBackend.setTimepointsForDetailedSensitivities(timepoints)
-            #            self.currentBackend.start()  # using the threading mechanism
-            # for debugging (to be able to set breakpoints):
-            self.currentBackend.run() # only call this directly for testing
+            if self.optionsService.getDebug():
+                self.currentBackend.run() # for debugging (to be able to set breakpoints):
+            else:
+                self.currentBackend.start()  # using the threading mechanism
         except InitError:
             logging.info("Computation aborted. Couldn't initialize integrator.")
         except Exception, e:
@@ -758,27 +761,16 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     @Slot("")
     def on_actionSimulate_triggered(self):
         try:
-        #print "Simulating!"
-        #            self.statusBar().showMessage("Simulation running...")    # TODO: Provide messages via log mechanism
-
-
-            #self.progressBarService = ProgressBarService()
-            #originalStatusBar = self.progressBarService.getStatusBar()
             self._setUpBackend(mode=backend.settingsandvalues.MODE_INTEGRATE)
-            #self.currentBackend.setStatusBar(self.statusBar())
-            if self.currentBackend:
+            if self.optionsService.getDebug():
+                self.currentBackend.run() # for debugging (to be able to set breakpoints):
+            else:
                 self.currentBackend.start()  # using the threading mechanism
-            #                self.currentBackend.run()  # for debugging
-
-            #self.progressBarService.setStatusBar(originalStatusBar)
-        #            self.statusBar().showMessage("Simulation finished.", 5000)
         except InitError:
             logging.info("Computation aborted. Couldn't initialize integrator.")
-            #            self.statusBar().showMessage("Simulation aborted...")
             self.updateStatusBar("Simulation aborted...")
         except Exception, e:
             logging.debug("Computation aborted. Exception: %s" % e)
-            #            self.statusBar().showMessage("Simulation aborted...")
             self.updateStatusBar("Simulation aborted...")
             raise
 
@@ -788,9 +780,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW)
             self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
-            #            self.currentBackend.start()  # using the threading mechanism TODO: (this doesn't seem to work... why?)
-            # for debugging (to be able to set breakpoints):
-            self.currentBackend.run() # only call this directly for testing
+            if self.optionsService.getDebug():
+                self.currentBackend.run() # for debugging (to be able to set breakpoints):
+            else:
+                self.currentBackend.start()  # using the threading mechanism
         except InitError:
             logging.info("Computation aborted. Couldn't initialize integrator.")
         except Exception, e:
@@ -831,9 +824,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_PARAMETER_ESTIMATION)
             self.currentBackend.setParamsForEstimation(self.parametersTableModel.paramToEstimateMap)
-            #            self.currentBackend.start()  # using the threading mechanism
-            # for debugging (to be able to set breakpoints):
-            self.currentBackend.run() # only call this directly for testing
+            if self.optionsService.getDebug():
+                self.currentBackend.run() # for debugging (to be able to set breakpoints):
+            else:
+                self.currentBackend.start()  # using the threading mechanism
         except InitError:
             logging.info("Computation aborted. Couldn't initialize PARKINcpp library.")
         except Exception, e:
