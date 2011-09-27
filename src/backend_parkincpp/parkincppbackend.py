@@ -1,9 +1,10 @@
+from collections import OrderedDict
 import logging
 import math, time
 import os
 from PySide.QtCore import QCoreApplication
 import libsbml
-from stabledict import StableDict
+
 
 import backend
 from backend.basebackend import BaseBackend
@@ -85,7 +86,7 @@ class ParkinCppBackend(BaseBackend):
 
         self.sensitivityTimepoints = None
 #        self.paramsForProb = None
-        #        self.paramIdToParamEntity = StableDict()
+        #        self.paramIdToParamEntity = OrderedDict()
 
 #        self.deltaP = None  # TODO: Make GUI-definable
 
@@ -311,7 +312,7 @@ class ParkinCppBackend(BaseBackend):
 #        species = StringList()
         parameter = StringList()
         expressionMap = ExpressionMap()
-        #        self.paramIdToParamEntity = StableDict()
+        #        self.paramIdToParamEntity = OrderedDict()
         self.bioSystem = BioSystem(float(odeManager.startTime), float(odeManager.endTime))
         logging.debug("Start time: %s" % odeManager.startTime)
         logging.debug("End time: %s" % odeManager.endTime)
@@ -409,7 +410,7 @@ class ParkinCppBackend(BaseBackend):
         logging.info("Processing SBML Events...")
 
         errorMsg = "ParkinCppBackend: The only support event trigger has the format: eq(time, float) where float is an actual float. E.g.: eq(time, 10.0)"
-        events = StableDict()
+        events = OrderedDict()
         events[self.settings[
                settingsandvalues.SETTING_STARTTIME]] = None # kind of a default breakpoint at 0 that we always jump over
         #        eventTimepoints = [0.0]
@@ -529,7 +530,7 @@ class ParkinCppBackend(BaseBackend):
         self.timepointsPruned = [tp.t()[i] for i in xrange(tp.nr())]
         self.timepoints = [self.settings[backend.settingsandvalues.SETTING_STARTTIME]] + self.timepointsPruned
 
-        simResults = StableDict()
+        simResults = OrderedDict()
         for speciesId in trajectoryMap.keys():
             correspondingSpecies = self.mainModel.getSpecies(speciesId)
             dataTuple = trajectoryMap[speciesId]
@@ -740,7 +741,7 @@ class ParkinCppBackend(BaseBackend):
     def _extractTimecources(self, rawJacobian):
         """
         The raw Jacobian list will be re-ordered to a sensitivity matrix.
-        The resulting output is given as dictionary (StableDict)
+        The resulting output is given as dictionary (OrderedDict)
         """
         
         if type(rawJacobian) is not Matrix:
@@ -757,7 +758,7 @@ class ParkinCppBackend(BaseBackend):
 
         logging.info("Preparing sensitivity data...")
 
-        sensData = StableDict()
+        sensData = OrderedDict()
         listOfSpecies = [] # self.bioPar.getSpecies()
         
         for jDummy, odeWrapper in enumerate(self.odeManager.odeList):
@@ -1024,7 +1025,7 @@ class ParkinCppBackend(BaseBackend):
         paramMap = self.bioProcessor.getIdentificationResults()
 
         # convert results; put into class variable
-        self.estimatedParams = StableDict()
+        self.estimatedParams = OrderedDict()
         for id, value in paramMap.items():
             self.estimatedParams[id] = value
 
@@ -1168,7 +1169,7 @@ class ParkinCppBackend(BaseBackend):
 
     def _handleEstimatedParamResults(self):
         '''
-        Takes the previously computed parameter values (stored in a StableDict), wraps
+        Takes the previously computed parameter values (stored in a OrderedDict), wraps
         them into EntityData objects and a DataSet and puts that into the DataService.
         '''
         estimatedParamSet = DataSet(None)

@@ -1,7 +1,8 @@
+from collections import OrderedDict
 import logging
 from PySide.QtCore import QFileInfo
 from PySide.QtGui import QWidget
-from stabledict import StableDict
+
 from sbml_views.ui_modelview import Ui_ModelView
 
 class ModelView(QWidget, Ui_ModelView):
@@ -26,8 +27,8 @@ class ModelView(QWidget, Ui_ModelView):
         super(ModelView, self).__init__(parent) # Qt wiring
         self.setupUi(self)
 
-        self._models = StableDict() # stores models
-        self._modelIndexes = StableDict()   # stores indexes
+        self._models = OrderedDict() # stores models
+        self._modelIndexes = OrderedDict()   # stores indexes
         
         self.bioParkinController = bioParkinController
         self.bioParkinController.activeModelChanged.connect(self.on_activeModelChanged)

@@ -1,7 +1,8 @@
+from collections import OrderedDict
 import logging
 from PySide.QtCore import Slot, Signal
 from PySide.QtGui import QWidget, QFileDialog
-from stabledict import StableDict
+
 from basics.helpers import filehelpers
 import datamanagement
 import services
@@ -22,7 +23,7 @@ class DataImportWidget(QWidget, Ui_DataImportWidget):
     __copyright__ = "Zuse Institute Berlin 2011"
 
 
-    updatedDataEvent = Signal(StableDict)
+    updatedDataEvent = Signal(OrderedDict)
 
     def __init__(self, parent, parkinController):
         super(DataImportWidget, self).__init__(parent)

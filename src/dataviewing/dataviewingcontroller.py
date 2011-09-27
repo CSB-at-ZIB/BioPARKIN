@@ -3,6 +3,7 @@ Created on Mar 10, 2010
 
 @author: bzfwadem
 '''
+from collections import OrderedDict
 
 import logging
 
@@ -11,7 +12,7 @@ import logging
 #from _ordereddict import ordereddict
 from PySide.QtCore import SIGNAL, Qt, Slot
 from PySide.QtGui import QDialog, QMdiSubWindow, QMdiArea
-from stabledict import StableDict
+
 
 from ui_DataView2 import Ui_DataViewWidget
 from plotting.plotwidget import PlotWidget
@@ -51,7 +52,7 @@ class DataViewingController(QDialog, Ui_DataViewWidget):
         simulationData = self.dataService.get_simulation_data()
         
         #data = ordereddict()
-        self.data = StableDict()
+        self.data = OrderedDict()
         if simulationData is not None and len(simulationData) > 0:
             self.simulationData = simulationData
             for (sbmlEntity, entityData) in self.simulationData.items():

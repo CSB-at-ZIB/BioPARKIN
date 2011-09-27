@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 from PySide.QtCore import SIGNAL, Slot, Qt
 #from basics.widgets.selectabletableheader import SelectableTableHeader
@@ -5,7 +6,7 @@ from PySide.QtGui import QTableView
 from basics.widgets.selectabletableheader import SelectableTableHeader
 from simulationworkbench.datasourcestablemodel import DataSourcesTableModel
 from services.dataservice import DataService
-from stabledict import StableDict
+
 
 __author__ = 'bzfwadem'
 
@@ -50,7 +51,7 @@ class AbstractViewController(object):
 
         if type(dataSources) is list:
             try:
-                combinedDataSource = StableDict()
+                combinedDataSource = OrderedDict()
                 for source in dataSources:
                     for key, value in source.items():
                         origin = value.getId()
@@ -65,7 +66,7 @@ class AbstractViewController(object):
                 logging.error("AbstractViewController: Could not combine several datasource dictionaries into one.")
 
         if dataID:
-            singledataSource = StableDict()
+            singledataSource = OrderedDict()
             singledataSource[dataID] = dataSources[dataID]
             dataSources = singledataSource
 

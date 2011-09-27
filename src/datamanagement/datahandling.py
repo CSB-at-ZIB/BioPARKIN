@@ -3,10 +3,11 @@ Created on Mar 9, 2010
 
 @author: bzfwadem
 '''
+from collections import OrderedDict
 
 import csv, logging
 import math
-from stabledict import StableDict
+
 import services.dataservice
 from datamanagement import entitydata
 from datamanagement.entitydata import EntityData
@@ -46,7 +47,7 @@ def read_raw_data(filename, dataSet=None, parkinController=None):
     
     @since: 2010-06-07
     '''
-    entityMap = StableDict()
+    entityMap = OrderedDict()
 
     try:
         with open(filename, 'r') as f:
@@ -181,7 +182,7 @@ def read_csv_data(filename, dataSet=None, parkinController=None):
                         id = columnIndexToColumnID[j]
                         columnIDsToValues[id].append(value)
 
-        # loop through the collected data and feed it into a StableDict with EntityData objects
+        # loop through the collected data and feed it into a OrderedDict with EntityData objects
         # as values. This is the internal data structure of a DataSet object.
 
         dataSet.dataDescriptors = descriptors   # e.g. global timepoint list
@@ -189,7 +190,7 @@ def read_csv_data(filename, dataSet=None, parkinController=None):
         dataSet.descriptorHeader = originalDescriptorHeader
 
         lastEntityData = None
-        entityMap = StableDict()    # keep Species order
+        entityMap = OrderedDict()    # keep Species order
         for j, columnID in enumerate(columnIDs):
             logging.debug("About to save data for column %s" % columnID)
 

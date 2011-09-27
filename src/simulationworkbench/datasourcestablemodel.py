@@ -3,12 +3,13 @@ Created on Jun 30, 2010
 
 @author: bzfwadem
 '''
+from collections import OrderedDict
 
 import os
 
 #from PySide.QtCore import *
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
-from stabledict import StableDict
+
 from basics.helpers import enum
 import logging
 from sbml_model.sbml_entities import SBMLEntity
@@ -220,7 +221,7 @@ class DataSourcesTableModel(QAbstractTableModel):
         '''
         Returns all currently checked IDs in a stable dict.
         '''
-        selectedIDs = StableDict()
+        selectedIDs = OrderedDict()
         
         for col in xrange(len(self.dataMatrix)):
             if col == 0:

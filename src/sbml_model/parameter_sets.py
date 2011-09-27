@@ -1,7 +1,8 @@
+from collections import OrderedDict
 import logging
 from PySide.QtCore import QObject, Signal
 from libsbml import SBase
-from stabledict import StableDict
+
 
 '''
 This class provides the data structures for storing multiple Parameter Sets
@@ -203,9 +204,9 @@ class ParameterSet(object):
 
 
 
-class ListOfParameters(StableDict):
+class ListOfParameters(OrderedDict):
     '''
-    This is just kind of a "renamed" StableDict object
+    This is just kind of a "renamed" OrderedDict object
     to make the naming of things more coherent, to adhere to the standard
     set by the SBML Multiple Parameter Sets annotation and to have a place
     for functionality for which a need might arise.

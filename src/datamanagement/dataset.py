@@ -3,12 +3,13 @@ Created on Jul 2, 2010
 
 @author: bzfwadem
 '''
+from collections import OrderedDict
 import logging
 from PySide.QtCore import Signal, QObject
 from datamanagement.entitydata import EntityData
 import services.dataservice
 import datahandling
-from stabledict import StableDict
+
 from time import time
 
 
@@ -39,11 +40,11 @@ class DataSet(QObject):
         Setting up needed instance variables.
         '''
         super(DataSet, self).__init__(None)
-#        self._entityDataDict = StableDict()
+#        self._entityDataDict = OrderedDict()
         self.filename = filename
 
         # keys should be SBMLEntity objects!
-        self.data = StableDict()
+        self.data = OrderedDict()
         self.type = type
 
         self.dataDescriptors = None # global dataDescriptors for the normal use case when all EntityData objects have the same descriptors

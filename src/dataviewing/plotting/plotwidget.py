@@ -37,8 +37,8 @@ class PlotWidget(QWidget):
     @param parent: Standard Qt UI parent
     @type parent: QWidget
     
-    @param data: A StableDict of EntityData objects
-    @type data: StableDict
+    @param data: A OrderedDict of EntityData objects
+    @type data: OrderedDict
     
     
     @param labels: Labels for data entities

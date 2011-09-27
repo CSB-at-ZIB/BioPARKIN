@@ -5,9 +5,10 @@ Created on Mar 11, 2010
 '''
 
 #import backend_fortran.datahandling
+from collections import OrderedDict
 import csv
 import math
-from stabledict import StableDict
+
 import logging
 from datamanagement.dataset import DataSet
 import datamanagement.dataset
@@ -67,7 +68,7 @@ class DataService(object):
         if not self.data:
             self.data = []
         if not self.dataDict:
-            self.dataDict = StableDict()
+            self.dataDict = OrderedDict()
 
         for filename in listOfFilenames:
             fileData = DataSet(filename, format=format, type=EXPERIMENTAL, parkinController=parkinController)
@@ -102,7 +103,7 @@ class DataService(object):
             logging.error("DataService.get_data(): No data available.")
             return
 
-        selectedData = StableDict()
+        selectedData = OrderedDict()
         for dataSet in self.data:
             if dataSet.type == EXPERIMENTAL and dataSet.isSelected() == True:
                 selectedData[dataSet.getId()] = dataSet
@@ -111,7 +112,7 @@ class DataService(object):
 
     def get_experimental_data(self):
         '''
-        @returns: StableDict with all experimental data.
+        @returns: OrderedDict with all experimental data.
         '''
         #print "self.DirtyExperimental: %s" % self.DirtyExperimental
         #        if self.DirtyExperimental:
@@ -145,7 +146,7 @@ class DataService(object):
         if not self.data:
             self.data = []
         if not self.dataDict:
-            self.dataDict = StableDict()
+            self.dataDict = OrderedDict()
 
         for filename in listOfFilenames:
             fileData = DataSet(filename, format=format, listOfEntities=listOfEntities)
@@ -186,7 +187,7 @@ class DataService(object):
 
 
     #    def get_data_sources_with_dataIDs(self):
-    ##        dataSources = StableDict()  # regenerate this every time
+    ##        dataSources = OrderedDict()  # regenerate this every time
     ##
     ##        self.get_simulation_data() #read data (discard result reference, we don't need it here)
     ##
@@ -200,7 +201,7 @@ class DataService(object):
     ##        if self.experimentalDataDict is not None:   # it is None if there's no experimental data
     ##            #expFiles = self.get_experimental_data_files()
     ##            if self.experimentalDataDict.data:
-    ##                for (i, fileID) in enumerate(self.experimentalDataDict.data.keys()):    # self.experimentalDataDict is a StableDict
+    ##                for (i, fileID) in enumerate(self.experimentalDataDict.data.keys()):    # self.experimentalDataDict is a OrderedDict
     ##                    #sourceID = expFiles[i]
     ##                    dataIDs = self.experimentalDataDict[fileID]
     ##                    dataSources[fileID] = dataIDs
@@ -209,7 +210,7 @@ class DataService(object):
     #        return self.dataDict
 
     #    def get_sensitivity_data_with_dataIDs(self):
-    #        dataSource = StableDict()
+    #        dataSource = OrderedDict()
     #
     #        sensData = self.get_sensitivity_data_per_species_parameter()
     #        if sensData.data:
@@ -226,11 +227,11 @@ class DataService(object):
         '''
         Combines simulation and experimental data into one data structure.
         
-        The data structure currently is just an StableDict which has a fixed
+        The data structure currently is just an OrderedDict which has a fixed
         key for the simulation data and filenames for keys for the experimental
         data.
         '''
-        #        allData = StableDict()
+        #        allData = OrderedDict()
         #
         #        #map(lambda (key, value): allData[key] = value, self.simulationData.items())
         #        if self.simulationData:
@@ -300,7 +301,7 @@ class DataService(object):
             logging.error("DataService.get_data(): No data available.")
             return
 
-        dataOfType = StableDict()
+        dataOfType = OrderedDict()
         for dataSet in self.data:
             if dataSet.type == type:
                 #dataOfType.append(dataSet)
@@ -317,7 +318,7 @@ class DataService(object):
             self.data = []
 
         if not self.dataDict:
-            self.dataDict = StableDict()
+            self.dataDict = OrderedDict()
 
         self.data.append(data)
         self.dataDict[data.getId()] = data

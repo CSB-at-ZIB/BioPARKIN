@@ -11,12 +11,13 @@ import PySide
 from PySide.QtCore import Signal, QSettings, QFile, QFileInfo, Slot
 from PySide.QtGui import QMainWindow, QAction, QFileDialog, QMessageBox, QApplication
 
-import networkx
+#import networkx
 import os
 import matplotlib
 import sys
 import time
 import traceback
+import Image
 import logging
 import logging.handlers
 from services.optionsservice import OptionsService
@@ -78,7 +79,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 #    svn_revision = "$Rev: 824 $"  # using the svn:keywords "Rev"
 #    svn_revision_clean = svn_revision.split(" ")[1]
 #    __version__ = "1.0.11 Build %s" % svn_revision_clean
-    __version__ = "1.1.5"
+    __version__ = "1.1.6"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -164,7 +165,8 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         logging.info("PySide version: %s" % PySide.__version__)
         logging.info("libSBML version: %s" % LIBSBML_VERSION_STRING)
         logging.info("Matplotlib version: %s" % matplotlib.__version__)
-        logging.info("NetworkX version: %s" % networkx.__version__)
+#        logging.info("NetworkX version: %s" % networkx.__version__)
+        logging.info("Python Image Library version: %s" % Image.VERSION)
 
 
 
