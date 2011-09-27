@@ -87,7 +87,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         #        self.lineEditInfoFormat.setText(self.data.format)
 
         filepath = self.data.filename
-        if os.path.exists(filepath):
+        if filepath and os.path.exists(filepath):
             self.lineEditInfoPath.setText(filepath)
 
             filesize = os.path.getsize(filepath)
@@ -117,7 +117,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
 
     @Slot()
     def on_actionPlot_triggered(self):
-        dataDict = {self.data.filename: self.data}
+        dataDict = {self.data.getId(): self.data}
         self._simWorkbench.plotExpData(dataDict)
 
     @Slot()

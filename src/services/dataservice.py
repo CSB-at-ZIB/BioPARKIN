@@ -1,9 +1,3 @@
-'''
-Created on Mar 11, 2010
-
-@author: bzfwadem
-'''
-
 #import backend_fortran.datahandling
 from collections import OrderedDict
 import csv
@@ -12,6 +6,7 @@ import math
 import logging
 from datamanagement.dataset import DataSet
 import datamanagement.dataset
+from PySide.QtCore import QObject, Signal
 
 
 TIME, VALUE = range(2)
@@ -21,31 +16,32 @@ SENSITIVITY_DETAILS = "sensitivity_details"
 SENSITIVITY_OVERVIEW = "sensitivity_overview"
 ESTIMATED_PARAMS = "estimated_params"
 
-class DataService(object):
-    '''
+class DataService(QObject):
+    """
     A data manager for accessing experimental data
     and simulation data results. The service can read data files
     and provide the data in a convenient data structure.
-    
+
     The __new__ method is overridden to make this class a singleton.
     Every time it is instantiated somewhere in code, the same instance will be
     returned. In this way, it can serve like a static class.
-    
+
     The data will have format:
     {DataID: [[time points/or other identifier],[value at time point/identifier]]}
-    
+
     The DataID is given in the input files.
-    
+
     This class can read the very special file formats used by PARKIN.
-    
+
     @since: 2010-03-11
-    '''
+    """
 
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
 
     _instance = None
+    newData = Signal(DataSet)
 
     def __new__(cls, *args, **kwargs): # making this a Singleton, always returns the same instance
         if not cls._instance:
@@ -54,6 +50,7 @@ class DataService(object):
 
     def __init__(self):
         if not hasattr(self, "data"):   # only create on first init
+            super(DataService, self).__init__()
             self.data = None
             self.dataDict = None
             self.Dirty = True
@@ -322,6 +319,7 @@ class DataService(object):
 
         self.data.append(data)
         self.dataDict[data.getId()] = data
+        self.newData.emit(data)
 
     def remove_data(self, dataSet):
         if not dataSet:

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\databrowser.ui'
 #
-# Created: Mon Sep 26 11:00:13 2011
+# Created: Tue Sep 27 13:13:28 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -202,7 +202,7 @@ class Ui_DataBrowser(object):
         self.actionPlot.setObjectName("actionPlot")
 
         self.retranslateUi(DataBrowser)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QObject.connect(self.buttonPlot, QtCore.SIGNAL("clicked()"), self.actionPlot.trigger)
         QtCore.QMetaObject.connectSlotsByName(DataBrowser)
 

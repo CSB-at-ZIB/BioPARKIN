@@ -4,7 +4,9 @@ from PySide.QtCore import QSize, Slot, Qt
 from PySide.QtGui import QSortFilterProxyModel, QTabBar, QCheckBox, QMessageBox, QWidget, QTableWidgetItem, QWidget, QFileDialog
 #from PySide.Qt import Qt, QTableWidgetItem, QWidget, QFileDialog
 from backend_parkincpp.parkincppbackend import ParkinCppBackend
+from datamanagement import dataset, entitydata
 from parkincpp import parkin
+from services import dataservice
 import services.dataservice
 import datamanagement.dataset
 import backend
@@ -684,6 +686,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         # connect tab close signal
         self.dataBrowserTabWidget.tabCloseRequested.connect(self.on_dataBrowserTabCloseRequested)
 
+        self.dataService.newData.connect(self.on_newData)
+
 
     def computeDetailedSensitivities(self, timepoints):
         try:
@@ -1066,10 +1070,13 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             dataBrowser.setSimulationWorkbench(self)
             self.dataBrowserWidgets[filepath] = dataBrowser
 
-            filename = filepath.rsplit("/", 1)[1]
+            if "/" in filepath:
+                tabID = filepath.rsplit("/", 1)[1]
+            else:
+                tabID = filepath
             numTabs = self.dataBrowserTabWidget.count()
             self.dataBrowserTabWidget.insertTab(numTabs - 1, dataBrowser,
-                filename) # returns index of new tab; not needed here
+                tabID) # returns index of new tab; not needed here
             self.dataBrowserTabWidget.setCurrentIndex(numTabs - 1)
 
             tabBar = self.dataBrowserTabWidget.tabBar()
@@ -1110,3 +1117,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     @Slot("")
     def on_buttonInitializeThresholdsParameters_clicked(self):
         self.initializeThresholdsParameters()
+
+    def on_newData(self, dataSet):
+        if dataSet.type == dataservice.EXPERIMENTAL: # display exp. data in data browser
+            self.updateDataBrowser({dataSet.getId(): dataSet})

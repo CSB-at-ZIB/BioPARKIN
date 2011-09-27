@@ -347,9 +347,9 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         expDataSet.setId("Pseudo-Experimental Data")
         expDataSet.setType(services.dataservice.EXPERIMENTAL)
         expDataSet.setSelected(True)
+        first = True
         for key, list in self.data.items():
             for oldItem in list:
-                #item = copy.copy(oldItem)
                 item = oldItem.copy()
 
                 if type(item.getId()) != str:
@@ -359,6 +359,10 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                 item.setType(datamanagement.entitydata.TYPE_EXPERIMENTAL)
                 item.setAssociatedDataSet(expDataSet)
                 expDataSet.data[key] = item # TODO: Handle mutliple EntityData objects correctly
+                if first:
+                    expDataSet.dataDescriptors = item.dataDescriptors[:]
+                    expDataSet.dataDescriptorUnit = item.dataDescriptorUnit
+                    first = False
         dataService.add_data(expDataSet)
-        self.host.updateExpData()
+#        self.host.updateExpData()
 

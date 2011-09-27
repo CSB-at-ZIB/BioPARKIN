@@ -23,7 +23,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tabWidgetPage1" native="true">
+      <widget class="QWidget" name="tabWidgetPage1">
        <attribute name="title">
         <string>Data Sources</string>
        </attribute>
@@ -75,7 +75,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage2" native="true">
+      <widget class="QWidget" name="tabWidgetPage2">
        <attribute name="title">
         <string>Settings &amp;&amp; Actions</string>
        </attribute>
@@ -124,7 +124,7 @@
         <item>
          <widget class="QPushButton" name="buttonSetExperimentalData">
           <property name="text">
-           <string>Add Data to 'Experimental Data'</string>
+           <string>Add Data to Data Browser</string>
           </property>
           <property name="flat">
            <bool>false</bool>
@@ -187,5 +187,22 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonSetExperimentalData</sender>
+   <signal>clicked()</signal>
+   <receiver>actionAddToExperimentalData</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

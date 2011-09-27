@@ -180,26 +180,31 @@ class EntityData(QObject):
         # TODO Update this method to reflect all the structural changes of the class!
 
         clone = EntityData()
-        clone.type = self.type
-        clone.dataDescriptors = self.dataDescriptors
-        clone.datapoints = self.datapoints
+        clone.type = self.type  # real copy, as it's only an int
+        clone.dataDescriptors = self.dataDescriptors[:] # use slice to make clone
+        clone.datapoints = self.datapoints[:]   # use slice to make clone
 
-        clone.weights = self.weights
+        if self._weightData:    # copy associated EntityData object with weights, if there is one
+            clone._weightData = self._weightData.copy()
 
-        clone.dataDescriptorUnit = self.dataDescriptorUnit
-        clone.datapointUnit = self.datapointUnit
+        if self.dataDescriptorUnit:
+            clone.dataDescriptorUnit = str(self.dataDescriptorUnit)[:] # clone string
+        if self.datapointUnit:
+            clone.datapointUnit = str(self.datapointUnit)[:] # clone string
 
-        clone.sbmlEntity = self.sbmlEntity
+        clone.sbmlEntity = self.sbmlEntity # retain identical reference
 
-        clone.id = self.id
+        if self.id:
+            clone.id = str(self.id)[:] # clone string
 
-        clone.originalColumn = self.originalColumn
-        clone.originalFilename = self.originalFilename
-        clone.originalId = self.originalId
+        clone.originalColumn = self.originalColumn # int: copy
+        if self.originalFilename:
+            clone.originalFilename = str(self.originalFilename)[:] # str: slice
+        if self.originalId:
+            clone.originalId = str(self.originalId)[:]  # str: slice
 
-        # set new dataset from the outside
-        #clone.associatedDataSet = self.associatedDataSet
-#        clone.setAssociatedDataSet(self.associatedDataSet)
+        # Note: Don't clone dataSet!
+        # Set new dataset from the outside!
 
         return clone
 

@@ -150,7 +150,10 @@ class DataSourcesTableModel(QAbstractTableModel):
             return None
         if orientation == Qt.Horizontal:
 #            return self.headers[section].split(os.path.sep)[-1]
-            return self.headers[section].split("/")[-1] # for now, use "/" because that's used throughout BioPARKIN
+            if "/" in self.headers[section]:
+                return self.headers[section].split("/")[-1] # for now, use "/" because that's used throughout BioPARKIN
+            else:
+                return self.headers[section]
         return None
     
     def rowCount(self, index = QModelIndex()):
