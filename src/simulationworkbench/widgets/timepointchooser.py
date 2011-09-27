@@ -24,8 +24,8 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
         self.timepoints = []
 
         self.optionStartTime = 0
-        self.optionEndTime = 100
-        self.optionNumIntervals = 10
+        self.optionEndTime = 120
+        self.optionNumIntervals = 3
         self.optionIntervalSize = None
 
         self.lineEdit_StartTime.setText(str(self.optionStartTime))
