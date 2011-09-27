@@ -34,7 +34,8 @@ BioPARKIN uses the following open-source libraries:
 * [libSBML](http://sbml.org/Software/libSBML) with Python bindings >= 4.02
 * [matplotlib](http://matplotlib.sourceforge.net/) >= 1.1.0 
   * (currently only available as [source via their github repo](https://github.com/matplotlib/matplotlib))
+* [Python Image Library](http://www.pythonware.com/products/pil/) >= 1.1.7
 * [NetworkX](http://networkx.lanl.gov/) >= 1.3 
   * (this is currently not used in the code, but might soon be, once we re-enable graphical model network views)
-* [StableDict](http://pypi.python.org/pypi/StableDict/0.2) >= 0.2 
-  * (this is a leftover from Python 2.6, we will switch to Python 2.7 OrderedDicts soon)
+
+How to obtain those libraries depends on your operating system.
