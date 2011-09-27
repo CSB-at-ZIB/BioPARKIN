@@ -21,7 +21,7 @@ We decided to split the projects in two because the PARKINcpp library might be u
 
 ## Prerequisites
 
-BioPARKIN is written in Python 2.7 and Qt. It uses PySide (>1.0.6) to interface with Qt. The Python libraries listed in the next section also need to be installed.
+BioPARKIN is written in Python 2.7 and Qt. It uses PySide to interface with Qt. The Python libraries listed in the next section also need to be installed.
 
 BioPARKIN comes with a pre-compiled version of PARKINcpp for Windows 32bit and for Linux (Ubuntu 11.04, 32bit). These binaries are provided so that a freshly cloned repository "just works" on most (some?) machines. However, in order to have the most up-to-date PARKINcpp as well as to be able to develop within the BioPARKIN/PARKINcpp framework, you need to clone both repositories.
 
@@ -33,7 +33,7 @@ BioPARKIN uses the following open-source libraries:
 * [PySide](http://www.pyside.org/) >= 1.0.6
 * [libSBML](http://sbml.org/Software/libSBML) with Python bindings >= 4.02
 * [matplotlib](http://matplotlib.sourceforge.net/) >= 1.1.0 
-  * (currently only available as [source via their github repo](https://github.com/matplotlib/matplotlib))
+  * (up-to-date version currently only available as [source via their github repo](https://github.com/matplotlib/matplotlib))
 * [Python Image Library](http://www.pythonware.com/products/pil/) >= 1.1.7
 * [NetworkX](http://networkx.lanl.gov/) >= 1.3 
   * (this is currently not used in the code, but might soon be, once we re-enable graphical model network views)
