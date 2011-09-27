@@ -23,7 +23,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tabWidgetPage1" native="true">
+      <widget class="QWidget" name="tabWidgetPage1">
        <attribute name="title">
         <string>Data Sources</string>
        </attribute>
@@ -75,7 +75,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage2" native="true">
+      <widget class="QWidget" name="tabWidgetPage2">
        <attribute name="title">
         <string>Settings &amp;&amp; Actions</string>
        </attribute>
@@ -160,5 +160,70 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonSavePlot</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSave</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>334</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonSelectAll</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSelectAll</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonDeselectAll</sender>
+   <signal>clicked()</signal>
+   <receiver>actionDeselectAll</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonInvertSelection</sender>
+   <signal>clicked()</signal>
+   <receiver>actionInvertSelection</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

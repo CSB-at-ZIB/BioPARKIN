@@ -9,6 +9,7 @@ from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout, QTableW
 from PySide.QtCore import Qt, SIGNAL, Slot
 from datamanagement.dataset import DataSet
 from services.dataservice import DataService
+from services.statusbarservice import StatusBarService
 from simulationworkbench.widgets.sortedtablewidgetitem import SortedTableWidgetItem
 from simulationworkbench.widgets.ui_tablewidget_v1 import Ui_TableWidget
 from simulationworkbench.widgets.abstractviewcontroller import AbstractViewController
@@ -300,8 +301,6 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                                                    file_choices)[0])
         if path:
             self.saveDataAsCsv(path)
-            if self.host:
-                self.host.statusBar().showMessage('Saved to %s' % path, 2000)
             logging.info("Saved data to %s" % path)
 
 

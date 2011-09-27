@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\tablewidget_v1.ui'
 #
-# Created: Tue Sep 27 13:13:29 2011
+# Created: Tue Sep 27 13:50:40 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,10 @@ class Ui_TableWidget(object):
         self.retranslateUi(TableWidget)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.buttonSetExperimentalData, QtCore.SIGNAL("clicked()"), self.actionAddToExperimentalData.trigger)
+        QtCore.QObject.connect(self.buttonSelectAll, QtCore.SIGNAL("clicked()"), self.actionSelectAll.trigger)
+        QtCore.QObject.connect(self.buttonDeselectAll, QtCore.SIGNAL("clicked()"), self.actionDeselectAll.trigger)
+        QtCore.QObject.connect(self.buttonInvertSelection, QtCore.SIGNAL("clicked()"), self.actionInvertSelection.trigger)
+        QtCore.QObject.connect(self.buttonSaveTable, QtCore.SIGNAL("clicked()"), self.actionSave.trigger)
         QtCore.QMetaObject.connectSlotsByName(TableWidget)
 
     def retranslateUi(self, TableWidget):

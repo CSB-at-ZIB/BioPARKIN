@@ -329,13 +329,12 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
     ############### SLOTS ################
 
     @Slot("")
-    #def on_actionSave_triggered(self):
-    def on_buttonSavePlot_clicked(self):
-        '''
+    def on_actionSave_triggered(self):
+        """
         Show a dialog to save the currently shown plot to a png file.
 
         Overrides an "abstract" method in AbstractViewController.
-        '''
+        """
 
         # get the supported formats
         formats = self.canvas.filetypes.keys()
