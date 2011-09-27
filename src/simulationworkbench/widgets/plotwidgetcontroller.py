@@ -385,18 +385,17 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
         self._invertSourceSelection()
 
     @Slot("bool")
-    def on_checkBoxShowLegend_toggled(self):
+    def on_checkBoxShowLegend_toggled(self, isChecked):
         logging.info("Switching 'Show Legend' to %s" % self.checkBoxShowLegend.isChecked())
-        self.options[OPTION_SHOW_LEGEND] = self.checkBoxShowLegend.isChecked()
+        self.options[OPTION_SHOW_LEGEND] = isChecked
         self._updateView()
 
 
     @Slot("bool")
-    def on_checkBoxLogYAxis_toggled(self):
+    def on_checkBoxLogYAxis_toggled(self, isChecked):
         logging.info("Switching 'Logarithmic Y Axis' to %s" % self.checkBoxLogYAxis.isChecked())
         self.options[OPTION_LOG_Y_AXIS] = self.checkBoxLogYAxis.isChecked()
-        #self._updateView()
-        if self.checkBoxLogYAxis.isChecked():   # not really faster this way
+        if isChecked:
             self.axes.set_yscale('log')
             self.canvas.draw()
         else:

@@ -320,8 +320,6 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
     @Slot("bool")
     def on_checkBoxOrientation_toggled(self, isChecked):
         logging.info("Switching 'Switch rows vs. columns' to %s" % self.checkBoxOrientation.isChecked())
-        #self.options[OPTION_SHOW_LEGEND] = self.checkBoxShowLegend.isChecked()
-        #if self.checkBoxOrientation.isChecked():
         if isChecked:
             self.orientation = ORIENTATION_VERTICAL
         else:
@@ -331,7 +329,6 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
     @Slot("bool")
     def on_checkBoxShowUnits_toggled(self, isChecked):
         logging.info("Switching 'Show Table Header Units' to %s" % self.checkBoxShowUnits.isChecked())
-        #self.showUnits = self.checkBoxShowUnits.isChecked()
         self.showUnits = isChecked
         self._updateView()
 
