@@ -183,8 +183,8 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         try:
 #            settings.sync()    # doesn't help
             self.recentFiles = settings.value("RecentFiles", [])
-            if type(self.recentFiles) is not list:  # might help with broken QSettings 
-                self.recentFiles = []
+            if type(self.recentFiles) is str:  # might help on Linux
+                self.recentFiles = [self.recentFiles]
             logging.info("Recently opened files: %s" % self.recentFiles)
         except:
             logging.warning("Can't access list of recently opened files. Resetting the list.")
