@@ -12,7 +12,7 @@ from PySide.QtCore import QObject, Signal
 TIME, VALUE = range(2)
 SIMULATION = "simulation"
 EXPERIMENTAL = "experimental"
-SENSITIVITY_DETAILS = "sensitivity_details"
+SENSITIVITY_DETAILS_SUBCONDITION = "sensitivity_details_subcondition"
 SENSITIVITY_OVERVIEW = "sensitivity_overview"
 ESTIMATED_PARAMS = "estimated_params"
 
@@ -174,7 +174,7 @@ class DataService(QObject):
 
 
     def get_sensitivity_details_data(self):
-        return self.get_data(type=SENSITIVITY_DETAILS)
+        return self.get_data(type=SENSITIVITY_DETAILS_SUBCONDITION)
 
     def get_sensitivity_trajectory_data(self):
         return self.get_data(type=SENSITIVITY_OVERVIEW)

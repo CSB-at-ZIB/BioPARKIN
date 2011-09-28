@@ -35,6 +35,8 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
 
         self.labelTimepointsInvalid.setHidden(True)
 
+        self.buttonBox.clicked.connect(self.on_accept)
+
 
     def getTimepoints(self):
         return self.timepoints
@@ -51,6 +53,21 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
             0.5 + (self.optionEndTime - self.optionStartTime) / float(self.optionIntervalSize))
         self.lineEdit_NumIntervals.setText(str(self.optionNumIntervals))
 
+
+    def _updateTimepointsFromTextEdit(self):
+        try:
+            timepointsStr = self.plainTextEdit_Timepoints.toPlainText()
+            self.timepoints = []
+            for timepointStr in  timepointsStr.split(" "):
+                if timepointStr:
+                    self.timepoints.append(float(timepointStr))
+
+            self.labelTimepointsInvalid.setHidden(True)
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
+
+        except:
+            self.labelTimepointsInvalid.setHidden(False)
+            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
     #### SLOTs ####
 
@@ -153,17 +170,10 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
             logging.error("Could not get timepoints from data. Error: %s" % e)
 
 
+
     def on_plainTextEdit_Timepoints_textChanged(self):
-        try:
-            timepointsStr = self.plainTextEdit_Timepoints.toPlainText()
-            self.timepoints = []
-            for timepointStr in  timepointsStr.split(" "):
-                if timepointStr:
-                    self.timepoints.append(float(timepointStr))
+        self._updateTimepointsFromTextEdit()
 
-            self.labelTimepointsInvalid.setHidden(True)
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
-
-        except:
-            self.labelTimepointsInvalid.setHidden(False)
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+    def on_accept(self, button):
+        if button == self.buttonBox.button(QDialogButtonBox.Ok):
+            self._updateTimepointsFromTextEdit()

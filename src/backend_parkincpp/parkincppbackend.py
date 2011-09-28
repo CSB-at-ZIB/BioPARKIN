@@ -155,7 +155,18 @@ class ParkinCppBackend(BaseBackend):
 
         Has to be called before computing the detailed sensitivities.
         """
-        self.sensitivityTimepoints = timepoints
+        if not timepoints:
+            self.timepoints = None
+            return
+
+        startTime = self.settings[settingsandvalues.SETTING_STARTTIME]
+        endTime = self.settings[settingsandvalues.SETTING_ENDTIME]
+        self.sensitivityTimepoints = []
+        for timepoint in timepoints:
+            if  startTime < timepoint and timepoint <= endTime:
+                self.sensitivityTimepoints.append(timepoint)
+
+#        self.sensitivityTimepoints = timepoints
 
 
     def initialize(self, mainModel, settings):
@@ -575,7 +586,7 @@ class ParkinCppBackend(BaseBackend):
         """
         logging.info("Handling sensitivity results...")
         dataSet = DataSet(None) # no filename given
-        dataSet.setType(services.dataservice.SENSITIVITY_DETAILS)
+        dataSet.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
         dataSet.setId(settingsandvalues.SENSITIVITY_RAW_JACOBIAN)
         for (speciesEntity, paramID), data in sensResults.items():
             entityData = EntityData()
@@ -711,15 +722,15 @@ class ParkinCppBackend(BaseBackend):
                 logging.debug("Rank: %s" % rank)
                 self.dataService.add_data(subconditionDataSet)
 
-        for rawJacobianMatrix in rawJacobianMatrixVector:
-            # sensData = self._extractTimecources(rawJacobianMatrix)
-            # sensDataSet = self._handleSensitivityResults(sensData)
-            speciesParameterSensitivity = self._computeSpeciesParameterSens(rawJacobianMatrix)
-    #        self.parameterSensitivity = self._computeParameterSens()
-
-            # self.dataService.add_data(sensDataSet)
-    #        self.dataService.add_data(self.parameterSensitivity)
-            self.dataService.add_data(speciesParameterSensitivity)
+#        for rawJacobianMatrix in rawJacobianMatrixVector:
+#            # sensData = self._extractTimecources(rawJacobianMatrix)
+#            # sensDataSet = self._handleSensitivityResults(sensData)
+#            speciesParameterSensitivity = self._computeSpeciesParameterSens(rawJacobianMatrix)
+#    #        self.parameterSensitivity = self._computeParameterSens()
+#
+#            # self.dataService.add_data(sensDataSet)
+#    #        self.dataService.add_data(self.parameterSensitivity)
+#            self.dataService.add_data(speciesParameterSensitivity)
 
         return True
 
@@ -815,7 +826,7 @@ class ParkinCppBackend(BaseBackend):
         
         speciesParameterSensitivity = DataSet(None)
         speciesParameterSensitivity.setId(settingsandvalues.SENSITIVITY_PER_PARAM_AND_SPECIES)
-        speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS)
+        speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
 
         # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
         # print rawJacobian
@@ -895,7 +906,7 @@ class ParkinCppBackend(BaseBackend):
         # 4th: put into DataSet
         subconditionsDataSet = DataSet(None)
         subconditionsDataSet.setId(settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM)
-        subconditionsDataSet.setType(services.dataservice.SENSITIVITY_DETAILS)
+        subconditionsDataSet.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
 
         for i in xrange(len(colSubconditionsScaled)):
             paramIndex = int(pivotIndices[i] - 1)    # pivot elements are counted 1-based
@@ -907,7 +918,7 @@ class ParkinCppBackend(BaseBackend):
             paramData.setAssociatedDataSet(subconditionsDataSet)
             #paramData.setId("Sensitivity Subcondition of Parameter %s" % param.getId())
             paramData.setId("Sensitivity Subcondition of Parameter %s" % param.getCombinedId())
-            paramData.setType(datamanagement.entitydata.TYPE_SIMULATED)
+            paramData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_SUBCONDITION)
             paramData.dataDescriptors = ["Subcondition (as %% of %g)" % maxValue, "Subcondition (abs.)"]
             paramData.datapoints = [subconditionScaled, subconditionAbs]
             subconditionsDataSet.setData(paramData, keyEntity=param)
