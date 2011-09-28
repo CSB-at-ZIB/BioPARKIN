@@ -1,6 +1,6 @@
 # -*- mode: python -*-
-a = Analysis([os.path.join(HOMEPATH,'support\\_mountzlib.py'), os.path.join(HOMEPATH,'support\\useUnicode.py'), 'D:\\workspace\\BioPARKIN\\src\\BioPARKIN.py'],
-             pathex=['D:\\programme\\pyinstaller-1.5.1'])
+a = Analysis([os.path.join(HOMEPATH,'support\\_mountzlib.py'), os.path.join(HOMEPATH,'support\\useUnicode.py'), 'd:\\workspace\\BioPARKIN\\src\\BioPARKIN.py'],
+             pathex=['D:\\workspace\\BioPARKIN\\pyinstaller'])
 pyz = PYZ(a.pure)
 exe = EXE( pyz,
           a.scripts,
