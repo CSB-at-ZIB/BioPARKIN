@@ -719,11 +719,12 @@ class ParkinCppBackend(BaseBackend):
                                                             #              with MeasurementList / odeManager.odeList 
                                                             # *VERY UGLY*
 
-        for qrConDecomp in qrConDecompVector:
-                subconditionDataSet = self._computeSensSubconditions(qrConDecomp)
-                rank = qrConDecomp.getRank()
-                logging.debug("Rank: %s" % rank)
-                self.dataService.add_data(subconditionDataSet)
+        for i, qrConDecomp in enumerate(qrConDecompVector):
+            timepoint = self.sensitivityTimepoints[i]
+            subconditionDataSet = self._computeSensSubconditions(qrConDecomp, timepoint)
+            rank = qrConDecomp.getRank()
+            logging.debug("Rank: %s" % rank)
+            self.dataService.add_data(subconditionDataSet)
 
 #        for rawJacobianMatrix in rawJacobianMatrixVector:
 #            # sensData = self._extractTimecources(rawJacobianMatrix)
@@ -863,7 +864,7 @@ class ParkinCppBackend(BaseBackend):
         return speciesParameterSensitivity
 
 
-    def _computeSensSubconditions(self, qr):
+    def _computeSensSubconditions(self, qr, timepoint):
         """
         Takes the qr-decomposed matrix and computes subconditions. This method
         then puts the resulting data into a DataSet.
@@ -910,7 +911,7 @@ class ParkinCppBackend(BaseBackend):
 
         # 4th: put into DataSet
         subconditionsDataSet = DataSet(None)
-        subconditionsDataSet.setId(settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM)
+        subconditionsDataSet.setId("%s | Timepoint %s" % (settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM, timepoint))
         subconditionsDataSet.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
 
         for i in xrange(len(colSubconditionsScaled)):
@@ -921,8 +922,7 @@ class ParkinCppBackend(BaseBackend):
             subconditionAbs = colSubconditions[i]
             paramData = EntityData()
             paramData.setAssociatedDataSet(subconditionsDataSet)
-            #paramData.setId("Sensitivity Subcondition of Parameter %s" % param.getId())
-            paramData.setId("Sensitivity Subcondition of Parameter %s" % param.getCombinedId())
+            paramData.setId("Sensitivity Subcondition of Parameter %s at timepoint %s" % (param.getCombinedId(), timepoint))
             paramData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_SUBCONDITION)
             paramData.dataDescriptors = ["Subcondition (as %% of %g)" % maxValue, "Subcondition (abs.)"]
             paramData.datapoints = [subconditionScaled, subconditionAbs]
