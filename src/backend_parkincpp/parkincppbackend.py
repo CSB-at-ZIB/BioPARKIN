@@ -694,6 +694,7 @@ class ParkinCppBackend(BaseBackend):
         return True
 
     def _computeSensitivityDetails(self):
+        logging.info("Computing Detailed Sensitivities...")
 
         self._setUpBioProcessor(mode = TASK_SENSITIVITIES_DETAILS)
 
@@ -704,11 +705,13 @@ class ParkinCppBackend(BaseBackend):
             return False
 
         # necessary to have scales...
-        self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
+        test = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
+        logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
         timepointsVector = Vector(len(self.sensitivityTimepoints))
         for i, timepoint in enumerate(self.sensitivityTimepoints):
             timepointsVector[i] = timepoint
+        logging.debug("ParkinCppBackend._computeSensitivityDetails(): About to prepare detailed sensitivities...")
         self.bioProcessor.prepareDetailedSensitivities(timepointsVector)
         qrConDecompVector = self.bioProcessor.getSensitivityDecomps()
         rawJacobianMatrixVector = self.bioProcessor.getSensitivityMatrices()  # gets raw Jacobian matrix
@@ -731,6 +734,8 @@ class ParkinCppBackend(BaseBackend):
 #            # self.dataService.add_data(sensDataSet)
 #    #        self.dataService.add_data(self.parameterSensitivity)
 #            self.dataService.add_data(speciesParameterSensitivity)
+
+        logging.info("Finished computing Detailed Sensitivities...")
 
         return True
 
