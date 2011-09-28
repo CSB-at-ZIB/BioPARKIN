@@ -359,22 +359,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.resultsWindow.activateWindow()
 
 
-    def _createSensitivityDetailsTable(self):
-        if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS:
-            return
-
-        if not self.resultsWindow:
-            self.resultsWindow = ResultsWindowController(None)
-
-        sensData = self.dataService.get_sensitivity_details_data()
-
-        if sensData:
-            self.computeDetailedSensitivitiesButton.setEnabled(True)
-        else:
-            self.computeDetailedSensitivitiesButton.setEnabled(False)
+    def _createSensitivityDetailsSubconditionsTables(self):
+        sensData = self.dataService.get_sensitivity_details_subcondition_data()
 
         for key in sensData.keys():
-            logging.debug("Creating data table (sensitivity data)...")
+            logging.debug("Creating data table (sensitivity subconditions data)...")
             # TODO: Either remove the old table widget or store all table widgets in a []/{}
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
                 title="%s - %s" % (
@@ -391,6 +380,40 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.resultsWindow.addResultSubWindow(dataTableWidget)
 
             #        self.resultsWindow.getMdiArea().setCurrentIndex(self.resultsWindow.getMdiArea().count() - 1)
+            #
+
+
+    def _createSensitivityDetailsJacobianTables(self):
+        sensData = self.dataService.get_sensitivity_details_jacobian_data()
+
+        for key in sensData.keys():
+            logging.debug("Creating data table (sensitivity jacobian data)...")
+            # TODO: Either remove the old table widget or store all table widgets in a []/{}
+            dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
+                title="%s - %s" % (
+                    key, time.strftime("%H:%M:%S", time.localtime())))
+            dataTableWidget.sortColumn = -1
+            dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
+#            if backend.settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM in key:
+#                #dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
+#                dataTableWidget.sortColumn = 2 # automatically sort those tables by sensitivity
+#                #self.dataTableWidget.updateDataSources(self.dataService.get_sensitivity_data_with_dataIDs())
+            dataTableWidget.updateDataSources(sensData, dataID=key)
+            #            sbuWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, key)
+
+            self.resultsWindow.addResultSubWindow(dataTableWidget)
+
+            #        self.resultsWindow.getMdiArea().setCurrentIndex(self.resultsWindow.getMdiArea().count() - 1)
+
+    def _createSensitivityDetailsTable(self):
+        if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS:
+            return
+
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
+        self._createSensitivityDetailsSubconditionsTables()
+        self._createSensitivityDetailsJacobianTables()
 
 
     def _createEstimatedParametersTable(self):

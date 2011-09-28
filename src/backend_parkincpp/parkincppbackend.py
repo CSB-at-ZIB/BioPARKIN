@@ -726,15 +726,16 @@ class ParkinCppBackend(BaseBackend):
             logging.debug("Rank: %s" % rank)
             self.dataService.add_data(subconditionDataSet)
 
-#        for rawJacobianMatrix in rawJacobianMatrixVector:
-#            # sensData = self._extractTimecources(rawJacobianMatrix)
-#            # sensDataSet = self._handleSensitivityResults(sensData)
-#            speciesParameterSensitivity = self._computeSpeciesParameterSens(rawJacobianMatrix)
-#    #        self.parameterSensitivity = self._computeParameterSens()
-#
-#            # self.dataService.add_data(sensDataSet)
-#    #        self.dataService.add_data(self.parameterSensitivity)
-#            self.dataService.add_data(speciesParameterSensitivity)
+        for i, rawJacobianMatrix in enumerate(rawJacobianMatrixVector):
+            timepoint = self.sensitivityTimepoints[i]
+            # sensData = self._extractTimecources(rawJacobianMatrix)
+            # sensDataSet = self._handleSensitivityResults(sensData)
+            speciesParameterSensitivity = self._computeSpeciesParameterSens(rawJacobianMatrix, timepoint)
+    #        self.parameterSensitivity = self._computeParameterSens()
+
+            # self.dataService.add_data(sensDataSet)
+    #        self.dataService.add_data(self.parameterSensitivity)
+            self.dataService.add_data(speciesParameterSensitivity)
 
         logging.info("Finished computing Detailed Sensitivities...")
 
@@ -805,7 +806,7 @@ class ParkinCppBackend(BaseBackend):
         return sensData
 
 
-    def _computeSpeciesParameterSens(self, rawJacobian):
+    def _computeSpeciesParameterSens(self, rawJacobian, timepoint):
         """
         The raw Jacobian list will be reduced to a sensitivity matrix
         where the temporal axis is integrated out.
@@ -831,8 +832,8 @@ class ParkinCppBackend(BaseBackend):
         # listOfParams = self.bioPar.getCurrentParameter()
         
         speciesParameterSensitivity = DataSet(None)
-        speciesParameterSensitivity.setId(settingsandvalues.SENSITIVITY_PER_PARAM_AND_SPECIES)
-        speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
+        speciesParameterSensitivity.setId("%s | Timepoint %s" % (settingsandvalues.SENSITIVITY_PER_PARAM_AND_SPECIES, timepoint))
+        speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_JACOBIAN)
 
         # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
         # print rawJacobian
@@ -855,8 +856,8 @@ class ParkinCppBackend(BaseBackend):
 
             paramSpeciesData = EntityData()
             paramSpeciesData.setAssociatedDataSet(speciesParameterSensitivity)
-            paramSpeciesData.setId("Sensitivity of Parameter %s" % paramID)
-            paramSpeciesData.setType(datamanagement.entitydata.TYPE_SIMULATED)
+            paramSpeciesData.setId("Sensitivity of Parameter %s for timepoint %s" % (paramID, timepoint))
+            paramSpeciesData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_JACOBIAN)
             paramSpeciesData.dataDescriptors = listOfSpecies
             paramSpeciesData.datapoints = sensData
             speciesParameterSensitivity.setData(paramSpeciesData, keyEntity=param)

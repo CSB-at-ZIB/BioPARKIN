@@ -13,6 +13,7 @@ TIME, VALUE = range(2)
 SIMULATION = "simulation"
 EXPERIMENTAL = "experimental"
 SENSITIVITY_DETAILS_SUBCONDITION = "sensitivity_details_subcondition"
+SENSITIVITY_DETAILS_JACOBIAN = "sensitivity_details_jacobian"
 SENSITIVITY_OVERVIEW = "sensitivity_overview"
 ESTIMATED_PARAMS = "estimated_params"
 
@@ -173,8 +174,11 @@ class DataService(QObject):
         return self.get_data(type=SIMULATION)
 
 
-    def get_sensitivity_details_data(self):
+    def get_sensitivity_details_subcondition_data(self):
         return self.get_data(type=SENSITIVITY_DETAILS_SUBCONDITION)
+
+    def get_sensitivity_details_jacobian_data(self):
+        return self.get_data(type=SENSITIVITY_DETAILS_JACOBIAN)
 
     def get_sensitivity_trajectory_data(self):
         return self.get_data(type=SENSITIVITY_OVERVIEW)

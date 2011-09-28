@@ -70,7 +70,7 @@ SIMULATION_RESULTS = "Simulation Results"
 
 SENSITIVITY_TRAJECTORIES = "Sensitivity Overview"
 SENSITIVITY_RAW_JACOBIAN = "Sensitivities (Jacobian)"
-SENSITIVITY_PER_PARAM_AND_SPECIES = "Sensitivities (per Parameter/Species)"
+SENSITIVITY_PER_PARAM_AND_SPECIES = "Sensitivities"
 SENSITIVITY_PER_PARAM = "Sensitivities (per Parameter)"
 SENSITIVITY_SUBCONDITION_PER_PARAM = "Subconditions"
 
