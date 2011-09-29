@@ -1154,5 +1154,3 @@ class SBMLMainModel(QObject):
 
             modelParam = modelParams[combinedId]
             modelParam.setValue(activeValue)
-
-        

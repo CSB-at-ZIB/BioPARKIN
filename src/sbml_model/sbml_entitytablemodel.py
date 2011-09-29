@@ -324,7 +324,17 @@ class SBMLEntityTableModel(QAbstractTableModel):
                 elif row == PARAMETER_ROW.ID:
                     return parameter.getId()
                 elif row == PARAMETER_ROW.VALUE:
-                    return parameter.getValue()
+#                    return parameter.getValue()
+
+                    combinedId = self.entity.getCombinedId()
+                    #                if self.getActiveSet():
+                    #                    return self.getActiveSet()[combinedId].getValue()
+                    #                else:
+                    #                    return "N/A"
+                    try:
+                        return self.getActiveParamSet()[combinedId].getValue()
+                    except:
+                        return "N/A"
                 elif row == PARAMETER_ROW.UNITS:
                     return parameter.getUnits()
                 elif row == PARAMETER_ROW.CONSTANT:
@@ -989,3 +999,17 @@ class SBMLEntityTableModel(QAbstractTableModel):
             species.setInitialConcentration(float(quantity))
         elif species.isSetInitialAmount():
             species.setInitialAmount(float(quantity))
+
+
+    def getActiveParamSet(self):
+        if not self.mainModel:
+            logging.debug("ParameterTableModel.getActiveSet(): Reference to MainModel is missing. Aborting.")
+            return
+        if not self.mainModel.ListOfParameterSets:
+            logging.debug("ParameterTableModel.getActiveSet(): No list of Parameter Sets! Aborting.")
+            return
+        if not self.mainModel.ListOfParameterSets.activeSet:
+            logging.debug("ParameterTableModel.getActiveSet(): No active Parameter Set! Aborting.")
+            return
+
+        return self.mainModel.ListOfParameterSets.activeSet
