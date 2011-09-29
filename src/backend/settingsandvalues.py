@@ -74,3 +74,4 @@ SENSITIVITY_PER_PARAM_AND_SPECIES = "Sensitivities"
 SENSITIVITY_PER_PARAM = "Sensitivities (per Parameter)"
 SENSITIVITY_SUBCONDITION_PER_PARAM = "Subconditions"
 
+SUBCONDITION_HEADER_ABSOLUTE = "Subcondition (abs.)"

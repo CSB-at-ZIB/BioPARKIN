@@ -66,7 +66,7 @@ class ModelView(QWidget, Ui_ModelView):
             del item
             self._models.pop(filename)  # remove the model
             self._modelIndexes.pop(filename)
-            if len(self._modelListWidget) > 0:
+            if self._modelListWidget.count() > 0:
                 self._modelListWidget.item(0).setSelected(True)
 
     def on_currentItemChanged(self, newItem, previousItem):

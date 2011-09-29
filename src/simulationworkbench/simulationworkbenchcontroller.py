@@ -17,6 +17,7 @@ import simulationworkbench
 import logging
 from simulationworkbench.parametersetstablemodel import ParameterSetsTableModel
 from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
+from simulationworkbench.widgets import tablewidgetcontroller
 from simulationworkbench.widgets.databrowser import DataBrowser
 from simulationworkbench.widgets.dataimportwidget import DataImportWidget
 from simulationworkbench.widgets.resultswindowcontroller import ResultsWindowController
@@ -286,6 +287,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.sbmlModel = None
         self.currentBackend = None
 
+    def getRTol(self):
+        return float(self.optionRTOL)
 
     def _createSimulationPlot(self):
         """
@@ -365,9 +368,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         for key in sensData.keys():
             logging.debug("Creating data table (sensitivity subconditions data)...")
             # TODO: Either remove the old table widget or store all table widgets in a []/{}
-            dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
-                title="%s - %s" % (
-                    key, time.strftime("%H:%M:%S", time.localtime())))
+            titleWithTime = "%s - %s" % (                     key, time.strftime("%H:%M:%S", time.localtime()))
+            dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime)
+            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
             dataTableWidget.sortColumn = -1
             dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
             if backend.settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM in key:

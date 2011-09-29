@@ -118,6 +118,9 @@ class AbstractViewController(object):
 
 
     def _updateDataView(self):
+        if not self.dataSourceTableModel:
+            return
+        
         selectedData = self._getSelectedData()
         if not selectedData:
             logging.info("No data, nothing to be shown.")

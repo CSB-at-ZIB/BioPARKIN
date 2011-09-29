@@ -925,7 +925,7 @@ class ParkinCppBackend(BaseBackend):
             paramData.setAssociatedDataSet(subconditionsDataSet)
             paramData.setId("Sensitivity Subcondition of Parameter %s at timepoint %s" % (param.getCombinedId(), timepoint))
             paramData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_SUBCONDITION)
-            paramData.dataDescriptors = ["Subcondition (as %% of %g)" % maxValue, "Subcondition (abs.)"]
+            paramData.dataDescriptors = ["Subcondition (as %% of %g)" % maxValue, settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE]
             paramData.datapoints = [subconditionScaled, subconditionAbs]
             subconditionsDataSet.setData(paramData, keyEntity=param)
 

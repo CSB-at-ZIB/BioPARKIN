@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\tablewidget_v1.ui'
 #
-# Created: Thu Sep 29 09:46:35 2011
+# Created: Thu Sep 29 11:30:28 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -73,6 +73,7 @@ class Ui_TableWidget(object):
         self.label_Coloring_Threshold.setObjectName("label_Coloring_Threshold")
         self.gridLayout.addWidget(self.label_Coloring_Threshold, 0, 0, 1, 1)
         self.doubleSpinBox_Coloring_Threshold = QtGui.QDoubleSpinBox(self.groupBox_Coloring)
+        self.doubleSpinBox_Coloring_Threshold.setDecimals(16)
         self.doubleSpinBox_Coloring_Threshold.setMinimum(-999999999.0)
         self.doubleSpinBox_Coloring_Threshold.setMaximum(999999999.0)
         self.doubleSpinBox_Coloring_Threshold.setObjectName("doubleSpinBox_Coloring_Threshold")

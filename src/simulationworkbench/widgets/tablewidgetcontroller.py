@@ -3,6 +3,7 @@ from copy import copy
 import logging
 import csv
 import math
+from backend import settingsandvalues
 import services.dataservice
 import datamanagement.entitydata
 from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QFont, QBrush, QColor
@@ -26,6 +27,13 @@ ORIENTATION_VERTICAL = "orienation_vertical"
 
 DEFAULT_SHOW_UNITS = True
 
+MODE_DEFAULT = "mode_default"
+MODE_SUBCONDITIONS = "mode_subconditions"
+
+COLOR_HIGH = QColor(50,200,50, 200) # medium green
+COLOR_MEDIUM = QColor(50,200,50,50) # light green
+COLOR_LOW = QColor(200,50,50,100)   # light red
+
 class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
     '''
     The controller part for a data table widget. The UI part is declared
@@ -40,9 +48,6 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
-    COLOR_HIGH = QColor(50,200,50, 200) # medium green
-    COLOR_MEDIUM = QColor(50,200,50,50) # light green
-    COLOR_LOW = QColor(200,50,50,100)   # light red
 
     def __init__(self, parent=None, host=None, title="Table"):
         '''
@@ -57,6 +62,9 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         #        self.options = {
         #            OPTION_SORTABLE_COLUMNS: self.checkBoxSortableColumns.isChecked(),
         #        }
+
+        self._mode = MODE_DEFAULT
+        self.maxValue = -1
 
         self.host = host
         self.data = None
@@ -77,6 +85,13 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         self.sortColumn = -1    # default: do not sort at load
         self.colorThreshold = self.doubleSpinBox_Coloring_Threshold.value()
 
+    def setMode(self, mode):
+        self._mode = mode
+        if mode == MODE_SUBCONDITIONS:
+            self.doubleSpinBox_Coloring_Threshold.setMinimum(self.host.getRTol())
+            self.doubleSpinBox_Coloring_Threshold.setMaximum(1)
+            self.doubleSpinBox_Coloring_Threshold.setSingleStep(0.1)
+            self.label_Coloring_Threshold.setText("Anticipated Relative Measurement Error")
 
     def _updateView(self, data=None):
         '''
@@ -118,11 +133,36 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 
     def _computeColor(self, value):
         if type(value) == str:
+            if value == "N/A":
+                return COLOR_LOW
             value = float(value)
-        if value <= self.colorThreshold:
-            color = self.COLOR_LOW
+
+        if self._mode == MODE_DEFAULT:
+            if value <= self.colorThreshold:
+                color = COLOR_LOW
+            else:
+                color = COLOR_HIGH
+        elif self._mode == MODE_SUBCONDITIONS:
+            if value >= self.colorThreshold:
+                color = COLOR_LOW
+            else:
+                #percentage = value / float(self.maxValue)
+                percentage = (self.maxValue - value + 1) / float(self.maxValue) # +1 because it's the "lowest" subconditon, and represents 100%
+
+                highRed, highGreen, highBlue, highAlpha = COLOR_HIGH.red(), COLOR_HIGH.green(), COLOR_HIGH.blue(), COLOR_HIGH.alpha()
+                mediumRed, mediumGreen, mediumBlue, mediumAlpha = COLOR_MEDIUM.red(), COLOR_MEDIUM.green(), COLOR_MEDIUM.blue(), COLOR_MEDIUM.alpha()
+
+                diffRed, diffGreen, diffBlue, diffAlpha = highRed-mediumRed, highGreen-mediumGreen, highBlue-mediumBlue, highAlpha-mediumAlpha
+
+                valueRed = diffRed*percentage+mediumRed
+                valueGreen = diffGreen*percentage+mediumGreen
+                valueBlue = diffBlue*percentage+mediumBlue
+                valueAlpha = diffAlpha*percentage+mediumAlpha
+
+                color = QColor(valueRed,valueGreen,valueBlue,valueAlpha)
         else:
-            color = self.COLOR_HIGH
+            color = QColor(0,0,0,255)   #transparent
+
         return color
 
     def _updateDataTable(self, data):
@@ -135,6 +175,7 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         self.dataTableColumnData = []
         self.dataTableRowCount = -1
         self.dataTableRowHeaders = None
+        self.maxValue = -1
         for (entity, entityDataList) in data.items():
             for entityData in entityDataList:
                 dataDescriptors = entityData.dataDescriptors
@@ -169,13 +210,23 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                 datapoints = []
 
                 # shorten datapoints
-                for datapoint in entityData.datapoints:
+                for i, datapoint in enumerate(entityData.datapoints):
                     try:
                         #datapoints.append(round(float(datapoint), 4))
 #                        valueString = "%g" % (float(datapoint))
                         floatValue = float(datapoint)   # will jump to except if no float
                         valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
                         datapoints.append(valueString)
+
+                        # preparing color computation
+#                        logging.debug(entityData.dataDescriptorName)
+#                        logging.debug(entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE)
+                        if self._mode == MODE_SUBCONDITIONS \
+                            and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE \
+                            and floatValue > self.maxValue\
+                            and floatValue < self.colorThreshold:
+                            self.maxValue = floatValue
+
                     except:
 #                        datapoints.append(round(float("nan"), 4))
                         datapoints.append(str(datapoint))
@@ -236,8 +287,9 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                     newItem.setTextAlignment(Qt.AlignRight)
                     newItem.setFont(QFont("Fixed"))
                     if self.isColored:
-                        color = self._computeColor(value)
-                        newItem.setBackground(QBrush(color))
+                        if self._mode == MODE_DEFAULT or (self._mode == MODE_SUBCONDITIONS and row==2):
+                            color = self._computeColor(value)
+                            newItem.setBackground(QBrush(color))
                 except Exception, e:
                     logging.debug("TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (value,e))
 #                    newItem = SortedTableWidgetItem(str(self.dataTableColumnData[col][row]))
@@ -393,5 +445,14 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 
     @Slot("double")
     def on_doubleSpinBox_Coloring_Threshold_valueChanged(self, value):
-        self.colorThreshold = value
+        if self._mode == MODE_SUBCONDITIONS:
+            # value has to be between rtol and -1
+            if value > 1:
+                value = 1
+            elif value < self.host.getRTol():
+                value = self.host.getRTol()
+            self.colorThreshold = 1 / value
+        else:
+            self.colorThreshold = value
         self._updateDataView()
+
