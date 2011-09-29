@@ -364,3 +364,8 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         dataService.add_data(expDataSet)
 #        self.host.updateExpData()
 
+
+
+    #### COLORING-RELATED METHODS ####
+
+    # TODO!

@@ -705,7 +705,7 @@ class ParkinCppBackend(BaseBackend):
             return False
 
         # necessary to have scales...
-        test = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
+        self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
         timepointsVector = Vector(len(self.sensitivityTimepoints))
