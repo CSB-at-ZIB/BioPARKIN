@@ -80,7 +80,7 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.INITIALVALUE:
                 #return param.getValue()
                 if not param.getConstant():
-                    return "Dynamic"
+                    return "Assignment Rule"
                 
                 combinedId = sbmlEntity.getCombinedId()
                 #                if self.getActiveSet():

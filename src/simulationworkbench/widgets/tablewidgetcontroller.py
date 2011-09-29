@@ -83,7 +83,10 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         self.orientation = ORIENTATION_HORIZONTAL
 
         self.sortColumn = -1    # default: do not sort at load
-        self.colorThreshold = self.doubleSpinBox_Coloring_Threshold.value()
+        self.colorThreshold = None
+        self.colorThresholdBase = self.doubleSpinBox_Coloring_Threshold.value()
+        self.colorThresholdExponent = self.spinBox_Coloring_Exponent.value()
+        self._updateThreshold()
 
     def setMode(self, mode):
         self._mode = mode
@@ -352,6 +355,21 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
             logging.error("Error while trying to write CSV file: %s\nError: %s" % (path, e))
 
 
+    def _updateThreshold(self):
+        self.colorThreshold = self.colorThresholdBase * math.pow(10, self.colorThresholdExponent)
+        if self._mode == MODE_SUBCONDITIONS:
+        # value has to be between rtol and -1
+        #            if value > 1:
+        #                value = 1
+        #            elif value < self.host.getRTol():
+        #                value = self.host.getRTol()
+            if self.colorThreshold == 0.0:
+                self.colorThreshold = 0
+            else:
+                self.colorThreshold = 1 / self.colorThreshold
+        #        else:
+        #            self.colorThreshold = self.colorThreshold
+        self._updateDataView()
 
             ############### SLOTS ################
 
@@ -445,14 +463,13 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 
     @Slot("double")
     def on_doubleSpinBox_Coloring_Threshold_valueChanged(self, value):
-        if self._mode == MODE_SUBCONDITIONS:
-            # value has to be between rtol and -1
-            if value > 1:
-                value = 1
-            elif value < self.host.getRTol():
-                value = self.host.getRTol()
-            self.colorThreshold = 1 / value
-        else:
-            self.colorThreshold = value
-        self._updateDataView()
+        self.colorThresholdBase = value
+        self._updateThreshold()
+
+
+    @Slot("int")
+    def on_spinBox_Coloring_Exponent_valueChanged(self, value):
+        self.colorThresholdExponent = value
+        self._updateThreshold()
+
 

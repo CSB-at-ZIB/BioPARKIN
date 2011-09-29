@@ -83,6 +83,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.backendFortran = None
         self.currentBackend = None
 
+        self.on_comboBoxBackendSelect_currentIndexChanged(0) # for updating the GUI
+
         self.optionStartTime = backend.settingsandvalues.DEFAULT_STARTTIME
         self.optionEndTime = backend.settingsandvalues.DEFAULT_ENDTIME
         self.optionTimeUnit = DEFAULT_TIMEUNIT
@@ -364,6 +366,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     def _createSensitivityDetailsSubconditionsTables(self):
         sensData = self.dataService.get_sensitivity_details_subcondition_data()
+        if not sensData:
+            logging.debug("SimulationWorkbenchController._createSensitivityDetailsSubconditionsTables(): No sensitivity data.")
+            return
 
         for key in sensData.keys():
             logging.debug("Creating data table (sensitivity subconditions data)...")
@@ -471,7 +476,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             backend.settingsandvalues.SETTING_XTOL: self.optionXTOL,
             backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS: self.optionMaxNumNewtonSteps,
             backend.settingsandvalues.SETTING_SD_SPECIES: self.optionSDSpecies,
-            backend.settingsandvalues.SETTING_NO_AUTO_ROW_SCALING: self.checkBoxNoAutoRowScale.isChecked(),
+#            backend.settingsandvalues.SETTING_NO_AUTO_ROW_SCALING: self.checkBoxNoAutoRowScale.isChecked(),
             backend.settingsandvalues.SETTING_JACOBIAN: self.optionJACGEN,
             backend.settingsandvalues.SETTING_PROBLEM_TYPE: self.optionNONLIN,
             backend.settingsandvalues.SETTING_RESIDUAL_SCALING: self.optionRSCAL,
@@ -499,7 +504,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.lineEditXTOL.setText(str(self.optionXTOL))
         self.lineEditMaxNumNewtonSteps.setText(str(self.optionMaxNumNewtonSteps))
 
-        self.checkBoxNoAutoRowScale.setChecked(self.optionNOROWSCAL == True)
+#        self.checkBoxNoAutoRowScale.setChecked(self.optionNOROWSCAL == True)
         self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1)
         self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1)
         self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1)
@@ -861,6 +866,24 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             raise
 
 
+    @Slot(int)
+    def on_comboBoxBackendSelect_currentIndexChanged(self, index):
+        if index == 0: # parkin
+            self.labelJACGEN.setEnabled(False)
+            self.comboBoxJacobianSelect.setEnabled(False)
+            self.labelNONLIN.setEnabled(False)
+            self.comboBoxProblemTypeSelect.setEnabled(False)
+            self.labelRSCAL.setEnabled(False)
+            self.comboBoxResidualScalingSelect.setEnabled(False)
+        else:
+            self.labelJACGEN.setEnabled(True)
+            self.comboBoxJacobianSelect.setEnabled(True)
+            self.labelNONLIN.setEnabled(True)
+            self.comboBoxProblemTypeSelect.setEnabled(True)
+            self.labelRSCAL.setEnabled(True)
+            self.comboBoxResidualScalingSelect.setEnabled(True)
+            
+
     @Slot("")
     def on_lineEditStartTime_editingFinished(self):
         """
@@ -959,8 +982,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     def parameterChanged(self, upperLeftIndex, lowerRightIndex):
         return
 
-    def on_checkBoxNoAutoRowScale_toggled(self, isChecked):
-        self.optionNOROWSCAL = isChecked
+#    def on_checkBoxNoAutoRowScale_toggled(self, isChecked):
+#        self.optionNOROWSCAL = isChecked
 
     def on_comboBoxJacobianSelect_currentIndexChanged(self):
         self.optionJACGEN = self.comboBoxJacobianSelect.currentIndex() + 1

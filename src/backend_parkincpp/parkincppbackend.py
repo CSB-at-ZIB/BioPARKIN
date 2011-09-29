@@ -1009,11 +1009,12 @@ class ParkinCppBackend(BaseBackend):
         iOpt.jacgen = int(self.settings[settingsandvalues.SETTING_JACOBIAN])               # 1:user supplied Jacobian, 2:num.diff., 3:num.diff.(with feedback)
         iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
         iOpt.nonlin = int(self.settings[settingsandvalues.SETTING_PROBLEM_TYPE])           # 1:linear, 2:mildly nonlin., 3:highly nonlin., 4:extremely nonlin.
-        iOpt.norowscal = self.settings[settingsandvalues.SETTING_NO_AUTO_ROW_SCALING]      # allow for automatic row scaling of Jacobian if __false__
+#        iOpt.norowscal = self.settings[settingsandvalues.SETTING_NO_AUTO_ROW_SCALING]      # allow for automatic row scaling of Jacobian if __false__
         iOpt.rscal = int(self.settings[settingsandvalues.SETTING_RESIDUAL_SCALING])        # 1:use unchanged fscal, 2:recompute/modify fscal, 3:use automatic scaling only
         iOpt.lpos = (self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS] != 1)
         iOpt.mprmon = 2
         iOpt.mprerr = 1
+        iOpt.itmax = int(self.settings[backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS])
         self.bioProcessor.setIOpt(iOpt)
 
 

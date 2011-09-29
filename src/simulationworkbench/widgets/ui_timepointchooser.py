@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\timepointchooser.ui'
+# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\timepointchooser.ui'
 #
-# Created: Tue Sep 20 10:15:26 2011
+# Created: Thu Sep 29 13:30:31 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,12 +15,6 @@ class Ui_TimepointChooser(object):
         TimepointChooser.setWindowModality(QtCore.Qt.ApplicationModal)
         TimepointChooser.setEnabled(True)
         TimepointChooser.resize(849, 452)
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(8)
-        font.setWeight(50)
-        font.setBold(False)
-        TimepointChooser.setFont(font)
         TimepointChooser.setWhatsThis("")
         TimepointChooser.setSizeGripEnabled(True)
         self.horizontalLayout_6 = QtGui.QHBoxLayout(TimepointChooser)

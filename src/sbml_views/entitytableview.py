@@ -103,7 +103,7 @@ class EntityTableView(QWidget, Ui_EntityTableView):
 
         if self.entityModel:
             self.entityModel.dataChanged.disconnect(self.currentEntityModelChanged)
-            self.entityModel.on_structuralChange.disconnect(self.currentEntityModelChangedStructurally)
+            self.entityModel.structuralChange.disconnect(self.currentEntityModelChangedStructurally)
             self.entityModel = None
             
         self.tableView.setModel(None)
