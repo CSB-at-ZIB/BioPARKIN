@@ -5,7 +5,7 @@ import csv
 import math
 import services.dataservice
 import datamanagement.entitydata
-from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QFont
+from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QFont, QBrush, QColor
 from PySide.QtCore import Qt, SIGNAL, Slot
 from datamanagement.dataset import DataSet
 from services.dataservice import DataService
@@ -40,6 +40,10 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
+    COLOR_HIGH = QColor(50,200,50, 200) # medium green
+    COLOR_MEDIUM = QColor(50,200,50,50) # light green
+    COLOR_LOW = QColor(200,50,50,100)   # light red
+
     def __init__(self, parent=None, host=None, title="Table"):
         '''
         Constructor
@@ -63,6 +67,7 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         self.dataTableRowHeaders = None
 
         self.dataTableWidget = None
+        self.isColored = False
 
         self.checkBoxShowUnits.setChecked(DEFAULT_SHOW_UNITS)
         self.showUnits = DEFAULT_SHOW_UNITS
@@ -70,6 +75,7 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
         self.orientation = ORIENTATION_HORIZONTAL
 
         self.sortColumn = -1    # default: do not sort at load
+        self.colorThreshold = self.doubleSpinBox_Coloring_Threshold.value()
 
 
     def _updateView(self, data=None):
@@ -109,6 +115,15 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                 pass
             self.dataTableRowHeaders.append(str(descriptor)) # the QTableWidget needs a list of Strings
 
+
+    def _computeColor(self, value):
+        if type(value) == str:
+            value = float(value)
+        if value <= self.colorThreshold:
+            color = self.COLOR_LOW
+        else:
+            color = self.COLOR_HIGH
+        return color
 
     def _updateDataTable(self, data):
         '''
@@ -220,8 +235,11 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                     newItem.setData(Qt.DisplayRole, value)
                     newItem.setTextAlignment(Qt.AlignRight)
                     newItem.setFont(QFont("Fixed"))
-                except:
-                    logging.debug("TableWidgetController._updateDataTable(): Could not put value into widget item: %s" % value)
+                    if self.isColored:
+                        color = self._computeColor(value)
+                        newItem.setBackground(QBrush(color))
+                except Exception, e:
+                    logging.debug("TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (value,e))
 #                    newItem = SortedTableWidgetItem(str(self.dataTableColumnData[col][row]))
 #                    newItem.setTextAlignment(Qt.AlignRight)
 #                    newItem.setFont(QFont("Fixed"))
@@ -368,4 +386,12 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 
     #### COLORING-RELATED METHODS ####
 
-    # TODO!
+    @Slot("bool")
+    def on_groupBox_Coloring_clicked(self, isSelected):
+        self.isColored = isSelected
+        self._updateDataView()
+
+    @Slot("double")
+    def on_doubleSpinBox_Coloring_Threshold_valueChanged(self, value):
+        self.colorThreshold = value
+        self._updateDataView()

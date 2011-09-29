@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\tablewidget_v1.ui'
 #
-# Created: Wed Sep 28 12:17:36 2011
+# Created: Thu Sep 29 09:46:35 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -69,28 +69,14 @@ class Ui_TableWidget(object):
         self.groupBox_Coloring.setObjectName("groupBox_Coloring")
         self.gridLayout = QtGui.QGridLayout(self.groupBox_Coloring)
         self.gridLayout.setObjectName("gridLayout")
-        self.label_Coloring_AboveThreshold = QtGui.QLabel(self.groupBox_Coloring)
-        self.label_Coloring_AboveThreshold.setObjectName("label_Coloring_AboveThreshold")
-        self.gridLayout.addWidget(self.label_Coloring_AboveThreshold, 0, 0, 1, 1)
-        self.button_Coloring_AboveThreshold = QtGui.QPushButton(self.groupBox_Coloring)
-        self.button_Coloring_AboveThreshold.setText("")
-        self.button_Coloring_AboveThreshold.setObjectName("button_Coloring_AboveThreshold")
-        self.gridLayout.addWidget(self.button_Coloring_AboveThreshold, 0, 1, 1, 1)
         self.label_Coloring_Threshold = QtGui.QLabel(self.groupBox_Coloring)
         self.label_Coloring_Threshold.setObjectName("label_Coloring_Threshold")
-        self.gridLayout.addWidget(self.label_Coloring_Threshold, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_Coloring_Threshold, 0, 0, 1, 1)
         self.doubleSpinBox_Coloring_Threshold = QtGui.QDoubleSpinBox(self.groupBox_Coloring)
         self.doubleSpinBox_Coloring_Threshold.setMinimum(-999999999.0)
         self.doubleSpinBox_Coloring_Threshold.setMaximum(999999999.0)
         self.doubleSpinBox_Coloring_Threshold.setObjectName("doubleSpinBox_Coloring_Threshold")
-        self.gridLayout.addWidget(self.doubleSpinBox_Coloring_Threshold, 1, 1, 1, 1)
-        self.label_Coloring_BelowThreshold = QtGui.QLabel(self.groupBox_Coloring)
-        self.label_Coloring_BelowThreshold.setObjectName("label_Coloring_BelowThreshold")
-        self.gridLayout.addWidget(self.label_Coloring_BelowThreshold, 2, 0, 1, 1)
-        self.button_Coloring_BelowThreshold = QtGui.QPushButton(self.groupBox_Coloring)
-        self.button_Coloring_BelowThreshold.setText("")
-        self.button_Coloring_BelowThreshold.setObjectName("button_Coloring_BelowThreshold")
-        self.gridLayout.addWidget(self.button_Coloring_BelowThreshold, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.doubleSpinBox_Coloring_Threshold, 0, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.groupBox_Coloring)
         self.groupBox_Actions = QtGui.QGroupBox(self.tabWidgetPage2)
         self.groupBox_Actions.setObjectName("groupBox_Actions")
@@ -145,10 +131,8 @@ class Ui_TableWidget(object):
         self.groupBox_GeneralSettings.setTitle(QtGui.QApplication.translate("TableWidget", "Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxShowUnits.setText(QtGui.QApplication.translate("TableWidget", "Show Units in Table Headers", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxOrientation.setText(QtGui.QApplication.translate("TableWidget", "Switch rows vs. columns", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_Coloring.setTitle(QtGui.QApplication.translate("TableWidget", "Use Values for Coloring", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_Coloring_AboveThreshold.setText(QtGui.QApplication.translate("TableWidget", "Color Above Threshold (>)", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_Coloring.setTitle(QtGui.QApplication.translate("TableWidget", "Coloring", None, QtGui.QApplication.UnicodeUTF8))
         self.label_Coloring_Threshold.setText(QtGui.QApplication.translate("TableWidget", " Threshold", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_Coloring_BelowThreshold.setText(QtGui.QApplication.translate("TableWidget", "Color Below Threshold (<=)", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_Actions.setTitle(QtGui.QApplication.translate("TableWidget", "Actions", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSaveTable.setText(QtGui.QApplication.translate("TableWidget", "Save Data...", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSetExperimentalData.setText(QtGui.QApplication.translate("TableWidget", "Add Data to Data Browser", None, QtGui.QApplication.UnicodeUTF8))

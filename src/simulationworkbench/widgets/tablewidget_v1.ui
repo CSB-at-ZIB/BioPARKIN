@@ -111,7 +111,7 @@
           <item>
            <widget class="QGroupBox" name="groupBox_Coloring">
             <property name="title">
-             <string>Use Values for Coloring</string>
+             <string>Coloring</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -121,47 +121,19 @@
             </property>
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <widget class="QLabel" name="label_Coloring_AboveThreshold">
-               <property name="text">
-                <string>Color Above Threshold (&gt;)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="button_Coloring_AboveThreshold">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
               <widget class="QLabel" name="label_Coloring_Threshold">
                <property name="text">
                 <string> Threshold</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
+             <item row="0" column="1">
               <widget class="QDoubleSpinBox" name="doubleSpinBox_Coloring_Threshold">
                <property name="minimum">
                 <double>-999999999.000000000000000</double>
                </property>
                <property name="maximum">
                 <double>999999999.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_Coloring_BelowThreshold">
-               <property name="text">
-                <string>Color Below Threshold (&lt;=)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="button_Coloring_BelowThreshold">
-               <property name="text">
-                <string/>
                </property>
               </widget>
              </item>
@@ -273,8 +245,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>60</x>
-     <y>54</y>
+     <x>71</x>
+     <y>231</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -337,8 +309,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>301</x>
-     <y>99</y>
+     <x>312</x>
+     <y>213</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
