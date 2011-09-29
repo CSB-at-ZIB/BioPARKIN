@@ -464,9 +464,10 @@ class ParkinCppBackend(BaseBackend):
         events[self.settings[settingsandvalues.SETTING_ENDTIME]] = None
 
         try:
-            breakpoints = Vector(len(events.keys()))
-            for i, timepoint in enumerate(events.keys()):
-                breakpoints[i] = timepoint
+            breakpoints = Vector(ValueList(events.keys()))
+#            breakpoints = Vector(len(events.keys()))
+#            for i, timepoint in enumerate(events.keys()):
+#                breakpoints[i] = timepoint
             self.bioSystem.setBreakpoints(breakpoints)
 
             for i, (time, assignmentList) in enumerate(events.items()):
@@ -708,11 +709,14 @@ class ParkinCppBackend(BaseBackend):
         self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
-        timepointsVector = Vector(len(self.sensitivityTimepoints))
-        for i, timepoint in enumerate(self.sensitivityTimepoints):
-            timepointsVector[i] = timepoint
+        timepointsVector = Vector(ValueList(self.sensitivityTimepoints))
+#        for i, timepoint in enumerate(self.sensitivityTimepoints):
+#            timepointsVector[i] = timepoint
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): About to prepare detailed sensitivities...")
-        self.bioProcessor.prepareDetailedSensitivities(timepointsVector)
+        errorInt = self.bioProcessor.prepareDetailedSensitivities(timepointsVector)
+        if errorInt != 0:
+            logging.error("Could not prepare detailed sensitivities. Return code: %s" % errorInt)
+            
         qrConDecompVector = self.bioProcessor.getSensitivityDecomps()
         rawJacobianMatrixVector = self.bioProcessor.getSensitivityMatrices()  # gets raw Jacobian matrix
                                                             # REQUIREMENT: row order corresponds one to one 
@@ -986,7 +990,7 @@ class ParkinCppBackend(BaseBackend):
             if not threshold:
                 logging.error("There are Parameters for which thresholds have not been set. Computing sensitivities is not possible without thresholds. Please, set thresholds!")
                 return None, None
-            paramThresholdMap[combinedId] = max(threshold, selectedParam.getValue())
+            paramThresholdMap[combinedId] = threshold
 
         self.bioProcessor.setCurrentParamValues(paramMap)
         self.bioProcessor.setCurrentParamThres(paramThresholdMap)
@@ -1178,9 +1182,10 @@ class ParkinCppBackend(BaseBackend):
         for i in xrange(len(datapointList)):
             measurementMapVector[i] = datapointList[i]
 
-        timepointVector = Vector(len(timepointList))
-        for i in xrange(len(timepointList)):
-            timepointVector[i] = timepointList[i]
+        timepointVector = Vector(ValueList(timepointList))
+#        timepointVector = Vector(len(timepointList))
+#        for i in xrange(len(timepointList)):
+#            timepointVector[i] = timepointList[i]
 
         return (timepointVector, measurementMapVector)
 
