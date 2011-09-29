@@ -577,6 +577,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
           <widget class="QTabWidget" name="dataBrowserTabWidget">
+           <property name="tabPosition">
+            <enum>QTabWidget::South</enum>
+           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -598,17 +601,32 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="topMargin">
+            <number>12</number>
+           </property>
            <item>
             <widget class="QPushButton" name="buttonPlotAllData">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>5</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
-              <string>Plot All Data</string>
+              <string>Plot All Data Sets</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="buttonPlotSelectedData">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>5</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
-              <string>Plot Selected Data</string>
+              <string>Plot Selected Data Sets</string>
              </property>
             </widget>
            </item>
@@ -616,6 +634,9 @@
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Preferred</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>

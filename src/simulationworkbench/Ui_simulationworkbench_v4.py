@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Thu Sep 29 12:26:14 2011
+# Created: Thu Sep 29 14:49:29 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -267,6 +267,7 @@ class Ui_SimulationWorkbench(object):
         self.verticalLayout_6 = QtGui.QVBoxLayout()
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.dataBrowserTabWidget = QtGui.QTabWidget(self.tab)
+        self.dataBrowserTabWidget.setTabPosition(QtGui.QTabWidget.South)
         self.dataBrowserTabWidget.setDocumentMode(False)
         self.dataBrowserTabWidget.setTabsClosable(True)
         self.dataBrowserTabWidget.setMovable(True)
@@ -276,14 +277,25 @@ class Ui_SimulationWorkbench(object):
         self.dataBrowserTabWidget.addTab(self.dataBrowserPlusTab, "")
         self.verticalLayout_6.addWidget(self.dataBrowserTabWidget)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
+        self.horizontalLayout_3.setContentsMargins(-1, 12, -1, -1)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.buttonPlotAllData = QtGui.QPushButton(self.tab)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonPlotAllData.sizePolicy().hasHeightForWidth())
+        self.buttonPlotAllData.setSizePolicy(sizePolicy)
         self.buttonPlotAllData.setObjectName("buttonPlotAllData")
         self.horizontalLayout_3.addWidget(self.buttonPlotAllData)
         self.buttonPlotSelectedData = QtGui.QPushButton(self.tab)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonPlotSelectedData.sizePolicy().hasHeightForWidth())
+        self.buttonPlotSelectedData.setSizePolicy(sizePolicy)
         self.buttonPlotSelectedData.setObjectName("buttonPlotSelectedData")
         self.horizontalLayout_3.addWidget(self.buttonPlotSelectedData)
-        spacerItem6 = QtGui.QSpacerItem(538, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem6 = QtGui.QSpacerItem(538, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem6)
         self.verticalLayout_6.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_19.addLayout(self.verticalLayout_6)
@@ -542,8 +554,8 @@ class Ui_SimulationWorkbench(object):
         self.buttonParamSetRemove.setText(QtGui.QApplication.translate("SimulationWorkbench", "Remove Selected", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabParameterSets), QtGui.QApplication.translate("SimulationWorkbench", "Parameter Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.dataBrowserTabWidget.setTabText(self.dataBrowserTabWidget.indexOf(self.dataBrowserPlusTab), QtGui.QApplication.translate("SimulationWorkbench", "+", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonPlotAllData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot All Data", None, QtGui.QApplication.UnicodeUTF8))
-        self.buttonPlotSelectedData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot Selected Data", None, QtGui.QApplication.UnicodeUTF8))
+        self.buttonPlotAllData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot All Data Sets", None, QtGui.QApplication.UnicodeUTF8))
+        self.buttonPlotSelectedData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot Selected Data Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tab), QtGui.QApplication.translate("SimulationWorkbench", "Data Browser", None, QtGui.QApplication.UnicodeUTF8))
         self.labelSensitivitySelectParams.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSelectAllSensitivity.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select All", None, QtGui.QApplication.UnicodeUTF8))
