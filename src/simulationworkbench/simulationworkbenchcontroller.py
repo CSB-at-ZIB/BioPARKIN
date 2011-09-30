@@ -868,7 +868,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     @Slot(int)
     def on_comboBoxBackendSelect_currentIndexChanged(self, index):
-        if index == 0: # parkin
+        if index == 1: # parkin
             self.labelJACGEN.setEnabled(False)
             self.comboBoxJacobianSelect.setEnabled(False)
             self.labelNONLIN.setEnabled(False)

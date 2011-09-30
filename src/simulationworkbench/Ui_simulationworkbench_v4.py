@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Thu Sep 29 14:49:29 2011
+# Created: Fri Sep 30 14:32:32 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -504,8 +504,8 @@ class Ui_SimulationWorkbench(object):
         self.labelComputationBackend.setToolTip(QtGui.QApplication.translate("SimulationWorkbench", "Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)", None, QtGui.QApplication.UnicodeUTF8))
         self.labelComputationBackend.setStatusTip(QtGui.QApplication.translate("SimulationWorkbench", "Select the computation backend BioParkin uses for simulations, sensitivity calculations, etc. (FORTRAN code generation is available here for compatibility and debugging reasons.)", None, QtGui.QApplication.UnicodeUTF8))
         self.labelComputationBackend.setText(QtGui.QApplication.translate("SimulationWorkbench", "Identification Backend:", None, QtGui.QApplication.UnicodeUTF8))
-        self.comboBoxBackendSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (PARKIN)", None, QtGui.QApplication.UnicodeUTF8))
-        self.comboBoxBackendSelect.setItemText(1, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (NLSCON)", None, QtGui.QApplication.UnicodeUTF8))
+        self.comboBoxBackendSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (NLSCON)", None, QtGui.QApplication.UnicodeUTF8))
+        self.comboBoxBackendSelect.setItemText(1, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (PARKIN)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxPlotExpData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Include Experimental Data in Simulation Plots", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBoxTimes.setTitle(QtGui.QApplication.translate("SimulationWorkbench", "Time Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.labelStartTime.setText(QtGui.QApplication.translate("SimulationWorkbench", "Start Time", None, QtGui.QApplication.UnicodeUTF8))

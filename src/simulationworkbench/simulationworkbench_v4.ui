@@ -61,12 +61,12 @@
              <widget class="QComboBox" name="comboBoxBackendSelect">
               <item>
                <property name="text">
-                <string>Gauß-Newton (PARKIN)</string>
+                <string>Gauß-Newton (NLSCON)</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>Gauß-Newton (NLSCON)</string>
+                <string>Gauß-Newton (PARKIN)</string>
                </property>
               </item>
              </widget>
