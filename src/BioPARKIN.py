@@ -542,9 +542,11 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
                                                filter="SBML files (*.sbml *.xml)",
                                                caption="Open SBML file...")
 
-        if filenameTuple:
+        if filenameTuple and filenameTuple[0]: # if user presses cancel, the tuple exists but is two empty unicode strings.
             filename = filenameTuple[0]
             self.load_model(filename)
+        else:
+            logging.info("No file selected. Didn't load anything.")
 
 
     @Slot("")
