@@ -343,6 +343,36 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             else:
                 return
 
+
+        # note: this has been (temporarily added) to allow only one file to be open at the same time
+        # We will probably change this behaviour again later, once we have decided how to handle
+        # multiple-model results, etc. intelligently
+        if len(self.ModelControllers) > 0:
+
+            # show warning dialog
+            msgBox = QMessageBox()
+            infoText =\
+            """<b>Another model is currently loaded.</b><br>
+            """
+            msgBox.setText(infoText)
+            infoTextShort = "Do you want to save the current model (you will be prompted to enter a new filename)?"
+            msgBox.setInformativeText(infoTextShort)
+            msgBox.setWindowTitle(infoTextShort)
+            msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard)
+            msgBox.setDefaultButton(QMessageBox.Save)
+            msgBox.setIcon(QMessageBox.Warning)
+            #        msgBox.setWindowIcon(None)
+            clickedButton = msgBox.exec_()
+
+            if clickedButton == QMessageBox.Save:
+                self.actionSave_as.trigger()
+
+
+            for modelController in self.ModelControllers.values(): # close all models (in theory, there should be only one :)
+                self.modelClosed.emit(modelController)
+
+
+
 #        self.NetworkWindowCount += 1
 #        self.setStatusTip("Opening file %s..." % filename)
         self.statusBar().showMessage("Opening file %s..." % filename, 2000)
@@ -420,10 +450,16 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     def dropEvent(self, event):
         # get filename
         uris = event.mimeData().urls()  # support opening several models at once
-        for uri in uris:
-            filename = uri.toLocalFile()
-            #open file
-            self.load_model(filename)
+
+        # note: uncomment this, to enable drag'n'dropping of multiple models, again
+#        for uri in uris:
+#            filename = uri.toLocalFile()
+#            #open file
+#            self.load_model(filename)
+        filename = uris[0].toLocalFile()
+        self.load_model(filename)
+        if len(uris)>1:
+            logging.info("You dragged more than one model to BioPARKIN. Currently, only one model is supported to be opened at the same time. Only the first dragged model was loaded.")
 
     def on_modelClosed(self, modelController):
         """
@@ -569,8 +605,9 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         created in the QtDesigner.
         """
         filenameTuple = QFileDialog.getSaveFileName(parent=self,
-                                               caption="Save as...",
-                                               filter="SBML file (*.sbml)")
+            dir=self.ActiveModelController.filename,
+            caption="Save as...",
+            filter="SBML file (*.sbml)")
         if filenameTuple:
             self.saveActiveNetwork(filenameTuple[0])
 
