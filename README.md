@@ -12,7 +12,7 @@ This software package is released under the LGPL 3.0, see LICENSE file.
 
 ## Technical Overview
 
-BioPARKIN is the graphical user interface (GUI) building upon PARKINcpp. PARKINcpp is another of our projects and can be found at the [accompanying github repository](http://github.com/CSB-at-ZIB/PARKINcpp).
+BioPARKIN is the graphical user interface (GUI) building upon PARKINcpp. PARKINcpp is another of our projects and can be found at the [accompanying github repository](http://github.com/CSB-at-ZIB/PARKINcpp). **Note: That repo doesn't exist, yet. It will, soon! :)**
 
 PARKINcpp is the numerical core that is used by BioPARKIN. It's written in performance-optimized C++ and is also available under the LGPL 3.0.
 
