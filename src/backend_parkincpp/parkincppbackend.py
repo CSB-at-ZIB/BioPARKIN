@@ -441,6 +441,10 @@ class ParkinCppBackend(BaseBackend):
                 #                    time = self.paramsForProb[timeString]
                 #                else:
                 time = float(timeString)
+                if not self.settings[settingsandvalues.SETTING_STARTTIME] < time < self.settings[settingsandvalues.SETTING_STARTTIME]:
+                    logging.info("Event ID %s at timepoint %s is out of integration interval." % (sbmlEvent.getId(), time))
+                    continue
+
                 #                eventTimepoints.append(time)
                 logging.debug("Processed event. ID: %s\tTime: %s" % (sbmlEvent.getId(), time))
 
