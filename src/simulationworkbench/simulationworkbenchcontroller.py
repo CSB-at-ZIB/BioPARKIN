@@ -985,15 +985,19 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 #    def on_checkBoxNoAutoRowScale_toggled(self, isChecked):
 #        self.optionNOROWSCAL = isChecked
 
+    @Slot("")
     def on_comboBoxJacobianSelect_currentIndexChanged(self):
         self.optionJACGEN = self.comboBoxJacobianSelect.currentIndex() + 1
 
+    @Slot("")
     def on_comboBoxProblemTypeSelect_currentIndexChanged(self):
         self.optionNONLIN = self.comboBoxProblemTypeSelect.currentIndex() + 1
 
+    @Slot("")
     def on_comboBoxResidualScalingSelect_currentIndexChanged(self):
         self.optionRSCAL = self.comboBoxResidualScalingSelect.currentIndex() + 1
 
+    @Slot("")
     def on_comboBoxParameterConstraintsSelect_currentIndexChanged(self):
         self.optionLPOS = self.comboBoxParameterConstraintsSelect.currentIndex() + 1
         #

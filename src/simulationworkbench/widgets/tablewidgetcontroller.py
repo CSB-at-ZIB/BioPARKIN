@@ -95,6 +95,7 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
             self.doubleSpinBox_Coloring_Threshold.setMaximum(1)
             self.doubleSpinBox_Coloring_Threshold.setSingleStep(0.1)
             self.label_Coloring_Threshold.setText("Anticipated Relative Measurement Error")
+            self.groupBox_Coloring.setEnabled(True)
 
     def _updateView(self, data=None):
         '''
