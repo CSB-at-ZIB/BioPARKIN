@@ -738,7 +738,7 @@ class ParkinCppBackend(BaseBackend):
             timepoint = self.sensitivityTimepoints[i]
             # sensData = self._extractTimecources(rawJacobianMatrix)
             # sensDataSet = self._handleSensitivityResults(sensData)
-            speciesParameterSensitivity = self._computeSpeciesParameterSens(rawJacobianMatrix, timepoint)
+            speciesParameterSensitivity = self._handleJacobianMatrix(rawJacobianMatrix, timepoint)
     #        self.parameterSensitivity = self._computeParameterSens()
 
             # self.dataService.add_data(sensDataSet)
@@ -814,10 +814,9 @@ class ParkinCppBackend(BaseBackend):
         return sensData
 
 
-    def _computeSpeciesParameterSens(self, rawJacobian, timepoint):
+    def _handleJacobianMatrix(self, rawJacobian, timepoint):
         """
-        The raw Jacobian list will be reduced to a sensitivity matrix
-        where the temporal axis is integrated out.
+        The raw Jacobian matrix will be packed into EntityData objects (one per Parameter).
         The resulting output is wrapping into a DataSet structure.
         """
         
@@ -825,42 +824,26 @@ class ParkinCppBackend(BaseBackend):
             logging.debug("parkinCppBackend._computeSpeciesParameterSens: Didn't get a Matrix as input.")
             return None
 
-        numParams = len(self.selectedParams)
         numSpecies = len(self.odeManager.odeList)
-        numTimePoints = rawJacobian.nr() / numSpecies
 
-        if (rawJacobian.nr() % numSpecies != 0) or (numTimePoints <= 0):
+        if (rawJacobian.nr() % numSpecies != 0):
             logging.debug("parkinCppBackend._computeSpeciesParameterSens: Wrong format of raw Jacobian.")
             return None
 
-        logging.info("Preparing sensitivity data...")
+        logging.info("Preparing sensitivity data for timepoint %s..." % timepoint)
 
         listOfSpecies = self.bioSystem.getSpecies()
-#        listOfSpecies = self.bioPar.getSpecies()
-        # listOfParams = self.bioPar.getCurrentParameter()
         
         speciesParameterSensitivity = DataSet(None)
         speciesParameterSensitivity.setId("%s | Timepoint %s" % (settingsandvalues.SENSITIVITY_PER_PARAM_AND_SPECIES, timepoint))
         speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_JACOBIAN)
 
-        # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
-        # print rawJacobian
 
-        for k, param in enumerate(self.selectedParams):
+        for k, param in enumerate(self.selectedParams): # needed to get Param object corresponding to index
             jacobianColumn = rawJacobian.colm(k+1)  # note: type(rawJacobian)==Matrix starts counting with 1, not with 0
             paramID = param.getCombinedId()
-            sensData = []
-            for j in xrange(numSpecies):
-                sqrSum = 0.0
-                # n = 0
-                for tp in xrange(numTimePoints):
-                    val = jacobianColumn[tp*numSpecies + j]
-                    if math.isnan(val):
-                        continue
-                    # n += 1
-                    sqrSum += math.pow(float(val), 2.0)
 
-                sensData.append( math.sqrt(sqrSum / numTimePoints) )
+            sensData = [abs(jacobianColumn[j]) for j in xrange(jacobianColumn.nr())] # convert Vector to list
 
             paramSpeciesData = EntityData()
             paramSpeciesData.setAssociatedDataSet(speciesParameterSensitivity)
