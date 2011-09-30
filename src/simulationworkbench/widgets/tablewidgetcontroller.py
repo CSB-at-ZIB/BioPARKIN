@@ -238,6 +238,9 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                     #                logging.debug("TableWidgetController - datapoints: %s" % datapoints)   # too much overhead
                     #self.dataTableHeaders.append("Data species %s [%s]" % (str(speciesID), entityData.getUnit()))
                 if self.showUnits:
+#                    if type(entity) == str:
+#                        self.dataTableHeaders.append("%s" % entity)
+#                    else:
                     self.dataTableHeaders.append("%s [%s]" % (entity.getCombinedId(), entityData.getUnit()))
                 else:
                     self.dataTableHeaders.append("%s" % entity.getCombinedId())

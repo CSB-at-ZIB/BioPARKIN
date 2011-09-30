@@ -1185,12 +1185,13 @@ class ParkinCppBackend(BaseBackend):
         estimatedParamSet = DataSet(None)
         estimatedParamSet.setId("Identified Parameter Values")
         estimatedParamSet.setType(services.dataservice.ESTIMATED_PARAMS)
-        for paramEntity, estimatedValue in self.estimatedParams.items():
+        for i, (paramEntity, estimatedValue) in enumerate(self.estimatedParams.items()):
             paramData = EntityData()
             if type(paramEntity) == str:
-                paramData.setId(paramEntity)
-            else:
-                paramData.setId(paramEntity.getId())
+                paramEntity = self.selectedParams[i]    # if key is str, try to get Param object
+#                paramData.setId(paramEntity)
+#            else:
+            paramData.setId(paramEntity.getId())
             paramData.setType(datamanagement.entitydata.TYPE_PARAMETERS_ESTIMATED)
             paramData.setAssociatedDataSet(estimatedParamSet)
             paramData.dataDescriptors = ["Identified Value"]
