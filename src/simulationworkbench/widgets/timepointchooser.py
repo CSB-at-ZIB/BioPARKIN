@@ -49,8 +49,7 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
         self.lineEdit_IntervalSize.setText(str(self.optionIntervalSize))
 
     def _updateLineEditNumIntervals(self):
-        self.optionNumIntervals = int(
-            0.5 + (self.optionEndTime - self.optionStartTime) / float(self.optionIntervalSize))
+        self.optionNumIntervals = (self.optionEndTime - self.optionStartTime) / float(self.optionIntervalSize)
         self.lineEdit_NumIntervals.setText(str(self.optionNumIntervals))
 
 
@@ -105,7 +104,7 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
         Ensures that only integers are entered into the # intervals field.
         """
         try:
-            self.optionNumIntervals = int(self.lineEdit_NumIntervals.text())
+            self.optionNumIntervals = float(self.lineEdit_NumIntervals.text())
         except:
             self.lineEdit_NumIntervals.setText(
                 str(self.optionNumIntervals)) # str(backend.settingsandvalues.DEFAULT_NUMBER_INTERVALS))
@@ -126,13 +125,12 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
             return
 
         self._updateLineEditNumIntervals()
-        self._updateLineEditIntervalSize()
 
     @Slot("")
     def on_button_Calculate_clicked(self):
         self._updateLineEditIntervalSize()
         self._updateLineEditNumIntervals()
-        self.timepoints = [self.optionStartTime + self.optionIntervalSize * x for x in xrange(self.optionNumIntervals + 1)]
+        self.timepoints = [self.optionStartTime + self.optionIntervalSize * x for x in xrange(int(self.optionNumIntervals + 1))]
         timepointsStr = str(self.timepoints).replace(",", " ").strip("[").strip("]")
 
         self.plainTextEdit_Timepoints.clear()
