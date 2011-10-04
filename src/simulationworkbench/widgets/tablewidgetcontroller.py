@@ -445,7 +445,7 @@ class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
                 if type(item.getId()) != str:
                     logging.debug("TableWidgetController.on_actionAddToExperimentalData_triggered(): Encountered item with non-string as id: %s. Skipping." % str(item.getId()))
                     continue
-                item.setId(item.getId() + "_syn")
+#                item.setId(item.getId() + "_syn")
                 item.setType(datamanagement.entitydata.TYPE_EXPERIMENTAL)
                 item.setAssociatedDataSet(expDataSet)
                 expDataSet.data[key] = item # TODO: Handle mutliple EntityData objects correctly

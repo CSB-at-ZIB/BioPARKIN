@@ -74,12 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-#    # using the SVN revision system to get a "build number"
-#    # Problem might arise: This is the revision of *this* file not the global revision.
-#    svn_revision = "$Rev: 824 $"  # using the svn:keywords "Rev"
-#    svn_revision_clean = svn_revision.split(" ")[1]
-#    __version__ = "1.0.11 Build %s" % svn_revision_clean
-    __version__ = "1.2.0"
+    __version__ = "1.2.1"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
