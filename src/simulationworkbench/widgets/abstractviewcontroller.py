@@ -2,7 +2,7 @@ from collections import OrderedDict
 import logging
 from PySide.QtCore import SIGNAL, Slot, Qt
 #from basics.widgets.selectabletableheader import SelectableTableHeader
-from PySide.QtGui import QTableView
+from PySide.QtGui import QTableView, QWidget
 from basics.widgets.selectabletableheader import SelectableTableHeader
 from simulationworkbench.datasourcestablemodel import DataSourcesTableModel
 from services.dataservice import DataService
@@ -10,13 +10,14 @@ from services.dataservice import DataService
 
 __author__ = 'bzfwadem'
 
-class AbstractViewController(object):
+class AbstractViewController(QWidget):
     '''
     Provides a base class for the individual data views (plot/table/sensitiviy table).
     Each of the views can have its own UI. This class here is just a set of common methods.
     '''
 
-    #    def __init__(self):
+    def __init__(self, parent):
+        super(AbstractViewController, self).__init__(parent)
     #        self.dataView = None
 
     def _initialize(self):
@@ -242,3 +243,10 @@ class AbstractViewController(object):
 
     def on_rowSelectionChanged(self, index, selected):
         self._selectAllSources(selected, row=index)
+
+#    def closeEvent(self, *args, **kwargs):
+#        if self.dataService: #should always be the case at this point
+#            for dataSet in self.allData.values():
+#                self.dataService.remove_data(dataSet)
+#        QWidget.closeEvent(self, *args, **kwargs)
+

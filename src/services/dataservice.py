@@ -335,6 +335,19 @@ class DataService(QObject):
         except:
             logging.error("DataService.remove_data(): Error while trying to remove DataSet %s" % dataSet.getId())
 
+    def remove_all_simulated_data(self):
+        toRemove = []
+        for dataSet in self.data:
+            if dataSet.type == EXPERIMENTAL:    # only leave EXPERIMENTAL data
+                continue
+            toRemove.append(dataSet)
+
+        for dataSet in toRemove:
+            self.data.remove(dataSet)
+            self.dataDict.pop(dataSet.getId(), None) # remove from dataDict as well
+
+
+
     def select_data(self, dataSet, isSelected):
         if not dataSet:
             return

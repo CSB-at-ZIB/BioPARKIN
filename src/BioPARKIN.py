@@ -484,6 +484,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             self.ModelControllers.pop(modelController.filename)
 
         if len(self.ModelControllers) == 0:
+#            self.dataService.remove_all_simulated_data()
             self.ActiveModelController = None
             for view in self.mainWindowViews:
                 view.setModel(None)

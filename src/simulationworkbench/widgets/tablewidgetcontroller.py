@@ -34,7 +34,8 @@ COLOR_HIGH = QColor(50,200,50, 200) # medium green
 COLOR_MEDIUM = QColor(50,200,50,50) # light green
 COLOR_LOW = QColor(200,50,50,100)   # light red
 
-class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
+#class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
+class TableWidgetController(AbstractViewController, Ui_TableWidget):
     '''
     The controller part for a data table widget. The UI part is declared
     in tablewidget_v1.ui and then converted to ui_tablewidget.py.

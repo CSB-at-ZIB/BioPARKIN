@@ -45,7 +45,8 @@ PLOT_CIRCLE = "o"
 DEFAULT_COLORMAP = "spectral" # also possible: Set1, hsv, spectral
 # more: http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps
 
-class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
+#class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
+class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
     """
     The controller part for a plotting widget. The UI part is declared
     in plotwidget_v1.ui and then converted to ui_plotwidget.py.
