@@ -16,15 +16,15 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
 
     timepointsInvalidString = "The list of time points is invalid! (It may only contain digits, e.g. '12.5', delimited by white space.)"
 
-    def __init__(self, parent):
+    def __init__(self, parent, startTime=0, endTime=120):
         super(TimepointChooser, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint) # remove the "What's this" button in the title bar
 
         self.timepoints = []
 
-        self.optionStartTime = 0
-        self.optionEndTime = 120
+        self.optionStartTime = startTime
+        self.optionEndTime = endTime
         self.optionNumIntervals = 3
         self.optionIntervalSize = None
 
@@ -36,6 +36,13 @@ class TimepointChooser(QDialog, Ui_TimepointChooser):
         self.labelTimepointsInvalid.setHidden(True)
 
         self.buttonBox.clicked.connect(self.on_accept)
+
+    def setStartAndEndTime(self, startTime=0, endTime=120):
+        self.optionStartTime = startTime
+        self.optionEndTime = endTime
+        self.lineEdit_StartTime.setText(str(self.optionStartTime))
+        self.lineEdit_EndTime.setText(str(self.optionEndTime))
+        self._updateLineEditIntervalSize()
 
 
     def getTimepoints(self):

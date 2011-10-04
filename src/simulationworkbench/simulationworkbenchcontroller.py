@@ -725,6 +725,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     def computeDetailedSensitivities(self, timepoints):
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_DETAILS)
+            if not self.currentBackend:
+                return
             self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
             self.currentBackend.setTimepointsForDetailedSensitivities(timepoints)
             if self.optionsService.getDebug():
@@ -830,8 +832,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.on_timeChooser_accepted().
         """
         if not self.timepointChooser:
-            self.timepointChooser = TimepointChooser(self)
+            self.timepointChooser = TimepointChooser(self, startTime=self.optionStartTime, endTime=self.optionEndTime)
             self.timepointChooser.accepted.connect(self.on_timeChooser_accepted)
+        else:
+            self.timepointChooser.setStartAndEndTime(startTime=self.optionStartTime, endTime=self.optionEndTime)
         self.timepointChooser.show()
         self.timepointChooser.raise_()
         self.timepointChooser.activateWindow()
