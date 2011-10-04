@@ -1028,7 +1028,7 @@ class ParkinCppBackend(BaseBackend):
         
         xtol = float(self.settings[settingsandvalues.SETTING_XTOL])
         error = self.bioProcessor.identifyParameters(xtol=xtol)
-        if error == -999:   # todo: should handle this without a hardcoded int
+        if error != 0:
             logging.error("Error during parameter identification in PARKINcpp.")
             return False
         paramMap = self.bioProcessor.getIdentificationResults()
@@ -1061,7 +1061,7 @@ class ParkinCppBackend(BaseBackend):
         """
         # get the currently loaded experimental data
         dataService = DataService()
-        expData = dataService.get_selected_experimental_data()
+        expData = dataService.get_selected_experimental_data() # get's the *datasets* that are selected (in the data browser)
         if not expData or len(expData.items()) == 0:
             logging.debug("ParkinCppBackend._getBioParkinCppCompatibleMeasurements(): No Experimental Data.")
             logging.info("No experimental data loaded. Can't estimate parameter values.")
@@ -1075,6 +1075,8 @@ class ParkinCppBackend(BaseBackend):
         for dataSetID, dataSet in expData.items():
             logging.debug("ParkinCppBacken._getBioParkinCppCompatibleMeasurements(): Getting timepoints from %s" % dataSetID)
             for sbmlSpecies, entityData in dataSet.getData().items():
+                if not entityData.isSelected(): # ignores entity data that is not selected (i.e. non-selected columns in the data browser)
+                    continue
                 speciesTimepointsList = []
                 speciesTimepointsSet = set()
                 for i, dataDescriptor in enumerate(entityData.dataDescriptors):
@@ -1118,6 +1120,8 @@ class ParkinCppBackend(BaseBackend):
         for dataSetID, dataSet in expData.items():
             #logging.debug("ODEManager: Getting timepoints from %s" % dataSetID)
             for sbmlSpecies, entityData in dataSet.getData().items():
+                if not entityData.isSelected(): # ignores entity data that is not selected (i.e. non-selected columns in the data browser)
+                    continue
                 countTimepoints = {}
                 for i, dataDescriptor in enumerate(entityData.dataDescriptors):
                 #                    if i == 0:  # skip first time point. Right to do that here?
