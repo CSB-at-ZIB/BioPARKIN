@@ -230,10 +230,15 @@ class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
                             color = "black" # default... should never happen :)
                             logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
 
+                        if len(entityDataList) > 1:
+                            plotLabel = "%s (%s)" % (label, originID)
+                        else:
+                            plotLabel = label
+
                         if plotStyle == PLOT_LINE:
-                            self.axes.plot(timepoints, datapoints, color=color, linestyle=plotStyle, label=label)
+                            self.axes.plot(timepoints, datapoints, color=color, linestyle=plotStyle, label=plotLabel)
                         elif plotStyle == PLOT_POINT or plotStyle == PLOT_CIRCLE:
-                            self.axes.plot(timepoints, datapoints, color=color, linestyle= "", marker=plotStyle, label=label)
+                            self.axes.plot(timepoints, datapoints, color=color, linestyle= "", marker=plotStyle, label=plotLabel)
         except Exception as e:
             logging.debug("PlotWidgetController.setData: Error occurred: %s" % e)
 
