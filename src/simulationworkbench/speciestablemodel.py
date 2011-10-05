@@ -8,7 +8,8 @@ from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 
 #COLUMN = enum.enum("ROW", "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, UNIT, SCALE, QUANTITYTYPE, ISCONSTANT, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
-COLUMN = enum.enum("ROW", "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, SCALE, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
+COLUMN = enum.enum("ROW",
+    "NUMBER, ID, NAME, COMPARTMENT, INITIALQUANTITY, SCALE, ISBC, COMPUTESENSITIVITY") # this effectively orders the columns
 NUM_COLUMNS = 8 # keep in sync with COLUMN!
 
 class SpeciesTableModel(QAbstractTableModel):
@@ -75,28 +76,35 @@ class SpeciesTableModel(QAbstractTableModel):
                     return scale
                 else:
                     return "N/A"
-#            elif column == COLUMN.UNIT:
-#                unit = species.getSubstanceUnits()
-#                if unit is None or unit == "":
-#                    return "N/A"
-#                else:
-#                    return unit
-#            elif column == COLUMN.QUANTITYTYPE:
-#                return self.getQuantityType(species)
-#            elif column == COLUMN.ISCONSTANT:
-##                return species.getConstant()
-#                return  # don't display true/false strings
+                #            elif column == COLUMN.UNIT:
+                #                unit = species.getSubstanceUnits()
+                #                if unit is None or unit == "":
+                #                    return "N/A"
+                #                else:
+                #                    return unit
+                #            elif column == COLUMN.QUANTITYTYPE:
+                #                return self.getQuantityType(species)
+                #            elif column == COLUMN.ISCONSTANT:
+                ##                return species.getConstant()
+                #                return  # don't display true/false strings
             elif column == COLUMN.ISBC:
-#                return species.getBoundaryCondition()
+            #                return species.getBoundaryCondition()
                 return # don't display true/false strings
+            elif column == COLUMN.COMPUTESENSITIVITY:
+                if species.getBoundaryCondition():
+                    return "Disabled (see Species tab)"
 
         if role == Qt.CheckStateRole:
-#            if column == COLUMN.ISCONSTANT:
-#                return Qt.Checked if species.getConstant() else Qt.Unchecked
+        #            if column == COLUMN.ISCONSTANT:
+        #                return Qt.Checked if species.getConstant() else Qt.Unchecked
             if column == COLUMN.ISBC:
                 return Qt.Checked if species.getBoundaryCondition() else Qt.Unchecked
             elif column == COLUMN.COMPUTESENSITIVITY:
-                return Qt.Checked if sbmlEntity.getComputeSensitivity() else Qt.Unchecked
+                if not species.getBoundaryCondition():
+                    return Qt.Checked if sbmlEntity.getComputeSensitivity() else Qt.Unchecked
+                else:
+                    sbmlEntity.setComputeSensitivity(False) # actually set this to false here (so that it reflects the checkmark)
+                    return Qt.Unchecked
             else:
                 return None
 
@@ -126,14 +134,14 @@ class SpeciesTableModel(QAbstractTableModel):
                 return "Compartment"
             elif section == COLUMN.INITIALQUANTITY:
                 return "Initial Quantity"
-#            elif section == COLUMN.UNIT:
-#                return "Unit"
+            #            elif section == COLUMN.UNIT:
+            #                return "Unit"
             elif section == COLUMN.SCALE:
                 return "Threshold"
-#            elif section == COLUMN.QUANTITYTYPE:
-#                return "Quantity Type"
-#            elif section == COLUMN.ISCONSTANT:
-#                return "Constant"
+            #            elif section == COLUMN.QUANTITYTYPE:
+            #                return "Quantity Type"
+            #            elif section == COLUMN.ISCONSTANT:
+            #                return "Constant"
             elif section == COLUMN.ISBC:
                 return "Disable (b.c.)"
             elif section == COLUMN.COMPUTESENSITIVITY:
@@ -162,21 +170,26 @@ class SpeciesTableModel(QAbstractTableModel):
         if not index.isValid():
             return Qt.NoItemFlags
 
-#        if index.column() == COLUMN.ISCONSTANT:
-#            return (Qt.ItemIsUserCheckable
-#                    | Qt.ItemIsEnabled
-#                    #| Qt.ItemIsSelectable
-#            )
-            
-        if index.column() == COLUMN.ISBC or index.column() == COLUMN.COMPUTESENSITIVITY:
-            return (Qt.ItemIsUserCheckable
-                    | Qt.ItemIsEnabled
-            )
+        #        if index.column() == COLUMN.ISCONSTANT:
+        #            return (Qt.ItemIsUserCheckable
+        #                    | Qt.ItemIsEnabled
+        #                    #| Qt.ItemIsSelectable
+        #            )
 
-        elif index.column() == (COLUMN.INITIALQUANTITY) or index.column() == (COLUMN.SCALE) or index.column() == (COLUMN.NAME):
-            return (Qt.ItemIsEnabled
-                    | Qt.ItemIsEditable
-            )
+        try:
+            sbmlEntity = self.speciesList[index.row()]
+            species = sbmlEntity.Item
+        except:
+            pass
+
+        if index.column() == COLUMN.ISBC:
+            return Qt.ItemIsUserCheckable | Qt.ItemIsEnabled
+
+        elif index.column() in (COLUMN.INITIALQUANTITY, COLUMN.SCALE, COLUMN.NAME):
+            return Qt.ItemIsEnabled | Qt.ItemIsEditable
+
+        elif index.column() == COLUMN.COMPUTESENSITIVITY and species:
+            return (Qt.ItemIsUserCheckable | Qt.ItemIsEnabled) if not species.getBoundaryCondition() else Qt.NoItemFlags
 
         return Qt.NoItemFlags
 
@@ -205,8 +218,8 @@ class SpeciesTableModel(QAbstractTableModel):
 
             if role == Qt.CheckStateRole:
                 isChecked = value == Qt.Checked
-#                if column == COLUMN.ISCONSTANT:
-#                    species.setConstant(isChecked)
+                #                if column == COLUMN.ISCONSTANT:
+                #                    species.setConstant(isChecked)
                 if column == COLUMN.ISBC:
                     species.setBoundaryCondition(isChecked)
                 elif column == COLUMN.COMPUTESENSITIVITY:
