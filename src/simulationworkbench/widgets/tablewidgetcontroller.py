@@ -29,10 +29,11 @@ DEFAULT_SHOW_UNITS = True
 
 MODE_DEFAULT = "mode_default"
 MODE_SUBCONDITIONS = "mode_subconditions"
+MODE_JACOBIAN = "mode_jacobian"
 
-COLOR_HIGH = QColor(50,200,50, 200) # medium green
-COLOR_MEDIUM = QColor(50,200,50,50) # light green
-COLOR_LOW = QColor(200,50,50,100)   # light red
+COLOR_HIGH = QColor(50, 200, 50, 200) # medium green
+COLOR_MEDIUM = QColor(50, 200, 50, 50) # light green
+COLOR_LOW = QColor(200, 50, 50, 100)   # light red
 
 #class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 class TableWidgetController(AbstractViewController, Ui_TableWidget):
@@ -49,15 +50,14 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
-
-    def __init__(self, parent=None, host=None, title="Table"):
+    def __init__(self, parent=None, host=None, title="Table", mode=None):
         '''
         Constructor
         '''
         super(TableWidgetController, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(title)
-        
+
         self._initialize()
 
         #        self.options = {
@@ -84,6 +84,9 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         self.orientation = ORIENTATION_HORIZONTAL
 
         self.sortColumn = -1    # default: do not sort at load
+
+        if mode:
+            self.setMode(mode)
         self.colorThreshold = None
         self.colorThresholdBase = self.doubleSpinBox_Coloring_Threshold.value()
         self.colorThresholdExponent = self.spinBox_Coloring_Exponent.value()
@@ -96,7 +99,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.doubleSpinBox_Coloring_Threshold.setMaximum(1)
             self.doubleSpinBox_Coloring_Threshold.setSingleStep(0.1)
             self.label_Coloring_Threshold.setText("Anticipated Relative Measurement Error")
-            self.groupBox_Coloring.setEnabled(True)
+            self.groupBox_Coloring.setChecked(True)
+            self.isColored = True
+        elif mode == MODE_JACOBIAN:
+            self.groupBox_Coloring.setChecked(True) # just activate coloring with default threshold
+            self.isColored = True
 
     def _updateView(self, data=None):
         '''
@@ -140,9 +147,12 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         if type(value) == str:
             if value == "N/A":
                 return COLOR_LOW
-            value = float(value)
+            try:
+                value = float(value)
+            except:
+                return None
 
-        if self._mode == MODE_DEFAULT:
+        if self._mode == MODE_DEFAULT or self._mode == MODE_JACOBIAN:
             if value <= self.colorThreshold:
                 color = COLOR_LOW
             else:
@@ -152,21 +162,22 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 color = COLOR_LOW
             else:
                 #percentage = value / float(self.maxValue)
-                percentage = (self.maxValue - value + 1) / float(self.maxValue) # +1 because it's the "lowest" subconditon, and represents 100%
+                percentage = (self.maxValue - value + 1) / float(
+                    self.maxValue) # +1 because it's the "lowest" subconditon, and represents 100%
 
                 highRed, highGreen, highBlue, highAlpha = COLOR_HIGH.red(), COLOR_HIGH.green(), COLOR_HIGH.blue(), COLOR_HIGH.alpha()
                 mediumRed, mediumGreen, mediumBlue, mediumAlpha = COLOR_MEDIUM.red(), COLOR_MEDIUM.green(), COLOR_MEDIUM.blue(), COLOR_MEDIUM.alpha()
 
-                diffRed, diffGreen, diffBlue, diffAlpha = highRed-mediumRed, highGreen-mediumGreen, highBlue-mediumBlue, highAlpha-mediumAlpha
+                diffRed, diffGreen, diffBlue, diffAlpha = highRed - mediumRed, highGreen - mediumGreen, highBlue - mediumBlue, highAlpha - mediumAlpha
 
-                valueRed = diffRed*percentage+mediumRed
-                valueGreen = diffGreen*percentage+mediumGreen
-                valueBlue = diffBlue*percentage+mediumBlue
-                valueAlpha = diffAlpha*percentage+mediumAlpha
+                valueRed = diffRed * percentage + mediumRed
+                valueGreen = diffGreen * percentage + mediumGreen
+                valueBlue = diffBlue * percentage + mediumBlue
+                valueAlpha = diffAlpha * percentage + mediumAlpha
 
-                color = QColor(valueRed,valueGreen,valueBlue,valueAlpha)
+                color = QColor(valueRed, valueGreen, valueBlue, valueAlpha)
         else:
-            color = QColor(0,0,0,255)   #transparent
+            color = QColor(0, 0, 0, 255)   #transparent
 
         return color
 
@@ -193,7 +204,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
 
                 # set header for first column (dataDescriptor/Timepoint col)
                 # in first iteration
-                if len(self.dataTableHeaders) == 0: 
+                if len(self.dataTableHeaders) == 0:
                     dataDescriptorName = entityData.dataDescriptorName
                     dataDescriptorUnit = entityData.dataDescriptorUnit
                     if not dataDescriptorUnit and "timepoint" in str(dataDescriptorName).lower():
@@ -201,7 +212,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     firstColHeader = ""
                     if dataDescriptorName:
                         if self.showUnits:
-                            firstColHeader = "%s [%s]" % (dataDescriptorName,dataDescriptorUnit)
+                            firstColHeader = "%s [%s]" % (dataDescriptorName, dataDescriptorUnit)
                         elif dataDescriptorName:
                             firstColHeader = "%s" % dataDescriptorName
                     self.dataTableHeaders.append(firstColHeader)
@@ -217,37 +228,37 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 # shorten datapoints
                 for i, datapoint in enumerate(entityData.datapoints):
                     try:
-                        #datapoints.append(round(float(datapoint), 4))
-#                        valueString = "%g" % (float(datapoint))
+                    #datapoints.append(round(float(datapoint), 4))
+                    #                        valueString = "%g" % (float(datapoint))
                         floatValue = float(datapoint)   # will jump to except if no float
                         valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
                         datapoints.append(valueString)
 
                         # preparing color computation
-#                        logging.debug(entityData.dataDescriptorName)
-#                        logging.debug(entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE)
-                        if self._mode == MODE_SUBCONDITIONS \
-                            and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE \
-                            and floatValue > self.maxValue\
-                            and floatValue < self.colorThreshold:
+                        #                        logging.debug(entityData.dataDescriptorName)
+                        #                        logging.debug(entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE)
+                        if self._mode == MODE_SUBCONDITIONS\
+                           and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE\
+                           and floatValue > self.maxValue\
+                        and floatValue < self.colorThreshold:
                             self.maxValue = floatValue
 
                     except:
-#                        datapoints.append(round(float("nan"), 4))
+                    #                        datapoints.append(round(float("nan"), 4))
                         datapoints.append(str(datapoint))
 
-                    #                logging.debug("TableWidgetController - datapoints: %s" % datapoints)   # too much overhead
-                    #self.dataTableHeaders.append("Data species %s [%s]" % (str(speciesID), entityData.getUnit()))
+                        #                logging.debug("TableWidgetController - datapoints: %s" % datapoints)   # too much overhead
+                        #self.dataTableHeaders.append("Data species %s [%s]" % (str(speciesID), entityData.getUnit()))
                 if self.showUnits:
-#                    if type(entity) == str:
-#                        self.dataTableHeaders.append("%s" % entity)
-#                    else:
+                #                    if type(entity) == str:
+                #                        self.dataTableHeaders.append("%s" % entity)
+                #                    else:
                     self.dataTableHeaders.append("%s [%s]" % (entity.getCombinedId(), entityData.getUnit()))
                 else:
                     self.dataTableHeaders.append("%s" % entity.getCombinedId())
                 self.dataTableColumnData.append(datapoints)
-#                if len(datapoints) > self.dataTableRowCount:
-#                    self.dataTableRowCount = len(datapoints)
+            #                if len(datapoints) > self.dataTableRowCount:
+            #                    self.dataTableRowCount = len(datapoints)
 
         # Put those labels into the actual data that would be the vertical/row labels.
         # We can't use .setVerticalHeaderLabers() because those labels don't get sorted together with the data.
@@ -259,11 +270,10 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             for i in xrange(len(self.dataTableColumnData)):
                 entry = self.dataTableColumnData[i]
                 entry.insert(0, self.dataTableHeaders[i])
-            self.dataTableRowHeaders.insert(0,"")
+            self.dataTableRowHeaders.insert(0, "")
         else:
             self.dataTableColumnData.insert(0, self.dataTableRowHeaders)
             #self.dataTableHeaders.insert(0,"")
-
 
         if not self.dataTableWidget:    # create for the first time
             tableLayout = QVBoxLayout(self.tableWrapper)
@@ -276,12 +286,12 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.dataTableWidget.setColumnCount(len(self.dataTableHeaders))
             self.dataTableWidget.setRowCount(self.dataTableRowCount)
             self.dataTableWidget.setHorizontalHeaderLabels(self.dataTableHeaders)
-#            self.dataTableWidget.setVerticalHeaderLabels(
-#                self.dataTableRowHeaders)  # has to be called after setRowCount?
+        #            self.dataTableWidget.setVerticalHeaderLabels(
+        #                self.dataTableRowHeaders)  # has to be called after setRowCount?
         elif self.orientation == ORIENTATION_VERTICAL:
             self.dataTableWidget.setRowCount(len(self.dataTableHeaders))
             self.dataTableWidget.setColumnCount(len(self.dataTableRowHeaders))
-#            self.dataTableWidget.setVerticalHeaderLabels(self.dataTableHeaders)
+            #            self.dataTableWidget.setVerticalHeaderLabels(self.dataTableHeaders)
             self.dataTableWidget.setHorizontalHeaderLabels(
                 self.dataTableRowHeaders)  # has to be called after setRowCount?
 
@@ -289,20 +299,24 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         for col in xrange(len(self.dataTableColumnData)):
             for row in xrange(len(self.dataTableColumnData[col])):
                 try:
-                    value = self.dataTableColumnData[col][row]  # don't touch "values"; they could be pre-formatted strings
+                    value = self.dataTableColumnData[col][
+                            row]  # don't touch "values"; they could be pre-formatted strings
                     newItem = SortedTableWidgetItem()    # use custom item class
                     newItem.setData(Qt.DisplayRole, value)
                     newItem.setTextAlignment(Qt.AlignRight)
                     newItem.setFont(QFont("Fixed"))
                     if self.isColored:
-                        if self._mode == MODE_DEFAULT or (self._mode == MODE_SUBCONDITIONS and row==2):
+                        if not(self._mode == MODE_SUBCONDITIONS and row != 2): #color only row 2 of subcondition tables
                             color = self._computeColor(value)
-                            newItem.setBackground(QBrush(color))
+                            if color:
+                                newItem.setBackground(QBrush(color))
                 except Exception, e:
-                    logging.debug("TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (value,e))
-#                    newItem = SortedTableWidgetItem(str(self.dataTableColumnData[col][row]))
-#                    newItem.setTextAlignment(Qt.AlignRight)
-#                    newItem.setFont(QFont("Fixed"))
+                    logging.debug(
+                        "TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (
+                            value, e))
+                #                    newItem = SortedTableWidgetItem(str(self.dataTableColumnData[col][row]))
+                #                    newItem.setTextAlignment(Qt.AlignRight)
+                #                    newItem.setFont(QFont("Fixed"))
                 if self.orientation == ORIENTATION_HORIZONTAL:
                     self.dataTableWidget.setItem(row, col, newItem)
                 elif self.orientation == ORIENTATION_VERTICAL:
@@ -314,7 +328,6 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.dataTableWidget.sortItems(self.sortColumn)
 
         self.dataTableWidget.resizeColumnsToContents()
-
 
 
     def setOrientation(self, orientation):
@@ -331,10 +344,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         '''
 
         try:
-
             orientationBefore = self.orientation
             self.orientation = ORIENTATION_HORIZONTAL
-
 
             if self.data:
                 self._updateDataTable(self.data)
@@ -342,8 +353,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             csv.register_dialect("SimulationData", delimiter='\t', quotechar='"', skipinitialspace=True)
             writer = csv.writer(open(path, "wb"), dialect="SimulationData")
 
-#            header = ["Timepoint [%s]" % self.host.labelTimeUnit.text()]
-#            header.extend(self.dataTableHeaders)
+            #            header = ["Timepoint [%s]" % self.host.labelTimeUnit.text()]
+            #            header.extend(self.dataTableHeaders)
             header = self.dataTableHeaders
             writer.writerow(header)
 
@@ -372,11 +383,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 self.colorThreshold = 0
             else:
                 self.colorThreshold = 1 / self.colorThreshold
-        #        else:
+            #        else:
         #            self.colorThreshold = self.colorThreshold
         self._updateDataView()
 
-            ############### SLOTS ################
+        ############### SLOTS ################
 
     @Slot("")
     def on_actionSave_triggered(self):
@@ -390,8 +401,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         file_choices = "Excel *.txt (*.txt);;CSV *.csv (*.csv)"
 
         path = unicode(QFileDialog.getSaveFileName(self,
-                                                   'Save file', '',
-                                                   file_choices)[0])
+            'Save file', '',
+            file_choices)[0])
         if path:
             self.saveDataAsCsv(path)
             logging.info("Saved data to %s" % path)
@@ -444,9 +455,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 item = oldItem.copy()
 
                 if type(item.getId()) != str:
-                    logging.debug("TableWidgetController.on_actionAddToExperimentalData_triggered(): Encountered item with non-string as id: %s. Skipping." % str(item.getId()))
+                    logging.debug(
+                        "TableWidgetController.on_actionAddToExperimentalData_triggered(): Encountered item with non-string as id: %s. Skipping." % str(
+                            item.getId()))
                     continue
-#                item.setId(item.getId() + "_syn")
+                #                item.setId(item.getId() + "_syn")
                 item.setType(datamanagement.entitydata.TYPE_EXPERIMENTAL)
                 item.setAssociatedDataSet(expDataSet)
                 expDataSet.data[key] = item # TODO: Handle mutliple EntityData objects correctly
@@ -455,7 +468,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     expDataSet.dataDescriptorUnit = item.dataDescriptorUnit
                     first = False
         dataService.add_data(expDataSet)
-#        self.host.updateExpData()
+
+    #        self.host.updateExpData()
 
 
 
