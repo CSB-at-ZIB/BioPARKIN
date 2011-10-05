@@ -720,6 +720,7 @@ class ParkinCppBackend(BaseBackend):
         errorInt = self.bioProcessor.prepareDetailedSensitivities(timepointsVector)
         if errorInt != 0:
             logging.error("Could not prepare detailed sensitivities. Return code: %s" % errorInt)
+            return False
             
         qrConDecompVector = self.bioProcessor.getSensitivityDecomps()
         rawJacobianMatrixVector = self.bioProcessor.getSensitivityMatrices()  # gets raw Jacobian matrix
