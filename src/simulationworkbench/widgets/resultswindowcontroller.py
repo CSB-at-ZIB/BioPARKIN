@@ -37,6 +37,7 @@ class ResultsWindowController(QMainWindow, Ui_ResultsWindow):
         subWindow.setWidget(plotWidget)
         subWindow.setOption(QMdiSubWindow.RubberBandResize, True)
         self.getMdiArea().addSubWindow(subWindow)
+        subWindow.showMaximized()
         subWindow.activateWindow()
         subWindow.show()    # important!
         self.show()
