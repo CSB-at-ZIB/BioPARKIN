@@ -45,7 +45,6 @@ PLOT_CIRCLE = "o"
 DEFAULT_COLORMAP = "spectral" # also possible: Set1, hsv, spectral
 # more: http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps
 
-#class PlotWidgetController(QWidget, Ui_PlotWidget, AbstractViewController):
 class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
     """
     The controller part for a plotting widget. The UI part is declared
@@ -223,13 +222,22 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                             plotStyle = self.plotStyle[0]   # 0 as key always exists
 
                         # handle colour (prepend the colour code to style string)
-                        if (originID, label) in self.plotColors:    # for string-based DataSet keys (e.g. loaded data file)
-                            color = self.plotColors[(originID, label)]
-                        elif entityData.sbmlEntity and (originID, entityData.sbmlEntity) in self.plotColors: # for sbmlEntity-based DataSet keys (e.g. simulation run)
-                            color = self.plotColors[(originID, entityData.sbmlEntity)]
+                        if self.checkBoxOneColorPerRow.isChecked():
+                            if label in self.plotColors:    # for string-based DataSet keys (e.g. loaded data file)
+                                color = self.plotColors[label]
+                            elif entityData.sbmlEntity and entityData.sbmlEntity in self.plotColors: # for sbmlEntity-based DataSet keys (e.g. simulation run)
+                                color = self.plotColors[entityData.sbmlEntity]
+                            else:
+                                color = "black" # default... should never happen :)
+                                logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
                         else:
-                            color = "black" # default... should never happen :)
-                            logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
+                            if (originID, label) in self.plotColors:    # for string-based DataSet keys (e.g. loaded data file)
+                                color = self.plotColors[(originID, label)]
+                            elif entityData.sbmlEntity and (originID, entityData.sbmlEntity) in self.plotColors: # for sbmlEntity-based DataSet keys (e.g. simulation run)
+                                color = self.plotColors[(originID, entityData.sbmlEntity)]
+                            else:
+                                color = "black" # default... should never happen :)
+                                logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
 
                         if len(entityDataList) > 1:
                             plotLabel = "%s (%s)" % (label, originID)
@@ -255,47 +263,27 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 #            return
 
         try:
-#            numItems = self.getNumberOfDataItems()
-#            if not numItems:
-#                return
-#
-#            entityIDs = self.getSelectedEntityIDs()
-#            if not entityIDs:
-#                return
-#
-#            sourceIDs = self.getSelectedSourceIDs()
-#            if not sourceIDs:
-#                return
 
-#            if len(entityIDs) != numItems:
-#                logging.debug("PlotWidgetController.computeColors(): Error. Number of data items does not add up.")
-#                return
+            if self.checkBoxOneColorPerRow.isChecked():
+                entityIDs = self.getEntityIDs()
+                if not entityIDs:
+                    return
+                numItems = len(entityIDs)
+            else:
+                selectedSourceEntityTuples = self.getSelectedCombinations()
+                numItems = len(selectedSourceEntityTuples)
 
-            selectedSourceEntityTuples = self.getSelectedCombinations()
-
-            numItems = len(selectedSourceEntityTuples)
-
-            #colormap = colormaps.get_cmap("Set1")   # more default look would be "hsv"
             colors = self.map_colors(range(numItems), DEFAULT_COLORMAP)
-            #logging.debug(colors)
 
-
-            #if not type(self.plotColors) == dict:
             self.plotColors = {}
 
-            for i, sourceEntityCombination in enumerate(selectedSourceEntityTuples):
-                self.plotColors[sourceEntityCombination] = colors[i]
+            if self.checkBoxOneColorPerRow.isChecked():
+                for i, entityID in enumerate(entityIDs):
+                    self.plotColors[entityID] = colors[i]
+            else:
+                for i, sourceEntityCombination in enumerate(selectedSourceEntityTuples):
+                    self.plotColors[sourceEntityCombination] = colors[i]
 
-#            for i, entityID in enumerate(entityIDs):
-#                for j, sourceID in enumerate(sourceIDs):
-#                    self.plotColors[(entityID, sourceID)] = colors[i*j]
-
-#            for i, entity in enumerate(dataList):
-#                self.plotColors[entity[0].getId()] = colors[i]
-#            dataList = self.data.values()
-#            for i, entityDataList in enumerate(dataList):
-#                for entityData in entityDataList:
-#                    self.plotColors[entityData.getId()] = colors[i]
         except Exception, e:
             logging.debug("PlotWidgetController.computeColors(): Error while computing colors: %s" % e)
 
@@ -406,3 +394,8 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         else:
             self.axes.set_yscale('linear')
             self.canvas.draw()
+
+    @Slot("bool")
+    def on_checkBoxOneColorPerRow_toggled(self, isChecked):
+        logging.info("Switching plot coloring mode.")
+        self._updateDataView()

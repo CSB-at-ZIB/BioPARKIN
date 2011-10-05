@@ -83,6 +83,16 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
+           <widget class="QCheckBox" name="checkBoxOneColorPerRow">
+            <property name="text">
+             <string>One Color per Row (in Data Sources Table)</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="checkBoxShowLegend">
             <property name="text">
              <string>Show &amp;Legend</string>

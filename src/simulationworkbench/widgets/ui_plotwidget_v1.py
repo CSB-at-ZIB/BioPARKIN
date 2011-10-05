@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\plotwidget_v1.ui'
+# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\plotwidget_v1.ui'
 #
-# Created: Tue Sep 27 13:50:40 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Wed Oct 05 14:28:21 2011
+#      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -51,6 +51,10 @@ class Ui_PlotWidget(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        self.checkBoxOneColorPerRow = QtGui.QCheckBox(self.tabWidgetPage2)
+        self.checkBoxOneColorPerRow.setChecked(False)
+        self.checkBoxOneColorPerRow.setObjectName("checkBoxOneColorPerRow")
+        self.verticalLayout.addWidget(self.checkBoxOneColorPerRow)
         self.checkBoxShowLegend = QtGui.QCheckBox(self.tabWidgetPage2)
         self.checkBoxShowLegend.setChecked(False)
         self.checkBoxShowLegend.setObjectName("checkBoxShowLegend")
@@ -96,6 +100,7 @@ class Ui_PlotWidget(object):
         self.buttonDeselectAll.setText(QtGui.QApplication.translate("PlotWidget", "Deselect All", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonInvertSelection.setText(QtGui.QApplication.translate("PlotWidget", "Invert Selection", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage1), QtGui.QApplication.translate("PlotWidget", "Data Sources", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBoxOneColorPerRow.setText(QtGui.QApplication.translate("PlotWidget", "One Color per Row (in Data Sources Table)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxShowLegend.setText(QtGui.QApplication.translate("PlotWidget", "Show &Legend", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxLogYAxis.setText(QtGui.QApplication.translate("PlotWidget", "&Logarithmic Y Axis", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSavePlot.setText(QtGui.QApplication.translate("PlotWidget", "Save Plot...", None, QtGui.QApplication.UnicodeUTF8))

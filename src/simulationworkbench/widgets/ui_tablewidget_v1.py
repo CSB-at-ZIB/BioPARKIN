@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\tablewidget_v1.ui'
 #
-# Created: Thu Sep 29 13:31:28 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Wed Oct 05 14:28:21 2011
+#      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
 
