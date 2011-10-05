@@ -396,7 +396,10 @@ class DataService(QObject):
 
 
             # handle the other columns
-            for entityId, entityData in dataSet.getData().items():
+            for i, (entityId, entityData) in enumerate(dataSet.getData().items()):
+                if not entityData.isSelected():
+                    firstCol.pop(i)
+                    continue
                 col = [entityData.getHeader()] +  entityData.datapoints
                 dataTable.append(col)
 
