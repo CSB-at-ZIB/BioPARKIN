@@ -85,19 +85,20 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
 
         self.sortColumn = -1    # default: do not sort at load
 
-        if mode:
-            self.setMode(mode)
         self.colorThreshold = None
         self.colorThresholdBase = self.doubleSpinBox_Coloring_Threshold.value()
         self.colorThresholdExponent = self.spinBox_Coloring_Exponent.value()
+        if mode:
+            self.setMode(mode)
         self._updateThreshold()
 
     def setMode(self, mode):
         self._mode = mode
         if mode == MODE_SUBCONDITIONS:
-            self.doubleSpinBox_Coloring_Threshold.setMinimum(self.host.getRTol())
-            self.doubleSpinBox_Coloring_Threshold.setMaximum(1)
-            self.doubleSpinBox_Coloring_Threshold.setSingleStep(0.1)
+            rtolScientificString = '{:e}'.format(float(self.host.getRTol()))
+            exponentStr = rtolScientificString.split("e")[1]
+            self.spinBox_Coloring_Exponent.setValue(float(exponentStr))
+            self.doubleSpinBox_Coloring_Threshold.setValue(1.0)
             self.label_Coloring_Threshold.setText("Anticipated Relative Measurement Error")
             self.groupBox_Coloring.setChecked(True)
             self.isColored = True
