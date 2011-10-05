@@ -1287,6 +1287,7 @@ class BioSystem(_object):
     def getMeasurements(self): return _parkin.BioSystem_getMeasurements(self)
     def getMeasurementWeights(self): return _parkin.BioSystem_getMeasurementWeights(self)
     def setMeasurementTimePoints(self, *args): return _parkin.BioSystem_setMeasurementTimePoints(self, *args)
+    def getMeasurementTimePoints(self): return _parkin.BioSystem_getMeasurementTimePoints(self)
     def getOdeTrajectoryTimePoints(self): return _parkin.BioSystem_getOdeTrajectoryTimePoints(self)
     def getParamValue(self, *args): return _parkin.BioSystem_getParamValue(self, *args)
     def setParamValue(self, *args): return _parkin.BioSystem_setParamValue(self, *args)
