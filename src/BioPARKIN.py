@@ -74,7 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.2"
+    __version__ = "1.2.3"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -174,12 +174,13 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 
         # restore previous settings
         settings = QSettings()
-#        self.recentFiles = []
         try:
-#            settings.sync()    # doesn't help
             self.recentFiles = settings.value("RecentFiles", [])
-            if type(self.recentFiles) is str:  # might help on Linux
+
+            # handles the case if only one file is in the "list" in Linux (it's retrieved as unicode string in this case)
+            if type(self.recentFiles) is str or type(self.recentFiles) is unicode:
                 self.recentFiles = [self.recentFiles]
+                
             logging.info("Recently opened files: %s" % self.recentFiles)
         except:
             logging.warning("Can't access list of recently opened files. Resetting the list.")
