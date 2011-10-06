@@ -189,9 +189,8 @@ class ParkinCppBackend(BaseBackend):
         the ODEManager is generated (and filled with data) and given to self._createBioSystem to create
         a BioParkinCpp BioSystem instance.
 
-        This does not run in a Thread. (self._compute does)
+        This does not run in a Thread. (self._compute() does)
         """
-
         if mainModel:
             self.mainModel = mainModel
         if settings:

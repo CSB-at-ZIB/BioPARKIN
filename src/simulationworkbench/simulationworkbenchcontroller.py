@@ -473,7 +473,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             backend.settingsandvalues.SETTING_XTOL: self.optionXTOL,
             backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS: self.optionMaxNumNewtonSteps,
             backend.settingsandvalues.SETTING_SD_SPECIES: self.optionSDSpecies,
-#            backend.settingsandvalues.SETTING_NO_AUTO_ROW_SCALING: self.checkBoxNoAutoRowScale.isChecked(),
             backend.settingsandvalues.SETTING_JACOBIAN: self.optionJACGEN,
             backend.settingsandvalues.SETTING_PROBLEM_TYPE: self.optionNONLIN,
             backend.settingsandvalues.SETTING_RESIDUAL_SCALING: self.optionRSCAL,
@@ -501,13 +500,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.lineEditXTOL.setText(str(self.optionXTOL))
         self.lineEditMaxNumNewtonSteps.setText(str(self.optionMaxNumNewtonSteps))
 
-#        self.checkBoxNoAutoRowScale.setChecked(self.optionNOROWSCAL == True)
         self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1)
         self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1)
         self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1)
         self.comboBoxParameterConstraintsSelect.setCurrentIndex(int(self.optionLPOS) - 1)
 
-    #        self.lineEditSDSpecies.setText(str(self.optionSDSpecies))
 
     def _getCurrentBackend(self, getNew=False):
         if not self.backendBioParkinCpp or getNew:
@@ -518,43 +515,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         # to select a different backend but to set a mode *within*
         # the PARKINcpp backend (done during self._setUpBackend())
 
-    #        dropDownIndex = self.comboBoxBackendSelect.currentIndex()
-    #        if dropDownIndex == 0 or getNew:  # PARKINcpp is selected
-    #            if not self.backendBioParkinCpp:
-    #                self.backendBioParkinCpp = ParkinCppBackend()
-    #            return self.backendBioParkinCpp
-    #
-    #            ### this is now disabled
-    #        #        elif dropDownIndex == 1:    # FORTRAN Code Generation is selected
-    #        #            if not self.backendFortran or getNew:
-    #        #                self.backendFortran = FortranBackend()
-    #        #            return self.backendFortran
-    #        else:
-    #            logging.debug(
-    #                "SimulationWorkbenchController._getCurrentBackend(): The selected item in the Backend ComboBox is not supported.")
-    #            return
 
 
 
     ####### functionality for handling experimental data #######
 
-    #    def browseExpData(self):
-    #        """
-    #        Shows a file open dialog.
-    #        """
-    #
-    #        homeDir = filehelpers.getHomeDir()
-    #        openDir = self.currentExpDataFilename if self.currentExpDataFilename else homeDir
-    #        filenameTuple = QFileDialog.getOpenFileName(parent=self,
-    #                                               caption="Browse for data file...",
-    #                                               directory=openDir,
-    #                                               filter="BioPARKIN CSV data file (*.csv *.txt);;Legacy PARKIN data file (*.dat);;All filetypes (*.*")
-    #
-    #        self.setCurrentExpDataDirectory(filenameTuple[0])
-    #
-    #    def setCurrentExpDataDirectory(self, filename):
-    #        self.currentExpDataFilename = filename
-    #        self.lineEditExpData.setText(self.currentExpDataFilename)
 
     def updateExpData(self, readFile=False):
         # dataService = DataService()
@@ -640,24 +605,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def updateStatusBar(self, msg, time=1000):
-    #        if time < 0:
-    #            self.statusBar().showMessage(msg)
-    #        else:
-    #            self.statusBar().showMessage(msg, time)
         self.statusBarService.showMessage(msg, time)
 
     def updateSelectedExpData(self):
-    #        selectedIndices = self.getSelectedDataSetIndices()
-    #
-    #        for index in xrange(len(self.currentExpData)):
-    #            dataSet = self.currentExpData[index]
-    #            dataSet.setSelected(index in selectedIndices)
-    #            if index in selectedIndices:
-    #                self.dataService.select_data(dataSet, True)
-    #            else:
-    #                self.dataService.select_data(dataSet, False)
-    #
-    #        return len(selectedIndices)
         # TODO!
         try:
             return len(self.dataService.get_experimental_data())
