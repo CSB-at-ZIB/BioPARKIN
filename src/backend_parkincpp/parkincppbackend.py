@@ -78,13 +78,25 @@ class ParkinCppBackend(BaseBackend):
         self.timepoints = None
         self.timepointsPruned = None
         self.sensitivityTimepoints = None
+        self.sensitivityTrajectoryMap = None
 
         self.paramToSensitivityMap = {}
         self.parameterSensitivity = None
         self.speciesParameterSensitivity = None
         self.paramToEstimateMap = {}
 
+        # we set lots of variables as class variables because they might otherwise go out of scope (in Python)
+        # when passed to SWIG-generated interfaces...
         self.sensitivityTimepoints = None
+        self.sensitivityTimepointsVector = None
+        self.timepointVector = None
+        self.measurementMapVector = None
+        self.breakpoints = None
+        self.eventMap = None
+        self.paramMap = None
+        self.paramThresholdMap = None
+        self.speciesThresholdMap = None
+        self.iOpt = None
 #        self.paramsForProb = None
         #        self.paramIdToParamEntity = OrderedDict()
 
@@ -198,7 +210,7 @@ class ParkinCppBackend(BaseBackend):
         self.odeManager = self._createOdeManager()
 
         # create the "bio system" (basically one of the two main PARKINCpp classes for interfacing with BioPARKIN)
-        self._createBioSystem(self.odeManager)
+        self._createBioSystem()
         self._createBioProcessor()
 
         initEndTime = time.time()
@@ -278,26 +290,26 @@ class ParkinCppBackend(BaseBackend):
 #        if settingsandvalues.SETTING_USE_MEASURED_TIMEPOINTS\
 #        in self.settings else settingsandvalues.DEFAULT_USE_MEASURED_TIMEPOINTS
 
-        odeManager = ODEManager(self.mainModel)
+        self.odeManager = ODEManager(self.mainModel)
 
-        odeManager.startTime = self.settings[settingsandvalues.SETTING_STARTTIME]\
+        self.odeManager.startTime = self.settings[settingsandvalues.SETTING_STARTTIME]\
         if settingsandvalues.SETTING_STARTTIME in self.settings\
         else settingsandvalues.DEFAULT_STARTTIME
 
-        odeManager.endTime = self.settings[settingsandvalues.SETTING_ENDTIME] if settingsandvalues.SETTING_ENDTIME\
+        self.odeManager.endTime = self.settings[settingsandvalues.SETTING_ENDTIME] if settingsandvalues.SETTING_ENDTIME\
         in self.settings else settingsandvalues.DEFAULT_ENDTIME
 
 #        odeManager.intervalCount = self.settings[settingsandvalues.SETTING_NUMBER_TIMEPOINTS]\
 #        if settingsandvalues.SETTING_NUMBER_TIMEPOINTS in self.settings\
 #        else settingsandvalues.DEFAULT_NUMBER_INTERVALS
 
-        odeManager.rtol = self.settings[settingsandvalues.SETTING_RTOL] if settingsandvalues.SETTING_RTOL\
+        self.odeManager.rtol = self.settings[settingsandvalues.SETTING_RTOL] if settingsandvalues.SETTING_RTOL\
         in self.settings else settingsandvalues.DEFAULT_RTOL
 
-        odeManager.atol = self.settings[settingsandvalues.SETTING_ATOL] if settingsandvalues.SETTING_ATOL\
+        self.odeManager.atol = self.settings[settingsandvalues.SETTING_ATOL] if settingsandvalues.SETTING_ATOL\
         in self.settings else settingsandvalues.DEFAULT_ATOL
 
-        odeManager.xtol = self.settings[settingsandvalues.SETTING_XTOL] if settingsandvalues.SETTING_XTOL\
+        self.odeManager.xtol = self.settings[settingsandvalues.SETTING_XTOL] if settingsandvalues.SETTING_XTOL\
         in self.settings else settingsandvalues.DEFAULT_XTOL
 
 #        odeManager.globalParamStdDeviation = self.settings[settingsandvalues.SETTING_SD_SPECIES]\
@@ -305,16 +317,16 @@ class ParkinCppBackend(BaseBackend):
 #        else settingsandvalues.DEFAULT_SD_SPECIES
 
 #        odeManager.useMeasuredTimepoints = self.useMeasuredTimepoints
-        odeManager.init()
-        return odeManager
+        self.odeManager.init()
+        return self.odeManager
 
 
-    def _createBioSystem(self, odeManager):
+    def _createBioSystem(self):
         """
         Uses the ODEManager to create a system of BioParkinCpp Expression objects
         (+ other data and information).
         """
-        if not odeManager:
+        if not self.odeManager:
             logging.debug("ParkinCppBackend._createBioSystem invoked without ODEManager.")
             return None
 
@@ -324,9 +336,9 @@ class ParkinCppBackend(BaseBackend):
         parameter = StringList()
         expressionMap = ExpressionMap()
         #        self.paramIdToParamEntity = OrderedDict()
-        self.bioSystem = BioSystem(float(odeManager.startTime), float(odeManager.endTime))
-        logging.debug("Start time: %s" % odeManager.startTime)
-        logging.debug("End time: %s" % odeManager.endTime)
+        self.bioSystem = BioSystem(float(self.odeManager.startTime), float(self.odeManager.endTime))
+        logging.debug("Start time: %s" % self.odeManager.startTime)
+        logging.debug("End time: %s" % self.odeManager.endTime)
 
         rTol = float(self.odeManager.rtol)
         aTol = float(self.odeManager.atol)
@@ -334,12 +346,12 @@ class ParkinCppBackend(BaseBackend):
         self.bioSystem.setSolverATol(aTol)
 
         # set names / identifies of parameters
-        for paramWrapper in odeManager.parameterList:
+        for paramWrapper in self.odeManager.parameterList:
             #id = paramWrapper.getId()
             id = paramWrapper.getCombinedId()
             parameter.push_back(id)
             #            self.paramIdToParamEntity[id] = paramWrapper.wrappedEntity
-        for compartmentWrapper in odeManager.compartmentList:   # we handle compartments as if they were parameters
+        for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
             id = compartmentWrapper.getId()
             parameter.push_back(id)
 
@@ -347,7 +359,7 @@ class ParkinCppBackend(BaseBackend):
 
 
         # set the initial value(s) for ODE system
-        for speciesWrapper in odeManager.speciesList:
+        for speciesWrapper in self.odeManager.speciesList:
             try:
                 value = float(speciesWrapper.getInitialValue())
             except :    # if initial value is None (it probably will be set by an AssignmentRule)
@@ -362,22 +374,22 @@ class ParkinCppBackend(BaseBackend):
         substitutionMap = ExpressionMap()
 
         # AssignmentRules are replaced directly inside reactions
-        for assignmentRule in odeManager.assignmentRuleList:
+        for assignmentRule in self.odeManager.assignmentRuleList:
             substitutionMap[assignmentRule.getId()] = assignmentRule.mathForBioParkinCpp()
 
         # Reactions use replaced AssignmentRules and are themselves used for replacing their IDs in ODEs
-        for reactionWrapper in odeManager.reactionList:
+        for reactionWrapper in self.odeManager.reactionList:
             expression = reactionWrapper.mathForBioParkinCpp(idsToReplace=substitutionMap)
             if expression:
                 substitutionMap[reactionWrapper.getId()] = expression
 
         # Params are used with their combined ID: "scope_id"
-        for paramWrapper in odeManager.parameterList:
+        for paramWrapper in self.odeManager.parameterList:
             expression = Expression(paramWrapper.getCombinedId())
             substitutionMap[paramWrapper.getId()] = expression
 
         # Finally, ODE Expressions are created using all the above substitutions
-        for odeWrapper in odeManager.odeList:
+        for odeWrapper in self.odeManager.odeList:
             expression = odeWrapper.mathForBioParkinCpp(idsToReplace=substitutionMap)
             logging.debug("ODE for ID %s = %s" % (odeWrapper.getId(), expression))
             expressionMap[odeWrapper.getId()] = expression
@@ -468,26 +480,26 @@ class ParkinCppBackend(BaseBackend):
         events[self.settings[settingsandvalues.SETTING_ENDTIME]] = None
 
         try:
-            breakpoints = Vector(ValueList(events.keys()))
+            self.breakpoints = Vector(ValueList(events.keys()))
 #            breakpoints = Vector(len(events.keys()))
 #            for i, timepoint in enumerate(events.keys()):
 #                breakpoints[i] = timepoint
-            self.bioSystem.setBreakpoints(breakpoints)
+            self.bioSystem.setBreakpoints(self.breakpoints)
 
             for i, (time, assignmentList) in enumerate(events.items()):
-                if i == 0 or i == len(breakpoints) - 1 or not assignmentList:
+                if i == 0 or i == len(self.breakpoints) - 1 or not assignmentList:
                     continue
 
-                eventMap = self.bioSystem.getEvent(i)
+                self.eventMap = self.bioSystem.getEvent(i)
 
                 for target, assignment in assignmentList:
                     wrappedAssignment = ODEWrapper(None, mathNode=assignment, mainModel=self.mainModel)
                     expressionBioParkinCpp = wrappedAssignment.mathForBioParkinCpp()
                     #                    expressionBioParkinCpp = Expression(expressionAstNode)
-                    eventMap[target] = expressionBioParkinCpp
+                    self.eventMap[target] = expressionBioParkinCpp
                     logging.debug("Event #%s\tTime: %s\tTarget: %s\tExpression: %s" % (i,time,target,expressionBioParkinCpp))
 
-                self.bioSystem.setEvent(i, eventMap)
+                self.bioSystem.setEvent(i, self.eventMap)
         except Exception, e:
             logging.debug("ParkinCppBackend._setBioSystemEvents(): Error while creating events: %s" % e)
 
@@ -637,10 +649,10 @@ class ParkinCppBackend(BaseBackend):
 
 
         self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
-        trajectoryMap = self.bioProcessor.getScaledSensitivityTrajectories() # always get the scaled trajectories
+        self.sensitivityTrajectoryMap = self.bioProcessor.getScaledSensitivityTrajectories() # always get the scaled trajectories
 
 
-        if not trajectoryMap:
+        if not self.sensitivityTrajectoryMap:
             logging.error("Computation of Sensitivity Overview failed. Empty trajectory map returned.")
             return False
 
@@ -659,7 +671,7 @@ class ParkinCppBackend(BaseBackend):
 
 
         dataSets = {}
-        for key, dataPoints in trajectoryMap.items():
+        for key, dataPoints in self.sensitivityTrajectoryMap.items():
             splitKey = key.split(" / ")
             speciesId = splitKey[0]
             paramId = splitKey[1]
@@ -710,14 +722,12 @@ class ParkinCppBackend(BaseBackend):
             return False
 
         # necessary to have scales...
-        self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
+        self.sensitivityTrajectoryMap = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
-        timepointsVector = Vector(ValueList(self.sensitivityTimepoints))
-#        for i, timepoint in enumerate(self.sensitivityTimepoints):
-#            timepointsVector[i] = timepoint
+        self.sensitivityTimepointsVector = Vector(ValueList(self.sensitivityTimepoints))
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): About to prepare detailed sensitivities...")
-        errorInt = self.bioProcessor.prepareDetailedSensitivities(timepointsVector)
+        errorInt = self.bioProcessor.prepareDetailedSensitivities(self.sensitivityTimepointsVector)
         if errorInt != 0:
             logging.error("Could not prepare detailed sensitivities. Return code: %s" % errorInt)
             return False
@@ -765,54 +775,54 @@ class ParkinCppBackend(BaseBackend):
         return selectedParams
 
 
-    def _extractTimecources(self, rawJacobian):
-        """
-        The raw Jacobian list will be re-ordered to a sensitivity matrix.
-        The resulting output is given as dictionary (OrderedDict)
-        """
-        
-        if type(rawJacobian) is not Matrix:
-            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Didn't get a Matrix as input.")
-            return None
-
-        numParams = len(self.selectedParams)
-        numSpecies = len(self.odeManager.odeList)
-        numTimePoints = rawJacobian.nr() / numSpecies
-
-        if (rawJacobian.nr() % numSpecies != 0) or (numTimePoints <= 0):
-            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Wrong format of raw Jacobian.")
-            return None
-
-        logging.info("Preparing sensitivity data...")
-
-        sensData = OrderedDict()
-        listOfSpecies = [] # self.bioPar.getSpecies()
-        
-        for jDummy, odeWrapper in enumerate(self.odeManager.odeList):
-            correspondingSpecies = odeWrapper.speciesEntity
-            if not correspondingSpecies and odeWrapper.rule:
-                correspondingSpecies = odeWrapper.target
-            if not correspondingSpecies:
-                logging.error(
-                    "ParkinCppBackend: Can't associate results of ODE %s with a target entity. Skipping these results. Species: %s Rule: %s" % (
-                    odeWrapper.getId(), odeWrapper.speciesEntity, odeWrapper.rule))
-                listOfSpecies.append(None)
-            else:
-                listOfSpecies.append(correspondingSpecies)
-        
-        # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
-        # print rawJacobian
-
-        for k, param in enumerate(self.selectedParams):
-            jacobianColumn = rawJacobian.colm(k+1)  # note: type(rawJacobian)==Matrix starts counting with 1, not with 0
-            paramID = param.getCombinedId()
-            for j, speciesEntity in enumerate(listOfSpecies):
-                # speciesID = species.getCombinedId()
-                data = [jacobianColumn[tp*numSpecies + j] for tp in xrange(numTimePoints)]
-                data.insert(0, 0.0)
-                sensData[(speciesEntity, paramID)] = data
-
-        return sensData
+#    def _extractTimecources(self, rawJacobian):
+#        """
+#        The raw Jacobian list will be re-ordered to a sensitivity matrix.
+#        The resulting output is given as dictionary (OrderedDict)
+#        """
+#
+#        if type(rawJacobian) is not Matrix:
+#            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Didn't get a Matrix as input.")
+#            return None
+#
+#        numParams = len(self.selectedParams)
+#        numSpecies = len(self.odeManager.odeList)
+#        numTimePoints = rawJacobian.nr() / numSpecies
+#
+#        if (rawJacobian.nr() % numSpecies != 0) or (numTimePoints <= 0):
+#            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Wrong format of raw Jacobian.")
+#            return None
+#
+#        logging.info("Preparing sensitivity data...")
+#
+#        sensData = OrderedDict()
+#        listOfSpecies = [] # self.bioPar.getSpecies()
+#
+#        for jDummy, odeWrapper in enumerate(self.odeManager.odeList):
+#            correspondingSpecies = odeWrapper.speciesEntity
+#            if not correspondingSpecies and odeWrapper.rule:
+#                correspondingSpecies = odeWrapper.target
+#            if not correspondingSpecies:
+#                logging.error(
+#                    "ParkinCppBackend: Can't associate results of ODE %s with a target entity. Skipping these results. Species: %s Rule: %s" % (
+#                    odeWrapper.getId(), odeWrapper.speciesEntity, odeWrapper.rule))
+#                listOfSpecies.append(None)
+#            else:
+#                listOfSpecies.append(correspondingSpecies)
+#
+#        # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
+#        # print rawJacobian
+#
+#        for k, param in enumerate(self.selectedParams):
+#            jacobianColumn = rawJacobian.colm(k+1)  # note: type(rawJacobian)==Matrix starts counting with 1, not with 0
+#            paramID = param.getCombinedId()
+#            for j, speciesEntity in enumerate(listOfSpecies):
+#                # speciesID = species.getCombinedId()
+#                data = [jacobianColumn[tp*numSpecies + j] for tp in xrange(numTimePoints)]
+#                data.insert(0, 0.0)
+#                sensData[(speciesEntity, paramID)] = data
+#
+#        return sensData
 
 
     def _handleJacobianMatrix(self, rawJacobian, timepoint):
@@ -942,13 +952,13 @@ class ParkinCppBackend(BaseBackend):
 
 
         if mode == TASK_PARAMETER_IDENTIFICATION:
-            timepointVector, measurementMapVector = self._getBioParkinCppCompatibleMeasurements()
+            self.timepointVector, self.measurementMapVector = self._getBioParkinCppCompatibleMeasurements()
 
-            if not measurementMapVector or not timepointVector:
+            if not self.measurementMapVector or not self.timepointVector:
                 logging.debug("ParkinCppBackend._doParameterEstimation(): Could not obtain timepoints and/or datapoints.")
                 return None, None
 
-            self.bioSystem.setMeasurementList(timepointVector, measurementMapVector)
+            self.bioSystem.setMeasurementList(self.timepointVector, self.measurementMapVector)
 
 #            measurementVector = self.bioSystem.getMeasurements() # returns format that's compatible with GaussNewton()
 #            measurementWeightVector = self.bioSystem.getMeasurementWeights()
@@ -967,47 +977,47 @@ class ParkinCppBackend(BaseBackend):
 
 
         # set up parameters for BioProcessor
-        paramMap = Param()
-        paramThresholdMap = Param()
+        self.paramMap = Param()
+        self.paramThresholdMap = Param()
         for i in xrange(len(self.selectedParams)):
             selectedParam = self.selectedParams[i]
             combinedId = selectedParam.getCombinedId()  # includes "scope_"
             value = self.mainModel.getValueFromActiveSet(combinedId)
-            paramMap[combinedId] = value
+            self.paramMap[combinedId] = value
             threshold = selectedParam.getThreshold()
             if not threshold:
                 logging.error("There are Parameters for which thresholds have not been set. Computing sensitivities is not possible without thresholds. Please, set thresholds!")
                 return None, None
-            paramThresholdMap[combinedId] = threshold
+            self.paramThresholdMap[combinedId] = threshold
 
-        self.bioProcessor.setCurrentParamValues(paramMap)
-        self.bioProcessor.setCurrentParamThres(paramThresholdMap)
+        self.bioProcessor.setCurrentParamValues(self.paramMap)
+        self.bioProcessor.setCurrentParamThres(self.paramThresholdMap)
 
 
         # set up Species thresholds
-        speciesThresholdMap = Param()
+        self.speciesThresholdMap = Param()
         for species in self.odeManager.speciesList:
             id = species.getId()
             threshold = species.getThreshold()
             if not threshold:
                 continue
-            speciesThresholdMap[id] = threshold
-        if speciesThresholdMap:
-            self.bioProcessor.setCurrentSpeciesThres(speciesThresholdMap)
+            self.speciesThresholdMap[id] = threshold
+        if self.speciesThresholdMap:
+            self.bioProcessor.setCurrentSpeciesThres(self.speciesThresholdMap)
 
 
-        iOpt = IOpt()
-        iOpt.mode = 0                                                                      # 0:normal run, 1:single step
-        iOpt.jacgen = int(self.settings[settingsandvalues.SETTING_JACOBIAN])               # 1:user supplied Jacobian, 2:num.diff., 3:num.diff.(with feedback)
-        iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
-        iOpt.nonlin = int(self.settings[settingsandvalues.SETTING_PROBLEM_TYPE])           # 1:linear, 2:mildly nonlin., 3:highly nonlin., 4:extremely nonlin.
+        self.iOpt = IOpt()
+        self.iOpt.mode = 0                                                                      # 0:normal run, 1:single step
+        self.iOpt.jacgen = int(self.settings[settingsandvalues.SETTING_JACOBIAN])               # 1:user supplied Jacobian, 2:num.diff., 3:num.diff.(with feedback)
+        self.iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
+        self.iOpt.nonlin = int(self.settings[settingsandvalues.SETTING_PROBLEM_TYPE])           # 1:linear, 2:mildly nonlin., 3:highly nonlin., 4:extremely nonlin.
 #        iOpt.norowscal = self.settings[settingsandvalues.SETTING_NO_AUTO_ROW_SCALING]      # allow for automatic row scaling of Jacobian if __false__
-        iOpt.rscal = int(self.settings[settingsandvalues.SETTING_RESIDUAL_SCALING])        # 1:use unchanged fscal, 2:recompute/modify fscal, 3:use automatic scaling only
-        iOpt.lpos = (self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS] != 1)
-        iOpt.mprmon = 2
-        iOpt.mprerr = 1
-        iOpt.itmax = int(self.settings[backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS])
-        self.bioProcessor.setIOpt(iOpt)
+        self.iOpt.rscal = int(self.settings[settingsandvalues.SETTING_RESIDUAL_SCALING])        # 1:use unchanged fscal, 2:recompute/modify fscal, 3:use automatic scaling only
+        self.iOpt.lpos = (self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS] != 1)
+        self.iOpt.mprmon = 2
+        self.iOpt.mprerr = 1
+        self.iOpt.itmax = int(self.settings[backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS])
+        self.bioProcessor.setIOpt(self.iOpt)
 
 
         
