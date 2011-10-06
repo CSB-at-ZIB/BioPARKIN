@@ -210,10 +210,10 @@ class ParkinCppBackend(BaseBackend):
         self.odeManager = self._createOdeManager()
 
         # create the "bio system" (basically one of the two main PARKINCpp classes for interfacing with BioPARKIN)
-        if not self.bioSystem:
-            self._createBioSystem()
-        if not self.bioProcessor:
-            self._createBioProcessor()
+#        if not self.bioSystem:
+        self._createBioSystem()
+#        if not self.bioProcessor:
+        self._createBioProcessor()
 
         initEndTime = time.time()
         timeElapsed = initEndTime - initStartTime
