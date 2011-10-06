@@ -379,7 +379,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
                 continue
             logging.debug("Creating data table (sensitivity subconditions data)...")
 
-            titleWithTime = "%s - %s" % (                     key, time.strftime("%H:%M:%S", time.localtime()))
+            titleWithTime = "%s - %s" % (key, time.strftime("%H:%M:%S", time.localtime()))
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime, mode=tablewidgetcontroller.MODE_SUBCONDITIONS)
 #            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
             dataTableWidget.sortColumn = -1

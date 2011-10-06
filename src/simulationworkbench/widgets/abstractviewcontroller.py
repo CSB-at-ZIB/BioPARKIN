@@ -40,6 +40,7 @@ class AbstractViewController(QWidget):
         The data structure for the data model is a dict:
         {'source ID': [list of data IDs, e.g. GnrH, ...]}
         '''
+        self.dataSources = dataSources
         if not self.dataSources:
             logging.info("No data sources, nothing to be shown.")
             return
@@ -121,7 +122,7 @@ class AbstractViewController(QWidget):
     def hasData(self, dataSet):
         if not self.dataSources:
             return False
-        return True if dataSet in self.dataSources.items() else False
+        return True if dataSet in self.dataSources.values() else False
 
 
     def _updateDataView(self):
