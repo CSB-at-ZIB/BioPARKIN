@@ -210,8 +210,10 @@ class ParkinCppBackend(BaseBackend):
         self.odeManager = self._createOdeManager()
 
         # create the "bio system" (basically one of the two main PARKINCpp classes for interfacing with BioPARKIN)
-        self._createBioSystem()
-        self._createBioProcessor()
+        if not self.bioSystem:
+            self._createBioSystem()
+        if not self.bioProcessor:
+            self._createBioProcessor()
 
         initEndTime = time.time()
         timeElapsed = initEndTime - initStartTime
@@ -332,10 +334,8 @@ class ParkinCppBackend(BaseBackend):
 
         logging.debug("Creating BioSystem...")
 
-#        species = StringList()
         parameter = StringList()
         expressionMap = ExpressionMap()
-        #        self.paramIdToParamEntity = OrderedDict()
         self.bioSystem = BioSystem(float(self.odeManager.startTime), float(self.odeManager.endTime))
         logging.debug("Start time: %s" % self.odeManager.startTime)
         logging.debug("End time: %s" % self.odeManager.endTime)
@@ -347,10 +347,8 @@ class ParkinCppBackend(BaseBackend):
 
         # set names / identifies of parameters
         for paramWrapper in self.odeManager.parameterList:
-            #id = paramWrapper.getId()
             id = paramWrapper.getCombinedId()
             parameter.push_back(id)
-            #            self.paramIdToParamEntity[id] = paramWrapper.wrappedEntity
         for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
             id = compartmentWrapper.getId()
             parameter.push_back(id)
@@ -734,9 +732,6 @@ class ParkinCppBackend(BaseBackend):
             
         qrConDecompVector = self.bioProcessor.getSensitivityDecomps()
         rawJacobianMatrixVector = self.bioProcessor.getSensitivityMatrices()  # gets raw Jacobian matrix
-                                                            # REQUIREMENT: row order corresponds one to one 
-                                                            #              with MeasurementList / odeManager.odeList 
-                                                            # *VERY UGLY*
 
         for i, qrConDecomp in enumerate(qrConDecompVector):
             timepoint = self.sensitivityTimepoints[i]

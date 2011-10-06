@@ -29,6 +29,7 @@ class AbstractViewController(QWidget):
 #        self.DataIndexToDataID = {}
         self.dataSourceIDs = []
         self.allData = None
+        self.dataSources = None
 
     def updateDataSources(self, dataSources, dataID=None):
         '''
@@ -39,7 +40,7 @@ class AbstractViewController(QWidget):
         The data structure for the data model is a dict:
         {'source ID': [list of data IDs, e.g. GnrH, ...]}
         '''
-        if not dataSources:
+        if not self.dataSources:
             logging.info("No data sources, nothing to be shown.")
             return
             
@@ -50,10 +51,10 @@ class AbstractViewController(QWidget):
 
         self.dataSourceIDs = []
 
-        if type(dataSources) is list:
+        if type(self.dataSources) is list:
             try:
                 combinedDataSource = OrderedDict()
-                for source in dataSources:
+                for source in self.dataSources:
                     for key, value in source.items():
                         origin = value.getId()
                         if not origin in self.dataSourceIDs:
@@ -62,16 +63,16 @@ class AbstractViewController(QWidget):
                         if key in combinedDataSource:
                             logging.debug("AbstractViewController: Duplicate key encountered while merging data sources for display.")
                         combinedDataSource[key] = value
-                dataSources = combinedDataSource
+                self.dataSources = combinedDataSource
             except:
                 logging.error("AbstractViewController: Could not combine several datasource dictionaries into one.")
 
         if dataID:
             singledataSource = OrderedDict()
-            singledataSource[dataID] = dataSources[dataID]
-            dataSources = singledataSource
+            singledataSource[dataID] = self.dataSources[dataID]
+            self.dataSources = singledataSource
 
-        self.dataSourceTableModel = DataSourcesTableModel(dataSources)
+        self.dataSourceTableModel = DataSourcesTableModel(self.dataSources)
         self.dataSourceTableView.setModel(self.dataSourceTableModel)
 
         # use header with checkboxes
@@ -116,6 +117,11 @@ class AbstractViewController(QWidget):
     def getSelectedCombinations(self):
         if self.dataSourceTableModel:
             return self.dataSourceTableModel.getSelectedCombinations()
+
+    def hasData(self, dataSet):
+        if not self.dataSources:
+            return False
+        return True if dataSet in self.dataSources.items() else False
 
 
     def _updateDataView(self):

@@ -352,6 +352,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if not sensData:
             return
 
+            
+        if self.resultsWindow.hasResultforData(sensData):
+            return
+
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Sensitivity (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
@@ -370,9 +374,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             logging.debug("SimulationWorkbenchController._createSensitivityDetailsSubconditionsTables(): No sensitivity data.")
             return
 
-        for key in sensData.keys():
+        for key, dataSet in sensData.items():
+            if self.resultsWindow.hasResultforData(dataSet):
+                continue
             logging.debug("Creating data table (sensitivity subconditions data)...")
-            # TODO: Either remove the old table widget or store all table widgets in a []/{}
+
             titleWithTime = "%s - %s" % (                     key, time.strftime("%H:%M:%S", time.localtime()))
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime, mode=tablewidgetcontroller.MODE_SUBCONDITIONS)
 #            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
@@ -383,12 +389,15 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             dataTableWidget.updateDataSources(sensData, dataID=key)
 
             self.resultsWindow.addResultSubWindow(dataTableWidget)
+            
 
 
     def _createSensitivityDetailsJacobianTables(self):
         sensData = self.dataService.get_sensitivity_details_jacobian_data()
 
-        for key in sensData.keys():
+        for key, dataSet in sensData.items():
+            if self.resultsWindow.hasResultforData(dataSet):
+                continue
             logging.debug("Creating data table (sensitivity jacobian data)...")
             # TODO: Either remove the old table widget or store all table widgets in a []/{}
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,

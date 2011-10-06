@@ -42,6 +42,14 @@ class ResultsWindowController(QMainWindow, Ui_ResultsWindow):
         subWindow.show()    # important!
         self.show()
 
+    def hasResultforData(self, dataSet):
+        for subWindow in self.getMdiArea().subWindowList():
+            viewController = subWindow.widget()
+            if viewController.hasData(dataSet):
+                return True
+        return False
+
+
 
     #### SLOTS ######
 
