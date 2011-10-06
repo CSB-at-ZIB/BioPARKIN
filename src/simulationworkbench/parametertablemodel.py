@@ -28,7 +28,6 @@ class ParameterTableModel(QAbstractTableModel):
         """
         super(ParameterTableModel, self).__init__()
         self.paramList = listOfParams
-        #self.paramSets = listOfParameterSets
         self.mainModel = mainModel
 
         # per default, all parameters are checked so that sensitivities are computed
@@ -37,14 +36,11 @@ class ParameterTableModel(QAbstractTableModel):
 
         if self.paramList:
             for param in self.paramList:
-                #self.paramsToSensitivityMap[param.Item] = True
                 self.paramsToSensitivityMap[param] = True
                 self.paramToEstimateMap[param] = False
         else:
             self.paramList = []
 
-        #self.paramSets.changed.connect(self.paramSetsChanged)
-        #self.getListOfParameterSets
         self.mainModel.ListOfParameterSets.changed.connect(self.paramSetsChanged)
 
         self.Dirty = False # True if something has been changed
@@ -132,7 +128,6 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.SCOPE:
                 return None
             elif column == COLUMN.COMPUTESENSITIVITY:
-                #return Qt.Checked if self.paramsToSensitivityMap[param] else Qt.Unchecked
                 return Qt.Checked if self.paramsToSensitivityMap[sbmlEntity] else Qt.Unchecked
             elif column == COLUMN.ESTIMATE:
                 return Qt.Checked if self.paramToEstimateMap[sbmlEntity] else Qt.Unchecked
@@ -247,7 +242,6 @@ class ParameterTableModel(QAbstractTableModel):
 #                if column == COLUMN.ISCONSTANT:
 #                    param.setConstant(isChecked)
                 if column == COLUMN.COMPUTESENSITIVITY:
-                    #self.paramsToSensitivityMap[param] = isChecked
                     self.paramsToSensitivityMap[sbmlEntity] = isChecked
                 if column == COLUMN.ESTIMATE:
                     self.paramToEstimateMap[sbmlEntity] = isChecked

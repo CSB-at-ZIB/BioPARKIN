@@ -402,17 +402,15 @@ class ParkinCppBackend(BaseBackend):
         """
         Set initial param values for BioSystem.
         """
-        self.paramValues = Param()
         for paramWrapper in self.odeManager.parameterList:
             id = paramWrapper.getCombinedId()
             initialValue = self.mainModel.getValueFromActiveSet(id)
-            self.paramValues[id] = initialValue
             self.bioSystem.setParamValue(id, initialValue)
         for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
             id = compartmentWrapper.getId()
             initialSize = compartmentWrapper.getSize()
-            self.paramValues[id] = initialSize
             self.bioSystem.setParamValue(id, initialSize)
+
 
 
     def _setBioSystemEvents(self):
@@ -534,19 +532,12 @@ class ParkinCppBackend(BaseBackend):
 
         return True
 
-    def _computeTimecourse(self, param=None, newParamValue=None):
+    def _computeTimecourse(self):
         """
-        Does a single forward calculation (with or without a changed param value) and puts the results
+        Does a single forward calculation and puts the results
         into some class variables.
         """
         logging.debug("Computing Timecourse...")
-
-
-
-        #        QCoreApplication.processEvents()
-#        logging.debug("Before sleep")
-#        self.sleep(5)
-#        logging.debug("After sleep")
 
         trajectoryMap = self.bioProcessor.computeModel()
 
@@ -741,32 +732,13 @@ class ParkinCppBackend(BaseBackend):
 
         for i, rawJacobianMatrix in enumerate(rawJacobianMatrixVector):
             timepoint = self.sensitivityTimepoints[i]
-            # sensData = self._extractTimecources(rawJacobianMatrix)
-            # sensDataSet = self._handleSensitivityResults(sensData)
             speciesParameterSensitivity = self._handleJacobianMatrix(rawJacobianMatrix, timepoint)
-    #        self.parameterSensitivity = self._computeParameterSens()
-
-            # self.dataService.add_data(sensDataSet)
-    #        self.dataService.add_data(self.parameterSensitivity)
             self.dataService.add_data(speciesParameterSensitivity)
 
         logging.info("Finished computing Detailed Sensitivities...")
 
         return True
 
-
-    def _computeSensGetSelectedParams(self):
-        """
-        Grab the selected parameters that are put into this class from the outside (e.g. SimulationWorkbench).
-        """
-
-        selectedParams = [] # put selected params into a list so they have a defined order
-        for paramWrapper in self.mainModel.SbmlParameters:
-            #selectedParam = paramWrapper.Item
-            selectedParam = paramWrapper
-            if self.paramToSensitivityMap.has_key(selectedParam) and self.paramToSensitivityMap[selectedParam]:
-                selectedParams.append(selectedParam)
-        return selectedParams
 
 
 #    def _extractTimecources(self, rawJacobian):
@@ -936,11 +908,12 @@ class ParkinCppBackend(BaseBackend):
         """
         # get selected parameters
         if mode == TASK_PARAMETER_IDENTIFICATION:
-            self.selectedParams = self._estimateParamsGetSelectedParams()
+            self.selectedParams = [param for param, isSelected in self.paramToEstimateMap.items() if isSelected]
         elif mode == TASK_SENSITIVITY_OVERVIEW or mode == TASK_SENSITIVITIES_DETAILS:
-            self.selectedParams = self._computeSensGetSelectedParams()
+            self.selectedParams = [param for param, isSelected in self.paramToSensitivityMap.items() if isSelected]
 
         if not self.selectedParams:
+            logging.error("No parameters selected.")
             return None, None
 
 
@@ -954,27 +927,11 @@ class ParkinCppBackend(BaseBackend):
 
             self.bioSystem.setMeasurementList(self.timepointVector, self.measurementMapVector)
 
-#            measurementVector = self.bioSystem.getMeasurements() # returns format that's compatible with GaussNewton()
-#            measurementWeightVector = self.bioSystem.getMeasurementWeights()
-            #self.bioProcessor.setMeasurements(measurementVector, measurementWeightVector)
-#            self.bioSystem.setMeasurementList(measurementVector)
-#        elif mode == TASK_SENSITIVITIES_DETAILS:
-            
-
-            # we should not need the following any more... should we? :)
-#        elif mode == TASK_SENSITIVITY_OVERVIEW:
-#            numOfPseudoMeasurements = self.odeManager.intervalCount * len(self.odeManager.speciesList)
-#            measurementVector = Vector()
-#            measurementVector.zeros(numOfPseudoMeasurements)
-#            measurementWeightVector = Vector()
-#            measurementWeightVector.zeros(numOfPseudoMeasurements)
-
 
         # set up parameters for BioProcessor
         self.paramMap = Param()
         self.paramThresholdMap = Param()
-        for i in xrange(len(self.selectedParams)):
-            selectedParam = self.selectedParams[i]
+        for selectedParam in self.selectedParams:
             combinedId = selectedParam.getCombinedId()  # includes "scope_"
             value = self.mainModel.getValueFromActiveSet(combinedId)
             self.paramMap[combinedId] = value
@@ -1045,19 +1002,6 @@ class ParkinCppBackend(BaseBackend):
 
         return True # computation successful
 
-    def _estimateParamsGetSelectedParams(self):
-        """
-        Retrieves the currently selected (checked) parameters from a dict that has to be set from
-        the outside (e.g. the SimulationWorkbench).
-        """
-
-        selectedParams = [] # put selected params into a list so they have a defined order
-        for paramWrapper in self.mainModel.SbmlParameters:
-            #selectedParam = paramWrapper.Item
-            selectedParam = paramWrapper
-            if self.paramToEstimateMap.has_key(selectedParam) and self.paramToEstimateMap[selectedParam]:
-                selectedParams.append(selectedParam)
-        return selectedParams
 
 
     def _getBioParkinCppCompatibleMeasurements(self):
