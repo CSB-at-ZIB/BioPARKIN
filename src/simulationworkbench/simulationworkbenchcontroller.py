@@ -695,7 +695,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         #        self.speciesTableModel.bef
         for species in self.sbmlModel.SbmlSpecies:
             species.setThreshold(self.machineEpsilon)
-            self.speciesTableModel.layoutChanged.emit()
+        self.speciesTableModel.layoutChanged.emit()
 
     def initializeThresholdsParameters(self):
         if not self.askForThresholdConfirmation():
@@ -704,7 +704,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         # else: init of thresholds is a go
         for param in self.sbmlModel.SbmlParameters:
             param.setThreshold(self.machineEpsilon)
-            self.parametersTableModel.layoutChanged.emit()
+        self.parametersTableModel.layoutChanged.emit()
 
 
     def askForThresholdConfirmation(self):
