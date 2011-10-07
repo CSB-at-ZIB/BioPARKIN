@@ -108,7 +108,22 @@ class ParkinCppBackend(BaseBackend):
 
     def __del__(self):
 #        self.exiting = True
-        self.wait()
+
+        # explicitely destroy SWIG-wrapped objects
+        del self.bioSystem
+        del self.bioSystem
+        del self.sensitivityTimepointsVector
+        del self.timepointVector
+        del self.measurementMapVector
+        del self.breakpoints
+        del self.eventMap
+        del self.paramMap
+        del self.paramThresholdMap
+        del self.speciesThresholdMap
+        del self.iOpt
+        del self.sensitivityTrajectoryMap
+
+        self.wait() #blocks this thread until it has finished
 
     def setMode(self, mode):
         """

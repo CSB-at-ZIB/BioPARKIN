@@ -675,11 +675,11 @@ class SBMLMainModel(QObject):
         self.dictOfAssignmentRules = {}
         for rule in listOfRules:
             logging.info("Rule: %s\t%s" % (rule.getId(), rule.getName()))
-            if rule.isAlgebraic():
-                wrappedRule = self.createSBMLEntity(rule, parent=self.AlgebraicRuleWrapper)
-                self.SbmlAlgebraicRules.append(wrappedRule)
-                self.dictOfAlgebraicRules[rule.getId()] = wrappedRule
-            elif rule.isAssignment():
+#            if rule.isAlgebraic(): # support for algebraic rules is inactive for now
+#                wrappedRule = self.createSBMLEntity(rule, parent=self.AlgebraicRuleWrapper)
+#                self.SbmlAlgebraicRules.append(wrappedRule)
+#                self.dictOfAlgebraicRules[rule.getId()] = wrappedRule
+            if rule.isAssignment():
                 wrappedRule = self.createSBMLEntity(rule, parent=self.AssignmentRuleWrapper)
                 self.SbmlAssignmentRules.append(wrappedRule)
                 self.dictOfAssignmentRules[rule.getId()] = wrappedRule

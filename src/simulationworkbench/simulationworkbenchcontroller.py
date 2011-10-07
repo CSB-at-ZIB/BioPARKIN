@@ -300,6 +300,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         logging.debug("Creating Plot...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
+            self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
 
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
@@ -459,7 +460,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.currentBackend:
             self.currentBackend.finishedSignal.disconnect(self.backendRunFinished)
 
-        self.currentBackend = self._getCurrentBackend()
+        # use getNew=True for the time being (there is some problem with references when reusing the "old" backend object
+        self.currentBackend = self._getCurrentBackend(getNew=True)
         self.currentBackend.finishedSignal.connect(self.backendRunFinished)
 
         self.progressBarService = ProgressBarService()
@@ -508,6 +510,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     def _getCurrentBackend(self, getNew=False):
         if not self.backendBioParkinCpp or getNew:
+            del self.backendBioParkinCpp # explicitely destroy the old backend object
+            self.backendBioParkinCpp = None
             self.backendBioParkinCpp = ParkinCppBackend()
         return self.backendBioParkinCpp
 

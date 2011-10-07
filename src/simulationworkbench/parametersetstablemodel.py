@@ -123,7 +123,10 @@ class ParameterSetsTableModel(QAbstractTableModel):
         return None
 
     def rowCount(self, index=QModelIndex()):
-        return self.paramSets.numParameters() + numAdditionalRows
+        if self.paramSets.numParameters():
+            return self.paramSets.numParameters() + numAdditionalRows
+        else:
+            return numAdditionalRows
 
     def columnCount(self, index=QModelIndex()):
         return len(self.paramSets)

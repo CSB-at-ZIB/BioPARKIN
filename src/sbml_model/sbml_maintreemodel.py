@@ -357,6 +357,8 @@ class SBMLMainTreeModel(QAbstractItemModel):
         self.structuralChange.emit(entity,type)
     
     def _connectToSignals(self, sbmlEntity):
+        if not sbmlEntity:
+            return
         sbmlEntity.hasChanged.connect(self.entityHasChanged)
         numChildren = sbmlEntity.getChildrenCount()
         if numChildren > 0:
