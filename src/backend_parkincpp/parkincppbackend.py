@@ -725,7 +725,7 @@ class ParkinCppBackend(BaseBackend):
             return False
 
         # necessary to have scales...
-        self.sensitivityTrajectoryMap = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
+#        self.sensitivityTrajectoryMap = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
         self.sensitivityTimepointsVector = Vector(ValueList(self.sensitivityTimepoints))
@@ -955,7 +955,7 @@ class ParkinCppBackend(BaseBackend):
                 logging.error("There are Parameters for which thresholds have not been set. Computing sensitivities is not possible without thresholds. Please, set thresholds!")
                 return None, None
             self.paramThresholdMap[combinedId] = threshold
-
+#
         self.bioProcessor.setCurrentParamValues(self.paramMap)
         self.bioProcessor.setCurrentParamThres(self.paramThresholdMap)
 
