@@ -76,7 +76,7 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.INITIALVALUE:
                 #return param.getValue()
                 if not param.getConstant():
-                    return "Assignment Rule"
+                    return "Assignm."
                 
                 combinedId = sbmlEntity.getCombinedId()
                 #                if self.getActiveSet():
@@ -111,8 +111,12 @@ class ParameterTableModel(QAbstractTableModel):
                     elif type(grandpa) == libsbml.KineticLaw:
                         reaction = grandpa.getParentSBMLObject()
                         return "%s" % reaction.getId()
-
                 return "N/A"
+            elif column == COLUMN.COMPUTESENSITIVITY:
+                if not sbmlEntity.isConstant():
+                    return "Disabled (Assignm.)"
+
+
 
         if role == Qt.CheckStateRole:
             if column == COLUMN.ID:
@@ -128,7 +132,10 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.SCOPE:
                 return None
             elif column == COLUMN.COMPUTESENSITIVITY:
-                return Qt.Checked if self.paramsToSensitivityMap[sbmlEntity] else Qt.Unchecked
+                if not sbmlEntity.isConstant():
+                    return Qt.Unchecked
+                else:
+                    return Qt.Checked if self.paramsToSensitivityMap[sbmlEntity] else Qt.Unchecked
             elif column == COLUMN.ESTIMATE:
                 return Qt.Checked if self.paramToEstimateMap[sbmlEntity] else Qt.Unchecked
 
@@ -197,17 +204,26 @@ class ParameterTableModel(QAbstractTableModel):
         if not index.isValid():
             return Qt.NoItemFlags
 
-        #if index.column() == COLUMN.ISCONSTANT or index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
-        if index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
-            return (Qt.ItemIsUserCheckable
-                    | Qt.ItemIsEnabled
-                    #| Qt.ItemIsSelectable
-            )
+        sbmlEntity = self.paramList[index.row()]
 
-        elif index.column() == (COLUMN.INITIALVALUE) or index.column() == (COLUMN.SCALE) or index.column() == (COLUMN.NAME):
-            return (Qt.ItemIsEnabled
-                    | Qt.ItemIsEditable
-            )
+        #if index.column() == COLUMN.ISCONSTANT or index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
+        if index.column() == COLUMN.ESTIMATE:
+            return Qt.ItemIsUserCheckable| Qt.ItemIsEnabled
+
+        elif index.column() == COLUMN.COMPUTESENSITIVITY:
+            if not sbmlEntity.isConstant():
+                return Qt.NoItemFlags
+            else:
+                return Qt.ItemIsUserCheckable| Qt.ItemIsEnabled
+
+        elif index.column() == COLUMN.INITIALVALUE:
+            if not sbmlEntity.isConstant():
+                return Qt.NoItemFlags
+            else:
+                return Qt.ItemIsEnabled| Qt.ItemIsEditable
+
+        elif index.column() in (COLUMN.SCALE,COLUMN.NAME):
+            return Qt.ItemIsEnabled| Qt.ItemIsEditable
 
         return Qt.NoItemFlags
 

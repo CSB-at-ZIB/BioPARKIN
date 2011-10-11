@@ -28,12 +28,14 @@ class ParameterSetsTableModel(QAbstractTableModel):
     __copyright__ = "Zuse Institute Berlin 2011"
 
 
-    def __init__(self, listOfParameterSets):
+    def __init__(self, listOfParameterSets, paramEntities):
         '''
         Simple Constructor, just setting up some instance variables.
         '''
         super(ParameterSetsTableModel, self).__init__()
         self.paramSets = listOfParameterSets
+#        self.paramEntities = paramEntities
+        self.paramCombinedIDsMap = self.prepareParametersForAccess(paramEntities)
 
         self.paramIds = self.paramSets.getParamIds()
 
@@ -68,7 +70,11 @@ class ParameterSetsTableModel(QAbstractTableModel):
                 return "Selected" if self.paramSets.selectedSet == paramSet else ""
             else: # get the param value of that Set
                 try:
-                    value = paramSet[self.paramIds[offsetRow]].getValue()
+                    combinedID = self.paramIds[offsetRow]
+                    paramEntity = self.paramCombinedIDsMap[combinedID]
+                    if not paramEntity.isConstant():
+                        return "Assignm."
+                    value = paramSet[combinedID].getValue()
                     return value
                 except:
                     logging.debug("ParameterSetsTableModel.data(): Could not get value for row %s" % offsetRow)
@@ -150,9 +156,14 @@ class ParameterSetsTableModel(QAbstractTableModel):
         #            return (Qt.ItemIsEnabled | Qt.ItemIsEditable )
         #elif index.row() == (COLUMN.INITIALVALUE):
         else:
-            return (Qt.ItemIsEnabled
-                    | Qt.ItemIsEditable
-            )
+            row = index.row()
+            offsetRow = row - numAdditionalRows
+            combinedID = self.paramIds[offsetRow]
+            paramEntity = self.paramCombinedIDsMap[combinedID]
+            if not paramEntity.isConstant():
+                return Qt.NoItemFlags
+            else:
+                return Qt.ItemIsEnabled| Qt.ItemIsEditable
 
         return Qt.NoItemFlags
 
@@ -220,3 +231,9 @@ class ParameterSetsTableModel(QAbstractTableModel):
             return
 
         return self.paramSets.activeSet
+
+    def prepareParametersForAccess(self, paramEntities):
+        idsToEntities = {}
+        for paramEntity in paramEntities:
+            idsToEntities[paramEntity.getCombinedId()] = paramEntity
+        return idsToEntities

@@ -271,7 +271,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
         # Parameter Sets Tab
-        self.parameterSetsTableModel = ParameterSetsTableModel(self.getListOfParameterSets())
+        self.parameterSetsTableModel = ParameterSetsTableModel(self.getListOfParameterSets(), paramEntities)
         self.parameterSetsTableModel.dataChanged.connect(self.parameterChanged)
         self.parameterSetsTableView.setModel(self.parameterSetsTableModel)
         self.parameterSetsTableView.resizeColumnsToContents()
