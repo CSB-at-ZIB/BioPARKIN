@@ -413,7 +413,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Simulate</string>
+            <string>&amp;Simulate</string>
            </property>
           </widget>
          </item>
@@ -536,6 +536,20 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
            <item>
+            <widget class="QPushButton" name="buttonParamSetDuplicate">
+             <property name="text">
+              <string>Duplicate Selected</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonParamSetRemove">
+             <property name="text">
+              <string>Remove Selected</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -549,16 +563,15 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="buttonParamSetDuplicate">
-             <property name="text">
-              <string>Duplicate Selected</string>
+            <widget class="QPushButton" name="simulateButtonParamSets">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="buttonParamSetRemove">
              <property name="text">
-              <string>Remove Selected</string>
+              <string>&amp;Simulate</string>
              </property>
             </widget>
            </item>
@@ -821,7 +834,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Sensitivity Overview</string>
+              <string>Sensitivity &amp;Overview</string>
              </property>
              <property name="checkable">
               <bool>false</bool>
@@ -840,7 +853,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Detailed Sensitivities</string>
+              <string>&amp;Detailed Sensitivities</string>
              </property>
             </widget>
            </item>
@@ -905,7 +918,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Identify Parameters</string>
+              <string>&amp;Identify Parameters</string>
              </property>
             </widget>
            </item>
@@ -1246,7 +1259,7 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>602</x>
+     <x>137</x>
      <y>817</y>
     </hint>
     <hint type="destinationlabel">
@@ -1262,7 +1275,7 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>699</x>
+     <x>234</x>
      <y>817</y>
     </hint>
     <hint type="destinationlabel">
@@ -1328,6 +1341,22 @@
     <hint type="sourcelabel">
      <x>452</x>
      <y>775</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>simulateButtonParamSets</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSimulate</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>586</x>
+     <y>806</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

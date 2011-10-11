@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\BioPARKIN_v2.ui'
 #
-# Created: Tue Oct 11 11:10:09 2011
+# Created: Tue Oct 11 11:20:36 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
@@ -217,8 +217,8 @@ class Ui_MainWindow(object):
         self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.tabModel), QtGui.QApplication.translate("MainWindow", "Model Overview", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "&Help", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&File", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "Actions", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "&Tools", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "&Actions", None, QtGui.QApplication.UnicodeUTF8))
         self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "&New...", None, QtGui.QApplication.UnicodeUTF8))
@@ -291,10 +291,10 @@ class Ui_MainWindow(object):
         self.actionShow_Warnings.setStatusTip(QtGui.QApplication.translate("MainWindow", "Opens a Window showing recent Warnings and Errors", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Warnings.setWhatsThis(QtGui.QApplication.translate("MainWindow", "Opens a Window showing recent Warnings and Errors", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Warnings.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+W", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputeSensitivityOverview.setText(QtGui.QApplication.translate("MainWindow", "Compute Sensitivity Overview", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionComputeSensitivityOverview.setText(QtGui.QApplication.translate("MainWindow", "Compute Sensitivity &Overview", None, QtGui.QApplication.UnicodeUTF8))
         self.actionComputeSensitivityOverview.setToolTip(QtGui.QApplication.translate("MainWindow", "Compute Sensitivity Overview for currently selected Species and Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.actionComputeSensitivityOverview.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+O", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompute_Detailed_Sensitivities.setText(QtGui.QApplication.translate("MainWindow", "Compute Detailed Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompute_Detailed_Sensitivities.setText(QtGui.QApplication.translate("MainWindow", "Compute &Detailed Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompute_Detailed_Sensitivities.setToolTip(QtGui.QApplication.translate("MainWindow", "Compute Detailed Sensitivities (a dialog to choose timepoints will open)", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompute_Detailed_Sensitivities.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+D", None, QtGui.QApplication.UnicodeUTF8))
 

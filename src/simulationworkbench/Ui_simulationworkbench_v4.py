@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Fri Sep 30 14:32:32 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Oct 11 11:20:37 2011
+#      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -249,14 +249,22 @@ class Ui_SimulationWorkbench(object):
         self.verticalLayout_13.addWidget(self.parameterSetsTableView)
         self.horizontalLayout_17 = QtGui.QHBoxLayout()
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
-        spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_17.addItem(spacerItem5)
         self.buttonParamSetDuplicate = QtGui.QPushButton(self.tabParameterSets)
         self.buttonParamSetDuplicate.setObjectName("buttonParamSetDuplicate")
         self.horizontalLayout_17.addWidget(self.buttonParamSetDuplicate)
         self.buttonParamSetRemove = QtGui.QPushButton(self.tabParameterSets)
         self.buttonParamSetRemove.setObjectName("buttonParamSetRemove")
         self.horizontalLayout_17.addWidget(self.buttonParamSetRemove)
+        spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_17.addItem(spacerItem5)
+        self.simulateButtonParamSets = QtGui.QPushButton(self.tabParameterSets)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.simulateButtonParamSets.sizePolicy().hasHeightForWidth())
+        self.simulateButtonParamSets.setSizePolicy(sizePolicy)
+        self.simulateButtonParamSets.setObjectName("simulateButtonParamSets")
+        self.horizontalLayout_17.addWidget(self.simulateButtonParamSets)
         self.verticalLayout_13.addLayout(self.horizontalLayout_17)
         self.horizontalLayout_18.addLayout(self.verticalLayout_13)
         self.actionTabWidget.addTab(self.tabParameterSets, "")
@@ -496,6 +504,7 @@ class Ui_SimulationWorkbench(object):
         QtCore.QObject.connect(self.buttonDeselectAllSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionDeselectAllSpeciesForSensitivity.trigger)
         QtCore.QObject.connect(self.buttonInvertSelectionSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionInvertSelectionOfSpeciesForSensitivity.trigger)
         QtCore.QObject.connect(self.buttonSelectAllSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionSelectAllSpeciesForSensitivity.trigger)
+        QtCore.QObject.connect(self.simulateButtonParamSets, QtCore.SIGNAL("clicked()"), self.actionSimulate.trigger)
         QtCore.QMetaObject.connectSlotsByName(SimulationWorkbench)
 
     def retranslateUi(self, SimulationWorkbench):
@@ -542,7 +551,7 @@ class Ui_SimulationWorkbench(object):
         self.labelLPOS.setText(QtGui.QApplication.translate("SimulationWorkbench", "Parameter Constraints", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxParameterConstraintsSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "no constraints", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxParameterConstraintsSelect.setItemText(1, QtGui.QApplication.translate("SimulationWorkbench", "strictly positive (exponential transformation)", None, QtGui.QApplication.UnicodeUTF8))
-        self.simulateButtonSettings.setText(QtGui.QApplication.translate("SimulationWorkbench", "Simulate", None, QtGui.QApplication.UnicodeUTF8))
+        self.simulateButtonSettings.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabSettings), QtGui.QApplication.translate("SimulationWorkbench", "&Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonInitializeThresholdsSpecies.setText(QtGui.QApplication.translate("SimulationWorkbench", "Initialize Thresholds", None, QtGui.QApplication.UnicodeUTF8))
         self.simulateButtonSpecies.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
@@ -552,6 +561,7 @@ class Ui_SimulationWorkbench(object):
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabParameters), QtGui.QApplication.translate("SimulationWorkbench", "&Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonParamSetDuplicate.setText(QtGui.QApplication.translate("SimulationWorkbench", "Duplicate Selected", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonParamSetRemove.setText(QtGui.QApplication.translate("SimulationWorkbench", "Remove Selected", None, QtGui.QApplication.UnicodeUTF8))
+        self.simulateButtonParamSets.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabParameterSets), QtGui.QApplication.translate("SimulationWorkbench", "Parameter Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.dataBrowserTabWidget.setTabText(self.dataBrowserTabWidget.indexOf(self.dataBrowserPlusTab), QtGui.QApplication.translate("SimulationWorkbench", "+", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonPlotAllData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot All Data Sets", None, QtGui.QApplication.UnicodeUTF8))
@@ -565,13 +575,13 @@ class Ui_SimulationWorkbench(object):
         self.buttonSelectAllSensitivitySpecies.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select All", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonDeselectAllSensitivitySpecies.setText(QtGui.QApplication.translate("SimulationWorkbench", "Deselect All", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonInvertSelectionSensitivitySpecies.setText(QtGui.QApplication.translate("SimulationWorkbench", "Invert Selection", None, QtGui.QApplication.UnicodeUTF8))
-        self.computeSensitivityOverviewButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "Sensitivity Overview", None, QtGui.QApplication.UnicodeUTF8))
-        self.computeDetailedSensitivitiesButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "Detailed Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
+        self.computeSensitivityOverviewButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "Sensitivity &Overview", None, QtGui.QApplication.UnicodeUTF8))
+        self.computeDetailedSensitivitiesButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Detailed Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabSensitivity), QtGui.QApplication.translate("SimulationWorkbench", "&Sensitivity", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSelectAllParamEst.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select All", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonDeselectAllParamEst.setText(QtGui.QApplication.translate("SimulationWorkbench", "Deselect All", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonInvertSelectionParamEst.setText(QtGui.QApplication.translate("SimulationWorkbench", "Invert Selection", None, QtGui.QApplication.UnicodeUTF8))
-        self.estimateParamsButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "Identify Parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.estimateParamsButton.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Identify Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tabFit), QtGui.QApplication.translate("SimulationWorkbench", "&Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSimulate.setText(QtGui.QApplication.translate("SimulationWorkbench", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSimulate.setToolTip(QtGui.QApplication.translate("SimulationWorkbench", "Simulate with current settings", None, QtGui.QApplication.UnicodeUTF8))
