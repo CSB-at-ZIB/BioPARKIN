@@ -353,6 +353,9 @@ class SBMLEntity(QObject):
         # if non of the above holds
         return True
 
+    def isConstant(self):
+        return self.Item.getConstant()
+
     def getScope(self):
         if self.Type != TYPE.PARAMETER: #only makes sense for Parameters
             return

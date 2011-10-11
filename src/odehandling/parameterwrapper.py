@@ -86,3 +86,5 @@ class ParameterWrapper(object):
     
         # todo: take rules into account!
 
+    def isConstant(self):
+        return self.wrappedParameter.getConstant()

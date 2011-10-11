@@ -755,57 +755,6 @@ class ParkinCppBackend(BaseBackend):
         return True
 
 
-
-#    def _extractTimecources(self, rawJacobian):
-#        """
-#        The raw Jacobian list will be re-ordered to a sensitivity matrix.
-#        The resulting output is given as dictionary (OrderedDict)
-#        """
-#
-#        if type(rawJacobian) is not Matrix:
-#            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Didn't get a Matrix as input.")
-#            return None
-#
-#        numParams = len(self.selectedParams)
-#        numSpecies = len(self.odeManager.odeList)
-#        numTimePoints = rawJacobian.nr() / numSpecies
-#
-#        if (rawJacobian.nr() % numSpecies != 0) or (numTimePoints <= 0):
-#            logging.debug("parkinCppBackend._computeSpeciesParameterSens: Wrong format of raw Jacobian.")
-#            return None
-#
-#        logging.info("Preparing sensitivity data...")
-#
-#        sensData = OrderedDict()
-#        listOfSpecies = [] # self.bioPar.getSpecies()
-#
-#        for jDummy, odeWrapper in enumerate(self.odeManager.odeList):
-#            correspondingSpecies = odeWrapper.speciesEntity
-#            if not correspondingSpecies and odeWrapper.rule:
-#                correspondingSpecies = odeWrapper.target
-#            if not correspondingSpecies:
-#                logging.error(
-#                    "ParkinCppBackend: Can't associate results of ODE %s with a target entity. Skipping these results. Species: %s Rule: %s" % (
-#                    odeWrapper.getId(), odeWrapper.speciesEntity, odeWrapper.rule))
-#                listOfSpecies.append(None)
-#            else:
-#                listOfSpecies.append(correspondingSpecies)
-#
-#        # print " %d x %d " % ( rawJacobian.nr(), rawJacobian.nc())
-#        # print rawJacobian
-#
-#        for k, param in enumerate(self.selectedParams):
-#            jacobianColumn = rawJacobian.colm(k+1)  # note: type(rawJacobian)==Matrix starts counting with 1, not with 0
-#            paramID = param.getCombinedId()
-#            for j, speciesEntity in enumerate(listOfSpecies):
-#                # speciesID = species.getCombinedId()
-#                data = [jacobianColumn[tp*numSpecies + j] for tp in xrange(numTimePoints)]
-#                data.insert(0, 0.0)
-#                sensData[(speciesEntity, paramID)] = data
-#
-#        return sensData
-
-
     def _handleJacobianMatrix(self, rawJacobian, timepoint):
         """
         The raw Jacobian matrix will be packed into EntityData objects (one per Parameter).
@@ -921,11 +870,11 @@ class ParkinCppBackend(BaseBackend):
         Further prepares the BioSystem so that it can be used by a GaussNewton object.
         Also creates said GaussNewton object and all the input it needs.
         """
-        # get selected parameters
+        # get selected parameters (exclude non-constant ones, e.g. with assignm. rules)
         if mode == TASK_PARAMETER_IDENTIFICATION:
-            self.selectedParams = [param for param, isSelected in self.paramToEstimateMap.items() if isSelected]
+            self.selectedParams = [param for param, isSelected in self.paramToEstimateMap.items() if isSelected and param.isConstant()]
         elif mode == TASK_SENSITIVITY_OVERVIEW or mode == TASK_SENSITIVITIES_DETAILS:
-            self.selectedParams = [param for param, isSelected in self.paramToSensitivityMap.items() if isSelected]
+            self.selectedParams = [param for param, isSelected in self.paramToSensitivityMap.items() if isSelected and param.isConstant()]
 
         if not self.selectedParams:
             logging.error("No parameters selected.")
@@ -977,7 +926,6 @@ class ParkinCppBackend(BaseBackend):
         self.iOpt.jacgen = int(self.settings[settingsandvalues.SETTING_JACOBIAN])               # 1:user supplied Jacobian, 2:num.diff., 3:num.diff.(with feedback)
         self.iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
         self.iOpt.nonlin = int(self.settings[settingsandvalues.SETTING_PROBLEM_TYPE])           # 1:linear, 2:mildly nonlin., 3:highly nonlin., 4:extremely nonlin.
-#        iOpt.norowscal = self.settings[settingsandvalues.SETTING_NO_AUTO_ROW_SCALING]      # allow for automatic row scaling of Jacobian if __false__
         self.iOpt.rscal = int(self.settings[settingsandvalues.SETTING_RESIDUAL_SCALING])        # 1:use unchanged fscal, 2:recompute/modify fscal, 3:use automatic scaling only
         self.iOpt.lpos = (self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS] != 1)
         self.iOpt.mprmon = 2

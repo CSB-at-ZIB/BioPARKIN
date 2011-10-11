@@ -139,6 +139,8 @@ class ODEManager(object):
         
         # handle parameters
         for paramEntity in self.mainModel.SbmlParameters:
+            if not paramEntity.isConstant():
+                continue
             param = ParameterWrapper(paramEntity.Item, paramCount)
             if self.parameterSet:
                 combinedId = param.getCombinedId()
