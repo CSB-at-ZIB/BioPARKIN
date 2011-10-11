@@ -363,9 +363,9 @@ class ParkinCppBackend(BaseBackend):
         for paramWrapper in self.odeManager.parameterList:
             id = paramWrapper.getCombinedId()
             parameter.push_back(id)
-        for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
-            id = compartmentWrapper.getId()
-            parameter.push_back(id)
+#        for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
+#            id = compartmentWrapper.getId()
+#            parameter.push_back(id)
 
         self.bioSystem.setParameters(parameter)
 
@@ -398,6 +398,8 @@ class ParkinCppBackend(BaseBackend):
         # Params are used with their combined ID: "scope_id"
         for paramWrapper in self.odeManager.parameterList:
             expression = Expression(paramWrapper.getCombinedId())
+#            if paramWrapper.getId() == "kd":
+#                logging.debug("%s: %s" % (paramWrapper.getId(),expression))
             substitutionMap[paramWrapper.getId()] = expression
 
         # Finally, ODE Expressions are created using all the above substitutions
@@ -421,10 +423,10 @@ class ParkinCppBackend(BaseBackend):
             id = paramWrapper.getCombinedId()
             initialValue = self.mainModel.getValueFromActiveSet(id)
             self.bioSystem.setParamValue(id, initialValue)
-        for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
-            id = compartmentWrapper.getId()
-            initialSize = compartmentWrapper.getSize()
-            self.bioSystem.setParamValue(id, initialSize)
+#        for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
+#            id = compartmentWrapper.getId()
+#            initialSize = compartmentWrapper.getSize()
+#            self.bioSystem.setParamValue(id, initialSize)
 
 
 

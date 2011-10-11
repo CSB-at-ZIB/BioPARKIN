@@ -152,10 +152,10 @@ class ODEManager(object):
             
             
         # wrap compartments (handled as if they are Parameters)
-        for compartmentEntity in self.mainModel.SbmlCompartments:
-            compartmentWrapper = CompartmentWrapper(compartmentEntity.Item, paramCount)
-            self.compartmentList.append(compartmentWrapper)
-            paramCount += 1
+#        for compartmentEntity in self.mainModel.SbmlCompartments:
+#            compartmentWrapper = CompartmentWrapper(compartmentEntity.Item, paramCount)
+#            self.compartmentList.append(compartmentWrapper)
+#            paramCount += 1
         
         # handle species
         for speciesEntity in self.mainModel.SbmlSpecies:
