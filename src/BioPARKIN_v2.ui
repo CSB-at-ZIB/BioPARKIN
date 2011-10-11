@@ -139,7 +139,8 @@
      <string>Actions</string>
     </property>
     <addaction name="actionSimulate"/>
-    <addaction name="actionComputeSensitivities"/>
+    <addaction name="actionComputeSensitivityOverview"/>
+    <addaction name="actionCompute_Detailed_Sensitivities"/>
     <addaction name="actionEstimateParameterValues"/>
    </widget>
    <addaction name="menuFile"/>
@@ -455,17 +456,6 @@
     <string>Ctrl+Alt+S</string>
    </property>
   </action>
-  <action name="actionComputeSensitivities">
-   <property name="text">
-    <string>Compute Sensitivities</string>
-   </property>
-   <property name="toolTip">
-    <string>Compute sensitivities of the currently selected Species</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Alt+C</string>
-   </property>
-  </action>
   <action name="actionEstimateParameterValues">
    <property name="text">
     <string>Estimate Parameter Values</string>
@@ -531,6 +521,28 @@
    </property>
    <property name="visible">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionComputeSensitivityOverview">
+   <property name="text">
+    <string>Compute Sensitivity Overview</string>
+   </property>
+   <property name="toolTip">
+    <string>Compute Sensitivity Overview for currently selected Species and Parameters</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+O</string>
+   </property>
+  </action>
+  <action name="actionCompute_Detailed_Sensitivities">
+   <property name="text">
+    <string>Compute Detailed Sensitivities</string>
+   </property>
+   <property name="toolTip">
+    <string>Compute Detailed Sensitivities (a dialog to choose timepoints will open)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+D</string>
    </property>
   </action>
  </widget>

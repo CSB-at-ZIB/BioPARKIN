@@ -74,7 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.8"
+    __version__ = "1.2.9"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -702,8 +702,12 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 
 
     @Slot("")
-    def on_actionComputeSensitivities_triggered(self):
-        self.SimulationWorkbenchController.actionComputeSensitivities.trigger()
+    def on_actionComputeSensitivityOverview_triggered(self):
+        self.SimulationWorkbenchController.actionComputeSensitivityOverview.trigger()
+
+    @Slot("")
+    def on_actionCompute_Detailed_Sensitivities_triggered(self):
+        self.SimulationWorkbenchController.actionCompute_Detailed_Sensitivities.trigger()
 
     @Slot("")
     def on_actionEstimateParameterValues_triggered(self):
