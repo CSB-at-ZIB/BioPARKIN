@@ -73,6 +73,9 @@ class AbstractViewController(QWidget):
             singledataSource[dataID] = self.dataSources[dataID]
             self.dataSources = singledataSource
 
+        if self.dataSourceTableModel:
+            self.dataSourceTableModel.dataChanged.disconnect(self.on_dataSourcesChanged)
+
         self.dataSourceTableModel = DataSourcesTableModel(self.dataSources)
         self.dataSourceTableView.setModel(self.dataSourceTableModel)
 
@@ -80,21 +83,24 @@ class AbstractViewController(QWidget):
         selectableTableHeaderHorizontal = SelectableTableHeader(Qt.Horizontal, self.dataSourceTableView)
         selectableTableHeaderHorizontal.setNonSelectableIndexes([0])
         selectableTableHeaderHorizontal.sectionSelectionChanged.connect(self.on_columnSelectionChanged)
+        selectableTableHeaderHorizontal.connectSelectionModel(self.dataSourceTableModel)
         self.dataSourceTableView.setHorizontalHeader(selectableTableHeaderHorizontal)
 
         selectableTableHeaderVertical = SelectableTableHeader(Qt.Vertical, self.dataSourceTableView)
         selectableTableHeaderVertical.sectionSelectionChanged.connect(self.on_rowSelectionChanged)
+        selectableTableHeaderVertical.connectSelectionModel(self.dataSourceTableModel)
         self.dataSourceTableView.setVerticalHeader(selectableTableHeaderVertical)
 
         self.dataSourceTableView.resizeColumnsToContents()
 
-        self.connect(self.dataSourceTableModel, SIGNAL("dataChanged(QModelIndex, QModelIndex)"),
-                     self.dataSourcesChanged)
+#        self.connect(self.dataSourceTableModel, SIGNAL("dataChanged(QModelIndex, QModelIndex)"),
+#                     self.on_dataSourcesChanged)
+        self.dataSourceTableModel.dataChanged.connect(self.on_dataSourcesChanged)
 
-        self.dataSourcesChanged(None, None)
+        self.on_dataSourcesChanged(None, None)
 
 
-    def dataSourcesChanged(self, upperLeftIndex, lowerRightIndex):
+    def on_dataSourcesChanged(self, upperLeftIndex, lowerRightIndex):
     #        if upperLeftIndex != lowerRightIndex:
     #            logging.debug("Updating ranges of changes in the sources table is currently unsupported.")
 
@@ -245,10 +251,22 @@ class AbstractViewController(QWidget):
         """
         self._invertSourceSelection()
 
-    def on_columnSelectionChanged(self, index, selected):
+    def on_columnSelectionChanged(self, index, selectionState):
+        if selectionState == Qt.Checked:
+            selected = True
+        elif selectionState == Qt.Unchecked:
+            selected = False
+        else:   # selection is Qt.PartiallyChecked -> no update of selections here
+            return
         self._selectAllSources(selected, column=index)
 
-    def on_rowSelectionChanged(self, index, selected):
+    def on_rowSelectionChanged(self, index, selectionState):
+        if selectionState == Qt.Checked:
+            selected = True
+        elif selectionState == Qt.Unchecked:
+            selected = False
+        else:   # selection is Qt.PartiallyChecked -> no update of selections here
+            return
         self._selectAllSources(selected, row=index)
 
 #    def closeEvent(self, *args, **kwargs):

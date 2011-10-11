@@ -17,7 +17,7 @@ from odehandling.specieswrapper import SpeciesWrapper
 
 
 COLUMN = enum.enum("ROW", "ID, NAME, INITIALVALUE, UNIT, ISCONSTANT") # this effectively orders the columns 
-STATE = enum.enum("STATE", "CHECKED, UNCHECKED, NODATA")
+STATE = enum.enum("STATE", "UNCHECKED, PARTIALLYCHECKED, CHECKED, NODATA") # like Qt.Checkstate + NODATA
 
 class DataSourcesTableModel(QAbstractTableModel):
     '''
@@ -204,14 +204,16 @@ class DataSourcesTableModel(QAbstractTableModel):
                 
             if role == Qt.CheckStateRole:
                 if self.dataMatrix[column][row] != STATE.NODATA:
-                    isChecked = value == Qt.Checked
-                    if isChecked:
-                        self.dataMatrix[column][row] = STATE.CHECKED
-                    else:
-                        self.dataMatrix[column][row] = STATE.UNCHECKED
+#                    isChecked = value == Qt.Checked
+#                    if isChecked:
+#                        self.dataMatrix[column][row] = STATE.CHECKED
+#                    else:
+#                        self.dataMatrix[column][row] = STATE.UNCHECKED
+                    self.dataMatrix[column][row] = value
             
-            self.Dirty = True
-            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+                    self.Dirty = True
+        #            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
+                    self.dataChanged.emit(index, index)
             return True
         
         return False              
@@ -300,4 +302,37 @@ class DataSourcesTableModel(QAbstractTableModel):
                 if self.dataMatrix[col+1][row] ==  STATE.CHECKED:
                     selectedCombinations.append((sourceID, entityID))
         return selectedCombinations
-            
+
+
+    def getColSelectionState(self, column):
+        state = -1
+        mixed = False
+        for row in xrange(self.rowCount()):
+            if state == -1: # on first iteration
+                state = self.dataMatrix[column][row]
+            else:
+                newState = self.dataMatrix[column][row]
+                if state != newState:   # both checked and unchecked boxes in the region
+                    mixed = True
+                    break
+        if mixed:
+            return Qt.PartiallyChecked
+        else:
+            return state # either Qt.Checked or Qt.Unchecked
+
+
+    def getRowSelectionState(self, row):
+        state = -1
+        mixed = False
+        for column in xrange(1, self.columnCount()):    # first col only has IDs
+            if state == -1:
+                state = self.dataMatrix[column][row]
+            else:
+                newState = self.dataMatrix[column][row]
+                if state != newState:   # both checked and unchecked boxes in the region
+                    mixed = True
+                    break
+        if mixed:
+            return Qt.PartiallyChecked
+        else:
+            return state # either Qt.Checked or Qt.Unchecked

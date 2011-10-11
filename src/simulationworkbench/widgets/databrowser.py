@@ -186,7 +186,8 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         isSelected = True if state == Qt.Checked else False
         self.data.setSelected(isSelected)
 
-    def on_columnSelectionChanged(self, index, selected):
+    def on_columnSelectionChanged(self, index, checkstate):
         entityData = self.dataModel.getEntityData(index)
         if entityData and type(entityData) == EntityData:
+            selected = True if checkstate == Qt.Checked else False
             entityData.setSelected(selected)
