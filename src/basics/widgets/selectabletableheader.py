@@ -90,11 +90,13 @@ class SelectableTableHeader(QHeaderView):
         """
         if self._selectionModel:
             self._selectionModel.dataChanged.disconnect(self.on_selectionModelChanged)
+            self._selectionModel.layoutChanged.disconnect(self.on_selectionModelLayoutChanged)
 
         self._selectionModel = selectionModel
 
         if self._selectionModel:
             self._selectionModel.dataChanged.connect(self.on_selectionModelChanged)
+            self._selectionModel.layoutChanged.connect(self.on_selectionModelLayoutChanged)
 
     #### SLOTs ####
 
@@ -156,6 +158,20 @@ class SelectableTableHeader(QHeaderView):
                     self._isSectionSelected[affectedSection] = state
                 self.updateSection(affectedSection)
             
+    def on_selectionModelLayoutChanged(self):
+        if self.orientation() == Qt.Horizontal: # default orientation
+            for affectedSection in self._isSectionSelected.keys():
+                state = self._selectionModel.getColSelectionState(affectedSection)
+                if state is not None: # check against None explicitely, as it might very well be 0
+                    self._isSectionSelected[affectedSection] = state
+                self.updateSection(affectedSection)
+        if self.orientation() == Qt.Vertical: # default orientation
+            for affectedSection in self._isSectionSelected.keys():
+                state = self._selectionModel.getRowSelectionState(affectedSection)
+                if state is not None: # check against None explicitely, as it might very well be 0
+                    self._isSectionSelected[affectedSection] = state
+                self.updateSection(affectedSection)
+
 
 
 
