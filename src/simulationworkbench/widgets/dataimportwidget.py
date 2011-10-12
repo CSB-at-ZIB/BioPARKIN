@@ -84,11 +84,17 @@ class DataImportWidget(QWidget, Ui_DataImportWidget):
     def on_buttonBrowse_clicked(self):
         #logging.debug("SimulationWorkbenchController: in on_buttonBrowseExpData_clicked()")
         self.browseExpData()
+        if not self.currentExpDataFilename:
+            logging.info("No file selected. Can't import data.")
+            return
         self.updateExpData(readFile=True)
         self.lineEdit.clear()
 
     @Slot("")
     def on_buttonImport_clicked(self):
+        if not self.currentExpDataFilename:
+            logging.info("No filename given. Can't import data.")
+            return
         #logging.debug("SimulationWorkbenchController: in on_buttonBrowseExpData_clicked()")
         self.updateExpData(readFile=True)
         self.lineEdit.clear()

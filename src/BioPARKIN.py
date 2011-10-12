@@ -74,7 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.10"
+    __version__ = "1.2.11"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -601,6 +601,9 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         This is a slot. It's automatically connected to the actionSaveAs
         created in the QtDesigner.
         """
+        if not self.ActiveModelController:
+            logging.info("Can't save anything. No model loaded.")
+            return
         filenameTuple = QFileDialog.getSaveFileName(parent=self,
             dir=self.ActiveModelController.filename,
             caption="Save as...",
@@ -618,7 +621,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         @type filename: str
         """
         if self.ActiveModelController is None:
-            logging.warning("There is no active window. Can't save anything.")
+            logging.warning("No model loaded. Can't save anything.")
             return
         self.ActiveModelController.save(filename=filename)
 

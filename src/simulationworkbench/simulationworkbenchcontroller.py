@@ -648,7 +648,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def getListOfParameterSets(self):
-        return self.sbmlModel.ListOfParameterSets
+        if self.sbmlModel:
+            return self.sbmlModel.ListOfParameterSets
+        return None
 
     #    def statusBar(self):
     #        return self.parkinController.statusBar()
@@ -694,6 +696,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def initializeThresholdsSpecies(self):
+        if not self.sbmlModel:
+            logging.info("No model loaded. Can't set species thresholds.")
+            return
+        
         if not self.askForThresholdConfirmation():
             return
 
@@ -704,6 +710,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.speciesTableModel.layoutChanged.emit()
 
     def initializeThresholdsParameters(self):
+        if not self.sbmlModel:
+            logging.info("No model loaded. Can't set parameter thresholds.")
+            return
+
         if not self.askForThresholdConfirmation():
             return
 
@@ -746,8 +756,15 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     @Slot("")
     def on_actionSimulate_triggered(self):
+
+        if not self.sbmlModel:
+            logging.info("No model loaded. No simulation possible.")
+            return
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_INTEGRATE)
+            if not self.currentBackend:
+                logging.info("Can't create backend. No simulation possible.")
+                return
             if self.optionsService.getDebug():
                 self.currentBackend.run() # for debugging (to be able to set breakpoints):
             else:
@@ -763,8 +780,15 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     @Slot("")
     def on_actionComputeSensitivityOverview_triggered(self):
+
+        if not self.sbmlModel:
+            logging.info("No model loaded. No sensitivity computation possible.")
+            return
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW)
+            if not self.currentBackend:
+                logging.info("Can't create backend. No sensitivity computation possible.")
+                return
             self.currentBackend.setParamsForSensitivity(self.parametersTableModel.paramsToSensitivityMap)
             if self.optionsService.getDebug():
                 self.currentBackend.run() # for debugging (to be able to set breakpoints):
@@ -784,6 +808,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         The dialog's accepted SIGNAL is connected to
         self.on_timeChooser_accepted().
         """
+
+        if not self.sbmlModel:
+            logging.info("No model loaded. No sensitivity computation possible.")
+            return
+
         if not self.timepointChooser:
             self.timepointChooser = TimepointChooser(self, startTime=self.optionStartTime, endTime=self.optionEndTime)
             self.timepointChooser.accepted.connect(self.on_timeChooser_accepted)
@@ -809,6 +838,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         Starts the parameter value estimation.
         """
 
+        if not self.sbmlModel:
+            logging.info("No model loaded. No parameter identification possible.")
+            return
         try:
             self._setUpBackend(mode=backend.settingsandvalues.MODE_PARAMETER_ESTIMATION)
             self.currentBackend.setParamsForEstimation(self.parametersTableModel.paramToEstimateMap)
