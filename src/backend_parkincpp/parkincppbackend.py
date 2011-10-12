@@ -362,10 +362,11 @@ class ParkinCppBackend(BaseBackend):
         # set names / identifies of parameters
         for paramWrapper in self.odeManager.parameterList:
             id = paramWrapper.getCombinedId()
+#            logging.debug("Putting Parameter %s into BioSystem." % id)
             parameter.push_back(id)
-#        for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
-#            id = compartmentWrapper.getId()
-#            parameter.push_back(id)
+        for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
+            id = compartmentWrapper.getId()
+            parameter.push_back(id)
 
         self.bioSystem.setParameters(parameter)
 
@@ -423,10 +424,10 @@ class ParkinCppBackend(BaseBackend):
             id = paramWrapper.getCombinedId()
             initialValue = self.mainModel.getValueFromActiveSet(id)
             self.bioSystem.setParamValue(id, initialValue)
-#        for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
-#            id = compartmentWrapper.getId()
-#            initialSize = compartmentWrapper.getSize()
-#            self.bioSystem.setParamValue(id, initialSize)
+        for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
+            id = compartmentWrapper.getId()
+            initialSize = compartmentWrapper.getSize()
+            self.bioSystem.setParamValue(id, initialSize)
 
 
 

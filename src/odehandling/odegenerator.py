@@ -119,11 +119,6 @@ class ODEGenerator(object):
                             reactant.addChild(tmp)
                             reactant.addChild(self.copyAST(reactionSymbol))
 
-                    # replace local parameters by their value,
-                    # before adding to ODE 
-                    if kineticLaw:
-                        self.replaceNameByParameters(reactant, kineticLaw.getListOfParameters())
-
                     # Add reactant expression to ODE
                     if not ode:
                         ode = libsbml.ASTNode()
@@ -158,12 +153,6 @@ class ODEGenerator(object):
                         tmp.setValue(productReference.getStoichiometry())
                         reactant.addChild(tmp)
                     reactant.addChild(self.copyAST(reactionSymbol))
-
-                    # replace local parameters by their value,
-                    # before adding to ODE
-
-                    if kineticLaw:
-                        self.replaceNameByParameters(reactant, kineticLaw.getListOfParameters())
 
                     # Add reactant expression to ODE
                     if not ode:
@@ -205,27 +194,6 @@ class ODEGenerator(object):
 
         return ode
 
-
-    def replaceNameByParameters(self, mathNode, listOfParameters):
-        '''
-        Replaces all parameters appearing in the formula
-        'mathNode' by their value defined in the passed parameter
-        list 'listOfParameters'.
-        '''
-        for param in listOfParameters:
-            #names = mathNode.getListOfNodes(libsbml.ASTNode.isName)
-            #nodes = mathNode.getListOfNodes()
-            nameNodes = []
-            self.getNameNodes(mathNode, nameNodes)
-            #C: names = ASTNode_getListOfNodes(math,(ASTNodePredicate) ASTNode_isName);
-
-            if not nameNodes:
-                continue
-            for nameNode in nameNodes:
-                logging.debug("ODEGenerator.replaceNameByParameters: Handling named node %s" % nameNode.getName())
-                if nameNode.getName() == param.getId():
-                    if param.getConstant() == 1:
-                        nameNode.setReal(param.getValue())
 
 
     def copyAST(self, original):
