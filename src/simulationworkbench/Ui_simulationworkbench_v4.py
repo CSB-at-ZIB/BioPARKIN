@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Tue Oct 11 11:20:37 2011
+# Created: Wed Oct 12 10:46:39 2011
 #      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
@@ -303,6 +303,9 @@ class Ui_SimulationWorkbench(object):
         self.buttonPlotSelectedData.setSizePolicy(sizePolicy)
         self.buttonPlotSelectedData.setObjectName("buttonPlotSelectedData")
         self.horizontalLayout_3.addWidget(self.buttonPlotSelectedData)
+        self.checkBoxPlotExpDataDataBrowser = QtGui.QCheckBox(self.tab)
+        self.checkBoxPlotExpDataDataBrowser.setObjectName("checkBoxPlotExpDataDataBrowser")
+        self.horizontalLayout_3.addWidget(self.checkBoxPlotExpDataDataBrowser)
         spacerItem6 = QtGui.QSpacerItem(538, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem6)
         self.verticalLayout_6.addLayout(self.horizontalLayout_3)
@@ -566,6 +569,7 @@ class Ui_SimulationWorkbench(object):
         self.dataBrowserTabWidget.setTabText(self.dataBrowserTabWidget.indexOf(self.dataBrowserPlusTab), QtGui.QApplication.translate("SimulationWorkbench", "+", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonPlotAllData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot All Data Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonPlotSelectedData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Plot Selected Data Sets", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBoxPlotExpDataDataBrowser.setText(QtGui.QApplication.translate("SimulationWorkbench", "Include Experimental Data in Simulation Plots", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTabWidget.setTabText(self.actionTabWidget.indexOf(self.tab), QtGui.QApplication.translate("SimulationWorkbench", "Data Browser", None, QtGui.QApplication.UnicodeUTF8))
         self.labelSensitivitySelectParams.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select Parameters", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonSelectAllSensitivity.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select All", None, QtGui.QApplication.UnicodeUTF8))

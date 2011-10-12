@@ -100,6 +100,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.optionRSCAL = backend.settingsandvalues.DEFAULT_RESIDUAL_SCALING
         self.optionLPOS = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
 
+        self.optionPlotExpDataOnSimulation = False
+
         #        self.integrateUsingMeasuredTimepoints = False
 
         self.currentExpDataFilename = ""
@@ -306,7 +308,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Simulation (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
         self.updateSelectedExpData()
-        if not self.checkBoxPlotExpData.isChecked():
+        if not self.optionPlotExpDataOnSimulation:
             plotWidget.updateDataSources(self.dataService.get_simulation_data())
         else:
             selectedExpData = self.dataService.get_selected_experimental_data()
@@ -837,7 +839,16 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.comboBoxProblemTypeSelect.setEnabled(True)
             self.labelRSCAL.setEnabled(True)
             self.comboBoxResidualScalingSelect.setEnabled(True)
-            
+
+    @Slot(bool)
+    def on_checkBoxPlotExpData_toggled(self, selected):
+        self.optionPlotExpDataOnSimulation = selected
+        self.checkBoxPlotExpDataDataBrowser.setChecked(selected)
+
+    @Slot(bool)
+    def on_checkBoxPlotExpDataDataBrowser_toggled(self, selected):
+        self.optionPlotExpDataOnSimulation = selected
+        self.checkBoxPlotExpData.setChecked(selected)
 
     @Slot("")
     def on_lineEditStartTime_editingFinished(self):
