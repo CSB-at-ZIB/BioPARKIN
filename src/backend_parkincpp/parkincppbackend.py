@@ -678,6 +678,10 @@ class ParkinCppBackend(BaseBackend):
 
         dataSets = {}
         for key, dataPoints in self.sensitivityTrajectoryMap.items():
+            if len(dataPoints) == 0:
+                logging.error("No trajectory for %s" % key)
+                continue
+                
             splitKey = key.split(" / ")
             speciesId = splitKey[0]
             paramId = splitKey[1]
