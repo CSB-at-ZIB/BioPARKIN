@@ -8,8 +8,8 @@
 
 
 import PySide
-from PySide.QtCore import Signal, QSettings, QFile, QFileInfo, Slot
-from PySide.QtGui import QMainWindow, QAction, QFileDialog, QMessageBox, QApplication
+from PySide.QtCore import Signal, QSettings, QFile, QFileInfo, Slot, Qt
+from PySide.QtGui import QMainWindow, QAction, QFileDialog, QMessageBox, QApplication, QKeySequence
 
 #import networkx
 import os
@@ -291,6 +291,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
                 action = QAction("&%d %s" % (i + 1, QFileInfo(filename).fileName()), self)
                 action.setData(filename)
                 action.setStatusTip("Opens recent file %s" % QFileInfo(filename).fileName())
+                action.setShortcut(QKeySequence(Qt.CTRL | (Qt.Key_1+i)))
                 action.triggered.connect(self.load_model)
                 #self.connect(action, SIGNAL("triggered()"), self.load_model)
                 self.menuFile.addAction(action)
