@@ -57,6 +57,8 @@ class AbstractViewController(QWidget):
                 combinedDataSource = OrderedDict()
                 for source in self.dataSources:
                     for key, value in source.items():
+                        if not value.isSelected():
+                            continue
                         origin = value.getId()
                         if not origin in self.dataSourceIDs:
                             self.dataSourceIDs.append(origin)

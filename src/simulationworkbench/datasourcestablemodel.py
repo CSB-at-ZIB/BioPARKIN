@@ -61,6 +61,8 @@ class DataSourcesTableModel(QAbstractTableModel):
             if not dataDict:
                 continue
             for dataWrapper in dataDict.keys():
+                if not dataDict[dataWrapper].isSelected():
+                    continue
                 # we now regard strings as valid keys (necessary for sensitivities, etc.)
 #                if type(dataWrapper) is str:
 #                    logging.error("DataSourcesTableModel: Encountered DataSet with str as key! Should be an SBMLEntity object.")
@@ -299,7 +301,7 @@ class DataSourcesTableModel(QAbstractTableModel):
         selectedCombinations = []
         for col, (sourceID, dataSet) in enumerate(self.dataSources.items()):
             for row, entityID in enumerate(dataSet.getData().keys()):
-                if self.dataMatrix[col+1][row] ==  STATE.CHECKED:
+                if dataSet.getData()[entityID].isSelected() and self.dataMatrix[col+1][row] ==  STATE.CHECKED:
                     selectedCombinations.append((sourceID, entityID))
         return selectedCombinations
 
