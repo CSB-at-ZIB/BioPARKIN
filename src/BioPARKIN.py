@@ -74,7 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.12"
+    __version__ = "1.2.13"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"

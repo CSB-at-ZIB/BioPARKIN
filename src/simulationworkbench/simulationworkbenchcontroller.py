@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import random
 import time
 from PySide.QtCore import QSize, Slot, Qt
@@ -348,22 +349,33 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW:
             return
 
-        if not self.resultsWindow:
-            self.resultsWindow = ResultsWindowController(None)
 
         sensData = self.dataService.get_sensitivity_trajectory_data()
         if not sensData:
+            logging.debug("SimulationWorkbenchController._createSensitivityOverviewPlot(): No sensitivity data.")
             return
 
-            
-        if self.resultsWindow.hasResultforData(sensData):
-            return
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
 
+
+        # filter those DataSets that have not been displayed, yet (e.g. previous runs)
+        newDataSets = OrderedDict()
+        for key, dataSet in sensData.items():
+            if self.resultsWindow.hasResultforData(dataSet):
+                continue
+            newDataSets[key] = dataSet
+
+
+#        if self.resultsWindow.hasResultforData(dataSet):
+#            continue
+
+        logging.debug("Creating data table (sensitivity trajectory data)...")
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Sensitivity (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
 
-        plotWidget.updateDataSources(sensData)
+        plotWidget.updateDataSources(newDataSets)
         self.resultsWindow.addResultSubWindow(plotWidget)
 
         self.resultsWindow.show()
@@ -377,6 +389,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             logging.debug("SimulationWorkbenchController._createSensitivityDetailsSubconditionsTables(): No sensitivity data.")
             return
 
+
+        if not self.resultsWindow:
+            self.resultsWindow = ResultsWindowController(None)
+
         for key, dataSet in sensData.items():
             if self.resultsWindow.hasResultforData(dataSet):
                 continue
@@ -384,7 +400,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
             titleWithTime = "%s - %s" % (key, time.strftime("%H:%M:%S", time.localtime()))
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime, mode=tablewidgetcontroller.MODE_SUBCONDITIONS)
-#            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
+    #            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
             dataTableWidget.sortColumn = -1
             dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
             if backend.settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM in key:
