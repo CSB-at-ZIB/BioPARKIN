@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classcontrib_1_1singletonmixin_1_1_singleton.html" title="contrib::singletonmixin::Singleton" alt="" coords="6,5,221,32"/>
+<area shape="rect" id="node3" href="$classservices_1_1warningservice_1_1_warning_service.html" title="Whenever some part of the program wants to display (extensive) warnings to the user, it can do so with this service." alt="" coords="269,5,528,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classsbml__views_1_1ui__modelview_1_1_ui___model_view.html" title="sbml_views::ui_modelview::Ui_ModelView" alt="" coords="6,5,269,32"/>
+<area shape="rect" id="node3" href="$classsbml__views_1_1modelview_1_1_model_view.html" title="Provides a list widget that connects to the main BioPARKIN controller, displays all current models an..." alt="" coords="317,5,544,32"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classbackend_1_1ast__converter_1_1_ast_converter.html" title="Takes a BaseAstConverterTemplate and delegates all &quot;language&quot; specific calls to it, thereby converting a libsbml ASTNode tree into an adequate representation of the math therein (e.g." alt="" coords="6,5,245,32"/>
+</map>
