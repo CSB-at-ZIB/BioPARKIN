@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a83bd87b1fd73931299ec0008562ed1af" title="Set the model which should be simulated, etc." alt="" coords="718,31,1330,57"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a90a23d249ef7ed8d94d62b235fa03fac" title="Clears all Views (e.g." alt="" coords="749,81,1299,108"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#adb7b6690ec980c86b09f5578f29f756f" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::getListOfParameterSets" alt="" coords="1379,5,2042,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a74b27e6e67321d7fe0d5bbc01f044183" title="Sets up the main UI parts." alt="" coords="1422,56,1999,83"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#af0fd282d8ecc802cd30b673b18e7aab8" title="Sets up all the tables (models + views)." alt="" coords="2091,56,2706,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1datasourcestablemodel_1_1_data_sources_table_model.html#a9099f628f5b8c80dbf69e824a6101204" title="simulationworkbench::datasourcestablemodel::DataSourcesTableModel::getEntityIDs" alt="" coords="645,5,1158,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#af28ec61f6de100fc304f8a5994751837" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::getEntityIDs" alt="" coords="628,56,1175,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1datasourcestablemodel_1_1_data_sources_table_model.html#a3c91466341e8afb9cb746d0827a541dd" title="simulationworkbench::datasourcestablemodel::DataSourcesTableModel::getSelectedCombinations" alt="" coords="606,107,1197,133"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#aec1abcd223c9803ca5bac13d2a60fafd" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::getSelectedCombinations" alt="" coords="590,157,1213,184"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1plotwidgetcontroller_1_1_plot_widget_controller.html#a2532dc0e13b925fde572bf7a823763a3" title="return a list of rgb tuples/hexs from color numbers." alt="" coords="643,208,1159,235"/>
+</map>

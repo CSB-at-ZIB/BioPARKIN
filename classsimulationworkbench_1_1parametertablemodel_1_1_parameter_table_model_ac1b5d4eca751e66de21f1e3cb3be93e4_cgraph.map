@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1parameter__sets_1_1_list_of_parameter_sets.html#a00d7b5c9ee06f6c236bf50ee19ab15bf" title="sbml_model::parameter_sets::ListOfParameterSets::getActiveSet" alt="" coords="563,5,963,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1parametersetstablemodel_1_1_parameter_sets_table_model.html#ab321a4af43dac6820baf644fe68d52a7" title="simulationworkbench::parametersetstablemodel::ParameterSetsTableModel::getActiveSet" alt="" coords="493,56,1032,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1parametertablemodel_1_1_parameter_table_model.html#acbb903e7f409b0500b5e4c32223d4fa1" title="simulationworkbench::parametertablemodel::ParameterTableModel::getActiveSet" alt="" coords="519,107,1006,133"/>
+</map>

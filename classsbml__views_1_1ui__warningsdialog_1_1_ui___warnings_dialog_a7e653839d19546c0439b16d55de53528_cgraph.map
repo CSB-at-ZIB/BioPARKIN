@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1ui___data_management_view_1_1_ui___data_management_view.html#a9667a0c046973851a13f75109a1ceb83" title="datamanagement::ui_DataManagementView::Ui_DataManagementView::retranslateUi" alt="" coords="421,5,936,32"/>
+<area shape="rect" id="node5" href="$classdataviewing_1_1ui___data_view_1_1_ui__data_view_widget.html#ace532c82db31b5cba0ef2feffae0aa57" title="dataviewing::ui_DataView::Ui_dataViewWidget::retranslateUi" alt="" coords="493,56,864,83"/>
+<area shape="rect" id="node7" href="$classdataviewing_1_1ui___data_view2_1_1_ui___data_view_widget.html#acf879c1b40039b439406c8b0b0c759e2" title="dataviewing::ui_DataView2::Ui_DataViewWidget::retranslateUi" alt="" coords="489,107,868,133"/>
+<area shape="rect" id="node9" href="$classodehandling_1_1ui___o_d_e_viewer_1_1_ui___o_d_e_viewer.html#a37418df21b0c1e706046567f91c77fb7" title="odehandling::ui_ODEViewer::Ui_ODEViewer::retranslateUi" alt="" coords="499,157,858,184"/>
+<area shape="rect" id="node11" href="$classodehandling_1_1_ui___o_d_e_viewer__v2_1_1_ui___o_d_e_viewer.html#a4a0aa23eafd8bd6bd9a09ce63de2f2c6" title="odehandling::Ui_ODEViewer_v2::Ui_ODEViewer::retranslateUi" alt="" coords="489,208,868,235"/>
+<area shape="rect" id="node13" href="$classsbml__views_1_1ui__entitytableview_1_1_ui___entity_table_view.html#aa34109d8ff89da24fafb4ca629a3c845" title="sbml_views::ui_entitytableview::Ui_EntityTableView::retranslateUi" alt="" coords="479,259,878,285"/>
+<area shape="rect" id="node15" href="$classsbml__views_1_1ui__modelview_1_1_ui___model_view.html#ab74d52c743b63bdc5c2cbae778c5ef36" title="sbml_views::ui_modelview::Ui_ModelView::retranslateUi" alt="" coords="507,309,850,336"/>
+<area shape="rect" id="node17" href="$classsbml__views_1_1ui__sbmlentitywidget_1_1_ui___s_b_m_l_entity_widget.html#aa5ac64bf47562335f11c8398901853d2" title="sbml_views::ui_sbmlentitywidget::Ui_SBMLEntityWidget::retranslateUi" alt="" coords="464,360,893,387"/>
+<area shape="rect" id="node19" href="$classsbml__views_1_1ui__warningsdialog_1_1_ui___warnings_dialog.html#a91cd02e121df3fb71ddaafb1c6d92777" title="sbml_views::ui_warningsdialog::Ui_WarningsDialog::retranslateUi" alt="" coords="480,411,877,437"/>
+</map>

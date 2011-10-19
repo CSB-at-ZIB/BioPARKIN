@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a0a607e253250ebf9e1afd253273e80eb" title="Needs to be overridden." alt="" coords="709,5,1259,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1plotwidgetcontroller_1_1_plot_widget_controller.html#a5916c09b3936e066f4a48d68bce94988" title="Needs to be overridden." alt="" coords="723,56,1245,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#afabc3155b7d3a874e321d6f15345c5e3" title="Overriding the &quot;abstract&quot; base class method." alt="" coords="715,107,1253,133"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#ab979389e9b390d3426923523596baf42" title="Updates the data table with data from the last integration." alt="" coords="1307,107,1875,133"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a32a27efc3f600a5e97c26f4023904401" title="Sets the given datadescriptors (from an EntityData object) as row headers of the table, thereby checking for floats and rounding them, as not to show too many digits after the point." alt="" coords="1923,81,2485,108"/>
+<area shape="rect" id="node13" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a5af5b064aff00b25a95ca65dda8104e6" title="simulationworkbench::widgets::tablewidgetcontroller::TableWidgetController::_computeColor" alt="" coords="1929,132,2479,159"/>
+</map>

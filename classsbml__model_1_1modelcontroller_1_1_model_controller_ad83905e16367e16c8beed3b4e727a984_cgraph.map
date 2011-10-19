@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1modelcontroller_1_1_model_controller.html#a7ca32553fc79c42af6bff04a1a6a06d6" title="Sets self.Dirty to value." alt="" coords="401,5,791,32"/>
+<area shape="rect" id="node6" href="$classsbml__model_1_1modelcontroller_1_1_model_controller.html#a836dc7ce6cea0f6fca3a87d7d42d9150" title="Calls .setModel() on the NetworkView and on &quot;outside&quot; Views that have been passed to ..." alt="" coords="405,56,787,83"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__networkview_1_1networkviewcontroller_1_1_network_view_controller.html#a251cc794aeb6db5e044c9de5457a85a0" title="Searches the graph for the given Reaction, removes all Edges and then creates new edges in and out of..." alt="" coords="577,5,1069,32"/>
+<area shape="rect" id="node5" href="$classsbml__networkview_1_1networkviewcontroller_1_1_network_view_controller.html#ab4bff614d851abd52aed40f6c8bb9a03" title="Updates the graph, when the MainModel signals a structural change, e.g." alt="" coords="1117,5,1600,32"/>
+</map>

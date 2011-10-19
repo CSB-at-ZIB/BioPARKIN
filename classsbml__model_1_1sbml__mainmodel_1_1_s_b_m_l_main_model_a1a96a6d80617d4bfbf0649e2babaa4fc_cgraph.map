@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#afa528501993ae5e967c8ff50f1f35fb0" title="Small helper method to wrap the given libSBML object into a SBMLEntity." alt="" coords="441,56,860,83"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a93a8f930d0f36bd27dd06ade142f103e" title="sbml_model::sbml_mainmodel::SBMLMainModel::on_structuralChange" alt="" coords="435,107,867,133"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a021c8ae750ea9a96e9eaddc959554400" title="Helper method to emit a Signal when any entity selection state has changed." alt="" coords="915,5,1410,32"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a22f097adf11b997c1d5074a0e97cdfa3" title="Slot that should be invoked whenever the ID of some SBMLEntity is changed." alt="" coords="949,56,1376,83"/>
+<area shape="rect" id="node11" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#ac8f36b2ec85031a30f3023b5f0187bd6" title="Gets an updated Reaction and updates all relevant references (like the reaction tuple)." alt="" coords="961,107,1364,133"/>
+</map>

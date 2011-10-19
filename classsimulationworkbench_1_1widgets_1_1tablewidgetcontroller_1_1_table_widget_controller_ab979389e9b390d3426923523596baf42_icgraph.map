@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#afabc3155b7d3a874e321d6f15345c5e3" title="Overriding the &quot;abstract&quot; base class method." alt="" coords="629,56,1168,83"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a9e1bf19d9b26352853bd96459ee8e342" title="Save current data as CSV file." alt="" coords="621,107,1176,133"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a48f51c34f99eb66711871abb640cc6ea" title="simulationworkbench::widgets::tablewidgetcontroller::TableWidgetController::on_checkBoxOrientation_toggled" alt="" coords="1225,5,1879,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#aeed52cc59307bd9bfedadb139f38cf4b" title="simulationworkbench::widgets::tablewidgetcontroller::TableWidgetController::on_checkBoxShowUnits_toggled" alt="" coords="1225,56,1879,83"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a5c1c6a6c45c8ff2698b483356e8a2929" title="Show a dialog to save the currently shown plot to a png file." alt="" coords="1249,107,1855,133"/>
+</map>

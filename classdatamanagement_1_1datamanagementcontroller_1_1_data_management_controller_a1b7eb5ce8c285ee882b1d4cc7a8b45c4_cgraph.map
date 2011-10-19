@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1datamanagementcontroller_1_1_data_management_controller.html#a871a58fac3d70c4a216c830e861f2d5d" title="Clears the list widgets and (re)adds the items from the data service." alt="" coords="768,5,1323,32"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1datamanagementcontroller_1_1_data_management_controller.html#a68b032d92ad4c12f2fa42531d1101c9f" title="Takes the current state of both lists and &quot;saves&quot; it to the data service (so that other components wi..." alt="" coords="778,56,1313,83"/>
+</map>

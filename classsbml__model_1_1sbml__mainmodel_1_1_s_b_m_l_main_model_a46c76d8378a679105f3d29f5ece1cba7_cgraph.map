@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#aac9352239f7d9b9176ee880094376f88" title="Goes through the currently existing Parameter Sets and adds them to the SBML Model as annotation so t..." alt="" coords="412,5,879,32"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#ac3449892d0d1bd324a5049064572cc3f" title="Goes through the active Parameter Set (if there is one) and &quot;commits&quot; its Parameter values to the &quot;re..." alt="" coords="393,56,898,83"/>
+</map>

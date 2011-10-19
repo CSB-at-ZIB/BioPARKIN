@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a5ab5ddf34869187e4552d5b89a1ec7c5" title="This is called when the TimepointChooser was successfully (hopefully) used to select timepoints..." alt="" coords="872,5,1549,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a699184e0daa4e88bd726f3d42c803720" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::computeDetailedSensitivities" alt="" coords="1598,5,2287,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a97f35a6a05fb108d00db2e3bd5f4cfc6" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::_setUpBackend" alt="" coords="2337,5,2951,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#aba1310a4ba255b2828cc46b14814546d" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::initializeThresholdsSpecies" alt="" coords="755,5,1435,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#aec5d336dc8c51f310ebfafe91976a7e9" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::initializeThresholdsParameters" alt="" coords="745,56,1445,83"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a00cf0d58f209679a46c3984ad8e5b69f" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_buttonInitializeThresholdsSpecies_clicked" alt="" coords="1503,5,2289,32"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a167f71b21b9b6c4a9c6189d37edbbd13" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_buttonInitializeThresholdsParameters_clicked" alt="" coords="1493,56,2299,83"/>
+</map>

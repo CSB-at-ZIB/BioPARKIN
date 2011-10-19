@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#ad1b89afbc0899a87e0a69c804f8a1335" title="C++: void dataChanged(const QModelIndex&amp;,const QModelIndex&amp;)" alt="" coords="397,5,787,32"/>
+<area shape="rect" id="node5" href="$classsbml__networkview_1_1networkview_1_1_network_view.html#a7bb7364a0a98f4f86041193f7acbd6a2" title="C++: void dataChanged(const QModelIndex&amp;,const QModelIndex&amp;)" alt="" coords="407,56,777,83"/>
+<area shape="rect" id="node7" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a850a36cd4dd3641e9738601d4f9948ac" title="This is a Slot." alt="" coords="409,107,775,133"/>
+<area shape="rect" id="node15" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a5ab0231a3e4bb27ef4025736b98cb4b7" title="sbml_views::entitytableview::EntityTableView::_clearTableView" alt="" coords="837,157,1219,184"/>
+<area shape="rect" id="node9" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#af4f857c8753afd81fa195b8c1d800233" title="Gets the SBMLEntity out of the currently selected QModelIndex and creates a SBMLEntityTableModel with..." alt="" coords="835,107,1221,133"/>
+<area shape="rect" id="node11" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a90622ef4e9517562b55b44d838560a2c" title="C++: void QAbstractItemModel::dataChanged ( const QModelIndex &amp; topLeft, const QModelIndex &amp; bottomRi..." alt="" coords="1302,107,1751,133"/>
+<area shape="rect" id="node13" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a78844006d5392f9c9dea6c2263bb0c22" title="sbml_views::entitytableview::EntityTableView::currentEntityModelChangedStructurally" alt="" coords="1269,157,1784,184"/>
+</map>

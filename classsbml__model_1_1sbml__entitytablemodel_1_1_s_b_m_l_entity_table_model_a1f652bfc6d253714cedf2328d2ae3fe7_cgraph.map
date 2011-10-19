@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#a6640fa49351e2f689382d5917675557f" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::flagsGeneral" alt="" coords="467,5,922,32"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#a78dc726571c8a4ce466c82dc0e20ee2f" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::flagsReaction" alt="" coords="465,56,925,83"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#ad47ac55b489c4360e32c3125dfaa18bd" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::flagsRule" alt="" coords="477,107,912,133"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#a00733bc63ce764f19341b4ac64d420f2" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::flagsEvent" alt="" coords="474,157,915,184"/>
+</map>

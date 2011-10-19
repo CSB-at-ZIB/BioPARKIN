@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#a2ce7a5094e80873742fcd6f5af47fbd9" title="sbml_model::sbml_entities::SBMLEntity::setId" alt="" coords="373,5,664,32"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#ab884ee57235a6a078c0d9274d038991f" title="sbml_model::sbml_entities::SBMLEntity::getInitialValue" alt="" coords="347,56,691,83"/>
+<area shape="rect" id="node16" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#aa2c711ab5a3e2357ed656206f506e1a9" title="Adds the scope as a prefix to the actual ID with an underscore between." alt="" coords="344,107,693,133"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#a4e1a5dead77d67d466a246143490e3af" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::dataSpecies" alt="" coords="742,31,1197,57"/>
+<area shape="rect" id="node13" href="$classsimulationworkbench_1_1speciestablemodel_1_1_species_table_model.html#abc70a08b819b496860859e58545b73b4" title="simulationworkbench::speciestablemodel::SpeciesTableModel::data" alt="" coords="1245,81,1659,108"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1sbml__entitytablemodel_1_1_s_b_m_l_entity_table_model.html#a21a3ba9567d1e9c2be92836395c99ff7" title="sbml_model::sbml_entitytablemodel::SBMLEntityTableModel::data" alt="" coords="1249,31,1655,57"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1sortedtablewidgetitem_1_1_sorted_table_widget_item.html#abdcf0f97fb1dd940a957146d39ccebe7" title="simulationworkbench::widgets::sortedtablewidgetitem::SortedTableWidgetItem::__lt__" alt="" coords="1707,56,2221,83"/>
+</map>

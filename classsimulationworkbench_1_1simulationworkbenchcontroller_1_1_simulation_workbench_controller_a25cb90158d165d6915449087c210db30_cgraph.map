@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a7f882866a839f5ce760294d732bb3893" title="Data Browser&#45;related SLOTs ####." alt="" coords="1467,26,2103,53"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a8b33933b1dd59b41db47d84b4ad257a4" title="This Slot is called when the user klicks on the &quot;close tab&quot; icon of a Data Browser tab..." alt="" coords="686,26,1418,53"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a99f08ffede896a39764d127d0e5503a7" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_newData" alt="" coords="755,77,1349,103"/>
+</map>

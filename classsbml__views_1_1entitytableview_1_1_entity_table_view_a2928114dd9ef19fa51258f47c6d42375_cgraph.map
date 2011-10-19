@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__networkview_1_1networkview_1_1_network_view.html#a3a631b919030c49dbb83d77501b28b86" title="sbml_networkview::networkview::NetworkView::selectionChanged" alt="" coords="451,5,848,32"/>
+<area shape="rect" id="node7" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a69d98df41153ad7f01678721c2cd6501" title="This is a Slot." alt="" coords="453,56,845,83"/>
+<area shape="rect" id="node5" href="$classsbml__networkview_1_1networkview_1_1_network_view.html#a7b3c7c345ec00c4f8010abe57895bafa" title="Gets a Qt selection object and works through it to set the given selection state on all the affected ..." alt="" coords="896,5,1315,32"/>
+</map>

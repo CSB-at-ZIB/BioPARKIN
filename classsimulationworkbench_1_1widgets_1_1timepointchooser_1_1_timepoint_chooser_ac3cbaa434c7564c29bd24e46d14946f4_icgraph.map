@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#ac299db7ff9be6bb05ad8d2d37ad92233" title="simulationworkbench::widgets::timepointchooser::TimepointChooser::setStartAndEndTime" alt="" coords="694,5,1237,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#a662a350293eaf13080ef9655130e078b" title="SLOTs ####." alt="" coords="644,56,1287,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#afe76911d9bc060369e2609640afd5922" title="Ensures that only floats are entered into the EndTime field." alt="" coords="646,107,1285,133"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#a053bc6f877b2e04c966fc05042239771" title="Ensures that only integers are entered into the # intervals field." alt="" coords="635,157,1296,184"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#a6da0f0f435870fae58bcca825e0d0317" title="Ensures that only floats are entered into the interval size field." alt="" coords="639,208,1292,235"/>
+<area shape="rect" id="node13" href="$classsimulationworkbench_1_1widgets_1_1timepointchooser_1_1_timepoint_chooser.html#a63daace874f4700202fd65e678e78b5b" title="simulationworkbench::widgets::timepointchooser::TimepointChooser::on_button_Calculate_clicked" alt="" coords="671,259,1259,285"/>
+</map>

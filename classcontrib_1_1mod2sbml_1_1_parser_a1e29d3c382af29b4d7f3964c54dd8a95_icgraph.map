@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a3162ac6c0fd164302b73951d1eedd928" title="parseStream(inStream) parses SBML&#45;shorthand model on inStream and returns a libSBML SBMLDocument obje..." alt="" coords="305,31,562,57"/>
+<area shape="rect" id="node5" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a8947f6c1004cc64a4718053004b68d29" title="parse(inString) parses SBML&#45;shorthand model in inString and returns a libSBML SBMLDocument object..." alt="" coords="611,5,826,32"/>
+<area shape="rect" id="node7" href="$classcontrib_1_1sbml2mod_1_1_parser.html#a96bb6d15b1293cbfb9d24657d529240e" title="parse() Parses the SBML model and returns a string containing the corresponding SBML&#45;shorthand" alt="" coords="611,56,826,83"/>
+</map>

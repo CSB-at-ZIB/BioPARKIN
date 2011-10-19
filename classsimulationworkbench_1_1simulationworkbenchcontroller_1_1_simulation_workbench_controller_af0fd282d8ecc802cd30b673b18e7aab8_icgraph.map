@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a74b27e6e67321d7fe0d5bbc01f044183" title="Sets up the main UI parts." alt="" coords="670,5,1247,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a83bd87b1fd73931299ec0008562ed1af" title="Set the model which should be simulated, etc." alt="" coords="1297,5,1909,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#ad5dcc287ff87e4e49c432ea4c17dcba7" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_activeModelChanged" alt="" coords="1958,5,2621,32"/>
+</map>

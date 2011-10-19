@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1dataset_1_1_data_set.html#a6a3f5295bd0cbb70cc1d9902e266291a" title="datamanagement::dataset::DataSet::getId" alt="" coords="423,5,687,32"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a22787d9b8e5407a6c36b3acfcff37989" title="datamanagement::entitydata::EntityData::getId" alt="" coords="409,56,701,83"/>
+<area shape="rect" id="node9" href="$classodehandling_1_1assignmentrulewrapper_1_1_assignment_rule_wrapper.html#a10c0273c50bc2c542b85e6b50f1e2fb2" title="odehandling::assignmentrulewrapper::AssignmentRuleWrapper::getId" alt="" coords="345,107,765,133"/>
+<area shape="rect" id="node11" href="$classodehandling_1_1compartmentwrapper_1_1_compartment_wrapper.html#adfbab2143ee150ebd12f4611f1ab5ee8" title="odehandling::compartmentwrapper::CompartmentWrapper::getId" alt="" coords="359,157,750,184"/>
+<area shape="rect" id="node13" href="$classodehandling_1_1odewrapper_1_1_o_d_e_wrapper.html#aafd943e1f9c3f95794c95731c05390da" title="odehandling::odewrapper::ODEWrapper::getId" alt="" coords="411,208,698,235"/>
+<area shape="rect" id="node15" href="$classodehandling_1_1parameterwrapper_1_1_parameter_wrapper.html#a03617af272d9d90ad53492822007b607" title="odehandling::parameterwrapper::ParameterWrapper::getId" alt="" coords="377,259,732,285"/>
+<area shape="rect" id="node17" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#a8ac3c16c37a19d986368aac2c2e41eaa" title="odehandling::reactionwrapper::ReactionWrapper::getId" alt="" coords="387,309,722,336"/>
+<area shape="rect" id="node19" href="$classodehandling_1_1specieswrapper_1_1_species_wrapper.html#a1225f38fe6e59d7b81d34ddc70452ebc" title="odehandling::specieswrapper::SpeciesWrapper::getId" alt="" coords="390,360,719,387"/>
+<area shape="rect" id="node21" href="$classsbml__model_1_1parameter__sets_1_1_parameter_set.html#a7a0cd98dc90f0a8dada32a7757c670aa" title="sbml_model::parameter_sets::ParameterSet::getId" alt="" coords="397,411,712,437"/>
+<area shape="rect" id="node23" href="$classsbml__model_1_1parameter__sets_1_1_parameter_proxy.html#ac6acb84786a9d1b6a1103d2c18526fc8" title="sbml_model::parameter_sets::ParameterProxy::getId" alt="" coords="391,461,719,488"/>
+<area shape="rect" id="node25" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#aaa80a121db30395ad641b32422bd5093" title="Convenience method to return the ID of the wrapped libSBML object." alt="" coords="409,512,700,539"/>
+<area shape="rect" id="node7" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a634918f3734899fd63191ef27c8b14cf" title="A wrapper for the internal SBML Entity&#39;s getId() method." alt="" coords="813,56,1136,83"/>
+</map>

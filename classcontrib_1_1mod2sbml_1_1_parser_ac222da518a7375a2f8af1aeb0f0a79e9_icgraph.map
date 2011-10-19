@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classcontrib_1_1mod2sbml_1_1_parser.html#af2f421d7779a854328cad156b5561812" title="contrib::mod2sbml::Parser::trigMangle" alt="" coords="288,31,531,57"/>
+<area shape="rect" id="node5" href="$classcontrib_1_1mod2sbml_1_1_parser.html#ad5ca003ae1af36d4439d5a3042c77434" title="contrib::mod2sbml::Parser::handleEvents" alt="" coords="579,31,839,57"/>
+<area shape="rect" id="node7" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a3162ac6c0fd164302b73951d1eedd928" title="parseStream(inStream) parses SBML&#45;shorthand model on inStream and returns a libSBML SBMLDocument obje..." alt="" coords="889,31,1146,57"/>
+<area shape="rect" id="node9" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a8947f6c1004cc64a4718053004b68d29" title="parse(inString) parses SBML&#45;shorthand model in inString and returns a libSBML SBMLDocument object..." alt="" coords="1195,5,1410,32"/>
+<area shape="rect" id="node11" href="$classcontrib_1_1sbml2mod_1_1_parser.html#a96bb6d15b1293cbfb9d24657d529240e" title="parse() Parses the SBML model and returns a string containing the corresponding SBML&#45;shorthand" alt="" coords="1195,56,1410,83"/>
+</map>

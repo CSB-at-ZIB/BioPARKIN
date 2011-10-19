@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__networkview_1_1edge_1_1_edge.html#a22f0ffa78ff07174077199b35eeb2eb2" title="Updates self.line to correspond to correct source/target node coordinates." alt="" coords="307,5,586,32"/>
+<area shape="rect" id="node5" href="$classsbml__networkview_1_1edge_1_1_edge.html#a30c6c7eca84b430a9c9983c83a3aa281" title="Override the paint method to draw the line and change the appearance when selected (no ugly selection..." alt="" coords="635,5,871,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacedatamanagement_1_1datahandling.html#ac7c22c69678e0a45094b62ab5079a902" title="Parses files of the PARKIN raw format (see below) into a dictionary." alt="" coords="334,5,629,32"/>
+<area shape="rect" id="node5" href="$namespacedatamanagement_1_1datahandling.html#acd23ed51fcd2a5e9e561df33f9beab5d" title="Parses a CSV (comma separated values) file with experimental data." alt="" coords="334,56,629,83"/>
+</map>

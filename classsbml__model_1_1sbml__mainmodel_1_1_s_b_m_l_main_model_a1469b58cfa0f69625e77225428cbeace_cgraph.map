@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#afa528501993ae5e967c8ff50f1f35fb0" title="Small helper method to wrap the given libSBML object into a SBMLEntity." alt="" coords="432,31,851,57"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a021c8ae750ea9a96e9eaddc959554400" title="Helper method to emit a Signal when any entity selection state has changed." alt="" coords="899,5,1394,32"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a22f097adf11b997c1d5074a0e97cdfa3" title="Slot that should be invoked whenever the ID of some SBMLEntity is changed." alt="" coords="933,56,1360,83"/>
+</map>

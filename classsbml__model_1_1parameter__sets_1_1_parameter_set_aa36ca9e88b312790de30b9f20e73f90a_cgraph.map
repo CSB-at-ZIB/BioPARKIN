@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1dataset_1_1_data_set.html#af4e09bf682a1ee959c038be11384a5ea" title="datamanagement::dataset::DataSet::setId" alt="" coords="421,5,685,32"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a31fff4602c92a5574d79542153e30c90" title="datamanagement::entitydata::EntityData::setId" alt="" coords="407,56,699,83"/>
+<area shape="rect" id="node7" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a09f961bd917588654a475490e8448dc3" title="datamanagement::entitydata::EntityData::setName" alt="" coords="771,81,1087,108"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1parameter__sets_1_1_parameter_set.html#a52d4f5d11e4f1408008f96b27b62950f" title="sbml_model::parameter_sets::ParameterSet::setId" alt="" coords="396,157,711,184"/>
+<area shape="rect" id="node12" href="$classsbml__model_1_1parameter__sets_1_1_parameter_set.html#ae2f663eb1ca6f484b6e473ba0a79bb37" title="sbml_model::parameter_sets::ParameterSet::setName" alt="" coords="384,208,723,235"/>
+</map>

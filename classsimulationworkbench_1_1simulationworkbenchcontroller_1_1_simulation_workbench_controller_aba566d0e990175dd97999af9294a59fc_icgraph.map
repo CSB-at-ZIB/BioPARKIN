@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a1c6c318ef4b07026708af945224d2726" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_actionSelectAllSpeciesForSensitivity_triggered" alt="" coords="740,5,1553,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a21da04ae7e8b18d2f341fe4cdc4adb2d" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_actionDeselectAllSpeciesForSensitivity_triggered" alt="" coords="733,56,1560,83"/>
+</map>

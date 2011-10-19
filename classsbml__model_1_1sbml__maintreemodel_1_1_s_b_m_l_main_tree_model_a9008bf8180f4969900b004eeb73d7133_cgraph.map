@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__maintreemodel_1_1_s_b_m_l_main_tree_model.html#a591a4ce1db0276e098aac1cf82b9c29e" title="Is called, when an entity has changed." alt="" coords="549,31,1016,57"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1sbml__maintreemodel_1_1_s_b_m_l_main_tree_model.html#a0a933e1d1f3686f2032780eea3cf38aa" title="sbml_model::sbml_maintreemodel::SBMLMainTreeModel::_connectToSignals" alt="" coords="547,81,1018,108"/>
+<area shape="rect" id="node5" href="$classbasics_1_1logging_1_1qtlogginghandler_1_1_qt_logging_handler.html#a784083c606cf99f91838cc46f2170a76" title="basics::logging::qtlogginghandler::QtLoggingHandler::emit" alt="" coords="1111,5,1465,32"/>
+<area shape="rect" id="node7" href="$classbasics_1_1logging_1_1statusbarlogginghandler_1_1_status_bar_logging_handler.html#a84f9aa27e9bebda021ed0901dad84e93" title="Log the record." alt="" coords="1067,56,1509,83"/>
+</map>

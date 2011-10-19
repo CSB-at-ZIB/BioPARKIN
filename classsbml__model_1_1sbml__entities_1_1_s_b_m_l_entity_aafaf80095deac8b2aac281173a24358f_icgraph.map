@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#a084ef978c7683b4ec9222112196930c4" title="sbml_model::sbml_entities::SBMLEntity::setReactants" alt="" coords="411,5,751,32"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#acd4216bfbcacdaf6b6259f3bddbe77d9" title="sbml_model::sbml_entities::SBMLEntity::setProducts" alt="" coords="415,56,748,83"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#a03038ee5a356e704d74e51fb6da64061" title="sbml_model::sbml_entities::SBMLEntity::setModifiers" alt="" coords="415,107,748,133"/>
+</map>

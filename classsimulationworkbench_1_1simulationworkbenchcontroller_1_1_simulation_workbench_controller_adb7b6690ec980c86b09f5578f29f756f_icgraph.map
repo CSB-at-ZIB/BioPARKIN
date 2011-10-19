@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a83bd87b1fd73931299ec0008562ed1af" title="Set the model which should be simulated, etc." alt="" coords="803,5,1415,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#aa62c5ac11c782a3233aa8044d5cf5e76" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_actionDuplicate_Parameter_Set_triggered" alt="" coords="717,56,1501,83"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#acdd1c9e5cf05b805de3a562b84a1fec3" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_actionRemove_Parameter_Set_triggered" alt="" coords="721,107,1497,133"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#ad5dcc287ff87e4e49c432ea4c17dcba7" title="simulationworkbench::simulationworkbenchcontroller::SimulationWorkbenchController::on_activeModelChanged" alt="" coords="1550,5,2213,32"/>
+</map>

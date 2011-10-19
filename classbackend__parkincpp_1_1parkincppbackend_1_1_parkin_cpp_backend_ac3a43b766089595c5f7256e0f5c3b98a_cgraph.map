@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a7ada42d6a3ca5e09ae2b5e5a53e82c33" title="Creates the ODEManager, sets all settings, and calls init() on that object so that the ODEManager cal..." alt="" coords="477,5,968,32"/>
+<area shape="rect" id="node5" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a5d0acb761588d03db531cab353965533" title="Uses the ODEManager to create a system of BioParkinCpp Expression objects (+ other data and informati..." alt="" coords="482,56,963,83"/>
+<area shape="rect" id="node11" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#aaac472740fe0b585a8110be4772bace3" title="This creates the BioProcessor." alt="" coords="475,107,970,133"/>
+<area shape="rect" id="node7" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#aedce252f1543cf29d76bb29324afd496" title="Set initial param values for BioSystem." alt="" coords="1019,31,1549,57"/>
+<area shape="rect" id="node9" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a04a9c1be188cd0b54750bd0c27bb3124" title="Check if the model defines events." alt="" coords="1033,81,1535,108"/>
+</map>

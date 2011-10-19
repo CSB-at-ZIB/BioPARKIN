@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#adbf1adcf4059fe23c6e5fc7eb4c7195b" title="datamanagement::entitydata::EntityData::getCombinedId" alt="" coords="519,56,870,83"/>
+<area shape="rect" id="node11" href="$classodehandling_1_1parameterwrapper_1_1_parameter_wrapper.html#af36b333e996b1d90320e30bafc076b63" title="odehandling::parameterwrapper::ParameterWrapper::getCombinedId" alt="" coords="488,107,901,133"/>
+<area shape="rect" id="node15" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#a274e986c6130a9b192559a66139b46ca" title="odehandling::reactionwrapper::ReactionWrapper::getCombinedId" alt="" coords="499,157,891,184"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1dataset_1_1_data_set.html#a6a3f5295bd0cbb70cc1d9902e266291a" title="datamanagement::dataset::DataSet::getId" alt="" coords="1009,5,1273,32"/>
+<area shape="rect" id="node7" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a22787d9b8e5407a6c36b3acfcff37989" title="datamanagement::entitydata::EntityData::getId" alt="" coords="995,56,1287,83"/>
+<area shape="rect" id="node9" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a634918f3734899fd63191ef27c8b14cf" title="A wrapper for the internal SBML Entity&#39;s getId() method." alt="" coords="1381,56,1704,83"/>
+<area shape="rect" id="node13" href="$classodehandling_1_1parameterwrapper_1_1_parameter_wrapper.html#a884323af6658f94515e66bcdfa82005b" title="Returns the scope of the wrapped libSBML object iff it is a parameter." alt="" coords="950,107,1333,133"/>
+<area shape="rect" id="node18" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#ac5014b400c3b6839ef3ad89e6ab20dc2" title="Returns the scope of the wrapped libSBML object iff it is a parameter." alt="" coords="961,157,1322,184"/>
+</map>

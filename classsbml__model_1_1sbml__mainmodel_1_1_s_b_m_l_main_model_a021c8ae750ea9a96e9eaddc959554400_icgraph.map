@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#afa528501993ae5e967c8ff50f1f35fb0" title="Small helper method to wrap the given libSBML object into a SBMLEntity." alt="" coords="549,259,968,285"/>
+<area shape="rect" id="node5" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a1a96a6d80617d4bfbf0649e2babaa4fc" title="sbml_model::sbml_mainmodel::SBMLMainModel::addSpecies" alt="" coords="1048,5,1429,32"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#aef221987c2f6e6dda510cda769ebe14f" title="sbml_model::sbml_mainmodel::SBMLMainModel::addCompartment" alt="" coords="1033,56,1445,83"/>
+<area shape="rect" id="node9" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a5c048296f6bc7095e5270c5d27451426" title="sbml_model::sbml_mainmodel::SBMLMainModel::addReaction" alt="" coords="1046,107,1431,133"/>
+<area shape="rect" id="node11" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a0fdd60f33393287686b478c609284b78" title="sbml_model::sbml_mainmodel::SBMLMainModel::addParameter" alt="" coords="1041,157,1436,184"/>
+<area shape="rect" id="node13" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a9bcb7ebc72ceb7036174e5407bf0f69b" title="sbml_model::sbml_mainmodel::SBMLMainModel::addRateRule" alt="" coords="1045,208,1432,235"/>
+<area shape="rect" id="node15" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a512230ff0b239ecda318ec7163a75464" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapCompartments" alt="" coords="1026,259,1451,285"/>
+<area shape="rect" id="node17" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#accde9790b29a7b87a0bbf72f5bdc1671" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapSpecies" alt="" coords="1045,309,1432,336"/>
+<area shape="rect" id="node19" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a4ec967dc58e3747309d2b73a20269c22" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapGlobalParameters" alt="" coords="1017,360,1461,387"/>
+<area shape="rect" id="node21" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#acaf688a8a3646168b0d29061b5a5614a" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapReactions" alt="" coords="1039,411,1438,437"/>
+<area shape="rect" id="node23" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a524443db9f5c583af5897f6dc4fa9775" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapRules" alt="" coords="1052,461,1425,488"/>
+<area shape="rect" id="node25" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#a1469b58cfa0f69625e77225428cbeace" title="sbml_model::sbml_mainmodel::SBMLMainModel::wrapEvents" alt="" coords="1049,512,1428,539"/>
+</map>

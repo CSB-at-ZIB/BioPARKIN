@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1dataset_1_1_data_set.html#a6a3f5295bd0cbb70cc1d9902e266291a" title="datamanagement::dataset::DataSet::getId" alt="" coords="516,5,780,32"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a22787d9b8e5407a6c36b3acfcff37989" title="datamanagement::entitydata::EntityData::getId" alt="" coords="502,56,794,83"/>
+<area shape="rect" id="node9" href="$classodehandling_1_1assignmentrulewrapper_1_1_assignment_rule_wrapper.html#a10c0273c50bc2c542b85e6b50f1e2fb2" title="odehandling::assignmentrulewrapper::AssignmentRuleWrapper::getId" alt="" coords="438,107,858,133"/>
+<area shape="rect" id="node11" href="$classodehandling_1_1compartmentwrapper_1_1_compartment_wrapper.html#adfbab2143ee150ebd12f4611f1ab5ee8" title="odehandling::compartmentwrapper::CompartmentWrapper::getId" alt="" coords="453,157,843,184"/>
+<area shape="rect" id="node13" href="$classodehandling_1_1odewrapper_1_1_o_d_e_wrapper.html#aafd943e1f9c3f95794c95731c05390da" title="odehandling::odewrapper::ODEWrapper::getId" alt="" coords="505,208,791,235"/>
+<area shape="rect" id="node15" href="$classodehandling_1_1parameterwrapper_1_1_parameter_wrapper.html#a03617af272d9d90ad53492822007b607" title="odehandling::parameterwrapper::ParameterWrapper::getId" alt="" coords="471,259,825,285"/>
+<area shape="rect" id="node17" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#a8ac3c16c37a19d986368aac2c2e41eaa" title="odehandling::reactionwrapper::ReactionWrapper::getId" alt="" coords="481,309,815,336"/>
+<area shape="rect" id="node19" href="$classodehandling_1_1specieswrapper_1_1_species_wrapper.html#a1225f38fe6e59d7b81d34ddc70452ebc" title="odehandling::specieswrapper::SpeciesWrapper::getId" alt="" coords="483,360,813,387"/>
+<area shape="rect" id="node7" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a634918f3734899fd63191ef27c8b14cf" title="A wrapper for the internal SBML Entity&#39;s getId() method." alt="" coords="907,56,1229,83"/>
+</map>

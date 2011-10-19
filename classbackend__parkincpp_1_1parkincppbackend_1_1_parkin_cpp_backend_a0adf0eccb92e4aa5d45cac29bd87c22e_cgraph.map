@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#ac66b347ce11a5491d8fc5fbca5afb153" title="Further prepares the BioSystem so that it can be used by a GaussNewton object." alt="" coords="609,5,1103,32"/>
+<area shape="rect" id="node7" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a926bbbd87b116ce77764057302ed744d" title="Takes the qr&#45;decomposed matrix and computes subconditions." alt="" coords="585,56,1127,83"/>
+<area shape="rect" id="node9" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#ac1461df5b30b2daeb795a1d186861bfb" title="The raw Jacobian matrix will be packed into EntityData objects (one per Parameter)." alt="" coords="603,107,1109,133"/>
+<area shape="rect" id="node5" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a0eb89e6a7fc6ec87662a6720fdce7d73" title="Takes experimental data from the DataService and puts it into PARKINcpp classes." alt="" coords="1176,5,1805,32"/>
+</map>

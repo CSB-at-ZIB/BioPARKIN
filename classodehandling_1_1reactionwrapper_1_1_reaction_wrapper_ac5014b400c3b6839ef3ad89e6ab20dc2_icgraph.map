@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#a274e986c6130a9b192559a66139b46ca" title="odehandling::reactionwrapper::ReactionWrapper::getCombinedId" alt="" coords="416,5,808,32"/>
+<area shape="rect" id="node7" href="$classsbml__model_1_1sbml__entities_1_1_s_b_m_l_entity.html#aa2c711ab5a3e2357ed656206f506e1a9" title="Adds the scope as a prefix to the actual ID with an underscore between." alt="" coords="437,56,787,83"/>
+<area shape="rect" id="node5" href="$classodehandling_1_1reactionwrapper_1_1_reaction_wrapper.html#a12bdb049b87ea4a2630eaceee7f1ad48" title="Creates and uses an AstConverter (with the BioParkinCppAstConverterTemplate) to convert the libsbml A..." alt="" coords="857,5,1290,32"/>
+</map>

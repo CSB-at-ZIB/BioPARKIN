@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__views_1_1warningsdialog_1_1_warnings_dialog.html#af2ac36884a795e0762eec29323ad11d4" title="Public slot to append a warning to the list of warnings." alt="" coords="499,5,877,32"/>
+<area shape="rect" id="node7" href="$classsbml__views_1_1warningsdialog_1_1_warnings_dialog.html#a5f496241fc38a7adb01852ccc2347865" title="Public slot to clear all warnings and send this one as the only one." alt="" coords="511,56,865,83"/>
+<area shape="rect" id="node5" href="$classsbml__views_1_1warningsdialog_1_1_warnings_dialog.html#a49b1e0aa905cabab06dbec9ed9710d5c" title="Having updated the errorString elsewhere, this method updates the error string in the UI and sets the..." alt="" coords="926,31,1309,57"/>
+</map>

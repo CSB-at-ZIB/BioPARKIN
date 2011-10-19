@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__model_1_1sbml__mainmodel_1_1_s_b_m_l_main_model.html#ac8f36b2ec85031a30f3023b5f0187bd6" title="Gets an updated Reaction and updates all relevant references (like the reaction tuple)." alt="" coords="581,5,984,32"/>
+<area shape="rect" id="node5" href="$classsbml__networkview_1_1networkviewcontroller_1_1_network_view_controller.html#a251cc794aeb6db5e044c9de5457a85a0" title="Searches the graph for the given Reaction, removes all Edges and then creates new edges in and out of..." alt="" coords="537,56,1029,83"/>
+<area shape="rect" id="node7" href="$classsbml__networkview_1_1networkviewcontroller_1_1_network_view_controller.html#acb0dc3997ff9bab1e8146548f173aa6b" title="sbml_networkview::networkviewcontroller::NetworkViewController::addReactionToGraph" alt="" coords="1077,56,1600,83"/>
+</map>

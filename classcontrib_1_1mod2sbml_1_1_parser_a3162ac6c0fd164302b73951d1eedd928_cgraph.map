@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a46eed5760cb464b83f5f471bd2c48047" title="contrib::mod2sbml::Parser::handleSbml" alt="" coords="340,5,591,32"/>
+<area shape="rect" id="node5" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a0483e2791e034aff086350f29688e8d4" title="contrib::mod2sbml::Parser::handleModel" alt="" coords="337,208,593,235"/>
+<area shape="rect" id="node9" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a1e29d3c382af29b4d7f3964c54dd8a95" title="contrib::mod2sbml::Parser::handleUnits" alt="" coords="340,259,591,285"/>
+<area shape="rect" id="node12" href="$classcontrib_1_1mod2sbml_1_1_parser.html#ad7ed51863e8b4839a34997f1782c8ce1" title="contrib::mod2sbml::Parser::handleCompartments" alt="" coords="312,56,619,83"/>
+<area shape="rect" id="node15" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a21197ee865910a8778e2f49518d6f4e8" title="contrib::mod2sbml::Parser::handleSpecies" alt="" coords="331,107,599,133"/>
+<area shape="rect" id="node18" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a2a06a7a4c9eff888e7e660282d10da86" title="contrib::mod2sbml::Parser::handleParameters" alt="" coords="321,157,609,184"/>
+<area shape="rect" id="node21" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a3c3f52eace4973260c540b9bc8134529" title="contrib::mod2sbml::Parser::handleRules" alt="" coords="338,309,593,336"/>
+<area shape="rect" id="node27" href="$classcontrib_1_1mod2sbml_1_1_parser.html#ac782d497323b78d39bfc64d0fc480b11" title="contrib::mod2sbml::Parser::handleReac1" alt="" coords="683,436,941,463"/>
+<area shape="rect" id="node29" href="$classcontrib_1_1mod2sbml_1_1_parser.html#afdfee649a5603cd119c8c13d617a205b" title="contrib::mod2sbml::Parser::handleReac2" alt="" coords="336,512,595,539"/>
+<area shape="rect" id="node33" href="$classcontrib_1_1mod2sbml_1_1_parser.html#aa1b2f6285f3f09fde751c6d6eb6e5251" title="contrib::mod2sbml::Parser::handleReac3" alt="" coords="336,411,595,437"/>
+<area shape="rect" id="node37" href="$classcontrib_1_1mod2sbml_1_1_parser.html#ad5ca003ae1af36d4439d5a3042c77434" title="contrib::mod2sbml::Parser::handleEvents" alt="" coords="335,360,595,387"/>
+<area shape="rect" id="node7" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a2d31f2510940dc951ae220b3654e7c1a" title="contrib::mod2sbml::Parser::handleNewContext" alt="" coords="667,221,957,248"/>
+<area shape="rect" id="node24" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a6d0860565b80d3963fb9cadb5b58b61f" title="contrib::mod2sbml::Parser::replaceTime" alt="" coords="685,309,939,336"/>
+<area shape="rect" id="node31" href="$classcontrib_1_1mod2sbml_1_1_parser.html#a02f7258f9dba1bdd2ca4bd9b55cac450" title="contrib::mod2sbml::Parser::handleTerms" alt="" coords="683,512,941,539"/>
+<area shape="rect" id="node40" href="$classcontrib_1_1mod2sbml_1_1_parser.html#af2f421d7779a854328cad156b5561812" title="contrib::mod2sbml::Parser::trigMangle" alt="" coords="691,360,933,387"/>
+<area shape="rect" id="node42" href="$classcontrib_1_1mod2sbml_1_1_parser.html#ac222da518a7375a2f8af1aeb0f0a79e9" title="contrib::mod2sbml::Parser::binaryOp" alt="" coords="1005,360,1240,387"/>
+</map>

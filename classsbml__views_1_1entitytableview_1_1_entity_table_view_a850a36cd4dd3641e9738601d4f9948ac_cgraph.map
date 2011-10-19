@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#af4f857c8753afd81fa195b8c1d800233" title="Gets the SBMLEntity out of the currently selected QModelIndex and creates a SBMLEntityTableModel with..." alt="" coords="419,31,805,57"/>
+<area shape="rect" id="node5" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a90622ef4e9517562b55b44d838560a2c" title="C++: void QAbstractItemModel::dataChanged ( const QModelIndex &amp; topLeft, const QModelIndex &amp; bottomRi..." alt="" coords="886,5,1335,32"/>
+<area shape="rect" id="node7" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a78844006d5392f9c9dea6c2263bb0c22" title="sbml_views::entitytableview::EntityTableView::currentEntityModelChangedStructurally" alt="" coords="853,56,1368,83"/>
+</map>

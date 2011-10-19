@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classdatamanagement_1_1dataset_1_1_data_set.html#a6a3f5295bd0cbb70cc1d9902e266291a" title="datamanagement::dataset::DataSet::getId" alt="" coords="401,5,665,32"/>
+<area shape="rect" id="node5" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a22787d9b8e5407a6c36b3acfcff37989" title="datamanagement::entitydata::EntityData::getId" alt="" coords="387,56,679,83"/>
+<area shape="rect" id="node7" href="$classdatamanagement_1_1entitydata_1_1_entity_data.html#a634918f3734899fd63191ef27c8b14cf" title="A wrapper for the internal SBML Entity&#39;s getId() method." alt="" coords="728,56,1051,83"/>
+</map>

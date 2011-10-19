@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#ab979389e9b390d3426923523596baf42" title="Updates the data table with data from the last integration." alt="" coords="568,5,1136,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a32a27efc3f600a5e97c26f4023904401" title="Sets the given datadescriptors (from an EntityData object) as row headers of the table, thereby checking for floats and rounding them, as not to show too many digits after the point." alt="" coords="571,56,1133,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a5af5b064aff00b25a95ca65dda8104e6" title="simulationworkbench::widgets::tablewidgetcontroller::TableWidgetController::_computeColor" alt="" coords="577,107,1127,133"/>
+</map>

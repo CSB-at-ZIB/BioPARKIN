@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#ac66b347ce11a5491d8fc5fbca5afb153" title="Further prepares the BioSystem so that it can be used by a GaussNewton object." alt="" coords="683,56,1176,83"/>
+<area shape="rect" id="node5" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a81a9ed8be969a4ee8ac7858c10ece299" title="Computing the sensitivities of parameters using the PARKINcpp library." alt="" coords="1225,5,1765,32"/>
+<area shape="rect" id="node9" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a0adf0eccb92e4aa5d45cac29bd87c22e" title="backend_parkincpp::parkincppbackend::ParkinCppBackend::_computeSensitivityDetails" alt="" coords="1229,56,1760,83"/>
+<area shape="rect" id="node12" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a2a4724878a9f240328bdc0a936fe7363" title="Create the Gauss Newton object (involves calling ._setUpGaussNewton()) and run the parameter identifi..." alt="" coords="1236,107,1753,133"/>
+<area shape="rect" id="node7" href="$classbackend__parkincpp_1_1parkincppbackend_1_1_parkin_cpp_backend.html#a3a1574c2ed2044bd79e26d1bed0084d5" title="Do not call this directly! Call start() instead." alt="" coords="1814,56,2245,83"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a5ab0231a3e4bb27ef4025736b98cb4b7" title="sbml_views::entitytableview::EntityTableView::_clearTableView" alt="" coords="939,5,1322,32"/>
+<area shape="rect" id="node7" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#af4f857c8753afd81fa195b8c1d800233" title="Gets the SBMLEntity out of the currently selected QModelIndex and creates a SBMLEntityTableModel with..." alt="" coords="504,56,891,83"/>
+<area shape="rect" id="node5" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#ae9e5a5d8bc37802a865023867a6b8a1e" title="Set the internal model and connect to model&#39;s Signals." alt="" coords="1371,31,1714,57"/>
+<area shape="rect" id="node9" href="$classsbml__views_1_1entitytableview_1_1_entity_table_view.html#a850a36cd4dd3641e9738601d4f9948ac" title="This is a Slot." alt="" coords="948,56,1313,83"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1simulationworkbenchcontroller_1_1_simulation_workbench_controller.html#a7509a292b649558f827b8a2c914943f0" title="functionality for handling experimental data #######" alt="" coords="678,31,1290,57"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1dataimportwidget_1_1_data_import_widget.html#a70ccefede53502e9df9741d643203972" title="SLOTS #######." alt="" coords="1339,5,1909,32"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1dataimportwidget_1_1_data_import_widget.html#ac2853bade0f115983aef6fcbfd1d3a30" title="simulationworkbench::widgets::dataimportwidget::DataImportWidget::on_buttonImport_clicked" alt="" coords="1343,56,1905,83"/>
+</map>

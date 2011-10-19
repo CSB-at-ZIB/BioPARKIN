@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a569e004c0351af2dcc78cf25ca58a3a4" title="Selects all sources." alt="" coords="643,5,1283,32"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#ac3836dce122966919163989383ec7c98" title="Deselects all sources." alt="" coords="635,56,1290,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#ad3e413f52ec0e27be94d33688a443f62" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::on_columnSelectionChanged" alt="" coords="641,107,1284,133"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#ae7d5c5ae91cac0a33ee32e57c92404a8" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::on_rowSelectionChanged" alt="" coords="652,157,1273,184"/>
+<area shape="rect" id="node14" href="$classsimulationworkbench_1_1widgets_1_1plotwidgetcontroller_1_1_plot_widget_controller.html#ab23cb12bb6e76d4dc9c60a448813f84f" title="Selects all sources." alt="" coords="655,208,1270,235"/>
+<area shape="rect" id="node16" href="$classsimulationworkbench_1_1widgets_1_1plotwidgetcontroller_1_1_plot_widget_controller.html#a942fce6b4854fe364ca987433425ceb7" title="Deselects all sources." alt="" coords="649,259,1277,285"/>
+<area shape="rect" id="node18" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a17ee0892c3b9b2aa8bfe21413ff3d2e5" title="Selects all sources." alt="" coords="648,309,1277,336"/>
+<area shape="rect" id="node20" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#a3c279152604546389b3ab468a3f304ef" title="Deselects all sources." alt="" coords="641,360,1284,387"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a84c8a90ee34134b39072311c9fa5c66f" title="Gets the data files that were produced by the last integration run and invokes updating the data sour..." alt="" coords="1339,132,1928,159"/>
+</map>

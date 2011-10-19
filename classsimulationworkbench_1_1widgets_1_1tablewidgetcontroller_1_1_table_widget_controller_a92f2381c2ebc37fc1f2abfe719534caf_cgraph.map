@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classsimulationworkbench_1_1widgets_1_1tablewidgetcontroller_1_1_table_widget_controller.html#ad10e3972b542217200f5bc4655408e1e" title="simulationworkbench::widgets::tablewidgetcontroller::TableWidgetController::_updateThreshold" alt="" coords="830,56,1397,83"/>
+<area shape="rect" id="node5" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a4f0491924007d0b2620295e92f152cc8" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::_updateDataView" alt="" coords="1445,56,2021,83"/>
+<area shape="rect" id="node7" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a2d7a35bd300785c06831f2d1665a1903" title="simulationworkbench::widgets::abstractviewcontroller::AbstractViewController::_getSelectedData" alt="" coords="2069,5,2648,32"/>
+<area shape="rect" id="node9" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#ac0163db80da12f35449f7619a45981a9" title="Needs to be overridden." alt="" coords="2089,56,2628,83"/>
+<area shape="rect" id="node11" href="$classsimulationworkbench_1_1widgets_1_1abstractviewcontroller_1_1_abstract_view_controller.html#a0a607e253250ebf9e1afd253273e80eb" title="Needs to be overridden." alt="" coords="2084,107,2633,133"/>
+</map>
