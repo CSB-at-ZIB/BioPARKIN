@@ -44,4 +44,4 @@ How to obtain those libraries depends on your operating system.
 
 Here are some screenshots.
 
-![Model Overview](https://github.com/CSB-at-ZIB/BioPARKIN/blob/master/doc/screenshots/2011-10-20_1331_GUI_ModelTab.png)
+![Model Overview](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-20_1331_GUI_ModelTab.png)
