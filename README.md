@@ -39,3 +39,9 @@ BioPARKIN uses the following open-source libraries:
   * (this is currently not used in the code, but might soon be, once we re-enable graphical model network views)
 
 How to obtain those libraries depends on your operating system.
+
+## Screenshots
+
+Here are some screenshots.
+
+[Model Overview](screenshot1.png)
