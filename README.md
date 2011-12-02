@@ -45,16 +45,25 @@ How to obtain those libraries depends on your operating system.
 Enough reading? Here are some screenshots:
 
 ![Model Overview](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-20_1331_GUI_ModelTab.png)
+
 Model Overview
 
+
 ![Data Browser](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-20_1014_DataBrowser.png)
+
 Data Browser inside the Workbench tab
 
-![Data Browser](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-24_0915_GUI_Results_TiledWindows.png)
+
+![Side by side results](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-24_0915_GUI_Results_TiledWindows.png)
+
 Possibility to show computation results side-by-side.
 
-![Data Browser](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-24_1218_GUI_Results_SensOverview.png)
+
+![Sensitivity Overview plot](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-24_1218_GUI_Results_SensOverview.png)
+
 Sensitivity Overview plot of all parameter/species pairs of a model.
 
-![Data Browser](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-25_1108_GUI_Results_ColoredSens.png)
+
+![Colorized sensitivitiy values](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-25_1108_GUI_Results_ColoredSens.png)
+
 Colorized sensitivitiy values at a specific timepoint.
