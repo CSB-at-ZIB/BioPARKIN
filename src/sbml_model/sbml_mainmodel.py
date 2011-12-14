@@ -1,5 +1,6 @@
 from PySide.QtCore import QObject, Signal, Slot, QModelIndex
 import libsbml
+from basics.helpers.debugginghelpers import print_timing
 from sbml_model.definitions import CHANGETYPE, XML_PARAMETER_SET_NAME, XML_PARAMETER_SET_ID, XML_PARAMETER_SBML_ID, XML_PARAMETER_VALUE, XML_PARAMETER_REACTION_ID, XML_LIST_OF_PARAMETER_SETS_ACTIVE, XML_NAMESPACE_PARAMETER_SETS, XML_LIST_OF_PARAMETER_SETS, XML_PARAMETER, XML_PARAMETER_SET, PARAM_SET_INITIAL_GUESS, PARAM_SET_ORIGINAL, PARAM_SET_FIT
 from sbml_model.parameter_sets import ListOfParameterSets, ParameterSet, ParameterProxy
 
@@ -48,6 +49,7 @@ class SBMLMainModel(QObject):
     selectionChange = Signal(SBMLEntity,bool)
     structuralChange = Signal(SBMLEntity,int)
 
+    
     def __init__(self, filename=None):
         """
         Prepares instance variables, calls the file loading method.
@@ -134,7 +136,7 @@ class SBMLMainModel(QObject):
     def showConsistencyDialog(self, errorString):
         self.warningService.appendWarning(errorString, "Opening the SBML file resulted in warnings.")
 
-
+    
     def _load(self, filename):
         '''
         Loads an SBML file into memory, prepares access to
@@ -216,7 +218,7 @@ class SBMLMainModel(QObject):
     #            self.CompartmentTableModel = SBMLCompartmentModel(self)
     #        return self.CompartmentTableModel
 
-
+    
     def createSBMLEntity(self, sbmlobject=None, label=None, parent=None):
         '''
         Small helper method to wrap the given libSBML object into
@@ -584,6 +586,7 @@ class SBMLMainModel(QObject):
         '''
         return self.SbmlModel.getId()
 
+    
     def wrapCompartments(self):
         logging.info("\nNumber of compartments: %i" % self.SbmlModel.Item.getNumCompartments())
         listOfCompartments = self.SbmlModel.Item.getListOfCompartments()
@@ -592,6 +595,7 @@ class SBMLMainModel(QObject):
             logging.info("Compartment: %s" % compartment.getName())
             self.SbmlCompartments.append(self.createSBMLEntity(compartment, parent=self.CompartmentWrapper))
 
+    
     def wrapSpecies(self):
         logging.info("\nNumber of species: %i" % self.SbmlModel.Item.getNumSpecies())
         listOfSpecies = self.SbmlModel.Item.getListOfSpecies()
@@ -603,6 +607,7 @@ class SBMLMainModel(QObject):
             self.SbmlSpecies.append(wrappedSpecies)
             self.dictOfSpecies[species.getId()] = wrappedSpecies
 
+    
     def wrapGlobalParameters(self):
         logging.info("\nNumber of global parameters: %i" % self.SbmlModel.Item.getNumParameters())
         listOfParameters = self.SbmlModel.Item.getListOfParameters()
@@ -614,6 +619,7 @@ class SBMLMainModel(QObject):
             self.SbmlParameters.append(wrappedParam)
             self.dictOfParameters[param.getId()] = wrappedParam
 
+    
     def wrapReactions(self):
         listOfReactions = self.SbmlModel.Item.getListOfReactions()
         logging.info("\nNumber of reactions: %i" % len(listOfReactions))
@@ -657,12 +663,14 @@ class SBMLMainModel(QObject):
 
         logging.info("\nNumber of local parameters: %i" % numLocalParamsTotal)
 
+    
     def prepareReactions(self):
         listOfReactions = self.SbmlModel.Item.getListOfReactions()
         logging.info("\nPreparing Reactions (by creating implicit Species)")
         for reaction in listOfReactions:
             self.checkReactionSpecies(reaction)
 
+    
     def wrapRules(self):
         numOfRules = self.SbmlModel.Item.getNumRules()
         logging.info("\nNumber of rules: %i" % numOfRules)
@@ -688,7 +696,7 @@ class SBMLMainModel(QObject):
                 self.SbmlRateRules.append(wrappedRule)
                 self.dictOfRateRules[rule.getId()] = wrappedRule
 
-
+    
     def wrapEvents(self):
         numEvents = self.SbmlModel.Item.getNumEvents()
         logging.info("\nNumber of Events: %i" % numEvents)
@@ -702,6 +710,7 @@ class SBMLMainModel(QObject):
 
     #def createReactants(self, reaction):
 
+    
     def checkReactionSpecies(self, reaction):
         """
         Checks whether the given Reaction has Reactants/Products. If either
@@ -766,7 +775,7 @@ class SBMLMainModel(QObject):
 
         logging.info("%s implicit Species created." % self.newSpeciesCount)
 
-
+    
     def updateReaction(self, reactionWrapper):
         """
         Gets an updated Reaction and updates all relevant references (like
@@ -822,6 +831,7 @@ class SBMLMainModel(QObject):
         self.SbmlReactions.pop(i)
         self.SbmlReactions.append(tupleToBeAdded)
 
+    
     def createDefaultParameterSet(self):
         """
         If no Parameter Set exists, one is created with the Model's Parameter values. This serves as default set,
@@ -886,7 +896,7 @@ class SBMLMainModel(QObject):
             #            self.ListOfParameterSets.append(newSet)
         self.ListOfParameterSets.setDefaulSet(newSet)
 
-
+    
     def getValueFromActiveSet(self, id):
         """
         Returns the value of the given Paramter (by ID) within the currently
@@ -899,6 +909,7 @@ class SBMLMainModel(QObject):
             logging.debug("SbmlMainmodel.getValueFromActiveSet(): Can't get value. Error: %s" % e)
             return
 
+    
     def _updateParameterSetsXml(self):
         """
         Goes through the currently existing Parameter Sets and adds them to the SBML Model as annotation
@@ -960,6 +971,7 @@ class SBMLMainModel(QObject):
                 self.paramSetsListNode)    # self.paramSetsListNode is copied; no reference; so, do this at the end
             # storing in self.paramSetsListNode might make no sense at this point because it's not saved as reference
 
+    
     def _loadParameterSets(self):
         """
         Parses through all Parameter Sets in the model's annotation and brings them into memory
