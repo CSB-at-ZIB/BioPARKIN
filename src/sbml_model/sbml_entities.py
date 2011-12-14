@@ -63,7 +63,7 @@ class SBMLEntity(QObject):
         wrap a libSBML object).
         """
         super(SBMLEntity, self).__init__()
-#        self.selectionChange = Signal(type(self),bool) # have to do this here, because of "self"
+        #        self.selectionChange = Signal(type(self),bool) # have to do this here, because of "self"
 
         self.Item = entity
         self.Label = label
@@ -213,7 +213,7 @@ class SBMLEntity(QObject):
     def getName(self):
         if self.Item:
             return self.Item.getName()
-    
+
     def setName(self, name):
         self.Item.setName(str(name))
         self.changed.emit()
@@ -296,6 +296,28 @@ class SBMLEntity(QObject):
 
     #        self.updateVisuals()
 
+    def getTarget(self):
+        """
+        Get's the "variable" (aka target) of SBML Rules.
+
+        @rtype: String
+
+        @since: 2011-12-14
+        """
+        if hasattr(self.Item, "getVariable"): # has to be Rule or subclass (or anything with the getVariable method)
+            return self.Item.getVariable()
+
+    def getMath(self):
+        """
+        Returns a math ASTNode tree if self has the getMath method
+        (e.g. Rules).
+
+        @rtype: libsbml.ASTNode
+
+        @since: 2011-12-14
+        """
+        if hasattr(self.Item, "getMath"):   # for everything that had the getMath method
+            return self.Item.getMath()
 
     def setModifiers(self, modifierIdString):
         if self.Type != TYPE.REACTION: # can only do this for Reactions
@@ -429,28 +451,28 @@ class SBMLEntity(QObject):
 
         logging.debug("SbmlEntity._initThreshold(): This line should never be reached.")
 
-#    def _computeThreshold(self):
-#        """
-#        If no scale is given in the SBML file, the scale of a Species/Parameter is
-#        calculated.
-#          - For Species, the scale is just set to the Species' initial value.
-#          - For Parameters it's the same but with a lower bound.
-#
-#        @since: 2011-05-23
-#        """
-#        if self.Type == TYPE.SPECIES:
-#            return self.getInitialValue()
-#        elif self.Type == TYPE.PARAMETER:
-#            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
-#            return max(self.getValue(), lowerBound)
-#        elif self.Type == TYPE.COMPARTMENT:
-#            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
-#            return max(self.Item.getSize(), lowerBound)
-#        elif self.Type == TYPE.NONE:    # for wrapping, top-level "Species" and "Parameters"
-#            return
-#
-#        logging.debug("SbmlEntity._computeThreshold(): This line should never be reached.")
-#        return 0
+    #    def _computeThreshold(self):
+    #        """
+    #        If no scale is given in the SBML file, the scale of a Species/Parameter is
+    #        calculated.
+    #          - For Species, the scale is just set to the Species' initial value.
+    #          - For Parameters it's the same but with a lower bound.
+    #
+    #        @since: 2011-05-23
+    #        """
+    #        if self.Type == TYPE.SPECIES:
+    #            return self.getInitialValue()
+    #        elif self.Type == TYPE.PARAMETER:
+    #            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
+    #            return max(self.getValue(), lowerBound)
+    #        elif self.Type == TYPE.COMPARTMENT:
+    #            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
+    #            return max(self.Item.getSize(), lowerBound)
+    #        elif self.Type == TYPE.NONE:    # for wrapping, top-level "Species" and "Parameters"
+    #            return
+    #
+    #        logging.debug("SbmlEntity._computeThreshold(): This line should never be reached.")
+    #        return 0
 
     def getThreshold(self):
         """
