@@ -40,11 +40,11 @@ class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
         self.model = model
 
 
+        self.treeView.setSortingEnabled(True)
         self.treeView.setModel(self.model)
         self.treeView.viewport().setMouseTracking(True)
         self.treeView.resizeColumnToContents(0)
-        
-        self.treeView.setSortingEnabled(True)
+
 
         
         

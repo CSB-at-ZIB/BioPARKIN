@@ -117,7 +117,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.parkinController: #should always be the case
             self.parkinController.modelClosed.connect(self.clear)
             self.parkinController.activeModelChanged.connect(self.on_activeModelChanged)
-            self.on_activeModelChanged()
+#            self.on_activeModelChanged() # shouldn't be necessary
 
             # set GUI logger
 
@@ -135,6 +135,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     #        #self.logDockWidget.setFixedHeight(50)
 
     def on_activeModelChanged(self, activeModelController=None):
+#        logging.debug("in SimulationWorkbenchController.on_activeModelChanged()")
         try:
             if not activeModelController:   # should only happen when called directly from self.__init__()
                 activeModelController = self.parkinController.ActiveModelController
@@ -199,8 +200,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         speciesProxyModel = QSortFilterProxyModel(self)
         speciesProxyModel.setSourceModel(self.speciesTableModel)
 
-        self.speciesTableView.setModel(speciesProxyModel)
         self.speciesTableView.setSortingEnabled(True)
+        self.speciesTableView.setModel(speciesProxyModel)
         self.speciesTableView.sortByColumn(0, Qt.AscendingOrder)
         self.speciesTableView.hideColumn(speciestablemodel.COLUMN.COMPUTESENSITIVITY)
         self.speciesTableView.resizeColumnsToContents()
@@ -215,8 +216,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         parametersProxyModel = QSortFilterProxyModel(self)
         parametersProxyModel.setSourceModel(self.parametersTableModel)
 
-        self.parametersTableView.setModel(parametersProxyModel)
         self.parametersTableView.setSortingEnabled(True)
+        self.parametersTableView.setModel(parametersProxyModel)
         self.parametersTableView.sortByColumn(0, Qt.AscendingOrder)
         # self.parametersTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
         self.parametersTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
@@ -230,8 +231,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         sensitivityProxyModel = QSortFilterProxyModel(self)
         sensitivityProxyModel.setSourceModel(self.parametersTableModel)
 
-        self.sensitivityTableView.setModel(sensitivityProxyModel)
         self.sensitivityTableView.setSortingEnabled(True)
+        self.sensitivityTableView.setModel(sensitivityProxyModel)
         self.sensitivityTableView.sortByColumn(0, Qt.AscendingOrder)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
 #        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.UNIT)
@@ -243,8 +244,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         sensitivitySpeciesProxyModel = QSortFilterProxyModel(self)
         sensitivitySpeciesProxyModel.setSourceModel(self.speciesTableModel)
 
-        self.tableViewSensitivitySpecies.setModel(sensitivitySpeciesProxyModel)
         self.tableViewSensitivitySpecies.setSortingEnabled(True)
+        self.tableViewSensitivitySpecies.setModel(sensitivitySpeciesProxyModel)
         self.tableViewSensitivitySpecies.sortByColumn(0, Qt.AscendingOrder)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.COMPARTMENT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.INITIALQUANTITY)
@@ -262,8 +263,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         estimateParamsProxyModel = QSortFilterProxyModel(self)
         estimateParamsProxyModel.setSourceModel(self.parametersTableModel)
 
-        self.estimateParamsTableView.setModel(estimateParamsProxyModel)
         self.estimateParamsTableView.setSortingEnabled(True)
+        self.estimateParamsTableView.setModel(estimateParamsProxyModel)
         self.estimateParamsTableView.sortByColumn(0, Qt.AscendingOrder)
         #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
         #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.UNIT)

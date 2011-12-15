@@ -282,7 +282,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             tableLayout.addWidget(self.dataTableWidget)
 
         #prepare table
-        self.dataTableWidget.setSortingEnabled(False)   # will be set to True after everything has been set up and added
+        self.dataTableWidget.setSortingEnabled(True) # do here to avoid performance penalty (this actually does one sorting run)
         if self.orientation == ORIENTATION_HORIZONTAL:
             self.dataTableWidget.setColumnCount(len(self.dataTableHeaders))
             self.dataTableWidget.setRowCount(self.dataTableRowCount)
@@ -323,7 +323,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 elif self.orientation == ORIENTATION_VERTICAL:
                     self.dataTableWidget.setItem(col, row, newItem)
 
-        self.dataTableWidget.setSortingEnabled(True)
+#        self.dataTableWidget.setSortingEnabled(True)
 
         if self.sortColumn != -1:
             self.dataTableWidget.sortItems(self.sortColumn)

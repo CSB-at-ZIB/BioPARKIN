@@ -4,6 +4,7 @@ Created on Jun 25, 2010
 @author: bzfwadem
 """
 #from PySide.QtCore import *
+import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 
@@ -149,14 +150,15 @@ class SpeciesTableModel(QAbstractTableModel):
         return None
 
     def rowCount(self, index=QModelIndex()):
-        count = 0
-        if not self.speciesList:
-            return 0
-        for speciesEntity in self.speciesList:
-            if not speciesEntity.Item.getId().startswith("helper"):
-                count = count + 1
-        return count
-        #return len(self.speciesList)
+#        count = 0
+#        if not self.speciesList:
+#            return 0
+#        for speciesEntity in self.speciesList:
+#            if not speciesEntity.Item.getId().startswith("helper"):
+#                count = count + 1
+##            logging.debug(speciesEntity.Item.getId())
+#        return count
+        return len(self.speciesList)
 
     def columnCount(self, index=QModelIndex()):
         return NUM_COLUMNS
