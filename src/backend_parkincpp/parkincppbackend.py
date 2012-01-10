@@ -569,12 +569,14 @@ class ParkinCppBackend(BaseBackend):
         dataSet = DataSet(None) # no filename given
         dataSet.setType(services.dataservice.SIMULATION)
         dataSet.setId(settingsandvalues.SIMULATION_RESULTS)
+        dataSet.setSelected(True)
         for speciesEntity, data in simResults.items():
         #            print data
             entityData = EntityData()
             entityData.setId(speciesEntity.getId())
             entityData.setType(datamanagement.entitydata.TYPE_SIMULATED)
             entityData.setAssociatedDataSet(dataSet)
+            entityData.setSelected(True)
 
             entityData.timepoints = self.timepoints
             entityData.datapoints = data
@@ -596,11 +598,13 @@ class ParkinCppBackend(BaseBackend):
         dataSet = DataSet(None) # no filename given
         dataSet.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
         dataSet.setId(settingsandvalues.SENSITIVITY_RAW_JACOBIAN)
+        dataSet.setSelected(True)
         for (speciesEntity, paramID), data in sensResults.items():
             entityData = EntityData()
             entityData.setId("%s/%s" % (speciesEntity.getId(), paramID))
             entityData.setType(datamanagement.entitydata.TYPE_SIMULATED)
             entityData.setAssociatedDataSet(dataSet)
+            entityData.setSelected(True)
 
             entityData.timepoints = self.timepoints
             entityData.datapoints = data
@@ -675,6 +679,7 @@ class ParkinCppBackend(BaseBackend):
                 dataSet = DataSet(None) # no filename given
                 dataSet.setType(services.dataservice.SENSITIVITY_OVERVIEW)
                 dataSet.setId(paramId)
+                dataSet.setSelected(True)
                 dataSets[paramId] = dataSet
                 self.dataService.add_data(dataSet)
             else:
@@ -689,6 +694,7 @@ class ParkinCppBackend(BaseBackend):
             entityData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_OVERVIEW)
             entityData.setAssociatedDataSet(dataSet)
             entityData.setSbmlEntity(speciesEntity)
+            entityData.setSelected(True)
 
             entityData.timepoints = self.timepointsPruned
             entityData.datapoints = list(dataPoints)
@@ -770,6 +776,7 @@ class ParkinCppBackend(BaseBackend):
         speciesParameterSensitivity = DataSet(None)
         speciesParameterSensitivity.setId("%s | Timepoint %s" % (settingsandvalues.SENSITIVITY_PER_PARAM_AND_SPECIES, timepoint))
         speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_JACOBIAN)
+        speciesParameterSensitivity.setSelected(True)
 
 
         for k, param in enumerate(self.selectedParams): # needed to get Param object corresponding to index
@@ -784,6 +791,7 @@ class ParkinCppBackend(BaseBackend):
             paramSpeciesData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_JACOBIAN)
             paramSpeciesData.dataDescriptors = listOfSpecies
             paramSpeciesData.datapoints = sensData
+            paramSpeciesData.setSelected(True)
             speciesParameterSensitivity.setData(paramSpeciesData, keyEntity=param)
 
         return speciesParameterSensitivity
@@ -838,6 +846,7 @@ class ParkinCppBackend(BaseBackend):
         subconditionsDataSet = DataSet(None)
         subconditionsDataSet.setId("%s | Timepoint %s" % (settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM, timepoint))
         subconditionsDataSet.setType(services.dataservice.SENSITIVITY_DETAILS_SUBCONDITION)
+        subconditionsDataSet.setSelected(True)
 
         for i in xrange(len(colSubconditionsScaled)):
             paramIndex = int(pivotIndices[i] - 1)    # pivot elements are counted 1-based
@@ -851,6 +860,7 @@ class ParkinCppBackend(BaseBackend):
             paramData.setType(datamanagement.entitydata.TYPE_SENSITIVITY_DETAILS_SUBCONDITION)
             paramData.dataDescriptors = ["Subcondition (as %% of %g)" % maxValue, settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE]
             paramData.datapoints = [subconditionScaled, subconditionAbs]
+            paramData.setSelected(True)
             subconditionsDataSet.setData(paramData, keyEntity=param)
 
         return subconditionsDataSet
