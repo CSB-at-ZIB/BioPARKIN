@@ -1,11 +1,8 @@
 from collections import OrderedDict
-import random
 import time
-from PySide.QtCore import QSize, Slot, Qt
-from PySide.QtGui import QSortFilterProxyModel, QTabBar, QCheckBox, QMessageBox, QWidget, QTableWidgetItem, QWidget, QFileDialog
-#from PySide.Qt import Qt, QTableWidgetItem, QWidget, QFileDialog
+from PySide.QtCore import  Slot, Qt
+from PySide.QtGui import QSortFilterProxyModel, QTabBar, QMessageBox, QTableWidgetItem, QWidget
 from backend_parkincpp.parkincppbackend import ParkinCppBackend
-from datamanagement import dataset, entitydata
 from parkincpp import parkin
 from services import dataservice
 import services.dataservice
@@ -25,17 +22,13 @@ from simulationworkbench.widgets.resultswindowcontroller import ResultsWindowCon
 from simulationworkbench.widgets.timepointchooser import TimepointChooser
 import widgets
 
-from basics.helpers import filehelpers, machineepsilon
 from simulationworkbench.speciestablemodel import SpeciesTableModel
 from simulationworkbench.parametertablemodel import ParameterTableModel
-#from backend_fortran.fortranbackend import FortranBackend
 from services.progressbarservice import ProgressBarService
 from services.dataservice import DataService
 from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
 from simulationworkbench.widgets.tablewidgetcontroller import TableWidgetController
 from backend.exceptions import InitError
-#from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
-#from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
 
 
 DEFAULT_TIMEUNIT = "s"
@@ -103,12 +96,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
         self.optionPlotExpDataOnSimulation = False
 
-        #        self.integrateUsingMeasuredTimepoints = False
 
         self.currentExpDataFilename = ""
         self.currentExpData = []
 
-        #        self.machineEpsilon = machineepsilon.getMachineEpsilon()
         self.machineEpsilon = parkin.EPMACH
 
         self.setUpInputFields()
@@ -117,22 +108,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.parkinController: #should always be the case
             self.parkinController.modelClosed.connect(self.clear)
             self.parkinController.activeModelChanged.connect(self.on_activeModelChanged)
-#            self.on_activeModelChanged() # shouldn't be necessary
-
-            # set GUI logger
-
-    #        self.logger = logging.getLogger() #gets root logger
-    #        loggingHandler = QtStatusLoggingHandler(self.statusBar())
-    #        self.logger.addHandler(loggingHandler)
-
-    #        self.loggingView = QtLoggingView(self)
-    #        #self.loggingView.set
-    #        loggingHandler = QtLoggingHandler(self.loggingView)
-    #        loggingHandler.setLevel(logging.INFO)
-    #        self.logger.addHandler(loggingHandler)
-    #        # filling log dock area (was set up in QtDesigner)
-    #        self.logDockWidget.setWidget(self.loggingView)
-    #        #self.logDockWidget.setFixedHeight(50)
 
     def on_activeModelChanged(self, activeModelController=None):
 #        logging.debug("in SimulationWorkbenchController.on_activeModelChanged()")
@@ -164,11 +139,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
         self.sbmlModel.createParameterSetForFit()
 
-        #self.getListOfParameterSets()# = model.ListOfParameterSets
         if not self.getListOfParameterSets():
             logging.error(
                 "SimulationWorkbench: Encountered a model without a ListOfParameterSets. This should never happen.")
-            #        self.listOfParameterSets.changed.connect(self.parameterSetsChanged)
 
         self._initialize()
         if self.currentBackend:
@@ -219,7 +192,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.parametersTableView.setSortingEnabled(True)
         self.parametersTableView.setModel(parametersProxyModel)
         self.parametersTableView.sortByColumn(0, Qt.AscendingOrder)
-        # self.parametersTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
         self.parametersTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
         self.parametersTableView.hideColumn(parametertablemodel.COLUMN.ESTIMATE)
         self.parametersTableView.resizeColumnsToContents()
@@ -235,8 +207,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.sensitivityTableView.setModel(sensitivityProxyModel)
         self.sensitivityTableView.sortByColumn(0, Qt.AscendingOrder)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
-#        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.UNIT)
-#        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.ESTIMATE)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
         self.sensitivityTableView.resizeColumnsToContents()
@@ -249,10 +219,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.tableViewSensitivitySpecies.sortByColumn(0, Qt.AscendingOrder)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.COMPARTMENT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.INITIALQUANTITY)
-        #        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.UNIT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.SCALE)
-        #        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.QUANTITYTYPE)
-        #        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISCONSTANT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISBC)
         self.tableViewSensitivitySpecies.resizeColumnsToContents()
 
@@ -266,9 +233,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.estimateParamsTableView.setSortingEnabled(True)
         self.estimateParamsTableView.setModel(estimateParamsProxyModel)
         self.estimateParamsTableView.sortByColumn(0, Qt.AscendingOrder)
-        #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
-        #self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.UNIT)
-#        self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.ISCONSTANT)
         self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
         self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
         self.estimateParamsTableView.resizeColumnsToContents()
@@ -309,7 +273,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Simulation (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
-        self.updateSelectedExpData()
+#        self.updateSelectedExpData()
         if not self.optionPlotExpDataOnSimulation:
             plotWidget.updateDataSources(self.dataService.get_simulation_data())
         else:
@@ -336,10 +300,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Simulation (Table) - %s" % time.strftime("%H:%M:%S",
                 time.localtime()))
-        #self.dataTableWidget.updateDataSources(self.dataService.get_data_sources_with_dataIDs())
         dataTableWidget.sortColumn = 0 # sort by Timepoint
         dataTableWidget.updateDataSources(self.dataService.get_simulation_data())
-        #subWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, "Simulation (Table)")
 
         self.resultsWindow.addResultSubWindow(dataTableWidget)
         self.resultsWindow.show()
@@ -350,7 +312,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW:
             return
 
-
         sensData = self.dataService.get_sensitivity_trajectory_data()
         if not sensData:
             logging.debug("SimulationWorkbenchController._createSensitivityOverviewPlot(): No sensitivity data.")
@@ -359,17 +320,12 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
 
-
         # filter those DataSets that have not been displayed, yet (e.g. previous runs)
         newDataSets = OrderedDict()
         for key, dataSet in sensData.items():
             if self.resultsWindow.hasResultforData(dataSet):
                 continue
             newDataSets[key] = dataSet
-
-
-#        if self.resultsWindow.hasResultforData(dataSet):
-#            continue
 
         logging.info("Creating data table (sensitivity trajectory data)...")
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
@@ -390,7 +346,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             logging.debug("SimulationWorkbenchController._createSensitivityDetailsSubconditionsTables(): No sensitivity data.")
             return
 
-
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
 
@@ -401,7 +356,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
             titleWithTime = "%s - %s" % (key, time.strftime("%H:%M:%S", time.localtime()))
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime, mode=tablewidgetcontroller.MODE_SUBCONDITIONS)
-    #            dataTableWidget.setMode(tablewidgetcontroller.MODE_SUBCONDITIONS)
             dataTableWidget.sortColumn = -1
             dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
             if backend.settingsandvalues.SENSITIVITY_SUBCONDITION_PER_PARAM in key:
@@ -423,7 +377,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
                 title="%s - %s" % (
                     key, time.strftime("%H:%M:%S", time.localtime())), mode=tablewidgetcontroller.MODE_JACOBIAN)
-#            dataTableWidget.setMode(tablewidgetcontroller.MODE_JACOBIAN)
             dataTableWidget.sortColumn = -1
             dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
             dataTableWidget.updateDataSources(sensData, dataID=key)
@@ -462,13 +415,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
                     time.localtime()))
             dataTableWidget.setOrientation(simulationworkbench.widgets.tablewidgetcontroller.ORIENTATION_VERTICAL)
             dataTableWidget.updateDataSources(estimatedParamData, dataID=key)
-            #subWindow = self.resultsWindow.getMdiArea().addSubWindow(self.dataTableWidget)#, "Estimated Parameters")
 
             self.resultsWindow.addResultSubWindow(dataTableWidget)
             self.parkinController.ActiveModelController.sbmlModel.createParameterSetWithFittedValues(
                 estimatedParamData[key])
-
-            #        self.resultsWindow.getMdiArea().setCurrentIndex(self.resultsWindow.getMdiArea().count() - 1)
 
 
     def _setUpBackend(self, mode):
@@ -479,7 +429,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if self.currentBackend:
             self.currentBackend.finishedSignal.disconnect(self.backendRunFinished)
 
-        # use getNew=True for the time being (there is some problem with references when reusing the "old" backend object
+        # always use getNew=True for the time being (there is some problem with references when reusing the "old" backend object)
         self.currentBackend = self._getCurrentBackend(getNew=True)
         self.currentBackend.finishedSignal.connect(self.backendRunFinished)
 
@@ -545,8 +495,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def updateExpData(self, readFile=False):
-        # dataService = DataService()
-
         if readFile:
             self.currentExpDataFilename = self.lineEditExpData.text()
             format = self.getExpDataFileFormat()
@@ -579,7 +527,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
         expDataTableColHeaders = []
         expDataTableRowHeaders = ["# Species", "Format", "Select"]
-        #tableData = [[None for i in range(len(expData.items()))] for j in range(len(expDataTableRowHeaders))]
         tableData = []
         self.currentExpData = []
         for key, dataSet in expData.items():
@@ -603,7 +550,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
                 else:
                     newItem = QTableWidgetItem(QTableWidgetItem.Type)
                     newItem.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
-                    if data == True:
+                    if data:
                         newItem.setCheckState(Qt.Checked)
                     else:
                         newItem.setCheckState(Qt.Unchecked)
@@ -616,12 +563,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.resultsWindow = ResultsWindowController(None)
 
         if not data:
-        #            self.updateSelectedExpData()
             data = self.dataService.get_selected_experimental_data()
 
         plotWidgetExp = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
-            title="Experimental (Plot) - %s" % time.strftime("%H:%M:%S",
-                time.localtime()))
+            title="Experimental (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
         plotWidgetExp.setPlotStyle(simulationworkbench.widgets.plotwidgetcontroller.PLOT_POINT)
         plotWidgetExp.updateDataSources(data)   #also plots the data; accepts single dataDict and lists
         self.resultsWindow.addResultSubWindow(plotWidgetExp)
@@ -638,39 +583,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             return 0
 
 
-        #    def removeSelectedExpData(self):
-        #        self.updateSelectedExpData()
-        #        selectedIndices = self.getSelectedDataSetIndices()
-        #
-        #        for index in selectedIndices:
-        #            dataSet = self.currentExpData[index]
-        #            self.dataService.remove_data(dataSet)
-        #            # del self.currentExpData[index] # this causes potentially an index error in connection with pseudo-data
-        #
-        #        expData = self.dataService.get_experimental_data()
-        #        self.showExpDataInfo(expData)
-
-
-    #    def getSelectedDataSetIndices(self):
-    #        selectedDataSetIndices = []
-    #        row = 2 # TODO: This should not be hardcoded... Real solution is to use a complete DataModel instead of the ad hoc table...
-    #        numCols = self.tableWidgetExpData.columnCount()
-    #        for col in xrange(numCols):
-    #            item = self.tableWidgetExpData.item(row, col)
-    #            checkState = item.checkState()
-    #            if checkState == Qt.Checked:
-    #                selectedDataSetIndices.append(col)
-    #
-    #        return selectedDataSetIndices
-
-
     def getListOfParameterSets(self):
         if self.sbmlModel:
             return self.sbmlModel.ListOfParameterSets
         return None
-
-    #    def statusBar(self):
-    #        return self.parkinController.statusBar()
 
 
     def setUpDataBrowser(self):
@@ -680,8 +596,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         """
         dataImportWidget = DataImportWidget(self.dataBrowserPlusTab, self.parkinController)
         dataImportWidget.updatedDataEvent.connect(self.updateDataBrowser)
-        self.dataBrowserTabWidget.addTab(dataImportWidget,
-            "+") # I create the tab here, because the layout is funky, otherwise
+        self.dataBrowserTabWidget.addTab(dataImportWidget,"+") # I create the tab here, because the layout is funky, otherwise
 
         self.dataBrowserTabWidget.removeTab(0)  # remove the tab placed their by default
 
@@ -720,8 +635,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if not self.askForThresholdConfirmation():
             return
 
-            # else: init of thresholds is a go
-        #        self.speciesTableModel.bef
         for species in self.sbmlModel.SbmlSpecies:
             species.setThreshold(self.machineEpsilon)
         self.speciesTableModel.layoutChanged.emit()
@@ -734,7 +647,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         if not self.askForThresholdConfirmation():
             return
 
-        # else: init of thresholds is a go
         for param in self.sbmlModel.SbmlParameters:
             param.setThreshold(self.machineEpsilon)
         self.parametersTableModel.layoutChanged.emit()
@@ -759,7 +671,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msgBox.setDefaultButton(QMessageBox.Yes)
         msgBox.setIcon(QMessageBox.Question)
-        #        msgBox.setWindowIcon(None)
         clickedButton = msgBox.exec_()
 
         if clickedButton == QMessageBox.No:
@@ -881,7 +792,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.comboBoxProblemTypeSelect.setEnabled(False)
             self.labelRSCAL.setEnabled(False)
             self.comboBoxResidualScalingSelect.setEnabled(False)
-        else:
+        else: # nlscon
             self.labelJACGEN.setEnabled(True)
             self.comboBoxJacobianSelect.setEnabled(True)
             self.labelNONLIN.setEnabled(True)
@@ -973,7 +884,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def backendRunFinished(self, text):
-    #        self.statusBar().showMessage("Updating results...")
         self.updateStatusBar("Updating results...")
         if text == backend.settingsandvalues.FINISHED_INTEGRATION:
             self._createSimulationDataTable()
@@ -987,8 +897,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
         self.updateStatusBar("Results updated.", 5000)
 
-        #self.splitterLeftRight.moveSplitter(250, 1)
-
 
     def speciesChanged(self, upperLeftindex, lowerRightIndex):
         return
@@ -996,9 +904,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     def parameterChanged(self, upperLeftIndex, lowerRightIndex):
         return
-
-#    def on_checkBoxNoAutoRowScale_toggled(self, isChecked):
-#        self.optionNOROWSCAL = isChecked
 
     @Slot("")
     def on_comboBoxJacobianSelect_currentIndexChanged(self):
@@ -1090,11 +995,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
         #### SLOTs and methods for handling parameter set interactions ####
-
-    #    @Slot("")
-    #    def on_actionNew_Parameter_Set_triggered(self):
-    #        if self.getListOfParameterSets():
-    #            self.getListOfParameterSets().createNewParameterSet(duplicate=False)
 
     @Slot("")
     def on_actionDuplicate_Parameter_Set_triggered(self):

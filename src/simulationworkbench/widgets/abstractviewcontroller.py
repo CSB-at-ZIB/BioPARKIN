@@ -1,54 +1,44 @@
 from collections import OrderedDict
 import logging
-from PySide.QtCore import SIGNAL, Slot, Qt
-#from basics.widgets.selectabletableheader import SelectableTableHeader
-from PySide.QtGui import QTableView, QWidget
+from PySide.QtCore import Slot, Qt
+from PySide.QtGui import QWidget
 from basics.widgets.selectabletableheader import SelectableTableHeader
 from simulationworkbench.datasourcestablemodel import DataSourcesTableModel
 from services.dataservice import DataService
 
-
-__author__ = 'bzfwadem'
-
 class AbstractViewController(QWidget):
-    '''
+    """
     Provides a base class for the individual data views (plot/table/sensitiviy table).
     Each of the views can have its own UI. This class here is just a set of common methods.
-    '''
+    """
 
     def __init__(self, parent):
         super(AbstractViewController, self).__init__(parent)
-    #        self.dataView = None
 
     def _initialize(self):
         self.dataService = DataService()
         self.experimentalData = None
         self.simulationData = None
         self.dataSourceTableModel = None
-#        self.dataSourceTableView = QTableView(None)
-#        self.DataIndexToDataID = {}
         self.dataSourceIDs = []
         self.allData = None
         self.dataSources = None
 
     def updateDataSources(self, dataSources, dataID=None):
-        '''
+        """
 
         Gets the data files that were produced by the last integration run
         and invokes updating the data source table and the data tabs (plot/table).
 
         The data structure for the data model is a dict:
         {'source ID': [list of data IDs, e.g. GnrH, ...]}
-        '''
+        """
         self.dataSources = dataSources
         if not self.dataSources:
             logging.info("No data sources, nothing to be shown.")
             return
             
         logging.info("Updating data sources...")
-
-        #        dataSources = self.dataService.get_data_sources_with_dataIDs()
-        #dataSources = self.dataService.get_all_data()
 
         self.dataSourceIDs = []
 
@@ -95,17 +85,12 @@ class AbstractViewController(QWidget):
 
         self.dataSourceTableView.resizeColumnsToContents()
 
-#        self.connect(self.dataSourceTableModel, SIGNAL("dataChanged(QModelIndex, QModelIndex)"),
-#                     self.on_dataSourcesChanged)
         self.dataSourceTableModel.dataChanged.connect(self.on_dataSourcesChanged)
 
         self.on_dataSourcesChanged(None, None)
 
 
     def on_dataSourcesChanged(self, upperLeftIndex, lowerRightIndex):
-    #        if upperLeftIndex != lowerRightIndex:
-    #            logging.debug("Updating ranges of changes in the sources table is currently unsupported.")
-
         # for now, we disregard lowerRightIndex
         self._updateDataView() # update everything
 
@@ -144,32 +129,19 @@ class AbstractViewController(QWidget):
             return
 
         self._updateView(selectedData)
-        #self._updateDataTable(data)    # TODO
-
-        # does not (yet) use the selected data
-        #self._updateSensitiviesTable() # TODO
 
 
     def _getSelectedData(self):
-        #return self.dataService.get_simulation_data()
-
-        #        allSimulationData = self.dataService.get_simulation_data()
-        #        allExperimentalData = self.dataService.get_experimental_data()
-#        self.DataIndexToDataID = {}
         if not self.allData:    # only get actual data the first time
             self.allData = self.dataService.get_all_data()
 
         selectedIDs = self.dataSourceTableModel.getSelectedIDs() # this returns a dict {ID: ("Simulation", "filename1", ...)}
         selectedData = {}
         for i, (selectedID, sources) in enumerate(selectedIDs.items()):
-#            self.DataIndexToDataID[i] = selectedID
-#            self.DataIndexToDataID[selectedID] = i
             for source in sources:
-                #if source == services.dataservice.SIMULATION:
                 if not self.allData.has_key(source):
                     continue
                 dataOfSource = self.allData[source]
-                #dataOfID = dataOfSource[selectedID]
                 dataOfID = dataOfSource.getData(selectedID)
                 if not dataOfID:
                     continue
@@ -209,11 +181,11 @@ class AbstractViewController(QWidget):
 
     @Slot("")
     def on_actionSave_triggered(self):
-        '''
+        """
         Needs to be overriden.
 
         Should show a dialog to save the currently shown data (table, plot, ...).
-        '''
+        """
         logging.debug("The on_actionSave_triggered method has not been overridden.")
 
 
@@ -271,9 +243,4 @@ class AbstractViewController(QWidget):
             return
         self._selectAllSources(selected, row=index)
 
-#    def closeEvent(self, *args, **kwargs):
-#        if self.dataService: #should always be the case at this point
-#            for dataSet in self.allData.values():
-#                self.dataService.remove_data(dataSet)
-#        QWidget.closeEvent(self, *args, **kwargs)
 

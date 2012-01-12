@@ -1,40 +1,32 @@
-'''
-Created on Mar 25, 2011
-
-@author: Moritz Wade
-'''
 import logging
-#from PySide.QtCore import *
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from PySide.QtGui import QFont
 from basics.helpers import enum
-import libsbml
 
 ROW = enum.enum("ROW", "ID, ACTIVE, SELECTED") # this effectively orders the rows; Param ID rows will be appended
 numAdditionalRows = 3
 # Columns will be defined by the available ParameterSets
 
 class ParameterSetsTableModel(QAbstractTableModel):
-    '''
+    """
     Fills the Parameter Set tab of the Simulation Workbench with data.
-    
+
     @param listOfParameterSets: List-like object with parameter sets (see parameter_sets.py)
     @type listOfParams: ListOfParameterSets
-    
+
     @since: 2011-03-25
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
 
 
     def __init__(self, listOfParameterSets, paramEntities):
-        '''
+        """
         Simple Constructor, just setting up some instance variables.
-        '''
+        """
         super(ParameterSetsTableModel, self).__init__()
         self.paramSets = listOfParameterSets
-#        self.paramEntities = paramEntities
         self.paramCombinedIDsMap = self.prepareParametersForAccess(paramEntities)
 
         self.paramIds = self.paramSets.getParamIds()
@@ -113,7 +105,6 @@ class ParameterSetsTableModel(QAbstractTableModel):
         if role != Qt.DisplayRole:
             return None
         if orientation == Qt.Horizontal:
-            #return "Set: %s" % self.paramSets[section].getId()
             return "Set #%s" % (section + 1)    #only output number; ID is shown in an editable field
         if orientation == Qt.Vertical:
             maxWidth = len(str(self.paramSets.numParameters()))+1
@@ -148,13 +139,7 @@ class ParameterSetsTableModel(QAbstractTableModel):
 
         if index.row() in (ROW.ACTIVE, ROW.SELECTED):
             return (Qt.ItemIsUserCheckable
-                    | Qt.ItemIsEnabled
-                    #| Qt.ItemIsSelectable
-            )
-
-        #        elif index.row() == ROW.ID:
-        #            return (Qt.ItemIsEnabled | Qt.ItemIsEditable )
-        #elif index.row() == (COLUMN.INITIALVALUE):
+                    | Qt.ItemIsEnabled)
         else:
             row = index.row()
             offsetRow = row - numAdditionalRows
@@ -164,8 +149,6 @@ class ParameterSetsTableModel(QAbstractTableModel):
                 return Qt.NoItemFlags
             else:
                 return Qt.ItemIsEnabled| Qt.ItemIsEditable
-
-        return Qt.NoItemFlags
 
     def setData(self, index, value, role=Qt.EditRole):
         if not index.isValid() or not (0 <= index.column() < self.columnCount()) or not (

@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 
 
+# this might (or might not... don't ask, it's complicated ;)) enable debugging of threads
 #import pydevd
 #pydevd.settrace(suspend=False)
 #import threading
 #threading.settrace(pydevd.GetGlobalDebugger().trace_dispatch)
 
 
+# Note: most commented-out code in this class has to do with creating/managing the network views
+# This is the reason why I left the commented code in here although it looks ugly. It can serve as a guideline
+# for reenabling graphical network views and hooking them up with the currently selected model, etc.
+#import networkx # not used for now
+
 import PySide
 from PySide.QtCore import Signal, QSettings, QFile, QFileInfo, Slot, Qt
 from PySide.QtGui import QMainWindow, QAction, QFileDialog, QMessageBox, QApplication, QKeySequence
-
-#import networkx
 import os
 import matplotlib
 import sys
@@ -35,7 +39,7 @@ from services.statusbarservice import StatusBarService
 from aboutdialog import AboutDialog
 from basics.helpers import filehelpers
 from sbml_views.modelview import ModelView
-#from sbml_networkview.networkviewcontroller import NetworkViewController
+#from sbml_networkview.networkviewcontroller import NetworkViewController # not used for now
 from libsbml import LIBSBML_VERSION_STRING
 from services.dataservice import DataService
 from sbml_model.modelcontroller import ModelController
@@ -74,7 +78,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.15"
+    __version__ = "1.2.16"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -98,6 +102,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         """
         super(BioParkinController, self).__init__(parent)
 
+        # for locale testing
         #locale.setlocale(locale.LC_ALL, 'de_DE')
         #        locale.setlocale(locale.LC_ALL, 'deu_deu')
 
@@ -116,18 +121,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         self.statusBarLoggingHandler = StatusBarLoggingHandler()
         self.statusBarLoggingHandler.setLevel(logging.INFO) # only log on info level
         self.logger.addHandler(self.statusBarLoggingHandler)
-
-
-        # set GUI logger
-        #        self.loggingView = QtLoggingView(self)
-        #        loggingHandler = QtLoggingHandler(self.loggingView)
-        #        loggingHandler.setLevel(logging.INFO)
-        #        self.logger.addHandler(loggingHandler)
-
-        # filling log dock area (was set up in QtDesigner)
-        #        self._logDockWidget.setWidget(self.loggingView)
-        #        self._logDockWidget.hide()
-
 
         # parse command line arguments
         parser = OptionParser()
@@ -155,8 +148,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         logging.info("BioPARKIN started (version %s)" % BioParkinController.__version__)
         logging.info("Command line arguments: %s" % args)
         logging.info("Python version: %s" % sys.version)
-#        logging.info("SIP version: %s" % sip.SIP_VERSION_STR)
-        #logging.info("PyQt version: %s" % PYQT_VERSION_STR)
         logging.info("PySide version: %s" % PySide.__version__)
         logging.info("libSBML version: %s" % LIBSBML_VERSION_STRING)
         logging.info("Matplotlib version: %s" % matplotlib.__version__)
@@ -211,8 +202,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         self.ModelView = ModelView(self.masterDetailSplitter, self)
         self.ModelTreeView = SBMLEntityWidget(self.masterDetailSplitter)
         self.EntityTableView = EntityTableView(self.masterDetailSplitter)
-#        self.masterDetailSplitter.widget(0).destroy()
-#        logging.debug("1st Child of Splitter: %s" % self.masterDetailSplitter.widget(0))
 
         self.mainWindowViews = [self.ModelTreeView, self.EntityTableView]   #used to iterate over Views
 
@@ -226,7 +215,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         # debugging#############
         BASE_PATH = reduce(lambda l, r: l + os.path.sep + r,
                            os.path.dirname(os.path.realpath(__file__)).split(os.path.sep)[:-1])
-        #BASE_PATH = os.path.dirname(os.path.realpath(__file__))
 
         # add ../../templates (relative to the file (!) and not to the CWD)
         dataPath = os.path.join(BASE_PATH, "data")
@@ -240,7 +228,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 
         # hook up status bar with progress service (that threads can connect to)
         self.statusBarService = StatusBarService(self.statusBar()) # first time, service is instantiated => give statusBar reference!
-#        self.statusBarService.setStatusBar(self.statusBar())
         self.progressBarService = ProgressBarService(self, self.statusBarService)
 
         self.statusBarLoggingHandler.setStatusBar(self.statusBarService)
@@ -250,12 +237,8 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 
 
         # register signals
-
-#        self.connect(self._mdiArea, SIGNAL("subWindowActivated(QMdiSubWindow*)"), self.on_networkwindow_raised)
         self.activeModelChanged.connect(self.on_activeModelChanged)
-#        self.activeModelChanged.connect(self.selectNetworkView) # put into own method -> easier to put in own class later
         self.modelClosed.connect(self.on_modelClosed)
-#        self.modelClosed.connect(self.closeNetworkWindow) # put into own method -> easier to put in own class later
         self.menuFile.aboutToShow.connect(self.updateFileMenu)
 
 
@@ -293,32 +276,16 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
                 action.setStatusTip("Opens recent file %s" % QFileInfo(filename).fileName())
                 action.setShortcut(QKeySequence(Qt.CTRL | (Qt.Key_1+i)))
                 action.triggered.connect(self.load_model)
-                #self.connect(action, SIGNAL("triggered()"), self.load_model)
                 self.menuFile.addAction(action)
 
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionQuit)
-        #pass
 
     def new_model(self):
         """
-        Just calls load_model without a filename
-        to create a new model.
+        Not yet supported.
         """
-        #self.load_model(filename = None)
-        # debugging
-        #self.load_model(filename = "/home/bzfwadem/bin/SBMLeditor/data/biomodels-release-20090902/curated/BIOMD0000000231.xml")
-
-        BASE_PATH = reduce(lambda l, r: l + os.path.sep + r,
-                           os.path.dirname(os.path.realpath(__file__)).split(os.path.sep)[:-1])
-        #BASE_PATH = os.path.dirname(os.path.realpath(__file__))
-
-        # add ../../templates (relative to the file (!) and not to the CWD)
-        dataPath = os.path.join(BASE_PATH, "data")
-
-
-        #self.load_model(filename = "/home/bzfwadem/workspace/BioParkin/data/gyncyc_0.2.sbml")
-        #self.load_model(filename=os.path.join(dataPath, "femcyc/pfizer02.xml"))
+        pass
 
 
     def load_model(self, filename=None):
@@ -358,7 +325,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard)
             msgBox.setDefaultButton(QMessageBox.Save)
             msgBox.setIcon(QMessageBox.Warning)
-            #        msgBox.setWindowIcon(None)
             clickedButton = msgBox.exec_()
 
             if clickedButton == QMessageBox.Save:
@@ -389,12 +355,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 #        subWindow.setOption(QMdiSubWindow.RubberBandResize, True)
 #        self._mdiArea.addSubWindow(subWindow)
 #        subWindow.activateWindow()
-#
-#        # why do these not work to emit a self._mdiArea.networkWindowActivated Signal?
-#        #        self._mdiArea.setActiveSubWindow(subWindow)
-#        #        self._mdiArea.activateNextSubWindow()
-#        #        self._mdiArea.subWindowActivated()
-#
 #        subWindow.show()    # important!
 #        networkView.show()
 
@@ -445,10 +405,13 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             event.ignore()
 
     def dropEvent(self, event):
+        """
+        Handles the drop event if the user "drops" a file somewhere within BioPARKIN's window.
+        """
         # get filename
         uris = event.mimeData().urls()  # support opening several models at once
 
-        # note: uncomment this, to enable drag'n'dropping of multiple models, again
+        # note: uncomment this, to enable drag'n'dropping of multiple models again
 #        for uri in uris:
 #            filename = uri.toLocalFile()
 #            #open file
@@ -463,7 +426,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         Whenever the Signal self.modelClosed is emitted, this
         method is called.
         It removes the modelController of the closed model from
-        the managemend dicitionary and updates all local Views.
+        the management dictionary and updates all local Views.
         """
         if not modelController:
             logging.info("Can't close the model. No model selected.")
@@ -560,7 +523,6 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         This is a slot. It's automatically connected to the actionNew
         created in the QtDesigner.
         """
-
         self.new_model()
 
     @Slot("")
@@ -769,7 +731,5 @@ if __name__ == '__main__':
     parkin.show()
 
     app.exec_()
-
-    #cProfile.run('app.exec_()')
 
 

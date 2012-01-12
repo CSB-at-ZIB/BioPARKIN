@@ -1,10 +1,8 @@
 import logging
-#from PySide.QtCore import *
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 import libsbml
 
-#COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, UNIT, SCALE, ISCONSTANT, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
 COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
 NUM_COLUMNS = 8 # keep in sync with COLUMN!
 
@@ -79,10 +77,6 @@ class ParameterTableModel(QAbstractTableModel):
                     return "Assignm."
                 
                 combinedId = sbmlEntity.getCombinedId()
-                #                if self.getActiveSet():
-                #                    return self.getActiveSet()[combinedId].getValue()
-                #                else:
-                #                    return "N/A"
                 try:
                     return self.getActiveSet()[combinedId].getValue()
                 except:
@@ -94,14 +88,6 @@ class ParameterTableModel(QAbstractTableModel):
                 else:
                     return "N/A"
 
-#            elif column == COLUMN.UNIT:
-#                unit = param.getUnits()
-#                if unit is None or unit == "":
-#                    return "N/A"
-#                else:
-#                    return unit
-#            elif column == COLUMN.ISCONSTANT:
-#                return param.getConstant()
             elif column == COLUMN.SCOPE:
                 parent = param.getParentSBMLObject()
                 if parent:
@@ -125,10 +111,6 @@ class ParameterTableModel(QAbstractTableModel):
                 return None
             elif column == COLUMN.INITIALVALUE:
                 return None
-#            elif column == COLUMN.UNIT:
-#                return None
-#            elif column == COLUMN.ISCONSTANT:
-#                return Qt.Checked if param.getConstant() else Qt.Unchecked
             elif column == COLUMN.SCOPE:
                 return None
             elif column == COLUMN.COMPUTESENSITIVITY:
@@ -141,12 +123,7 @@ class ParameterTableModel(QAbstractTableModel):
 
         if role == Qt.EditRole:
             if column == COLUMN.INITIALVALUE:
-                #return param.getValue()
                 combinedId = sbmlEntity.getCombinedId()
-                #                if self.getActiveSet():
-                #                    return self.getActiveSet()[combinedId].getValue()
-                #                else:
-                #                    return "N/A"
                 try:
                     return str(self.getActiveSet()[combinedId].getValue())
                 except:
@@ -175,12 +152,8 @@ class ParameterTableModel(QAbstractTableModel):
                     return "Value (from Set %s)" % self.getActiveSet().getId()
                 else:
                     return "No active Set!"
-#            elif section == COLUMN.UNIT:
-#                return "Unit"
             elif section == COLUMN.SCALE:
                 return "Threshold"
-#            elif section == COLUMN.ISCONSTANT:
-#                return "Constant"
             elif section == COLUMN.SCOPE:
                 return "Scope"
             elif section == COLUMN.COMPUTESENSITIVITY:
@@ -206,7 +179,6 @@ class ParameterTableModel(QAbstractTableModel):
 
         sbmlEntity = self.paramList[index.row()]
 
-        #if index.column() == COLUMN.ISCONSTANT or index.column() in (COLUMN.COMPUTESENSITIVITY, COLUMN.ESTIMATE):
         if index.column() == COLUMN.ESTIMATE:
             return Qt.ItemIsUserCheckable| Qt.ItemIsEnabled
 
@@ -230,12 +202,10 @@ class ParameterTableModel(QAbstractTableModel):
     def setData(self, index, value, role=Qt.EditRole):
         if index.isValid() and 0 <= index.row() < len(self.paramList):
             sbmlEntity = self.paramList[index.row()]
-            param = sbmlEntity.Item
             column = index.column()
 
             if role == Qt.EditRole:
                 if column == COLUMN.INITIALVALUE:
-                    #param.setValue(float(value))
                     combinedId = sbmlEntity.getCombinedId()
                     try:
                         floatValue = float(value)
@@ -255,15 +225,12 @@ class ParameterTableModel(QAbstractTableModel):
 
             if role == Qt.CheckStateRole:
                 isChecked = value == Qt.Checked
-#                if column == COLUMN.ISCONSTANT:
-#                    param.setConstant(isChecked)
                 if column == COLUMN.COMPUTESENSITIVITY:
                     self.paramsToSensitivityMap[sbmlEntity] = isChecked
                 if column == COLUMN.ESTIMATE:
                     self.paramToEstimateMap[sbmlEntity] = isChecked
 
             self.Dirty = True
-            #self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
             self.dataChanged.emit(index, index)
             return True
 
@@ -308,14 +275,6 @@ class ParameterTableModel(QAbstractTableModel):
         self.emit(SIGNAL("layoutChanged()"))
 
     def getActiveSet(self):
-    #        if not self.paramSets:
-    #            logging.debug("ParameterTableModel.getActiveSet(): No list of Parameter Sets! Aborting.")
-    #            return
-    #        if not self.paramSets.activeSet:
-    #            logging.debug("ParameterTableModel.getActiveSet(): No active Parameter Set! Aborting.")
-    #            return
-    #
-    #        return self.paramSets.activeSet
         if not self.mainModel:
             logging.debug("ParameterTableModel.getActiveSet(): Reference to MainModel is missing. Aborting.")
             return

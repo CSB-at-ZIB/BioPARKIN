@@ -1,46 +1,31 @@
-'''
-Created on Jun 30, 2010
-
-@author: bzfwadem
-'''
 from collections import OrderedDict
-
-import os
-
-#from PySide.QtCore import *
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
-
 from basics.helpers import enum
 import logging
 from sbml_model.sbml_entities import SBMLEntity
 from odehandling.specieswrapper import SpeciesWrapper
 
-
 COLUMN = enum.enum("ROW", "ID, NAME, INITIALVALUE, UNIT, ISCONSTANT") # this effectively orders the columns 
 STATE = enum.enum("STATE", "UNCHECKED, PARTIALLYCHECKED, CHECKED, NODATA") # like Qt.Checkstate + NODATA
 
 class DataSourcesTableModel(QAbstractTableModel):
-    '''
+    """
     A data model that wraps an dictionary providing the existing data IDs
     for several sets of data (obtained from several data files).
-    
+
     @since: 2010-06-30
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
     def __init__(self, dataSources):
-        '''
+        """
         Simple Constructor, just setting up some instance variables.
-        '''
+        """
         super(DataSourcesTableModel, self).__init__()
-
-
         self.dataSources = dataSources
-
-        #print(dataSources) # debugging
         
         self.Dirty = False # True if something has been changed
         
@@ -63,20 +48,12 @@ class DataSourcesTableModel(QAbstractTableModel):
             for dataWrapper in dataDict.keys():
                 if not dataDict[dataWrapper].isSelected():
                     continue
-                # we now regard strings as valid keys (necessary for sensitivities, etc.)
-#                if type(dataWrapper) is str:
-#                    logging.error("DataSourcesTableModel: Encountered DataSet with str as key! Should be an SBMLEntity object.")
-#                    dataID = dataWrapper
                 dataID = dataWrapper
-#                else:
-#                    dataID = dataWrapper.getId()
                 if dataID not in self.dataIDs:
                     self.dataIDs.append(dataID)
         
         first = True
         for (fileID, dataSet) in self.dataSources.items():
-            #dataIDs = map(lambda x: x.getId(),dataSet.getData().keys())
-            #dataIDs = dataSet.getData().keys()  # keys should be strings
             data = dataSet.getData()
             if not data:
                 logging.debug("DataSourcesTableModel.__init__(): No data for file %s" % fileID)
@@ -123,14 +100,12 @@ class DataSourcesTableModel(QAbstractTableModel):
             data =  self.dataMatrix[column][row]
             if type(data) is str:
                 return data
-            #elif type(data) is SBMLEntity or type(data) is SpeciesWrapper or type(data):
             elif hasattr(data,  "getCombinedId"):
                 return data.getCombinedId()
             elif hasattr(data, "getId"):
                 return data.getId()
             elif data == STATE.NODATA:
                 return "N/A"
-            #return True if data == STATE.CHECKED else False
             return "Show" if data == STATE.CHECKED else "Hide"
             
         
@@ -151,7 +126,6 @@ class DataSourcesTableModel(QAbstractTableModel):
         if role != Qt.DisplayRole:
             return None
         if orientation == Qt.Horizontal:
-#            return self.headers[section].split(os.path.sep)[-1]
             if "/" in self.headers[section]:
                 return self.headers[section].split("/")[-1] # for now, use "/" because that's used throughout BioPARKIN
             else:
@@ -181,14 +155,7 @@ class DataSourcesTableModel(QAbstractTableModel):
         else:
             data =  self.dataMatrix[column][row]
             return Qt.NoItemFlags if data == STATE.NODATA else (Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
-            
-            
-#        elif index.column() == (COLUMN.INITIALVALUE):
-#            return (Qt.ItemIsEnabled 
-#                    | Qt.ItemIsEditable
-#                    )
-            
-        return Qt.NoItemFlags
+
     
     def setData(self, index, value, role = Qt.EditRole):
         if index.isValid() and 0 <= index.row() < len(self.dataIDs) and 0 <= index.column() < len(self.headers):
@@ -199,22 +166,12 @@ class DataSourcesTableModel(QAbstractTableModel):
             column = index.column()
             if column == 0:
                 return
-            
-#            if role == Qt.EditRole:
-#                if column == COLUMN.INITIALVALUE:
-#                    param.setValue(float(value))
                 
             if role == Qt.CheckStateRole:
                 if self.dataMatrix[column][row] != STATE.NODATA:
-#                    isChecked = value == Qt.Checked
-#                    if isChecked:
-#                        self.dataMatrix[column][row] = STATE.CHECKED
-#                    else:
-#                        self.dataMatrix[column][row] = STATE.UNCHECKED
                     self.dataMatrix[column][row] = value
             
                     self.Dirty = True
-        #            self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
                     self.dataChanged.emit(index, index)
             return True
         
@@ -225,9 +182,9 @@ class DataSourcesTableModel(QAbstractTableModel):
 ########## HELPER METHODS #############
 
     def getSelectedIDs(self):
-        '''
+        """
         Returns all currently checked IDs in a stable dict.
-        '''
+        """
         selectedIDs = OrderedDict()
         
         for col in xrange(len(self.dataMatrix)):
@@ -247,7 +204,6 @@ class DataSourcesTableModel(QAbstractTableModel):
     def selectAllSources(self, doSelect, column=None, row=None):
 
         self.emit(SIGNAL("layoutAboutToBeChanged()"))
-#        self.emit(SIGNAL("modelAboutToBeReset()"))
         
         for columnIter in xrange(1,self.columnCount()):
             if column is not None and column != columnIter: # inefficient but easiest way to do this without code duplication
@@ -268,7 +224,6 @@ class DataSourcesTableModel(QAbstractTableModel):
 
         self.emit(SIGNAL("layoutChanged()"))
         self.dataChanged.emit(QModelIndex(), QModelIndex())
-#        self.emit(SIGNAL("modelReset()"))
 
     def invertSelection(self):
 
