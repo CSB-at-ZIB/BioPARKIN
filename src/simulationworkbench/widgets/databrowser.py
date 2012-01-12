@@ -7,15 +7,19 @@ import time
 from basics.widgets.selectabletableheader import SelectableTableHeader
 from datamanagement.entitydata import EntityData
 from services.dataservice import DataService
-#import simulationworkbench
 from simulationworkbench.widgets.databrowsermodel import DataBrowserModel
-#from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
-#from simulationworkbench.widgets.selectabletableheader import SelectableTableHeader
 from simulationworkbench.widgets.ui_databrowser import Ui_DataBrowser
 from services.optionsservice import OptionsService
 
 class DataBrowser(QWidget, Ui_DataBrowser):
     """
+    The DataBrowser provides a GUI to handle experimental data (loaded from files)
+    as well as other data that has been added to the DataService.
+
+    It shows a table-like view on the data and has various options to select data (with checkboxes)
+    on several levels (DataSet level and EntityData level). It also provides option to timeshift data
+    and to perturb it (the latter option is only shown when BioPARKIN is in debug mode).
+
     @since: 2011-08-24
     """
     __author__ = "Moritz Wade"
@@ -84,8 +88,6 @@ class DataBrowser(QWidget, Ui_DataBrowser):
         self.lineEditInfoSpecies.setText(str(self.data.getNumOfRealData()))
         self.lineEditInfoDataType.setText(self.data.type)
 
-        #        self.lineEditInfoFormat.setText(self.data.format)
-
         filepath = self.data.filename
         if filepath and os.path.exists(filepath):
             self.lineEditInfoPath.setText(filepath)
@@ -139,9 +141,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
                 if not value:   # for None values
                     continue
                 fraction = value * factor   # fraction of value that will be added or substracted
-                #newValue = value + random.uniform(-1 * fraction, fraction)
                 newValue = value + random.uniform(-1, 1) * fraction
-                #                    newValue = value - fraction if random.random() < 0.5 else value + fraction
                 entityData.setDatapoint(i, newValue)
 
     @Slot("")

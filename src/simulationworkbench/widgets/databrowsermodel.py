@@ -93,7 +93,6 @@ class DataBrowserModel(QAbstractTableModel):
             0 <= index.column() <= len(self.dataEntityIds)):
             return Qt.NoItemFlags
 
-        #return Qt.ItemIsEnabled | Qt.ItemIsEditable   # per default, everything is editable
         return Qt.ItemIsEnabled
 
 
@@ -155,8 +154,6 @@ class DataBrowserModel(QAbstractTableModel):
                     if dataDescriptor not in self.dataDescriptors:
                         self.dataDescriptors.append(dataDescriptor[1])
 
-                    #        self.dataDescriptors.sort() # in most cases, this produces a sensible order (e.g. timepoints)
-
 
     def _getData(self, column, row):
         if column == 0:
@@ -208,7 +205,6 @@ class DataBrowserModel(QAbstractTableModel):
     def doTimeshift(self, shift):
 
         try:
-            #self.beginResetModel()#
             self.modelAboutToBeReset.emit()
             
 
@@ -220,7 +216,6 @@ class DataBrowserModel(QAbstractTableModel):
                 logging.debug("Timeshifting data of EntityData: %s" % id)
                 entityData.dataDescriptors = [float(x) + shift for x in entityData.dataDescriptors]
 
-#            self.endResetModel()
             self._initData()
             self.modelReset.emit()
         except Exception, e:

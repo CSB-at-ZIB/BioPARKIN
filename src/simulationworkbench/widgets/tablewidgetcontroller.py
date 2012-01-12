@@ -1,26 +1,16 @@
-import copy
-from copy import copy
 import logging
 import csv
 import math
 from backend import settingsandvalues
 import services.dataservice
 import datamanagement.entitydata
-from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QFont, QBrush, QColor
-from PySide.QtCore import Qt, SIGNAL, Slot
+from PySide.QtGui import  QFileDialog, QVBoxLayout, QTableWidget, QFont, QBrush, QColor
+from PySide.QtCore import Qt, Slot
 from datamanagement.dataset import DataSet
 from services.dataservice import DataService
-from services.statusbarservice import StatusBarService
 from simulationworkbench.widgets.sortedtablewidgetitem import SortedTableWidgetItem
 from simulationworkbench.widgets.ui_tablewidget_v1 import Ui_TableWidget
 from simulationworkbench.widgets.abstractviewcontroller import AbstractViewController
-
-__author__ = 'bzfwadem'
-
-#OPTION_SORTABLE_COLUMNS = "option_sortable_columns"
-#OPTION_LABEL_X = "option_label_x"
-#OPTION_SHOW_LEGEND = "option_show_legend"
-#OPTION_LOG_Y_AXIS = "option_log_y_axis"
 
 ORIENTATION_HORIZONTAL = "orientation_horizontal"
 ORIENTATION_VERTICAL = "orienation_vertical"
@@ -35,34 +25,30 @@ COLOR_HIGH = QColor(50, 200, 50, 200) # medium green
 COLOR_MEDIUM = QColor(50, 200, 50, 50) # light green
 COLOR_LOW = QColor(200, 50, 50, 100)   # light red
 
-#class TableWidgetController(QWidget, Ui_TableWidget, AbstractViewController):
 class TableWidgetController(AbstractViewController, Ui_TableWidget):
-    '''
+    """
     The controller part for a data table widget. The UI part is declared
     in tablewidget_v1.ui and then converted to ui_tablewidget.py.
 
     This widget can be fed tabular data and has several options for showing it.
 
     @since: 2010-11-10
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
     def __init__(self, parent=None, host=None, title="Table", mode=None):
-        '''
-        Constructor
-        '''
+        """
+        Constructor, setting up lots of instance variables.
+        """
         super(TableWidgetController, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(title)
 
         self._initialize()
 
-        #        self.options = {
-        #            OPTION_SORTABLE_COLUMNS: self.checkBoxSortableColumns.isChecked(),
-        #        }
 
         self._mode = MODE_DEFAULT
         self.maxValue = -1
@@ -107,11 +93,10 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.isColored = True
 
     def _updateView(self, data=None):
-        '''
+        """
         Overriding the "abstract" base class method. This does the main "drawing" of data, i.e.
         generates the table and fills it with data.
-        '''
-
+        """
         if data:
             self.data = data
 
@@ -123,12 +108,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.dataTableWidget.clear()
 
     def _setRowHeaders(self, dataDescriptors):
-        '''
+        """
         Sets the given datadescriptors (from an EntityData object) as row headers
         of the table, thereby checking for floats and rounding them, as not to show too
         many digits after the point.
-        '''
-        #self.dataTableRowHeaders = dataDescriptors
+        """
         if not dataDescriptors:
             logging.debug("TableWidgetController._setRowHeaders(): Empty dataDescriptor list.")
             return
@@ -162,9 +146,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             if value >= self.colorThreshold:
                 color = COLOR_LOW
             else:
-                #percentage = value / float(self.maxValue)
                 percentage = (self.maxValue - value + 1) / float(
-                    self.maxValue) # +1 because it's the "lowest" subconditon, and represents 100%
+                    self.maxValue) # +1 because it's the "lowest" subcondition, and represents 100%
 
                 highRed, highGreen, highBlue, highAlpha = COLOR_HIGH.red(), COLOR_HIGH.green(), COLOR_HIGH.blue(), COLOR_HIGH.alpha()
                 mediumRed, mediumGreen, mediumBlue, mediumAlpha = COLOR_MEDIUM.red(), COLOR_MEDIUM.green(), COLOR_MEDIUM.blue(), COLOR_MEDIUM.alpha()
@@ -183,9 +166,9 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         return color
 
     def _updateDataTable(self, data):
-        '''
+        """
         Updates the data table with data from the last integration.
-        '''
+        """
 
         #prepare data
         self.dataTableHeaders = []
@@ -218,8 +201,6 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                             firstColHeader = "%s" % dataDescriptorName
                     self.dataTableHeaders.append(firstColHeader)
 
-                #self.dataTableHeaders.append("Time species %s [%s]" % (str(speciesID), self.lineEditTimeUnit.text()))
-                #self.dataTableColumnData.append(timepoints)
                 if len(dataDescriptors) > self.dataTableRowCount:
                     self.dataTableRowCount = len(dataDescriptors)
 
@@ -229,8 +210,6 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 # shorten datapoints
                 for i, datapoint in enumerate(entityData.datapoints):
                     try:
-                    #datapoints.append(round(float(datapoint), 4))
-                    #                        valueString = "%g" % (float(datapoint))
                         floatValue = float(datapoint)   # will jump to except if no float
                         valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
                         datapoints.append(valueString)
@@ -245,28 +224,20 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                             self.maxValue = floatValue
 
                     except:
-                    #                        datapoints.append(round(float("nan"), 4))
                         datapoints.append(str(datapoint))
 
                         #                logging.debug("TableWidgetController - datapoints: %s" % datapoints)   # too much overhead
                         #self.dataTableHeaders.append("Data species %s [%s]" % (str(speciesID), entityData.getUnit()))
                 if self.showUnits:
-                #                    if type(entity) == str:
-                #                        self.dataTableHeaders.append("%s" % entity)
-                #                    else:
                     self.dataTableHeaders.append("%s [%s]" % (entity.getCombinedId(), entityData.getUnit()))
                 else:
                     self.dataTableHeaders.append("%s" % entity.getCombinedId())
                 self.dataTableColumnData.append(datapoints)
-            #                if len(datapoints) > self.dataTableRowCount:
-            #                    self.dataTableRowCount = len(datapoints)
 
         # Put those labels into the actual data that would be the vertical/row labels.
         # We can't use .setVerticalHeaderLabers() because those labels don't get sorted together with the data.
         # Very weird but that seems to be the intended behaviour of Qt.
         if self.orientation == ORIENTATION_VERTICAL:
-            #self.dataTableColumnData.insert(0, self.dataTableHeaders) # handle as if it were data so that sorting works
-
             self.dataTableHeaders = self.dataTableHeaders[1:]   # remove unnecessary dataDescriptor name
             for i in xrange(len(self.dataTableColumnData)):
                 entry = self.dataTableColumnData[i]
@@ -274,7 +245,6 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.dataTableRowHeaders.insert(0, "")
         else:
             self.dataTableColumnData.insert(0, self.dataTableRowHeaders)
-            #self.dataTableHeaders.insert(0,"")
 
         if not self.dataTableWidget:    # create for the first time
             tableLayout = QVBoxLayout(self.tableWrapper)
@@ -287,12 +257,9 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             self.dataTableWidget.setColumnCount(len(self.dataTableHeaders))
             self.dataTableWidget.setRowCount(self.dataTableRowCount)
             self.dataTableWidget.setHorizontalHeaderLabels(self.dataTableHeaders)
-        #            self.dataTableWidget.setVerticalHeaderLabels(
-        #                self.dataTableRowHeaders)  # has to be called after setRowCount?
         elif self.orientation == ORIENTATION_VERTICAL:
             self.dataTableWidget.setRowCount(len(self.dataTableHeaders))
             self.dataTableWidget.setColumnCount(len(self.dataTableRowHeaders))
-            #            self.dataTableWidget.setVerticalHeaderLabels(self.dataTableHeaders)
             self.dataTableWidget.setHorizontalHeaderLabels(
                 self.dataTableRowHeaders)  # has to be called after setRowCount?
 
@@ -300,8 +267,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         for col in xrange(len(self.dataTableColumnData)):
             for row in xrange(len(self.dataTableColumnData[col])):
                 try:
-                    value = self.dataTableColumnData[col][
-                            row]  # don't touch "values"; they could be pre-formatted strings
+                    value = self.dataTableColumnData[col][row]  # don't touch "values"; they could be pre-formatted strings
                     newItem = SortedTableWidgetItem()    # use custom item class
                     newItem.setData(Qt.DisplayRole, value)
                     newItem.setTextAlignment(Qt.AlignRight)
@@ -315,15 +281,10 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     logging.debug(
                         "TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (
                             value, e))
-                #                    newItem = SortedTableWidgetItem(str(self.dataTableColumnData[col][row]))
-                #                    newItem.setTextAlignment(Qt.AlignRight)
-                #                    newItem.setFont(QFont("Fixed"))
                 if self.orientation == ORIENTATION_HORIZONTAL:
                     self.dataTableWidget.setItem(row, col, newItem)
                 elif self.orientation == ORIENTATION_VERTICAL:
                     self.dataTableWidget.setItem(col, row, newItem)
-
-#        self.dataTableWidget.setSortingEnabled(True)
 
         if self.sortColumn != -1:
             self.dataTableWidget.sortItems(self.sortColumn)
@@ -340,10 +301,9 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
 
 
     def saveDataAsCsv(self, path):
-        '''
+        """
         Save current data as CSV file.
-        '''
-
+        """
         try:
             orientationBefore = self.orientation
             self.orientation = ORIENTATION_HORIZONTAL
@@ -354,14 +314,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
             csv.register_dialect("SimulationData", delimiter='\t', quotechar='"', skipinitialspace=True)
             writer = csv.writer(open(path, "wb"), dialect="SimulationData")
 
-            #            header = ["Timepoint [%s]" % self.host.labelTimeUnit.text()]
-            #            header.extend(self.dataTableHeaders)
             header = self.dataTableHeaders
             writer.writerow(header)
 
             for row in xrange(self.dataTableRowCount):
                 rowData = []
-                #rowData.append(self.dataTableRowHeaders[row])   # adds the timepoint up front
                 for col in xrange(len(self.dataTableHeaders)):
                     rowData.append(self.dataTableColumnData[col][row])
                 writer.writerow(rowData)
@@ -375,30 +332,22 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
     def _updateThreshold(self):
         self.colorThreshold = self.colorThresholdBase * math.pow(10, self.colorThresholdExponent)
         if self._mode == MODE_SUBCONDITIONS:
-        # value has to be between rtol and -1
-        #            if value > 1:
-        #                value = 1
-        #            elif value < self.host.getRTol():
-        #                value = self.host.getRTol()
             if self.colorThreshold == 0.0:
                 self.colorThreshold = 0
             else:
                 self.colorThreshold = 1 / self.colorThreshold
-            #        else:
-        #            self.colorThreshold = self.colorThreshold
         self._updateDataView()
 
         ############### SLOTS ################
 
     @Slot("")
     def on_actionSave_triggered(self):
-        '''
+        """
         Show a dialog to save the currently shown plot to a png file.
 
         Overrides an "abstract" method in AbstractViewController.
-        '''
+        """
         logging.info("Saving data. Displaying file chooser...")
-        #file_choices = "CSV (*.csv)|*.csv"
         file_choices = "Excel *.txt (*.txt);;CSV *.csv (*.csv)"
 
         path = unicode(QFileDialog.getSaveFileName(self,
@@ -439,11 +388,11 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
 
     @Slot("")
     def on_actionAddToExperimentalData_triggered(self):
-        '''
+        """
         Adds the currently displayed data and adds it to the experimental data.
         This is usually only useful if you want to want to use simulation results (which can then be perturbed)
         as input for other tools like parameter value estimation.
-        '''
+        """
         logging.info("Adding current data to Experimental Data...")
         dataService = DataService()
         expDataSet = DataSet(None)
@@ -469,9 +418,6 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     expDataSet.dataDescriptorUnit = item.dataDescriptorUnit
                     first = False
         dataService.add_data(expDataSet)
-
-    #        self.host.updateExpData()
-
 
 
     #### COLORING-RELATED METHODS ####

@@ -9,8 +9,6 @@ import services
 from services.dataservice import DataService
 from simulationworkbench.widgets.ui_dataimportwidget import Ui_DataImportWidget
 
-__author__ = 'bzfwadem'
-
 class DataImportWidget(QWidget, Ui_DataImportWidget):
     """
     This is a very simple widget that provides some buttons

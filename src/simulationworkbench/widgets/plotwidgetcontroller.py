@@ -2,12 +2,8 @@ import StringIO
 import Image
 
 import PySide.QtXml # as suggested in a forum to account for .svg icons
-from PySide.QtGui import QWidget, QFileDialog, QVBoxLayout, QHBoxLayout
-#from simulationworkbench.ui_plotwidget_v1 import Ui_PlotWidget
-from PySide.QtCore import Qt, SIGNAL, Slot
-import matplotlib
-from services.dataservice import DataService
-# from simulationworkbench.datasourcestablemodel import DataSourcesTableModel
+from PySide.QtGui import QFileDialog, QVBoxLayout
+from PySide.QtCore import  Slot
 import logging
 from services.statusbarservice import StatusBarService
 from simulationworkbench.widgets.abstractviewcontroller import AbstractViewController
@@ -16,16 +12,9 @@ import matplotlib
 matplotlib.use('Qt4Agg')
 matplotlib.rcParams['backend.qt4'] = "PySide"
 
-import os
-
-#if os.name == "nt":
-#    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-#    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
-#else:
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
-#import matplotlib.cm as colormaps
 from matplotlib import cm
 from matplotlib.colors import rgb2hex, Normalize, Colormap
 
@@ -96,36 +85,23 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         self.plotColors = {}    # will be filled with colors on the first plot
 
 
-        #self.plotWidget = None
-
 
     def _updateView(self, data=None):
-
-    #logging.debug("Updating the plot view!")
-    #        plotWidget = PlotWidget(self.splitter, data= data)
-    #        self.splitter.insertWidget(0, plotWidget)
-
         try:
             if data:
                 self.data = data
-                #        self.labels = None #labels
-                #        self.options = {} #options
 
             if not self.fig:    # on first plot
                 self.dpi = self.logicalDpiX()
                 logging.info("Plotting at %s dpi." % self.dpi)
-                #self.fig = Figure((4.0, 4.0), dpi=self.dpi)
                 self.fig = Figure(dpi=self.dpi)
                 self.canvas = FigureCanvas(self.fig)
 
                 self.axes = self.fig.add_subplot(111)
-                #if os.name != "nt":
-                #self.mpl_toolbar = NavigationToolbar(self.canvas, self)
                 self.mpl_toolbar = NavigationToolbar(self.canvas, None)
 
                 left_vbox = QVBoxLayout(self.plotWrapper)
                 left_vbox.addWidget(self.canvas)
-                #if os.name != "nt":
                 left_vbox.addWidget(self.mpl_toolbar)
 
                 self.setAxesAndData()
@@ -149,14 +125,11 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             self.computeColors()
             # some of this has to be done before the data is set
             self.setAxes()
-
             self.setData()
 
             # has to be done after the data is set
             if OPTION_SHOW_LEGEND in self.options and self.options[OPTION_SHOW_LEGEND]:
                 self.axes.legend()
-                #        else:
-                #            self.axes.h
 
         except Exception as e:
             logging.debug("PlotWidgetController.setAxesAndData: Error occurred: %s" % e)
@@ -185,9 +158,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 
             if OPTION_LOG_Y_AXIS in self.options and self.options[OPTION_LOG_Y_AXIS]:
                 self.axes.set_yscale('log')
-                #
-                #        if OPTION_SHOW_LEGEND in self.options and self.options[OPTION_SHOW_LEGEND]:
-                #            self.axes.legend()
+
         except Exception as e:
             logging.debug("PlotWidgetController.setAxes: Error occurred: %s" % e)
 
@@ -199,12 +170,6 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                         timepoints = entityData.timepoints
                         datapoints = entityData.datapoints
                         label = entityData.getId()
-                        
-                        # logging.debug("PlotWidgetController.setData(): Plotting information for %s" % str(label))
-                        # logging.debug("                              : x-axes (timepoints) dim %d" % len(timepoints))
-                        # logging.debug("                              : y-axes (datapoints) dim %d" % len(datapoints))
-                        # logging.debug("timepoints: %s" % timepoints)
-                        # logging.debug("datapoints: %s" % datapoints)
 
                         # select correct plot style (points, lines) based
                         # on what has been set from the outside (e.g. SimulationWorkbench)
@@ -252,15 +217,12 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             logging.debug("PlotWidgetController.setData: Error occurred: %s" % e)
 
     def computeColors(self):
-        '''
+        """
         Takes the number of data items (e.g. Species) and computes one color for each one.
-        '''
+        """
         if not self.data:
             logging.error("PlotWidgetController: Can't compute colors without data.")
             return
-
-#        if self.plotColors: # only compute once
-#            return
 
         try:
 
@@ -304,6 +266,8 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             - mode: one of  ['hexs', 'tuples', 'arrays']
 
         Ref: http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps
+
+        from: http://nullege.com/codes/show/src%40p%40y%40pycogent-HEAD%40cogent%40draw%40multivariate_plot.py/6/matplotlib.colors.Colormap/python
         """
         modes = ['hexs', 'tuples', 'arrays']
         if mode not in modes:
@@ -329,7 +293,6 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 
         Overrides an "abstract" method in AbstractViewController.
         """
-
         # get the supported formats
         formats = self.canvas.filetypes.keys()
 
@@ -354,7 +317,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                 imgdata.seek(0)  # rewind the data
                 im = Image.open(imgdata)
                 im.save(path)
-            elif format:
+            elif frmt:
                 self.canvas.print_figure(path, format=frmt, dpi=self.dpi)
             else:    
                 self.canvas.print_figure(path, dpi=self.dpi)

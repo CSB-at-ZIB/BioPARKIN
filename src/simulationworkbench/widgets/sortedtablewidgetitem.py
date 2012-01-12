@@ -1,8 +1,15 @@
-import logging
 from PySide.QtCore import Qt
 from PySide.QtGui import QTableWidgetItem
 
 class SortedTableWidgetItem(QTableWidgetItem):
+    """
+    A simple wrapper for QTableWidgetItem that overrides __lt__
+    for custom sorting.
+    If both wrapped items are floats, they are compared normally.
+    Floats are defined to be smaller than non-floats.
+    It both are non-floats, they are compared simply via < which
+    works great for e.g. strings.
+    """
     def __lt__(self, other):
         try:
             float(self.data(Qt.DisplayRole))
@@ -27,15 +34,4 @@ class SortedTableWidgetItem(QTableWidgetItem):
             return False
 
 
-#    def data(self, role):
-#        if role != Qt.DisplayRole:
-#            return super(SortedTableWidgetItem, self).data(role)
-#
-#        data = super(SortedTableWidgetItem, self).data(role)
-#        try:
-#            floatData = float(data)
-#            floatData = '{0:-.4f}'.format(floatData)
-#            return floatData
-#        except :
-#            return data
 
