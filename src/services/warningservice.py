@@ -1,4 +1,4 @@
-from PySide.QtCore import QObject, Signal, SIGNAL
+from PySide.QtCore import QObject, Signal
 from contrib.singletonmixin import Singleton
 
 class Mediator(QObject):

@@ -1,12 +1,8 @@
 
 import logging, time
-#import os
-#from PySide.QtGui import *
-#from PySide.QtCore import *
 from PySide.QtCore import QObject, QMutex, QSize, QMutexLocker
 from PySide.QtGui import QProgressBar, QLabel, QMovie
 from basics.threadbase import BioParkinThreadBase
-#import resources_rc
 
 class ProgressBarService(QObject):
     """
@@ -50,7 +46,6 @@ class ProgressBarService(QObject):
 
         if statusBarService is not None:
             self.statusBarService = statusBarService
-            #self.progressBar = QProgressBar(self.statusBarService) # used for showing progress
             self.progressBar = QProgressBar(None) # used for showing progress
             self.progressBarMutex = QMutex()
             self.progressBar.hide()
@@ -73,18 +68,6 @@ class ProgressBarService(QObject):
             self.throbber.setFixedSize(24,24)
 
 
-#    def __call__(self):
-#        """
-#        Quick'n'dirty way to make a Singleton out of this class.
-#        """
-#        return self
-
-#    def setStatusBar(self, statusbar):
-#        """
-#        Sets the internal status bar (or StatusBarService)
-#        """
-#        self.statusbar = statusbar
-        
     def getStatusBar(self):
         """
         Gets the internal status bar (or StatusBarService)
@@ -100,8 +83,6 @@ class ProgressBarService(QObject):
         """
         if thread is not None:
             self.thread = thread
-            #thread.finished.connect(self.threadFinished)
-            #print "in connect_to_thread"
             self.thread.startWithoutProgressSignal.connect(self.start_throbber)
             self.thread.startWithProgressSignal.connect(self.start_progress)
             self.thread.finishedSignal.connect(self.finish)
@@ -109,9 +90,6 @@ class ProgressBarService(QObject):
             self.thread.progressMaximumSignal.connect(self.setProgressBarMaximum)
             self.thread.progressValueSignal.connect(self.setProgressBarValue)
             self.thread.progressTextSignal.connect(self.showMessage)
-    
-    #  def threadFinished(self, bool):
-    #    self.hide("Action finished.")
 
     def setProgressBarMinimum(self, min):
         """
@@ -156,7 +134,6 @@ class ProgressBarService(QObject):
         """
         #
         self.progressRunning = True
-        #QApplication.processEvents()
         with QMutexLocker(self.progressBarMutex):
             if min and max:
                 self.progressBar.setRange(min, max)
@@ -177,26 +154,20 @@ class ProgressBarService(QObject):
         @param text: Text for status bar
         @type text: str
         """
-        #print "in finish()"
-        #logging.info("Finishing Progress Service")
-        
         if self.progressRunning:
             with QMutexLocker(self.progressBarMutex):
                 self.progressBar.hide()
         if self.throbberRunning:
             with QMutexLocker(self.throbberMutex):
                 self.throbber.hide()
-        
-        
+
         if text is None:
             self.statusBarService.showMessage("Finished", 1000)
         else:
             self.statusBarService.showMessage(text, 3000) # show finish message for 3 seconds
-        
-        
+
         self.thread = None  # release reference to thread
-    
-#    @Slot("QString")
+
     def start_throbber(self, text = None):
         """
         This is a slot. It starts (the progress-state-less) throbber
@@ -207,8 +178,6 @@ class ProgressBarService(QObject):
         @param text: Text for status bar
         @type text: str
         """
-        #print "Starting progress throbber...."
-        #logging.info("Starting progress throbber....")
         with QMutexLocker(self.throbberMutex):
             self.throbber.show()
             self.throbberRunning = True
@@ -257,24 +226,17 @@ class DummyProgressThread(BioParkinThreadBase): #Test class
     STEPS = 50
 
     def run(self):
-    
-#        self.emit(SIGNAL("startWithProgress(QString)"), "Computing something complicated...")
+
         self.startWithProgressSignal.emit("Computing something complicated...")
-#        self.emit(SIGNAL("progressMinimum(int)"), 0)
         self.progressMinimumSignal.emit(0)
-#        self.emit(SIGNAL("progressMaximum(int)"), 49)
         self.progressMaximumSignal.emit(self.STEPS-1)
         for i in range(self.STEPS):
-#            self.emit(SIGNAL("progressValue(int)"), i)
             self.progressValueSignal.emit(i)
             text = "Running..."
-#            self.emit(SIGNAL("progressText(QString)"), text)
             self.progressTextSignal.emit(text)
             time.sleep(0.05)
-        
-        
+
         finishedText = "Dummy Thread finished..."
-#        self.emit(SIGNAL("finished(QString)"), finishedText)
         self.finishedSignal.emit(finishedText)
         logging.info(finishedText)
 
@@ -292,14 +254,10 @@ class DummyThrobberThread(BioParkinThreadBase): # test class
     """
     STEPS = 50
     def run(self):
-    
-#        self.emit(SIGNAL("startWithoutProgress(QString)"), "Computing something complicated...")
         self.startWithoutProgressSignal.emit("Computing something complicated...")
         for i in range(self.STEPS):
           time.sleep(0.05)
-        
-        
+
         finishedText = "Dummy Thread finished..."
-#        self.emit(SIGNAL("finished(QString)"), finishedText)
         self.finishedSignal.emit(finishedText)
         logging.info(finishedText)

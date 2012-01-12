@@ -1,8 +1,5 @@
-import logging
-from PySide.QtCore import QObject, QMutex, QMutexLocker
+from PySide.QtCore import  QMutex, QMutexLocker
 from PySide.QtGui import QWidget
-from contrib.singletonmixin import Singleton
-
 
 class StatusBarService(QWidget):
     """
@@ -12,7 +9,6 @@ class StatusBarService(QWidget):
 
     @since: 2011-05-18
     """
-
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -28,7 +24,6 @@ class StatusBarService(QWidget):
         """
         The constructor takes the QStatusBar that this service will wrap.
         """
-#        super(StatusBarService, self).__init__(statusbar)
         if statusbar:
             self.statusbar = statusbar  # needs to be provided when first (!) instantiated
         self.mutex = QMutex()
@@ -36,11 +31,6 @@ class StatusBarService(QWidget):
     def setStatusBar(self, statusBar):
         self.statusbar = statusBar
 
-#    def __call__(self):
-#        """
-#        Quick'n'dirty way to make a Singleton out of this class.
-#        """
-#        return self
 
     ######### "Interface" methods to give the needed API compatibility with QStatusBar #######
 

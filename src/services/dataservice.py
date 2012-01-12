@@ -1,8 +1,5 @@
-#import backend_fortran.datahandling
 from collections import OrderedDict
 import csv
-import math
-
 import logging
 from datamanagement.dataset import DataSet
 import datamanagement.dataset
@@ -79,24 +76,10 @@ class DataService(QObject):
             self.dataDict[fileData.getId()] = fileData
 
 
-
-        #    def set_experimental_data_files(self, listOfFilenames = None):
-        #        '''
-        #        Only supports the special BioParkin file format, for now.
-        #        '''
-        #        if listOfFilenames is None:
-        #            return
-        #
-        #        self.ExperimentalDataFiles = listOfFilenames
-        #        self.DirtyExperimental = True
-        #
-        #    def get_experimental_data_files(self):
-        #        return self.ExperimentalDataFiles
-
     def get_selected_experimental_data(self):
-        '''
+        """
         Returns all experimental DataSet objects that are currently selected by the user.
-        '''
+        """
         if not self.data:
             logging.error("DataService.get_data(): No data available.")
             return
@@ -109,20 +92,12 @@ class DataService(QObject):
         return selectedData
 
     def get_experimental_data(self):
-        '''
+        """
         @returns: OrderedDict with all experimental data.
-        '''
-        #print "self.DirtyExperimental: %s" % self.DirtyExperimental
-        #        if self.DirtyExperimental:
-        #            self._read_experimental_data(self.ExperimentalDataFiles)
-        #            self.DirtyExperimental = False
-        #        return self.experimentalData
+        """
         return self.get_data(type=EXPERIMENTAL)
 
     def getMaximumNumberOfObservedPoints(self):
-    #        if self.DirtyExperimental:
-    #            self._read_experimental_data(self.ExperimentalDataFiles)
-    #            self.DirtyExperimental = False
         experimentalData = self.get_experimental_data()
         if not experimentalData:
             return
@@ -156,20 +131,6 @@ class DataService(QObject):
             self.dataDict[fileData.getId()] = fileData
 
 
-        #    def set_simulation_data_files(self, listOfFilenames = None, listOfEntities = None):
-        #        '''
-        #        Only supports the special BioParkin file format, for now.
-        #        '''
-        #        if listOfFilenames is None or listOfEntities is None:
-        #            return
-        #
-        #        self.SimulationDataFiles = listOfFilenames
-        #        self.SimulationEntityList = listOfEntities
-        #        self.DirtySimulation = True
-        #
-        #    def get_simulation_data_files(self):
-        #        return self.SimulationDataFiles
-
     def get_simulation_data(self):
         return self.get_data(type=SIMULATION)
 
@@ -187,82 +148,18 @@ class DataService(QObject):
         return self.get_data(type=ESTIMATED_PARAMS)
 
 
-    #    def get_data_sources_with_dataIDs(self):
-    ##        dataSources = OrderedDict()  # regenerate this every time
-    ##
-    ##        self.get_simulation_data() #read data (discard result reference, we don't need it here)
-    ##
-    ##        for (i, fileID) in enumerate(self.simulationData.keys()):
-    ##            #sourceID = "Simulation %s" % i   # nice way of renaming cryptic and irrelevant file names
-    ##            if self.simulationData[fileID].data:
-    ##                dataIDs = map(lambda x: x.id, self.simulationData[fileID].data.keys())
-    ##                dataSources[fileID] = dataIDs
-    ##
-    ##        self.get_experimental_data() # read data (discard result reference, we don't need it here)
-    ##        if self.experimentalDataDict is not None:   # it is None if there's no experimental data
-    ##            #expFiles = self.get_experimental_data_files()
-    ##            if self.experimentalDataDict.data:
-    ##                for (i, fileID) in enumerate(self.experimentalDataDict.data.keys()):    # self.experimentalDataDict is a OrderedDict
-    ##                    #sourceID = expFiles[i]
-    ##                    dataIDs = self.experimentalDataDict[fileID]
-    ##                    dataSources[fileID] = dataIDs
-    ##
-    ##        return dataSources
-    #        return self.dataDict
-
-    #    def get_sensitivity_data_with_dataIDs(self):
-    #        dataSource = OrderedDict()
-    #
-    #        sensData = self.get_sensitivity_data_per_species_parameter()
-    #        if sensData.data:
-    #            #dataIDs = map(lambda x: x, sensData.data.keys())
-    #            dataIDs = sensData.data.keys()
-    #            dataSource[sensData.getId()] = dataIDs
-    #            #print(sensData.data.keys())
-    #            #print("%s : %s" %(sensData.getId(), dataIDs))
-    #            #logging.debug("%s : %s" %(sensData.getId(), dataIDs))  # crashes python
-    #        return dataSource
-
 
     def get_all_data(self):
-        '''
-        Combines simulation and experimental data into one data structure.
-        
-        The data structure currently is just an OrderedDict which has a fixed
-        key for the simulation data and filenames for keys for the experimental
-        data.
-        '''
-        #        allData = OrderedDict()
-        #
-        #        #map(lambda (key, value): allData[key] = value, self.simulationData.items())
-        #        if self.simulationData:
-        #            for (key, value) in self.simulationData.items():
-        #                allData[key] = value
-        #
-        #        #map(lambda (key, value): allData[key] = value, self.experimentalData.items())
-        #        if self.experimentalData:
-        #            for (key, value) in self.experimentalData.items():
-        #                allData[key] = value
-
-
-        #        return allData
+        """
+        Returns the bare-bones internal data dictionary.
+        """
         return self.dataDict
-
-    #    def set_sensitivity_data(self, speciesParameter = None, speciesParameterTime = None):
-    #        self.sensitivitiesParameterSpeciesTime = speciesParameterTime
-    #        self.sensitivitiesSpeciesParameter = speciesParameter
-    #
-    #    def get_sensitivity_data_per_parameter_species_time(self):
-    #        return self.sensitivitiesParameterSpeciesTime
-    #
-    #    def get_sensitivity_data_per_species_parameter(self):
-    #        return self.sensitivitiesSpeciesParameter
 
 
     # new methods
 
     def load_data(self, filenames, type=None, format=None, listOfEntities=None, parkinController=None):
-        ''' Loads one or more files with experimental data into memory.'''
+        """ Loads one or more files with experimental data into memory."""
         if not filenames:
             logging.error("DataService: No filename(s) given for loading data.")
             return
@@ -291,9 +188,9 @@ class DataService(QObject):
 
 
     def get_data(self, type=None):
-        '''
+        """
         Returns all stored DataSet objects of given type.
-        '''
+        """
         if not type:
             logging.error("DataService.get_data(): Can't access data without being given a data type.")
             return
@@ -305,7 +202,6 @@ class DataService(QObject):
         dataOfType = OrderedDict()
         for dataSet in self.data:
             if dataSet.type == type:
-                #dataOfType.append(dataSet)
                 dataOfType[dataSet.getId()] = dataSet
         return dataOfType
 
@@ -347,7 +243,6 @@ class DataService(QObject):
             self.dataDict.pop(dataSet.getId(), None) # remove from dataDict as well
 
 
-
     def select_data(self, dataSet, isSelected):
         if not dataSet:
             return
@@ -370,19 +265,16 @@ class DataService(QObject):
 
 
     def save_data_as_csv(self, id, path):
-        '''
+        """
         Save data with given ID as CSV file at given path.
-        '''
-
+        """
         try:
-
             dataSet = self.dataDict[id]
             if not dataSet:
                 return
 
             csv.register_dialect("BioPARKIN_TabDelimited", delimiter='\t', quotechar='"', skipinitialspace=True)
             writer = csv.writer(open(path, "wb"), dialect="BioPARKIN_TabDelimited")
-
             dataTable = [] # 2D table
 
             # handle first column (e.g. global timepoints)
@@ -394,7 +286,6 @@ class DataService(QObject):
             firstCol =  [dataSet.descriptorHeader] + dataSet.dataDescriptors  # list concatenation
             dataTable.append(firstCol)
 
-
             # handle the other columns
             for i, (entityId, entityData) in enumerate(dataSet.getData().items()):
                 if not entityData.isSelected():
@@ -403,13 +294,11 @@ class DataService(QObject):
                 col = [entityData.getHeader()] +  entityData.datapoints
                 dataTable.append(col)
 
-
             # switch rows and cols
             dataTable = zip(*dataTable) # * is for unpacking the list into individual arguments
 
             for row in dataTable:
                 writer.writerow(row)
-
 
         except Exception, e:
             logging.error("Error while trying to write CSV file: %s\nError: %s" % (path, e))
