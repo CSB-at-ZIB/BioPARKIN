@@ -40,7 +40,6 @@ class WarningsDialog(QDialog, Ui_WarningsDialog):
         self.errorString = ""
         self.errorMsgTextEdit.setPlainText(self.errorString)
 
-
         self.iconWarning = QIcon()
         self.iconWarning.addPixmap(QPixmap(":/tango-status-32px/images/tango-icon-theme/32x32/status/weather-severe-alert.png"), QIcon.Normal, QIcon.Off)
 

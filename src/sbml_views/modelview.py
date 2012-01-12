@@ -45,7 +45,6 @@ class ModelView(QWidget, Ui_ModelView):
         if self._modelIndexes.has_key(filename):  # known model, just select it
             self._modelListWidget.item(self._modelIndexes[filename]).setSelected(True)
         else:   # new model, add it to the list
-#            truncatedFilename = QFileInfo(filename).fileName()
             self._modelListWidget.addItem(filename)
             self._models[filename] = modelController
             index = self._modelListWidget.count() - 1
@@ -56,12 +55,9 @@ class ModelView(QWidget, Ui_ModelView):
         if not modelController:
             return
 
-#        filename = modelController.filename
         filename = QFileInfo(modelController.filename).fileName()
         if self._modelIndexes.has_key(filename):
             index = self._modelIndexes[filename]
-#            item = self._modelListWidget.item(index)
-#            self._modelListWidget.removeItemWidget(item)
             item = self._modelListWidget.takeItem(index)
             del item
             self._models.pop(filename)  # remove the model
@@ -74,5 +70,4 @@ class ModelView(QWidget, Ui_ModelView):
             filename = newItem.data(0)
             if self._models.has_key(filename):
                 modelController = self._models[filename]
-#                self.bioParkinController.on_activeModelChanged(modelController)
                 self.bioParkinController.activeModelChanged.emit(modelController)

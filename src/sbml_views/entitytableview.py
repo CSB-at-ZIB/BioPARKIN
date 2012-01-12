@@ -1,12 +1,8 @@
 import logging
-#from PySide.QtCore import *
-#from PySide.QtGui import *
 from PySide.QtGui import QWidget
-import libsbml
 from sbml_model.sbml_entities import SBMLEntity
 from sbml_views.ui_entitytableview import Ui_EntityTableView
 from sbml_model.sbml_entitytablemodel import SBMLEntityTableModel
-from sbml_model.sbml_entitytabledelegate import SBMLEntityTableDelegate
 
 class EntityTableView(QWidget, Ui_EntityTableView):
     """
@@ -57,16 +53,8 @@ class EntityTableView(QWidget, Ui_EntityTableView):
         @type model: QAbstractItemModel (more specific: SBMLMainTreeModel)
         """
         if self.model:
-#            self.disconnect(self.model,
-#                    SIGNAL("dataChanged(QModelIndex,QModelIndex)"),
-#                    self.dataChanged)
-#
-#            self.disconnect(self.model, SIGNAL("modelReset()"), self.dataChanged)
             self.model.dataChanged.disconnect(self.dataChanged)
             self.model.modelReset.disconnect(self.dataChanged)
-
-
-
 
         self.model = model
 
@@ -74,17 +62,12 @@ class EntityTableView(QWidget, Ui_EntityTableView):
             self.mainModel = mainModel
 
         if model:
-            #self.selectionModel = self.model.GetSelectionMode()
             self.model.dataChanged.connect(self.dataChanged)
             self.model.modelReset.connect(self.dataChanged)
             self.tableView.setModel(None) #clear the internal model from the table view
-            #self.mainModel = self.model.getMainModel()
-#            self.mainModel = self.model.parent() # abuse the QSortProxyFilterModel's parent() method
         else:
             self._clearTableView()
 
-
-        
         
     def setSelectionModel(self, selectionModel):
         """
@@ -107,9 +90,7 @@ class EntityTableView(QWidget, Ui_EntityTableView):
             self.entityModel = None
             
         self.tableView.setModel(None)
-#        self.tableView.clearSpans()
-        
-#    @Slot("QModelIndex,QModelIndex")
+
     def selectionChanged(self, currentIndex, previousIndex):
         """
         This is a Slot. It's called, when the selection on the internally
@@ -122,12 +103,9 @@ class EntityTableView(QWidget, Ui_EntityTableView):
         @param previousIndex: Index of previously selected item; not used
         @type previousIndex: QModelIndex
         """
-#        self.currentIndex = currentIndex
-#        logging.debug("EntityTableView.selectionChanged(): currentIndex = %s" % currentIndex)
         self.currentIndex = self.model.mapToSource(currentIndex)
         self.updateTableView()
-    
-#    @Slot("QModelIndex,QModelIndex")
+
     def dataChanged(self, topLeft, bottomRight):
         """
         This is a Slot. It's called when some data has changed in the main model.
@@ -157,8 +135,7 @@ class EntityTableView(QWidget, Ui_EntityTableView):
         if self.entityModel:
             self.entityModel.dataChanged.disconnect(self.currentEntityModelChanged)
             self.entityModel.structuralChange.disconnect(self.currentEntityModelChangedStructurally)
-            
-        #self.entityModel = SBMLEntityTableModel(self.sbmlEntity, self.model)
+
         self.entityModel = SBMLEntityTableModel(self.sbmlEntity, self.mainModel)
         self.entityModel.dataChanged.connect(self.currentEntityModelChanged)
         self.entityModel.structuralChange.connect(self.currentEntityModelChangedStructurally)
@@ -189,15 +166,11 @@ class EntityTableView(QWidget, Ui_EntityTableView):
         """
         # for now, we ignore that there is a range of indexes
         logging.debug("EntityTableView.currentEntityModelChanged(): Entered.")
-#        if self.mainModel:
-#            self.mainModel.entityHasChanged(self.sbmlEntity)
         if self.sbmlEntity:
             self.sbmlEntity.hasChanged.emit()
 
     def currentEntityModelChangedStructurally(self, entity, type):
         logging.debug("EntityTableView.currentEntityModelChangedStructurally(): Entered.")
-#        if self.mainModel:
-#            self.mainModel.structuralEntityChange(entity, type)
         if self.sbmlEntity:
             self.sbmlEntity.hasChanged.emit()
         

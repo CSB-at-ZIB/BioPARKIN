@@ -1,10 +1,5 @@
-import logging
-from PySide.QtCore import Slot
 from PySide.QtGui import QWidget
 from sbml_views.ui_sbmlentitywidget import Ui_SBMLEntityWidget
-from sbml_model.sbml_entities import SBMLEntity
-from sbml_model import sbml_entities
-import libsbml
 
 class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
     """
@@ -24,9 +19,7 @@ class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
         Simple constructor setting up the UI and some variables.
         """
         super(SBMLEntityWidget, self).__init__(parent)
-        
         self.setupUi(self)
-        
         self.model = None
         
     def setModel(self, model, mainModel=None):
@@ -39,14 +32,11 @@ class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
         """
         self.model = model
 
-
         self.treeView.setSortingEnabled(True)
         self.treeView.setModel(self.model)
         self.treeView.viewport().setMouseTracking(True)
         self.treeView.resizeColumnToContents(0)
 
-
-        
         
     def setSelectionModel(self, selectionModel):
         """
@@ -59,7 +49,6 @@ class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
         """
         self.selectionModel = selectionModel
         self.treeView.setSelectionModel(self.selectionModel)
-        #self.connect(self.selectionModel, SIGNAL("currentChanged(QModelIndex,QModelIndex)"), self.selectionChanged)
         
     
 #    @Slot("")
