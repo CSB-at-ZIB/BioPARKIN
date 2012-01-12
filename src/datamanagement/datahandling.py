@@ -99,6 +99,7 @@ def read_csv_data(filename, dataSet=None, parkinController=None):
           The data of this column will be put in its own EntityData object with isMetaData = True.
     '''
     try:
+        logging.info("Reading file %s" % filename)
         csv.register_dialect("ExperimentalDataCSV", delimiter='\t', quotechar='"', skipinitialspace=True)
         reader = csv.reader(open(filename), dialect="ExperimentalDataCSV")
 

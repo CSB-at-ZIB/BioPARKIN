@@ -212,7 +212,7 @@ class DataBrowserModel(QAbstractTableModel):
             self.modelAboutToBeReset.emit()
             
 
-            logging.debug("Timeshifting data of DataSet: %s" % self.dataSet.getId())
+            logging.info("Timeshifting data of DataSet: %s" % self.dataSet.getId())
             self.dataSet.dataDescriptors = [float(x) + shift for x in self.dataSet.dataDescriptors]  # only works on non-text descriptors
 
             for entity, entityData in self.dataSet.getData().items():

@@ -133,7 +133,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
             if not entityData.isSelected():
                 continue
             id = entity.getId() if type(entity) == EntityData else str(entity)
-            logging.debug("Perturbing data of EntityData: %s" % id)
+            logging.info("Perturbing data of EntityData: %s" % id)
             for i in xrange(len(entityData.datapoints)):
                 value = entityData.datapoints[i]
                 if not value:   # for None values
@@ -146,7 +146,7 @@ class DataBrowser(QWidget, Ui_DataBrowser):
 
     @Slot("")
     def on_buttonSaveAs_clicked(self):
-        logging.debug("Saving data. Displaying file chooser...")
+        logging.info("Saving data. Displaying file chooser...")
         file_choices = "Tab-Delimited Text File *.txt (*.txt)"
 
         path = unicode(QFileDialog.getSaveFileName(self, 'Save file', '', file_choices)[0])

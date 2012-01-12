@@ -301,7 +301,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         Gets the data selected in the dataSourcesTable and plots it to the
         plot tab by inserting a PlotWidget into the Tab.
         """
-        logging.debug("Creating Plot...")
+        logging.info("Creating Plot...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
             self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
@@ -328,7 +328,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def _createSimulationDataTable(self):
-        logging.debug("Creating data table (simulated data)...")
+        logging.info("Creating data table (simulated data)...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
 
@@ -346,7 +346,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
     def _createSensitivityOverviewPlot(self):
-        logging.debug("Creating data plot (sensitivity data)...")
+        logging.info("Creating data plot (sensitivity data)...")
         if self.currentBackend.mode != backend.settingsandvalues.MODE_SENSITIVITIES_OVERVIEW:
             return
 
@@ -371,7 +371,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 #        if self.resultsWindow.hasResultforData(dataSet):
 #            continue
 
-        logging.debug("Creating data table (sensitivity trajectory data)...")
+        logging.info("Creating data table (sensitivity trajectory data)...")
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Sensitivity (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))
@@ -397,7 +397,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         for key, dataSet in sensData.items():
             if self.resultsWindow.hasResultforData(dataSet):
                 continue
-            logging.debug("Creating data table (sensitivity subconditions data)...")
+            logging.info("Creating data table (sensitivity subconditions data)...")
 
             titleWithTime = "%s - %s" % (key, time.strftime("%H:%M:%S", time.localtime()))
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self, title=titleWithTime, mode=tablewidgetcontroller.MODE_SUBCONDITIONS)
@@ -418,7 +418,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         for key, dataSet in sensData.items():
             if self.resultsWindow.hasResultforData(dataSet):
                 continue
-            logging.debug("Creating data table (sensitivity jacobian data)...")
+            logging.info("Creating data table (sensitivity jacobian data)...")
             # TODO: Either remove the old table widget or store all table widgets in a []/{}
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
                 title="%s - %s" % (
@@ -455,7 +455,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             return
 
         for key in estimatedParamData.keys():
-            logging.debug("Creating data table (estimated parameters)...")
+            logging.info("Creating data table (estimated parameters)...")
             # TODO: Either remove the old table widget or store all table widgets in a []/{}
             dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
                 title="Par. Identification - %s" % time.strftime("%H:%M:%S",
@@ -611,7 +611,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
                     self.tableWidgetExpData.setItem(row, col, newItem)
 
     def plotExpData(self, data=None):
-        logging.debug("Creating Experimental Data Plot...")
+        logging.info("Creating Experimental Data Plot...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
 
@@ -706,9 +706,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             else:
                 self.currentBackend.start()  # using the threading mechanism
         except InitError:
-            logging.info("Computation aborted. Couldn't initialize integrator.")
+            logging.error("Computation aborted. Couldn't initialize integrator.")
         except Exception, e:
-            logging.debug("Computation aborted. Exception: %s" % e)
+            logging.error("Computation aborted. Exception: %s" % e)
             raise
 
 
@@ -787,10 +787,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             else:
                 self.currentBackend.start()  # using the threading mechanism
         except InitError:
-            logging.info("Computation aborted. Couldn't initialize integrator.")
+            logging.error("Computation aborted. Couldn't initialize integrator.")
             self.updateStatusBar("Simulation aborted...")
         except Exception, e:
-            logging.debug("Computation aborted. Exception: %s" % e)
+            logging.error("Computation aborted. Exception: %s" % e)
             self.updateStatusBar("Simulation aborted...")
             raise
 
@@ -812,9 +812,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             else:
                 self.currentBackend.start()  # using the threading mechanism
         except InitError:
-            logging.info("Computation aborted. Couldn't initialize integrator.")
+            logging.error("Computation aborted. Couldn't initialize integrator.")
         except Exception, e:
-            logging.debug("Computation aborted. Exception: %s" % e)
+            logging.error("Computation aborted. Exception: %s" % e)
             raise
 
     @Slot("")
@@ -866,9 +866,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             else:
                 self.currentBackend.start()  # using the threading mechanism
         except InitError:
-            logging.info("Computation aborted. Couldn't initialize PARKINcpp library.")
+            logging.error("Computation aborted. Couldn't initialize PARKINcpp library.")
         except Exception, e:
-            logging.debug("Computation aborted. Exception: %s" % e)
+            logging.error("Computation aborted. Exception: %s" % e)
             raise
 
 

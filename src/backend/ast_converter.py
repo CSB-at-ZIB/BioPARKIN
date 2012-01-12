@@ -108,6 +108,6 @@ class AstConverter(object):
             return self.handle(node.getRightChild())
 
 
-        logging.debug("AstConverter.handle(): Couldn't handle math node of type %s. The resulting expression will not be usable!" % node.getType())
+        logging.error("AstConverter.handle(): Couldn't handle math node of type %s. The resulting expression will not be usable!" % node.getType())
         return "unsupported"
   

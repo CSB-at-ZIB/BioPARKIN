@@ -45,7 +45,7 @@ class AbstractViewController(QWidget):
             logging.info("No data sources, nothing to be shown.")
             return
             
-        logging.debug("Updating data sources...")
+        logging.info("Updating data sources...")
 
         #        dataSources = self.dataService.get_data_sources_with_dataIDs()
         #dataSources = self.dataService.get_all_data()

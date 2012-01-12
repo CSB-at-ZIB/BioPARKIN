@@ -113,7 +113,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 
             if not self.fig:    # on first plot
                 self.dpi = self.logicalDpiX()
-                logging.debug("Plotting at %s dpi." % self.dpi)
+                logging.info("Plotting at %s dpi." % self.dpi)
                 #self.fig = Figure((4.0, 4.0), dpi=self.dpi)
                 self.fig = Figure(dpi=self.dpi)
                 self.canvas = FigureCanvas(self.fig)
@@ -333,7 +333,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         # get the supported formats
         formats = self.canvas.filetypes.keys()
 
-        logging.debug("Saving plot. Displaying file chooser...")
+        logging.info("Saving plot. Displaying file chooser...")
         file_choices = "JPEG *.jpg (*.jpg);;"   # JPG is an option even if it's not natively supported
         if "png" in formats:    # if png is supported, make it the 2nd option
             file_choices += "PNG *.png (*.png);;"

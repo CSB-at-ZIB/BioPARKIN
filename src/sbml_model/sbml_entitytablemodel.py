@@ -747,7 +747,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
                         if mathNode: # is None if expression is invalid (handy way of checking syntax)
                             kineticLaw.setMath(mathNode)
                     except:
-                        logging.debug("Could not set math: %s (should be a valid SBML math string)" % value)
+                        logging.error("Could not set math: %s (should be a valid SBML math string)" % value)
 
 #                self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
 

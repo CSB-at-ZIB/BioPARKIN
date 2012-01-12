@@ -239,6 +239,7 @@ class ParkinCppBackend(BaseBackend):
             self.start_progress_report(False, "Starting Integrator...")
             integrationSuccess = self._doSimulation()
             if not integrationSuccess:
+                logging.error("Error while integrating.")
                 logging.debug("ParkinCppBackend._compute(): Error while integrating.")
                 self.stop_progress_report("Could not start integrator.")
                 return
@@ -248,6 +249,7 @@ class ParkinCppBackend(BaseBackend):
             self.start_progress_report(False, "Computing Sensitivity Overview...")
             computationSuccess = self._computeSensitivityOverview()
             if not computationSuccess:
+                logging.error("Error while computing sensitivity overvier.")
                 logging.debug("ParkinCppBackend._compute(): Computation of sensitivities returned False.")
                 self.stop_progress_report("Error while computing sensitivities.")
                 return
@@ -258,6 +260,7 @@ class ParkinCppBackend(BaseBackend):
             self.start_progress_report(False, "Computing Detailed Sensitivities...")
             computationSuccess = self._computeSensitivityDetails()
             if not computationSuccess:
+                logging.error("Error while computing detailed sensitivities.")
                 logging.debug("ParkinCppBackend._compute(): Computation of sensitivities returned False.")
                 self.stop_progress_report("Error while computing sensitivities.")
                 return
@@ -268,7 +271,7 @@ class ParkinCppBackend(BaseBackend):
             self.start_progress_report(False, "Identifying Parameters...")
             computationSuccess = self._doParameterEstimation()
             if not computationSuccess:
-                logging.debug("Error while identifying parameters.")
+                logging.error("Error while identifying parameters.")
                 logging.debug("ParkinCppBackend._compute(): Parameter identification returned False.")
                 self.stop_progress_report("Error while identifying parameters. (Did you load experimental data?)")
                 return
@@ -331,16 +334,18 @@ class ParkinCppBackend(BaseBackend):
             logging.debug("ParkinCppBackend._createBioSystem invoked without ODEManager.")
             return None
 
-        logging.debug("Creating BioSystem...")
+        logging.info("Creating BioSystem...")
 
         parameter = StringList()
         expressionMap = ExpressionMap()
         self.bioSystem = BioSystem(float(self.odeManager.startTime), float(self.odeManager.endTime))
-        logging.debug("Start time: %s" % self.odeManager.startTime)
-        logging.debug("End time: %s" % self.odeManager.endTime)
+        logging.info("Start time: %s" % self.odeManager.startTime)
+        logging.info("End time: %s" % self.odeManager.endTime)
 
         rTol = float(self.odeManager.rtol)
         aTol = float(self.odeManager.atol)
+        logging.info("RTOL: %s" % rTol)
+        logging.info("ATOL: %s" % aTol)
         self.bioSystem.setSolverRTol(rTol)
         self.bioSystem.setSolverATol(aTol)
 
@@ -391,7 +396,7 @@ class ParkinCppBackend(BaseBackend):
         # Finally, ODE Expressions are created using all the above substitutions
         for odeWrapper in self.odeManager.odeList:
             expression = odeWrapper.mathForBioParkinCpp(idsToReplace=substitutionMap)
-            logging.debug("ODE for ID %s = %s" % (odeWrapper.getId(), expression))
+            logging.info("ODE for ID %s = %s" % (odeWrapper.getId(), expression))
             expressionMap[odeWrapper.getId()] = expression
 
         self.bioSystem.setODESystem(expressionMap)
@@ -426,7 +431,7 @@ class ParkinCppBackend(BaseBackend):
         the assignment, is arbitrary and will be converted to a PARKINcpp Expression.
         """
         if len(self.mainModel.SbmlEvents) == 0:
-            logging.debug("Model does not have events. No need to set any.")
+            logging.info("Model does not have events. No need to set any.")
             return
         logging.info("Processing SBML Events...")
 
@@ -456,7 +461,7 @@ class ParkinCppBackend(BaseBackend):
                     continue
 
                 #                eventTimepoints.append(time)
-                logging.debug("Processed event. ID: %s\tTime: %s" % (sbmlEvent.getId(), time))
+                logging.info("Processed event. ID: %s\tTime: %s" % (sbmlEvent.getId(), time))
 
                 numEventAssignments = sbmlEvent.getNumEventAssignments()
                 if numEventAssignments < 1:
@@ -473,7 +478,7 @@ class ParkinCppBackend(BaseBackend):
 
 
             except Exception, e:
-                logging.debug("%s\nException: %s" % (errorMsg, e))
+                logging.error("%s\nException: %s" % (errorMsg, e))
 
         events[self.settings[settingsandvalues.SETTING_ENDTIME]] = None
 
@@ -495,11 +500,11 @@ class ParkinCppBackend(BaseBackend):
                     expressionBioParkinCpp = wrappedAssignment.mathForBioParkinCpp()
                     #                    expressionBioParkinCpp = Expression(expressionAstNode)
                     self.eventMap[target] = expressionBioParkinCpp
-                    logging.debug("Event #%s\tTime: %s\tTarget: %s\tExpression: %s" % (i,time,target,expressionBioParkinCpp))
+                    logging.info("Event #%s\tTime: %s\tTarget: %s\tExpression: %s" % (i,time,target,expressionBioParkinCpp))
 
                 self.bioSystem.setEvent(i, self.eventMap)
         except Exception, e:
-            logging.debug("ParkinCppBackend._setBioSystemEvents(): Error while creating events: %s" % e)
+            logging.error("ParkinCppBackend._setBioSystemEvents(): Error while creating events: %s" % e)
 
         return
 
@@ -540,7 +545,7 @@ class ParkinCppBackend(BaseBackend):
         Does a single forward calculation and puts the results
         into some class variables.
         """
-        logging.debug("Computing Timecourse...")
+        logging.info("Computing Timecourse...")
 
         trajectoryMap = self.bioProcessor.computeModel()
 
@@ -740,7 +745,7 @@ class ParkinCppBackend(BaseBackend):
             timepoint = self.sensitivityTimepoints[i]
             subconditionDataSet = self._computeSensSubconditions(qrConDecomp, timepoint)
             rank = qrConDecomp.getRank()
-            logging.debug("Rank: %s" % rank)
+            logging.info("Rank of matrix at timepoint %s: %s" % (timepoint, rank))
             self.dataService.add_data(subconditionDataSet)
 
         for i, rawJacobianMatrix in enumerate(rawJacobianMatrixVector):

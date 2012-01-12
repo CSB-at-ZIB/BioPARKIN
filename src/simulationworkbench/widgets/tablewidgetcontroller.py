@@ -199,7 +199,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 if not self.dataTableRowHeaders:
                     self._setRowHeaders(dataDescriptors)
                 elif len(self.dataTableRowHeaders) != len(dataDescriptors):
-                    logging.debug(
+                    logging.error(
                         "Different number of time points for two Species. Last Species (%s) will be skipped." % entity)
                     continue
 
@@ -397,7 +397,7 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
 
         Overrides an "abstract" method in AbstractViewController.
         '''
-        logging.debug("Saving data. Displaying file chooser...")
+        logging.info("Saving data. Displaying file chooser...")
         #file_choices = "CSV (*.csv)|*.csv"
         file_choices = "Excel *.txt (*.txt);;CSV *.csv (*.csv)"
 

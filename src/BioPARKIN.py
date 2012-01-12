@@ -74,7 +74,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.14"
+    __version__ = "1.2.15"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -149,7 +149,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             self.rotatingFileHandler.setLevel(logging.INFO)
             logging.info("Debug logging not active.")
 
-        logging.debug("Starting BioPARKIN... %s" % self.startTime)
+        logging.info("Starting BioPARKIN... %s" % self.startTime)
 
         ##### LOGGING #####
         logging.info("BioPARKIN started (version %s)" % BioParkinController.__version__)

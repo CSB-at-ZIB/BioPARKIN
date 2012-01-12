@@ -254,7 +254,7 @@ class SBMLEntity(QObject):
             IDsToRemove.append(orgID)
 
         for ID in IDsToRemove:
-            logging.debug("Removing Reactant: %s" % ID)
+            logging.info("Removing Reactant: %s" % ID)
             self.Item.removeReactant(ID)
 
         for ID in reactantIDs:
@@ -283,7 +283,7 @@ class SBMLEntity(QObject):
             IDsToRemove.append(orgID)
 
         for ID in IDsToRemove:
-            logging.debug("Removing Product: %s" % ID)
+            logging.info("Removing Product: %s" % ID)
             self.Item.removeProduct(ID)
 
         for ID in productIDs:
@@ -334,7 +334,7 @@ class SBMLEntity(QObject):
             IdsToRemove.append(orgId)
 
         for Id in IdsToRemove:
-            logging.debug("Removing Product: %s" % Id)
+            logging.info("Removing Modifier: %s" % Id)
             self.Item.removeModifier(Id)
 
         for Id in modifierIds:
