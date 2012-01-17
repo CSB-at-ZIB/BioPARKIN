@@ -1,23 +1,23 @@
-'''
+"""
 Created on Jun 7, 2010
 
-@author: bzfwadem
-'''
+@author: Moritz Wade
+"""
 import logging
 
 def findSbmlEntity(id, sbmlMainModel):
-    '''
+    """
     Tries to find a SBML entity given a SBMLMainModel
     and an ID.
-    
+
     @param id: ID to search for
     @type id: str
-    
+
     @param sbmlMainModel: A BioParkin SBMLMainModel
     @type sbmlMainModel: SBMLMainModel
-    
+
     @since: 2010-06-07
-    '''
+    """
     
     entityTypes = [sbmlMainModel.SbmlSpecies,
                  sbmlMainModel.SbmlCompartments,

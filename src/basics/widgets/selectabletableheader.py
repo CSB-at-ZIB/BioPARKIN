@@ -1,4 +1,3 @@
-import logging
 from PySide.QtCore import Signal, QSize, Slot, QModelIndex, Qt
 from PySide.QtGui import QHeaderView, QStyleOptionButton, QStyle
 
@@ -62,25 +61,6 @@ class SelectableTableHeader(QHeaderView):
     def sizeHint(self):
         orgSize = super(SelectableTableHeader, self).sizeHint()
         return orgSize+QSize(15,0)  # add 15 horizontal pixels to account for the checkbox
-
-#    def minimumSizeHint(self):
-#        return self.sizeHint()
-#
-#    def sectionSizeHint(self, section):
-#        orgWidth = super(SelectableTableHeader, self).sectionSizeHint(section)
-#        logging.debug("Original column width: %s" % orgWidth)
-#        return orgWidth+15  # add 15 horizontal pixels to account for the checkbox
-
-
-#    def sizeHintForColumn(self, column):
-#        orgWidth = super(SelectableTableHeader, self).sizeHintForColumn(column)
-#        logging.debug("Original column width: %s" % orgWidth)
-#        return orgWidth+15  # add 15 horizontal pixels to account for the checkbox
-#
-#    def sizeHintForRow(self, row):
-#        orgHeight = super(SelectableTableHeader, self).sizeHintForColumn(row)
-#        logging.debug("Original row height: %s" % orgHeight)
-#        return orgHeight+15  # add 15 horizontal pixels to account for the checkbox
 
 
     def connectSelectionModel(self, selectionModel):

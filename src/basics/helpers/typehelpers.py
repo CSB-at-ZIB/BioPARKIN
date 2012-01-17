@@ -1,9 +1,3 @@
-'''
-Created on Apr 16, 2010
-
-@author: bzfwadem
-'''
-
 __author__ = "Moritz Wade"
 __contact__ = "wade@zib.de"
 __copyright__ = "Zuse Institute Berlin 2010"

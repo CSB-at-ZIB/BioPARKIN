@@ -1,6 +1,3 @@
-
-#from PySide.QtCore import *
-#from services.progressbarservice import ProgressBarService
 from PySide.QtCore import QThread, Signal, QMutexLocker, QMutex
 
 class BioParkinThreadBase(QThread):
@@ -34,14 +31,6 @@ class BioParkinThreadBase(QThread):
         """
         super(BioParkinThreadBase, self).__init__()
 
-        #debugging
-#        self.finishedSignal.connect(self.onSignalTest)
-
-        # Connect to BioParkin's ProgressBarService
-#        progressService = ProgressBarService()
-#        if progressService is not None:
-#          progressService.connect_to_thread(self)
-          
         # setting up some instance variables that might
         # help to get the current progress status when needed
         self._progressMin = None
@@ -51,10 +40,6 @@ class BioParkinThreadBase(QThread):
         self._canGiveProgressValues = False
         self._progressMutex = QMutex()
 
-#    def onSignalTest(self, msg):
-#        ''' For Debugging purposes only. '''
-#        print("BioParkinThreadBase: Signal received: %s" % msg)
-
     
     def run(self):
         """
@@ -63,12 +48,6 @@ class BioParkinThreadBase(QThread):
         raise NotImplementedError, "Do the main stuff here..."
 
 
-#    def connectFinishedSignal(self, callable):
-#        ''' Helper method to connect the finished Signal to some callable.
-#        Sometimes this doesn't work correctly when trying to use signal.connect()
-#        in some distant daughter class of this one. '''
-#        self.finishedSignal.connect(callable)
-      
     #=============================================================================
     # Use the following methods for reporting progress
     # (or reporting that the thread is running without

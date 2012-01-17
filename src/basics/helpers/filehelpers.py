@@ -1,11 +1,5 @@
-'''
-Some small helper methods regarding file and file-system handling.
-
-Created on Mar 8, 2010
-
-@author: bzfwadem
-'''
 import os, logging
+
 __author__ = "Moritz Wade"
 __contact__ = "wade@zib.de"
 __copyright__ = "Zuse Institute Berlin 2010"

@@ -18,7 +18,6 @@ def print_timing(func):
     def some_method(self, x, y):
         ...
 
-
     """
     def wrapper(*arg, **args):
         t1 = time.time()
