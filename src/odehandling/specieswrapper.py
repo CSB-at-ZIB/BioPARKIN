@@ -1,22 +1,17 @@
-'''
-Created on May 12, 2010
-
-@author: bzfwadem
-'''
 import logging
 
 class SpeciesWrapper(object):
-    '''
+    """
     A simple wrapper to handle libSBML Species
     objects for use in computation backends.
-    '''
+    """
 
 
     def __init__(self, speciesEntity, index):
-        '''
+        """
         Just gets some infos from the given libSBML
         Species object.
-        '''
+        """
         if speciesEntity is None:
             error = "Tried to create a wrapper Species object without supplying a libSBML Species."
             logging.error(error)

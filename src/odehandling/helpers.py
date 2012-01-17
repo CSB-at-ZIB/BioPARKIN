@@ -1,15 +1,10 @@
-'''
-Created on Jul 28, 2010
-
-@author: bzfwadem
-'''
 import libsbml
 
 def handleMathNode(node, argsToReplace=None):
-    '''
+    """
     Recursive function to evaluate the type of the given libSBML
     ASTNode and build up the FORTRAN math string.
-    '''
+    """
     if node is None:
         return "None"
     
@@ -50,14 +45,6 @@ def handleMathNode(node, argsToReplace=None):
             key = arg.getName()
             valueNode = node.getChild(i)
             value = handleMathNode(valueNode)
-#                if valueNode.isInteger():
-#                    value = valueNode.getInteger()
-#                elif valueNode.isReal():
-#                    value = valueNode.getReal()
-#                elif valueNode.isName():
-#                    value = valueNode.getName()
-#                else:
-#                    value = "(non-supported function value)"
             #TODO: elif valueNode.isFunction():
                 
             argsToReplace[key] = value

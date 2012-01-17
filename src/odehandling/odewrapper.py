@@ -1,41 +1,36 @@
-'''
-Created on Apr 21, 2010
-
-@author: bzfwadem
-'''
 import logging
 import libsbml
-#from basics.helpers.sbmlhelpers import findSbmlEntity
 from backend.ast_converter import AstConverter
 from backend_parkincpp.parkincpp_ast_converter_template import BioParkinCppAstConverterTemplate
-#from basics.helpers.sbmlhelpers import findSbmlEntity
+from odehandling import helpers
+
 
 class ODEWrapper(object):
-    '''
+    """
     This is a simple description of an ODE.
-    
+
     If the ODE is based on a libSBML Rule, the Rule
     is wrapped. An ODE can also result out of the Reactions
     between Species, in which case there is no explicit
     Rule to wrap.
 
     The ODE is wrapped to be used by a computation backend.
-    
-    
+
+
     @param index: A unique index for every ODE has to be provided.
     @type index: int
-    
+
     @param mathNode: A libSBML ASTNode root node
-    @type mathNode: ASTNode 
-    
+    @type mathNode: ASTNode
+
     @param formula: A math string in FORTRAN syntax
     @type formula: str
-    
+
     @param rule: A libSBML rule object
     @type rule: libSBML rule (AssignmentRule, RateRule, ...)
-    
+
     @since: 2010-04-21
-    '''
+    """
 
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
@@ -43,10 +38,10 @@ class ODEWrapper(object):
 
 
     def __init__(self, index, mathNode=None, formula=None, rule=None, id=None, mainModel=None, speciesEntity=None):
-        '''
+        """
         Each ODE has an index and a mathematic formula
         (right-hand side) given as infix-notated string.
-        '''
+        """
         if not mathNode and not formula:
             logging.error(
                 "Trying to create a wrapper ODE with neither formula string nor libSBML mathNodeNode object. ID: %s" % id)
@@ -77,9 +72,9 @@ class ODEWrapper(object):
         self.hasError = False
 
     def _assignTarget(self):
-        '''
+        """
         Tries to find the target Species (or Parameter, ...) given the current self.rule.getVariable()
-        '''
+        """
         if not self.rule or not self.mainModel:
             return
 
@@ -89,57 +84,46 @@ class ODEWrapper(object):
             logging.debug("OdeWrapper: Problems while trying to find target of rule %s.\Error:%s" % (self.rule.getId(), e))
 
     def mathForFortran(self):
-        '''
+        """
+        DEPRECATED! The FORTRAN backend is no longer... :)
+
         Takes the current libSBML mathNode AST tree and converts it into
         something that is valid FORTRAN code. (e.g. "pow(x,2)" becomes
         "x ** 2", etc.)
-        
+
         If "formula" was given during creation of this instance it is assumed
         that this formula string already is valid FORTRAN code. It will
         be returned unaltered.
-        '''
+        """
         if self.formula:
             return self.formula
 
         # else: get string from self.mathNode (libSBML ASTNode graph)
 
         odeString = helpers.handleMathNode(self.mathNode)
-        #odeStringClean = self.replaceIDs(odeString)    # skip replacing for now, creates problems
-        #return odeStringClean
         return odeString
 
     def mathForBioParkinCpp(self, idsToReplace=None):
-        '''
+        """
         Creates and uses an AstConverter (with the BioParkinCppAstConverterTemplate) to
         convert the libsbml ASTNode into an PARKINcpp Expression object.
-        '''
-
-        #        idsToReplace = self.addLocalParameterReplacements(idsToReplace)
-
+        """
         astConverter = AstConverter(BioParkinCppAstConverterTemplate(), mainModel=self.mainModel, idsToReplace=idsToReplace)
         return astConverter.handle(self.mathNode)
 
 
     def replaceIDs(self, odeString):
-        '''
+        """
         Takes the original mathematic string and replaces all Reaction IDs
         with an altered ID. This is needed so that Reactions and Parameters
         can't have the same variable name in the FORTRAN code.
-        '''
-        #        parent = self.mathNode
-        #        while type(parent) is not libsbml.Model:
-        #            parent = parent.getParentSBMLObject()
-        #            if not parent:
-        #                break
-        #
-        #        if parent:
+        """
         reactionIDs = []
 
         for reactionWrapper in self.mainModel.SbmlReactions:
             reaction = reactionWrapper[0].Item
             id = reaction.getId()
             reactionIDs.append(id)
-
 
         # we start with replacing the longest IDs first. should help
         # to minimize problems with IDs that are substrings of longer IDs
@@ -155,11 +139,11 @@ class ODEWrapper(object):
         return odeString
 
     def isValid(self):
-        '''
+        """
         @returns: True, if the wrapped ODE (generated or given by a rule)
         is a valid ODE for simulation. For example, if the ODE's Species is constant, it won't be included
         in simulation.
-        '''
+        """
         if self.hasError:
             return False
 
@@ -169,7 +153,6 @@ class ODEWrapper(object):
         if self.speciesEntity:
             species = self.speciesEntity.Item
             if not type(species) == libsbml.Species:    # if the speciesEntity is no Species, something's wrong :)
-            #if not self.speciesEntity == sbml_entities.Type[]
                 logging.debug("OdeWrapper.isValid(): self.speciesEntity holds no Species but a: %s" % type(species))
                 return False
 
@@ -200,18 +183,9 @@ class ODEWrapper(object):
             return "noname"
 
 
-#    def addLocalParameterReplacements(self, idsToReplace):
-#
-#        if not idsToReplace:
-#            idsToReplace = {}
-#
-#
-#
-#        return idsToReplace
-
 
     def _findSbmlEntity(self, id, sbmlMainModel):
-        '''
+        """
         Tries to find a SBML entity given a SBMLMainModel
         and an ID.
 
@@ -222,7 +196,7 @@ class ODEWrapper(object):
         @type sbmlMainModel: SBMLMainModel
 
         @since: 2010-06-07
-        '''
+        """
 
         entityTypes = [sbmlMainModel.SbmlSpecies,
                        sbmlMainModel.SbmlCompartments,

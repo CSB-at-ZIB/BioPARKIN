@@ -1,38 +1,34 @@
-'''
-Created on Jul 7, 2010
 
-@author: bzfwadem
-'''
 import logging
 import libsbml
 from odehandling.odewrapper import ODEWrapper
 
 
 class ODEGenerator(object):
-    '''
+    """
     This class takes a given SBML model (wrapped into a SBMLMainModel)
     and computes ODEs out of all the given SBML Reactions.
-    
+
     It is necessary for integrating models that use Reactions (and are not
     only built by using Rules).
-    
+
     The complete set of generated ODEs and of (Rate)Rules can then be given
     to the integrator.
-    
+
     @param mainModel: A complete SBML MainModel
     @type mainModel: sbml_model.sbml_mainmodel.SBMLMainModel
-    
+
     @since: 2010-07-07
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
 
 
     def __init__(self, mainModel):
-        '''
+        """
         Setting up instance variables and invoking the ODE generation.
-        '''
+        """
         self.mainModel = mainModel
 
         self.ODEs = None
@@ -41,9 +37,9 @@ class ODEGenerator(object):
 
 
     def _generateODEs(self):
-        '''
+        """
         The starting point for the ODE generation algorithm.
-        '''
+        """
         logging.info("Starting ODE generation...")
         self.ODEs = []
         self.wrappedODEs = []
@@ -53,7 +49,6 @@ class ODEGenerator(object):
                 continue
 
             ode = self._odeFromReactions(speciesEntity)
-            #ode.setName(speciesEntity.getId())    # ASTNodes name is used internally for functionality; DO NOT CHANGE
             if ode:
                 ode.speciesEntity = speciesEntity
                 self.ODEs.append(ode)
@@ -63,15 +58,12 @@ class ODEGenerator(object):
                 index += 1
 
     def _odeFromReactions(self, speciesEntity):
-        '''
+        """
         Parses through all Reactions of the model that involve the given
         Species and sums up the stoichiometry, etc.
-        '''
-        #return 
-
+        """
         species = speciesEntity.Item
         ode = None
-        numErrors = 0
 
         #search for the species in all reactions, and
         #add up the kinetic laws * stoichiometry for
@@ -88,7 +80,6 @@ class ODEGenerator(object):
 
             if not kineticLaw:
                 logging.error("The model has no kinetic law for reaction %s" % reaction.getId())
-                #numErrors += 1
                 return
 
             reactantReferences = reaction.getListOfReactants()
@@ -164,7 +155,7 @@ class ODEGenerator(object):
                         ode.addChild(tmp)
                         ode.addChild(reactant)
 
-                    #        # TODO: Reenable this! (has to be handled in FORTRAN, too)
+                    #        # TODO: Reenable this! Stoichiometry won't work correctly without it.
                     #
                     #        # Divide ODE by Name of the species' compartment.
                     #        # If formula is empty skip division by compartment and set formula
@@ -197,27 +188,24 @@ class ODEGenerator(object):
 
 
     def copyAST(self, original):
-        '''
+        """
         Copies the passed AST, including potential SOSlib ASTNodeIndex, and
         returns the copy.
-        '''
+        """
         copy = libsbml.ASTNode()
 
         # Distinction of cases
 
         #integers, reals
         if original.isInteger():
-            #copy.setInteger(original.getInteger())
             copy.setValue(original.getInteger())
         elif original.isReal():
-            #copy.setReal(original.getReal())
             copy.setValue(original.getReal())
 
         # variables
         elif original.isName():
             #if original.isSetIndex():
             if original is ASTIndexNameNode:
-                #copy = libsbml.ASTNode().createIndexName()
                 copy = ASTIndexNameNode()
                 copy.setIndex(original.getIndex())
             copy.setName(original.getName())
@@ -243,31 +231,31 @@ class ODEGenerator(object):
 
 
     def simplifyAST(self, org):
-        '''
+        """
         Takes an AST f, and returns a simplified copy of f.
-        
-        decomposes n-ary `times' and `plus' nodes into an AST of binary AST. 
-           
-        simplifies (arithmetic) operations involving 0 and 1: \n   
+
+        decomposes n-ary `times' and `plus' nodes into an AST of binary AST.
+
+        simplifies (arithmetic) operations involving 0 and 1: \n
         -0 -> 0;\n
         x+0 -> x, 0+x -> x;\n
         x-0 -> x, 0-x -> -x;\n
         x*0 -> 0, 0*x -> 0, x*1 -> x, 1*x -> x;\n
         0/x -> 0, x/1 -> x;\n
         x^0 -> 1, x^1 -> x, 0^x -> 0, 1^x -> 1;\n
-           
+
         propagates unary minuses\n
         --x -> x; \n
         -x + -y -> -(x+y), -x + y -> y-x,    x + -y -> x-y; \n
-        -x - -y -> y-x,    -x - y -> -(x+y), x - -y -> x+y; \n 
+        -x - -y -> y-x,    -x - y -> -(x+y), x - -y -> x+y; \n
         -x * -y -> x*y,    -x * y -> -(x*y), x * -y -> -(x*y);\n
         -x / -y -> x/y,    -x / y -> -(x/y), x / -y -> -(x/y); \n
-           
+
         calls evaluateAST(subtree), if no variables or user-defined
         functions occur in the AST subtree,
-        
+
         calls itself recursively for childnodes.
-        '''
+        """
         # new ASTNode
         simple = libsbml.ASTNode()
         nodeType = org.getType()
@@ -276,18 +264,13 @@ class ODEGenerator(object):
 
         # integers, reals
         if org.isInteger():
-            #simple.setInteger(org.getInteger())
             simple.setValue(org.getInteger())
         elif org.isReal():
-            #simple.setReal(org.getReal())
             simple.setValue(org.getReal())
 
         # variables
         elif org.isName():
-            #if org.isSetIndex():
             if org is ASTIndexNameNode:
-                #simple = libsbml.ASTNode().createIndexName()
-                #simple = ASTNode_createIndexName();
                 simple = ASTIndexNameNode()
                 simple.setIndex(org.getIndex())
 
@@ -507,11 +490,11 @@ class ODEGenerator(object):
 
 
     def zero(self, f):
-        '''
+        """
         Small helper function to determine if the value of a node is zero.
-        
+
         TODO: Is this needed in Python?
-        '''
+        """
         if f.isReal():
             return f.getReal() == 0.0
         if f.isInteger():
@@ -520,11 +503,11 @@ class ODEGenerator(object):
 
 
     def one (self, f):
-        '''
+        """
         Small helper function to determine if the value of a node is one.
-        
+
         TODO: Is this needed in Python?
-        '''
+        """
         if f.isReal():
             return f.getReal() == 1.0
         if f.isInteger():
@@ -537,10 +520,10 @@ class ODEGenerator(object):
 
 
     def getNameNodes(self, mathNode, nameNodes):
-        '''
+        """
         Recursively gets all children ASTNodes of mathNode that
         are of type "Name".
-        '''
+        """
         if mathNode.isName():
             nameNodes.append(mathNode)
 
@@ -550,10 +533,6 @@ class ODEGenerator(object):
             self.getNameNodes(child, nameNodes)
 
 
-#    def isIndexName(self, node):
-#        if node is libsbml.astN
-##        try:
-##            test = libsbml.ASTi
 
 # TODO:
 #/** Returns true (1) if the ASTNode is an ASTIndexNameNode

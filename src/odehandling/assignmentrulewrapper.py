@@ -1,16 +1,16 @@
+import logging
 from backend.ast_converter import AstConverter
 from backend_parkincpp.parkincpp_ast_converter_template import BioParkinCppAstConverterTemplate
-import basics.helpers
+from odehandling import helpers
 
-__author__ = 'bzfwadem'
+__author__ = "Moritz Wade"
+__contact__ = "wade@zib.de"
+__copyright__ = "Zuse Institute Berlin 2011"
 
 
 class AssignmentRuleWrapper(object):
-    '''
+    """
     This is a simple description of an Assignment Rule. It is wrapped to be used by a computation backend.
-
-
-
 
     @param index: A unique index for every AssignmentRule has to be provided.
     @type index: int
@@ -22,7 +22,7 @@ class AssignmentRuleWrapper(object):
     @type rule: libSBML rule (AssignmentRule)
 
     @since: 2011-02-01
-    '''
+    """
 
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
@@ -30,9 +30,9 @@ class AssignmentRuleWrapper(object):
 
 
     def __init__(self, index, mathNode=None, rule=None, id=None, mainModel=None):
-        '''
+        """
         Each AssignmentRule has an index.
-        '''
+        """
         if not mathNode:
             logging.error("Trying to create a wrapper AssignmentRule with no libSBML mathNode object. ID: %s" % id)
             self.hasError = True
@@ -58,25 +58,25 @@ class AssignmentRuleWrapper(object):
         return self.id
 
     def mathForFortran(self):
-        '''
+        """
         Takes the current libSBML mathNode AST tree and converts it into
         something that is valid FORTRAN code. (e.g. "pow(x,2)" becomes
         "x ** 2", etc.)
-        '''
+        """
         odeString = helpers.handleMathNode(self.mathNode)
         return odeString
 
     def mathForBioParkinCpp(self, idsToReplace=None):
-        '''
+        """
         Creates and uses an AstConverter (with the BioParkinCppAstConverterTemplate) to
         convert the libsbml ASTNode into an PARKINcpp Expression object.
-        '''
+        """
         astConverter = AstConverter(BioParkinCppAstConverterTemplate(), mainModel=self.mainModel, idsToReplace=idsToReplace)
         return astConverter.handle(self.mathNode)
 
     def isValid(self):
-        '''
+        """
         This is a place to do validity checks on an AssignmentRule whether its fit for being
         used in computations.
-        '''
+        """
         return True # for now, it's always valid

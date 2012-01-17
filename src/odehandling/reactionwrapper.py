@@ -1,25 +1,21 @@
-'''
-Created on Jul 28, 2010
 
-@author: bzfwadem
-'''
 import logging
 import libsbml
 from backend.ast_converter import AstConverter
 from backend_parkincpp.parkincpp_ast_converter_template import BioParkinCppAstConverterTemplate
-import basics.helpers
+from odehandling import helpers
 from parkincpp.parkin import Expression
 
 class ReactionWrapper(object):
-    '''
+    """
     Simple wrapper for a libSBML Reaction. It enables easy use
     in computation backends.
-    
+
     @param reaction: A libSBML Reaction object
     @type reaction: libSBML Reaction
-    
+
     @since: 2010-07-28
-    '''
+    """
     
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
@@ -27,10 +23,10 @@ class ReactionWrapper(object):
 
 
     def __init__(self, reaction, index, mainModel=None):
-        '''
+        """
         Just gets some infos from the given libSBML
         Reaction object.
-        '''
+        """
         if reaction is None:
             error = "Tried to create a wrapper Reaction object without supplying a libSBML Reaction."
             logging.error(error)
@@ -67,13 +63,13 @@ class ReactionWrapper(object):
             return localParamIDs
         
     def mathForFortran(self):
-        '''
+        """
         Takes the libSBML mathNode AST tree of this Reaction's
         KineticLaw and converts it into
         something that is valid FORTRAN code. (e.g. "pow(x,2)" becomes
         "x ** 2", etc.)
-        
-        '''
+
+        """
         if not self.kineticLaw:
             return 
         
@@ -94,13 +90,10 @@ class ReactionWrapper(object):
 
 
     def mathForBioParkinCpp(self, idsToReplace=None):
-        '''
+        """
         Creates and uses an AstConverter (with the BioParkinCppAstConverterTemplate) to
         convert the libsbml ASTNode into an PARKINcpp Expression object.
-        '''
-
-
-
+        """
         if self.localParams:
             if not idsToReplace:
                 idsToReplace = {}
@@ -113,7 +106,7 @@ class ReactionWrapper(object):
 
 
     def getScope(self, param):
-        '''
+        """
         Returns the scope of the wrapped libSBML object iff it is
         a parameter. (Scope = global/local)
 
@@ -124,7 +117,7 @@ class ReactionWrapper(object):
 
         @return: Scope of Parameter object
         @rtype: str
-        '''
+        """
         if not type(param) == libsbml.Parameter:
             return
 

@@ -1,24 +1,16 @@
-'''
-Created on Jul 27, 2010
 
-@author: bzfwadem
-'''
-
-#from PySide.QtCore import *
-#from PySide.QtGui import *
 from PySide.QtCore import Slot
 from PySide.QtGui import QDialog, QFont
 import libsbml
-
 from odehandling.odegenerator import ODEGenerator
-#from odehandling.Ui_ODEViewer_v2 import Ui_ODEViewer
 import logging
 from odehandling.Ui_ODEViewer_v2 import Ui_ODEViewer
 
 class ODEViewer(QDialog, Ui_ODEViewer):
-    '''
-    
-    '''
+    """
+    GUI class for activating the ODE generation machinery and displaying the
+    results in a text widget.
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
@@ -39,19 +31,17 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
     @Slot("")
     def on_actionGenerateODEs_triggered(self):
-        '''
+        """
         Open the ODE Generator information dialog.
-        '''
-
+        """
         self._printODEsWithIDs()
         self._printODEsWithNames()
 
 
     def _printODEsWithIDs(self):
-        '''
+        """
         Print all equations/definitions with IDs in read-only edit widget
-        '''
-
+        """
         reactions = {}
 
         # for now, only try to print the results to the command line
@@ -154,10 +144,10 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
 
     def _printODEsWithNames(self):
-        '''
-        Print all equations/definitions with Names (for convenience convenience!) 
+        """
+        Print all equations/definitions with Names (for convenience convenience!)
         in read-only edit widget
-        '''
+        """
 
         reactions = {}
         names = self._getIdToNamesMap(self.model)
@@ -217,7 +207,6 @@ class ODEViewer(QDialog, Ui_ODEViewer):
         for reactionWrapper in self.model.SbmlReactions:
             kineticLaw = reactionWrapper[0].Item.getKineticLaw()
             id = reactionWrapper[0].Item.getId()
-            # name_count = names[id]
             if kineticLaw is not None:
                 math = libsbml.formulaToString(kineticLaw.getMath())
 
@@ -232,13 +221,7 @@ class ODEViewer(QDialog, Ui_ODEViewer):
             else:
                 logging.error("Reaction '%s{%d}' has no kinetic Law." % (names[id]))
 
-        # text = "\n\nODEs:\n\n"
-        # self.plainTextEdit.insertPlainText(text)
         odeGenerator = ODEGenerator(self.model)
-        # for wrappedODE in odeGenerator.wrappedODEs:
-        #     odeText = "%s: %s" %(wrappedODE.getName(),libsbml.formulaToString(wrappedODE.mathNode) + "\n")
-        #     logging.info(odeText)
-        #     self.plainTextEdit.insertPlainText(odeText)
 
         reactionIdList = []
         for reactionID in reactions.keys():
@@ -272,7 +255,6 @@ class ODEViewer(QDialog, Ui_ODEViewer):
         map = {}
 
         entityTypes = [sbmlMainModel.SbmlSpecies,
-                       # sbmlMainModel.SbmlCompartments, 
                        sbmlMainModel.SbmlParameters,
                        sbmlMainModel.SbmlReactions]
 
