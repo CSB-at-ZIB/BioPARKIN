@@ -1,9 +1,7 @@
 from PySide.QtCore import QObject, Signal, Slot, QModelIndex
 import libsbml
-from basics.helpers.debugginghelpers import print_timing
 from sbml_model.definitions import CHANGETYPE, XML_PARAMETER_SET_NAME, XML_PARAMETER_SET_ID, XML_PARAMETER_SBML_ID, XML_PARAMETER_VALUE, XML_PARAMETER_REACTION_ID, XML_LIST_OF_PARAMETER_SETS_ACTIVE, XML_NAMESPACE_PARAMETER_SETS, XML_LIST_OF_PARAMETER_SETS, XML_PARAMETER, XML_PARAMETER_SET, PARAM_SET_INITIAL_GUESS, PARAM_SET_ORIGINAL, PARAM_SET_FIT
 from sbml_model.parameter_sets import ListOfParameterSets, ParameterSet, ParameterProxy
-
 import logging
 from sbml_model.sbml_entities import SBMLEntity
 from sbml_model.sbml_maintreemodel import SBMLMainTreeModel
@@ -138,15 +136,15 @@ class SBMLMainModel(QObject):
 
     
     def _load(self, filename):
-        '''
+        """
         Loads an SBML file into memory, prepares access to
         Species, Compartments, etc. parts.
-        
+
         Puts all the libSBML objects into SBMLEntity wrappers.
-        
+
         @param filename: Filename of the SBML file to wrap
         @type filename: str
-        '''
+        """
         self.filename = str(filename) # assures that filename is not a unicode string which libsbml can't handle
 
         try:
@@ -168,8 +166,6 @@ class SBMLMainModel(QObject):
             logging.error("Error loading file %s: %s" % (self.filename, e))
             return
 
-
-
         # store model, parts of model and print some info
         self.SbmlModel = self.createSBMLEntity(self.SbmlDocument.Item.getModel())   # set parent to Document?
         logging.info("Model name: %s" % self.SbmlModel.Item.getName())
@@ -182,61 +178,39 @@ class SBMLMainModel(QObject):
         self.ReactionWrapper = self.createSBMLEntity(sbmlobject=None, label="Reactions", parent=self.SbmlModel)
         self.ParameterWrapper = self.createSBMLEntity(sbmlobject=None, label="Parameters", parent=self.SbmlModel)
         self.RateRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Rate Rules", parent=self.SbmlModel)
-#        self.AlgebraicRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Algebraic Rules",
-#                                                          parent=self.SbmlModel)
         self.AssignmentRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Assignment Rules",
                                                            parent=self.SbmlModel)
         self.EventsWrapper = self.createSBMLEntity(sbmlobject=None, label="Events", parent=self.SbmlModel)
 
         self.prepareReactions()
-
         self.wrapSpecies()
-
         self.wrapCompartments()
-
         self.wrapGlobalParameters()
-
         self.wrapReactions()
-
         self.wrapRules()
-
         self.wrapEvents()
-
         self.createDefaultParameterSet()
 
-#        self._handleScalingValues()
-
-        # region: getters
-
-    #    def get_sbml_model(self): return self.SbmlModel
-    #    def get_compartments(self): return self.SbmlCompartments
-    #    def get_species(self): return self.SbmlSpecies
-    #    def get_reactions(self): return self.SbmlReactions
-
-    #    def get_compartment_model(self):
-    #        if self.CompartmentTableModel is None:
-    #            self.CompartmentTableModel = SBMLCompartmentModel(self)
-    #        return self.CompartmentTableModel
 
     
     def createSBMLEntity(self, sbmlobject=None, label=None, parent=None):
-        '''
+        """
         Small helper method to wrap the given libSBML object into
         a SBMLEntity.
-        
+
         @param sbmlobject: libSBML object to wrap
         @type sbmlobject: any libSBML object (e.g. Species, Reaction, ...)
-        
+
         @param label: A label for the SBMLEntity (usually used for conceptual father "nodes")
         @type label: str
-        
+
         @param parent: A SBMLEntity that is the conceptual father node of the given sbmlobject
         @type parent: SBMLEntity
-        
+
         @return: The just created SBMLEntity
         @rtype: SBMLEntity
-        
-        '''
+
+        """
         sbmlEntity = SBMLEntity(sbmlobject, label, parent)
         sbmlEntity.selectionChange.connect(self.sbml_entity_selection_changed)
         sbmlEntity.idChanged.connect(self.on_entityIdChanged)
@@ -346,57 +320,10 @@ class SBMLMainModel(QObject):
         self.on_structuralChange(wrappedEntity, CHANGETYPE.ADD)
 
 
-    #    def addEntity(self, sbmlObject, index = None):
-    #        #sbmlWrapper = self.createSBMLEntity(sbmlobject = sbmlObject)
-    #
-    #        if type(sbmlObject) is libsbml.Species:
-    #            logging.info("Species: %s" % sbmlObject.getName())
-    #            wrappedEntity = self.createSBMLEntity(sbmlobject=sbmlObject, parent=self.SpeciesWrapper)
-    #            if index and index < len(self.SbmlSpecies):
-    #                self.SbmlSpecies.insert(index, wrappedEntity)
-    #                self.SbmlModel.Item.a
-    #            else:
-    #                self.SbmlSpecies.append(wrappedEntity)
-    #            self.dictOfSpecies[sbmlObject.getId()] = wrappedEntity
-    #        elif type(sbmlObject) is libsbml.Compartment:
-    #            logging.info("Compartment: %s" % sbmlObject.getName())
-    #            wrappedEntity = self.createSBMLEntity(sbmlobject=sbmlObject, parent=self.CompartmentWrapper)
-    #            if index and index < len(self.SbmlCompartments):
-    #                self.SbmlCompartments.insert(index, wrappedEntity)
-    #            else:
-    #                self.SbmlCompartments.append(wrappedEntity)
-    #            #self.dictOfSpecies[sbmlObject.getId()] = wrappedEntity
-    #        elif type(sbmlObject) is libsbml.Reaction:
-    #            logging.info("Reaction: %s" % sbmlObject.getName())
-    #            wrappedEntity = self.createSBMLEntity(sbmlobject=sbmlObject, parent=self.ReactionWrapper)
-    #            if index and index < len(self.SbmlReactions):
-    #                self.SbmlReactions.insert(index, wrappedEntity)
-    #            else:
-    #                self.SbmlReactions.append(wrappedEntity)
-    #        elif type(sbmlObject) is libsbml.Parameter:
-    #            logging.info("Parameter: %s" % sbmlObject.getName())
-    #            wrappedEntity = self.createSBMLEntity(sbmlobject=sbmlObject, parent=self.ParameterWrapper)
-    #            if index and index < len(self.SbmlParameters):
-    #                self.SbmlParameters.insert(index, wrappedEntity)
-    #            else:
-    #                self.SbmlParameters.append(wrappedEntity)
-    #        elif type(sbmlObject) is libsbml.RateRule:
-    #            logging.info("RateRule: %s" % sbmlObject.getName())
-    #            wrappedEntity = self.createSBMLEntity(sbmlobject=sbmlObject, parent=self.RuleWrapper)
-    #            if index and index < len(self.SbmlRules):
-    #                self.SbmlRules.insert(index, wrappedEntity)
-    #            else:
-    #                self.SbmlRules.append(wrappedEntity)
-    #
-    #        self.Dirty = True
-    #        self.structuralChange()
-
-
-
     def removeEntity(self, sbmlObject):
-        '''
+        """
         Removes the given SBMLEntity from the corresponding internal list.
-        '''
+        """
         if type(sbmlObject.Item) is libsbml.Species:
             # remove from Wrapper entity (essential for the TreeModel)
             index = sbmlObject.getIndex()
@@ -408,10 +335,8 @@ class SBMLMainModel(QObject):
             
             # remove from libsbml model
             oldSpecies = self.SbmlModel.Item.removeSpecies(sbmlObject.getId())
-            #time.sleep(5)
             if oldSpecies:
                 del oldSpecies
-                #time.sleep(5)
         elif type(sbmlObject.Item) is libsbml.Compartment:
             # remove from Wrapper entity (essential for the TreeModel)
             index = sbmlObject.getIndex()
@@ -457,7 +382,6 @@ class SBMLMainModel(QObject):
             oldAssignmentRule = self.SbmlModel.Item.removeRule(sbmlObject.getId())
             if oldAssignmentRule:
                 del oldAssignmentRule
-#            del sbmlObject # can't do this here; object is still needed to identify references elsewhere
         elif type(sbmlObject.Item) is libsbml.AlgebraicRule:
             # remove from Wrapper entity (essential for the TreeModel)
             index = sbmlObject.getIndex()
@@ -484,9 +408,6 @@ class SBMLMainModel(QObject):
 
 
 
-
-
-    #@Slot("SBMLEntity, bool")
     def sbml_entity_selection_changed(self, value):
         """
         Helper method to emit a Signal when any entity selection state
@@ -535,55 +456,28 @@ class SBMLMainModel(QObject):
         except Exception, e:
             logging.error("Could not save SBML file: %s" % e)
 
-            #    def save_compartments(self, compartments, filename = None):
-            #        '''
-            #        '''
-            #        listOfCompartments = self.SbmlModel.getListOfCompartments()
-            #        for oldCompartment in listOfCompartments:
-            #            self.SbmlModel.removeCompartment(oldCompartment.getId())
-            #
-            #        self.SbmlCompartments = compartments
-            #        for newCompartment in self.SbmlCompartments:
-            #            self.SbmlModel.addCompartment(newCompartment)
-            #
-            #        self.save(filename)
 
     def dirty_changed(self, value):
-        '''
+        """
         Small helper method, called when crucial data has changed.
-        '''
+        """
         self.Dirty = value
 
     @Slot(QModelIndex, QModelIndex)
     def dataChanged(self, index1, index2):
-        '''
+        """
         C++: void dataChanged(const QModelIndex&,const QModelIndex&)
-        '''
+        """
         self.Dirty = True
 
-        # Really do it this way? It's very general and does not only fire when Products/Reactants are changed.
-
-    #        entity = index1.internalPointer()
-    #        if entity.Type == sbml_entities.TYPE.REACTION:
-    #            # A Reaction has been changed. Possibly, the Products/Reactants
-    #            # are affected. The graph around this needs to be rebuilt.
-    #            print entity.Item
-
-    #    def selectionChange(self, sbmlEntity, value):
-    #        if type(sbmlEntity.Item) is Species:
-    #            row = self.SbmlSpecies.index(sbmlEntity.Item)
-    #            self.SpeciesTableModel.setData(row, value, Qt)
-    ##            type = "species"
-    #
-    ##        self.emit(SIGNAL("selectionChange(str, int)", type, row)
 
     def getId(self):
-        '''
+        """
         Convenience method to get the ID of the current model.
-        
+
         @return: ID of current model
         @rtype: str
-        '''
+        """
         return self.SbmlModel.getId()
 
     
@@ -631,18 +525,15 @@ class SBMLMainModel(QObject):
             reactantReferences = reaction.getListOfReactants()
             productReferences = reaction.getListOfProducts()
 
-            if reactantReferences == None or len(reactantReferences) == 0:
+            if reactantReferences is None or len(reactantReferences) == 0:
                 logging.error("A Reaction's reactant references should never be empty at this point.")
 
             reactants = [self.dictOfSpecies[reactantReference.getSpecies()] for reactantReference in reactantReferences]
 
-            if productReferences == None or len(productReferences) == 0:
+            if productReferences is None or len(productReferences) == 0:
                 logging.error("A Reaction's product references should never be empty at this point.")
 
             products = [self.dictOfSpecies[productReference.getSpecies()] for productReference in productReferences]
-
-
-
 
             #note: both list already contain the wrapped entities
             self.SbmlReactions.append((self.createSBMLEntity(reaction, parent=self.ReactionWrapper), reactants,
@@ -683,10 +574,6 @@ class SBMLMainModel(QObject):
         self.dictOfAssignmentRules = {}
         for rule in listOfRules:
             logging.info("Rule: %s\t%s" % (rule.getId(), rule.getName()))
-#            if rule.isAlgebraic(): # support for algebraic rules is inactive for now
-#                wrappedRule = self.createSBMLEntity(rule, parent=self.AlgebraicRuleWrapper)
-#                self.SbmlAlgebraicRules.append(wrappedRule)
-#                self.dictOfAlgebraicRules[rule.getId()] = wrappedRule
             if rule.isAssignment():
                 wrappedRule = self.createSBMLEntity(rule, parent=self.AssignmentRuleWrapper)
                 self.SbmlAssignmentRules.append(wrappedRule)
@@ -707,9 +594,6 @@ class SBMLMainModel(QObject):
             wrappedEvent = self.createSBMLEntity(event, parent=self.EventsWrapper)
             self.SbmlEvents.append(wrappedEvent)
 
-
-    #def createReactants(self, reaction):
-
     
     def checkReactionSpecies(self, reaction):
         """
@@ -722,7 +606,7 @@ class SBMLMainModel(QObject):
         reactantReferences = reaction.getListOfReactants()
         productReferences = reaction.getListOfProducts()
 
-        if reactantReferences == None or len(reactantReferences) == 0:
+        if reactantReferences is None or len(reactantReferences) == 0:
             self.newSpeciesCount += 1
 
             newSpecies = self.SbmlModel.Item.createSpecies()
@@ -731,7 +615,6 @@ class SBMLMainModel(QObject):
             newSpecies.setName("helper_%s" % self.newSpeciesCount)
             newSpecies.setInitialConcentration(0)
             newSpecies.setBoundaryCondition(True)    # so, no ODE will be generated for this (virtual) Species
-            #newSpecies.setName("Auto-generated Species as Reactant in Reaction " + reaction.getId())
 
             #try to set the correct Compartment
             try:
@@ -748,7 +631,7 @@ class SBMLMainModel(QObject):
             newSpeciesRef = reaction.createReactant()
             newSpeciesRef.setSpecies(newSpecies.getId())
 
-        if productReferences == None or len(productReferences) == 0:
+        if productReferences is None or len(productReferences) == 0:
             self.newSpeciesCount += 1
 
             newSpecies = self.SbmlModel.Item.createSpecies()
@@ -796,13 +679,13 @@ class SBMLMainModel(QObject):
                 reactantReferences = reaction.getListOfReactants()
                 productReferences = reaction.getListOfProducts()
 
-                if reactantReferences == None or len(reactantReferences) == 0:
+                if reactantReferences is None or len(reactantReferences) == 0:
                     logging.error("A Reaction's reactant references should never be empty at this point.")
 
                 reactants = [self.dictOfSpecies[reactantReference.getSpecies()] for reactantReference in
                              reactantReferences]
 
-                if productReferences == None or len(productReferences) == 0:
+                if productReferences is None or len(productReferences) == 0:
                     logging.error("A Reaction's product references should never be empty at this point.")
 
                 products = [self.dictOfSpecies[productReference.getSpecies()] for productReference in productReferences]
@@ -810,9 +693,6 @@ class SBMLMainModel(QObject):
                 tupleToBeAdded = (reactionWrapper, reactants, products)
                 listIDTobeRemoved = i
                 break   # break out of the for loop
-
-                #note: both list already contain the wrapped entities
-                #self.SbmlReactions.append((self.createSBMLEntity(reaction, parent=self.ReactionWrapper), reactants, products)) # makes it easier to get to reactants and products later on
 
                 # TODO: Maybe this is needed later, when the actual kinetic can be changed in the UI
                 # handle local params
@@ -855,11 +735,8 @@ class SBMLMainModel(QObject):
 
                 allParamValuesIdentical = True
                 for combinedId, parProxy in parSet.items():
-                #                    id = parProxy.getId()
-                #                    reactionId = parProxy.getReactionId()
                     valueInSet = parProxy.getValue()
 
-                    #                    combinedId = id if not reactionId else "%s_%s" % (reactionId, id)
                     if paramsInModel.has_key(combinedId):
                         valueInModel = paramsInModel[combinedId]
                         #compare strings due to loss of precision once floats have been saved to XML
@@ -871,7 +748,7 @@ class SBMLMainModel(QObject):
                         continue
 
                 if allParamValuesIdentical: # reached if a whole Set is iterated through without encountering a wrong value
-                    self.ListOfParameterSets.setDefaulSet(parSet) # set this as the default set
+                    self.ListOfParameterSets.setDefaultSet(parSet) # set this as the default set
                     return  # just return; we don't need to create the Set with default values
 
 
@@ -893,8 +770,7 @@ class SBMLMainModel(QObject):
             self.ListOfParameterSets.append(newSet)
         else:
             self.ListOfParameterSets = ListOfParameterSets(newSet)
-            #            self.ListOfParameterSets.append(newSet)
-        self.ListOfParameterSets.setDefaulSet(newSet)
+        self.ListOfParameterSets.setDefaultSet(newSet)
 
     
     def getValueFromActiveSet(self, id):
@@ -916,8 +792,6 @@ class SBMLMainModel(QObject):
         so that the model can natively save them as XML within the SBML file.
         """
 
-        rootNodeNeedsToBeAdded = False
-#        if not self.paramSetsListNode:
         # testing a change: *Always* create the ParamSetsList Node anew. Should solve problems
         # with duplicate Sets.
 
@@ -1002,8 +876,6 @@ class SBMLMainModel(QObject):
 
         # create the List (this is the object that's actually used throughout BioPARKIN)
         self.ListOfParameterSets = ListOfParameterSets()
-        #        if activeSetId:
-        #            self.ListOfParameterSets.activeSet = activeSetId
 
         # iterating over parameter sets
         numSets = self.paramSetsListNode.getNumChildren()
@@ -1061,7 +933,6 @@ class SBMLMainModel(QObject):
         This is for the convenience of the user so that he may immediately
         compute a plot with the identified values.
         """
-#        originalSet = self.ListOfParameterSets.getSet(PARAM_SET_ORIGINAL)
         activeSet = self.ListOfParameterSets.getActiveSet()
 
         fitSet = ParameterSet(PARAM_SET_FIT, baseSet=activeSet, duplicate=True)
@@ -1080,51 +951,6 @@ class SBMLMainModel(QObject):
         self.ListOfParameterSets.append(fitSet) # also emits change signal
         self.ListOfParameterSets.activeSet = fitSet
 
-
-#    def _handleScalingValues(self):
-#        """
-#        Inovkes methods to:
-#          - Parse scaling values from XML (self._loadScalingValues) for Species and Parameters
-#          - Set values for Species (self._setScalingValuesSpecies)
-#          - Set values for Parameters (self._setScalingValuesParameters)
-#        """
-#        self._loadScalingValues()
-#        self._setScalingValuesSpecies()
-#        self._setScalingValuesParameters()
-#
-#    def _loadScalingValues(self):
-#
-#        for speciesEntity in self.SbmlSpecies:
-#            species = speciesEntity.Item
-#            if not species.isSetAnnotation():
-#                continue
-#
-#            annotationRootNode = species.getAnnotation()
-#            scaleNode = annotationRootNode.getChild(XML_SCALE)
-#            if scaleNode.isEOF():
-#
-
-#        model = self.SbmlModel.Item
-#
-#        if not model.isSetAnnotation():
-#            return # no annotations in Model
-#
-#        annotationRootNode = self.SbmlModel.Item.getAnnotation()    # returns a libsbml.XMLNode
-#        self.paramSetsListNode = annotationRootNode.getChild(XML_LIST_OF_PARAMETER_SETS)
-#        if self.paramSetsListNode.isEOF():
-#            self.paramSetsListNode = None
-#            return  # no ListOfParameterSets annotation in model
-#
-#        #listAttributes = paramSetsListNode.getAttributes()
-#        namespace = self.paramSetsListNode.getNamespaceURI()
-#        if namespace != XML_NAMESPACE_PARAMETER_SETS:
-#            logging.warning("The model defines a parameter set list but uses the wrong namespace: %s" % namespace)
-#
-#        if self.paramSetsListNode.hasAttr(XML_LIST_OF_PARAMETER_SETS_ACTIVE):
-#            activeSetId = self.paramSetsListNode.getAttrValue(XML_LIST_OF_PARAMETER_SETS_ACTIVE)
-#        else:
-#            logging.warning("The model defines a parameter set list without defining an active set.")
-#            activeSetId = None
 
     def on_entityIdChanged(self, entity, newId, oldId):
         """
@@ -1161,8 +987,6 @@ class SBMLMainModel(QObject):
         for combinedId in activeSet.getParamIds():
             param = activeSet.getParam(combinedId)
             activeValue = param.getValue()
-            reactionId = param.getReactionId()
-            id = param.getId()
 
             modelParam = modelParams[combinedId]
             modelParam.setValue(activeValue)

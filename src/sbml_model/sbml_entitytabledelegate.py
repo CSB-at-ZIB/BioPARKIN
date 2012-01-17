@@ -5,7 +5,7 @@ from PySide.QtCore import Qt
 
 
 class SBMLEntityTableDelegate(QStyledItemDelegate):
-    '''
+    """
     This Delegate is not used right now!
 
     Provides a delegate to style the display and editing
@@ -14,7 +14,7 @@ class SBMLEntityTableDelegate(QStyledItemDelegate):
     In particular, there are dropdowns for relevant options like
     assigning Reactants and Products to a Reaction (choosing from the list
     of existing Species IDs).
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
 

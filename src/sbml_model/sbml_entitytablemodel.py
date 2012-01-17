@@ -12,26 +12,21 @@ import sbml_mainmodel
 COLUMN = enum("COLUMN", "PROPERTY, VALUE")
 COLUMN_COUNT = 2
 
-#COMPARTMENT_ROW = enum('ROW', 'ID, NAME, COMPARTMENTTYPE, SPATIALDIMENSIONS, SIZE, UNITS, OUTSIDE, CONSTANT')
 COMPARTMENT_ROW = enum('ROW', 'ID, NAME, SIZE')
 COMPARTMENT_ROW_COUNT = 3
 
-#SPECIES_ROW = enum("ROW", "ID, NAME, SPECIESTYPE, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
 SPECIES_ROW = enum("ROW", "ID, NAME, COMPARTMENT, INITIALQUANTITY, SUBSTANCEUNITS, QUANTITYTYPE, CONSTANT, BC")
 SPECIES_ROW_COUNT = 8
 
-#REACTION_ROW = enum('ROW', 'ID, NAME, REVERSIBLE, REACTANTS, PRODUCTS, MODIFIERS, MATH')
 REACTION_ROW = enum('ROW', 'ID, NAME, REACTANTS, PRODUCTS, MATH')
 REACTION_ROW_COUNT = 5
 
 PARAMETER_ROW = enum('ROW', 'ID, NAME, VALUE, UNITS, CONSTANT, SCOPE')
 PARAMETER_ROW_COUNT = 6
 
-#RULE_ROW = enum('ROW', 'ID, NAME, TYPE, MATH, VARIABLE, VARIABLETYPE')
 RULE_ROW = enum('ROW', 'ID, NAME, MATH, VARIABLE')
 RULE_ROW_COUNT = 4
 
-#EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION, DELAYED, DELAYEXPRESSION')
 EVENT_ROW = enum('ROW', 'ID, NAME, TARGET, EXPRESSION, TRIGGEREXPRESSION')
 EVENT_ROW_COUNT = 5
 
@@ -105,47 +100,23 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == COMPARTMENT_ROW.NAME:
                     return "Name"
-#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-#                    return "Compartment Type"
-#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-#                    return "Spatial Dimensions"
                 elif row == COMPARTMENT_ROW.SIZE:
                     return "Size"
-#                elif row == COMPARTMENT_ROW.UNITS:
-#                    return "Units"
-#                elif row == COMPARTMENT_ROW.OUTSIDE:
-#                    return "Outside"
             elif column == COLUMN.VALUE:
                 if row == COMPARTMENT_ROW.ID:
                     return compartment.getId()
                 elif row == COMPARTMENT_ROW.NAME:
                     return compartment.getName()
-#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-#                    return compartment.getCompartmentType()
-#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-#                    return compartment.getSpatialDimensions()
                 elif row == COMPARTMENT_ROW.SIZE:
                     return compartment.getSize()
-#                elif row == COMPARTMENT_ROW.UNITS:
-#                    return compartment.getUnits()
-#                elif row == COMPARTMENT_ROW.OUTSIDE:
-#                    return compartment.getOutside()
         elif role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == COMPARTMENT_ROW.ID:
                     return compartment.getId()
                 elif row == COMPARTMENT_ROW.NAME:
                     return compartment.getName()
-#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-#                    return compartment.getCompartmentType()
-#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-#                    return compartment.getSpatialDimensions()
                 elif row == COMPARTMENT_ROW.SIZE:
                     return compartment.getSize()
-#                elif row == COMPARTMENT_ROW.UNITS:
-#                    return compartment.getUnits()
-#                elif row == COMPARTMENT_ROW.OUTSIDE:
-#                    return compartment.getOutside()
 
 
     def dataSpecies(self, index, role=Qt.DisplayRole):
@@ -164,8 +135,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == SPECIES_ROW.NAME:
                     return "Name"
-#                elif row == SPECIES_ROW.SPECIESTYPE:
-#                    return "Species Type"
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return "Compartment"
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -183,8 +152,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return species.getName()
                 elif row == SPECIES_ROW.ID:
                     return species.getId()
-#                elif row == SPECIES_ROW.SPECIESTYPE:
-#                    return species.getSpeciesType()
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return species.getCompartment()
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -204,8 +171,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return species.getName()
                 elif row == SPECIES_ROW.ID:
                     return species.getId()
-#                elif row == SPECIES_ROW.SPECIESTYPE:
-#                    return species.getSpeciesType()
                 elif row == SPECIES_ROW.COMPARTMENT:
                     return species.getCompartment()
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -249,14 +214,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == REACTION_ROW.NAME:
                     return "Name"
-#                elif row == REACTION_ROW.REVERSIBLE:
-#                    return "Reversible"
                 elif row == REACTION_ROW.REACTANTS:
                     return "Reactants"
                 elif row == REACTION_ROW.PRODUCTS:
                     return "Products"
-#                elif row == REACTION_ROW.MODIFIERS:
-#                    return "Modifiers"
                 elif row == REACTION_ROW.MATH:
                     return "Math"
             elif column == COLUMN.VALUE:
@@ -264,15 +225,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return reaction.getName()
                 elif row == REACTION_ROW.ID:
                     return reaction.getId()
-#                elif row == REACTION_ROW.REVERSIBLE:
-#                    return reaction.getReversible()
                 elif row == REACTION_ROW.REACTANTS:
                     return self.getReactants(reaction)
-                    #return "test"
                 elif row == REACTION_ROW.PRODUCTS:
                     return self.getProducts(reaction)
-#                elif row == REACTION_ROW.MODIFIERS:
-#                    return self.getModifiers(reaction)
                 elif row == REACTION_ROW.MATH:
                     return self.getReactionMath(reaction)
         if role == Qt.EditRole:
@@ -281,15 +237,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return reaction.getName()
                 elif row == REACTION_ROW.ID:
                     return reaction.getId()
-#                elif row == REACTION_ROW.REVERSIBLE:
-#                    return reaction.getReversible()
                 elif row == REACTION_ROW.REACTANTS:
                     return self.getReactants(reaction)
-                    #return "test"
                 elif row == REACTION_ROW.PRODUCTS:
                     return self.getProducts(reaction)
-#                elif row == REACTION_ROW.MODIFIERS:
-#                    return self.getModifiers(reaction)
                 elif row == REACTION_ROW.MATH:
                     return self.getReactionMath(reaction)
 
@@ -324,13 +275,7 @@ class SBMLEntityTableModel(QAbstractTableModel):
                 elif row == PARAMETER_ROW.ID:
                     return parameter.getId()
                 elif row == PARAMETER_ROW.VALUE:
-#                    return parameter.getValue()
-
                     combinedId = self.entity.getCombinedId()
-                    #                if self.getActiveSet():
-                    #                    return self.getActiveSet()[combinedId].getValue()
-                    #                else:
-                    #                    return "N/A"
                     try:
                         return self.getActiveParamSet()[combinedId].getValue()
                     except:
@@ -391,41 +336,29 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "ID"
                 elif row == RULE_ROW.NAME:
                     return "Name"
-#                elif row == RULE_ROW.TYPE:
-#                    return "Type"
                 elif row == RULE_ROW.MATH:
                     return "Formula"
                 elif row == RULE_ROW.VARIABLE:
                     return "Variable"
-#                elif row == RULE_ROW.VARIABLETYPE:
-#                    return "Variable type"
             elif column == COLUMN.VALUE:
                 if row == RULE_ROW.NAME:
                     return rule.getName()
                 elif row == RULE_ROW.ID:
                     return rule.getId()
-#                elif row == RULE_ROW.TYPE:
-#                    return rule.getType()
                 elif row == RULE_ROW.MATH:
                     return rule.getFormula()
                 elif row == RULE_ROW.VARIABLE:
                     return rule.getVariable()
-#                elif row == RULE_ROW.VARIABLETYPE:
-#                    return "todo" #rule.getConstant()
         if role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == RULE_ROW.NAME:
                     return rule.getName()
                 elif row == RULE_ROW.ID:
                     return rule.getId()
-#                elif row == RULE_ROW.TYPE:
-#                    return rule.getType()
                 elif row == RULE_ROW.MATH:
                     return rule.getFormula()
                 elif row == RULE_ROW.VARIABLE:
                     return rule.getVariable()
-#                elif row == RULE_ROW.VARIABLETYPE:
-#                    return "todo" #rule.getConstant()
 
 
     def dataEvent(self, index, role=Qt.DisplayRole):
@@ -450,10 +383,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     return "Expression"
                 elif row == EVENT_ROW.TRIGGEREXPRESSION:
                     return "Trigger"
-#                elif row == EVENT_ROW.DELAYED:
-#                    return "Delayed"
-#                elif row == EVENT_ROW.DELAYEXPRESSION:
-#                    return "Delay Expression"
             elif column == COLUMN.VALUE:
                 if row == EVENT_ROW.NAME:
                     return event.getName()
@@ -479,15 +408,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     trigger = event.getTrigger()
                     expression = libsbml.formulaToString(trigger.getMath())
                     return expression
-#                elif row == EVENT_ROW.DELAYED:
-#                    return "True" if event.isSetDelay() else "False"
-#                elif row == EVENT_ROW.DELAYEXPRESSION:
-#                    if event.isSetDelay():
-#                        delayObject = event.getDelay()
-#                        delay = libsbml.formulaToString(delayObject.getMath())
-#                        return delay
-#                    else:
-#                        return "No Delay"
         if role == Qt.EditRole:
             if column == COLUMN.VALUE:
                 if row == EVENT_ROW.NAME:
@@ -514,15 +434,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     trigger = event.getTrigger()
                     expression = libsbml.formulaToString(trigger.getMath())
                     return expression
-#                elif row == EVENT_ROW.DELAYED:
-#                    return "True" if event.isSetDelay() else "False"
-#                elif row == EVENT_ROW.DELAYEXPRESSION:
-#                    if event.isSetDelay():
-#                        delayObject = event.getDelay()
-#                        delay = libsbml.formulaToString(delayObject.getMath())
-#                        return delay
-#                    else:
-#                        return "No Delay"
 
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
@@ -584,7 +495,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
         if index.column() == COLUMN.VALUE and row == 1: # 1 is hardcoded; "Name" always has to be at 2nd position
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
         else:
-            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
             return None
 
 
@@ -595,15 +505,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
             return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
         else:
             return None
-#        if index.column() == COLUMN.VALUE and not (
-#        row == REACTION_ROW.REACTANTS    # previously: some rows are not editable
-#        or row == REACTION_ROW.PRODUCTS  # now: they can be edited (handled in setData)
-#        or row == REACTION_ROW.MODIFIERS):
-#            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
-#
-#        else:
-#            #return Qt.ItemFlags(QAbstractTableModel.flags(self, index))
-#            return Qt.ItemFlags(QAbstractTableModel.flags(self, index) | Qt.ItemIsEditable)
 
 
     def flagsRule(self, index):
@@ -657,17 +558,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     compartment.setId(str(value))
                 elif row == COMPARTMENT_ROW.NAME:
                     compartment.setName(str(value))
-#                elif row == COMPARTMENT_ROW.COMPARTMENTTYPE:
-#                    compartment.setCompartmentType(str(value))
-#                elif row == COMPARTMENT_ROW.SPATIALDIMENSIONS:
-#                    compartment.setSpatialDimensions(int(value)) # should be a uint
                 elif row == COMPARTMENT_ROW.SIZE:
                     compartment.setSize(float(value))
                 elif row == COMPARTMENT_ROW.UNITS:
                     compartment.setUnits(str(value))
-#                elif row == COMPARTMENT_ROW.OUTSIDE:
-#                    compartment.setOutside(str(value))
-#                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
         return False
@@ -690,8 +584,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     self.entity.setId(str(value))
                 elif row == SPECIES_ROW.NAME:
                     species.setName(str(value))
-#                elif row == SPECIES_ROW.SPECIESTYPE:
-#                    species.setSpeciesType(str(value))
                 elif row == SPECIES_ROW.COMPARTMENT:
                     species.setCompartment(str(value))
                 elif row == SPECIES_ROW.INITIALQUANTITY:
@@ -702,7 +594,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     self.setQuantityType(species, value)
                 elif row == SPECIES_ROW.CONSTANT:
                     species.setConstant(typehelpers.stringToBool(value))
-#                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
         return False
@@ -726,8 +617,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     reaction.setId(str(value))
                 elif row == REACTION_ROW.NAME:
                     reaction.setName(str(value))
-#                elif row == REACTION_ROW.REVERSIBLE:
-#                    reaction.setReversible(typehelpers.stringToBool(value))
                 elif row == REACTION_ROW.REACTANTS:
                     success = self.entity.setReactants(str(value))
                     if success:
@@ -736,10 +625,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     success = self.entity.setProducts(str(value))
                     if success:
                         self.structuralChange.emit(self.entity, sbml_mainmodel.CHANGETYPE.CHANGE_PRODUCTS)
-#                elif row == REACTION_ROW.MODIFIERS:
-#                    success = self.entity.setModifiers(str(value))
-#                    if success:
-#                        self.structuralChange.emit(self.entity, sbml_mainmodel.CHANGETYPE.CHANGE_MODIFIERS)
                 elif row == REACTION_ROW.MATH:
                     try:
                         kineticLaw = reaction.getKineticLaw()
@@ -748,8 +633,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                             kineticLaw.setMath(mathNode)
                     except:
                         logging.error("Could not set math: %s (should be a valid SBML math string)" % value)
-
-#                self.emit(SIGNAL("dataChanged(QModelIndex, QModelIndex)"), index, index)
 
                 self.dataChanged.emit(index, index)
                 return True
@@ -781,7 +664,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                 elif row == PARAMETER_ROW.CONSTANT:
                     parameter.setConstant(typehelpers.stringToBool(value))
 
-#                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
         return False
@@ -805,18 +687,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     rule.setId(str(value))
                 elif row == RULE_ROW.NAME:
                     rule.setName(str(value))
-#                elif row == RULE_ROW.TYPE:
-#                    #rule.setValue(float(value))
-#                    pass # TODO
                 elif row == RULE_ROW.MATH:
                     rule.setFormula(str(value))
                 elif row == RULE_ROW.VARIABLE:
                     rule.setVariable(str(value))
-#                elif row == RULE_ROW.VARIABLETYPE:
-#                    #rule.setConstant(typehelpers.stringToBool(value))
-#                    pass # TODO
-
-#                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
         return False
@@ -885,7 +759,6 @@ class SBMLEntityTableModel(QAbstractTableModel):
                     delayMath = libsbml.parseFormula(str(value))
                     delayObject.setMath(delayMath)
 
-#                self.emit(SIGNAL("dataChanged(QModelIndex,QModelIndex)"), index, index)
                 self.dataChanged.emit(index, index)
                 return True
         return False
@@ -894,15 +767,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
     # helper methods
 
     def getReactants(self, reaction):
-        '''
+        """
         Returns a string of the reactants of the given Reaction.
-        
+
         @param reaction: a libSBML Reaction
         @type reaction: Reaction
-        
+
         @return: a string of the reactants of the given Reaction.
         @rtype: str
-        '''
+        """
         if reaction is None:
             return
         reactantReferences = reaction.getListOfReactants()
@@ -917,15 +790,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
         return ", ".join(reactantIDs)
 
     def getProducts(self, reaction):
-        '''
+        """
         Returns a string of the products of the given Reaction.
-        
+
         @param reaction: a libSBML Reaction
         @type reaction: Reaction
-        
+
         @return: a string of the products of the given Reaction.
         @rtype: str
-        '''
+        """
         if reaction is None:
             return
         productReferences = reaction.getListOfProducts()
@@ -940,15 +813,15 @@ class SBMLEntityTableModel(QAbstractTableModel):
         return ", ".join(productIDs)
 
     def getModifiers(self, reaction):
-        '''
+        """
         Returns a string of the modifiers of the given Reaction.
-        
+
         @param reaction: a libSBML Reaction
         @type reaction: Reaction
-        
+
         @return: a string of the modifiers of the given Reaction.
         @rtype: str
-        '''
+        """
         numModifiers = reaction.getNumModifiers()
         modifiers = []
         for i in range(numModifiers):
@@ -956,16 +829,16 @@ class SBMLEntityTableModel(QAbstractTableModel):
         return ", ".join(modifiers)
 
     def getInitialValue(self, species):
-        '''
+        """
         Returns the initial value of a Species which can be either defined
         as a concentration or as an amount.
-        
+
         @param species: A libSBML Species
         @type species: Species
-        
+
         @return: The initial value
         @rtype: str
-        '''
+        """
         if species.isSetInitialConcentration():
             initialConcentration = species.getInitialConcentration()
             #return "%f (concentration)" % initialConcentration
@@ -983,12 +856,10 @@ class SBMLEntityTableModel(QAbstractTableModel):
             return "Amount"
 
     def setQuantityType(self, species, type):
-        #if type == QUANTITY_AMOUNT and species.isSetInitialConcentration():
         if QUANTITY_AMOUNT.startswith(str(type).lower()) and species.isSetInitialConcentration():
             value = species.getInitialConcentration()
             species.unsetInitialConcentration()
             species.setInitialAmount(value)
-        #elif type == QUANTITY_CONCENTRATION and species.isSetInitialAmount():
         elif QUANTITY_CONCENTRATION.startswith(str(type).lower()) and species.isSetInitialAmount():
             value = species.getInitialAmount()
             species.unsetInitialAmount()

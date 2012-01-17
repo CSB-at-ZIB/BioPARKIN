@@ -1,20 +1,6 @@
-'''
-Created on Feb 24, 2010
 
-@author: moritz
-
-'''
-
-
-#import sip
 from PySide.QtCore import QAbstractTableModel, Signal, Qt, QModelIndex, SIGNAL
 from sbml_model.sbml_entities import SBMLEntity
-#sip.setapi('QString', 2)  # practically disables QStrings
-#sip.setapi('QVariant', 2) # practically disables QVariants
-
-#from PySide.QtCore import *
-#from PySide.QtGui import  *
-
 import libsbml
 from basics.helpers import enum
 
@@ -29,15 +15,15 @@ COLUMN = enum.enum('ROW', 'NAME, ID, COMPARTMENTTYPE, SPATIALDIMENSIONS, SIZE, U
 ###############
 
 class SBMLCompartmentTableModel(QAbstractTableModel):
-    '''
+    """
     Obsolete! This has been replaced by SBMLMainTreeModel (which wraps
     all the Species types at once) and only remains here for
     future reference.
-    
-    
-    
+
+
+
     This class encapsulates the ListOfCompartments of an SBML file/model.
-    '''
+    """
     
     def GetDirty(self):
         return self.__Dirty

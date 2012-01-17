@@ -3,9 +3,7 @@ from basics.helpers.enum import enum
 import libsbml
 import logging
 
-
 TYPE = enum("TYPE", "COMPARTMENT, SPECIES, REACTION, NONE, PARAMETER, RULE, EVENT")
-
 
 #### defining constant strings for Species/Parameter Threshold XML ####
 XML_THRESHOLD_NAMESPACE = "http://www.zib.de/SBML/Threshold" # more or less arbitrary string. Important to define a standard.
@@ -78,7 +76,6 @@ class SBMLEntity(QObject):
         if self.Parent is not None:
             self.Parent.Children.append(self)
 
-
         # set TYPE
         self.Type = TYPE.NONE
         if isinstance(self.Item, libsbml.Compartment):
@@ -99,8 +96,6 @@ class SBMLEntity(QObject):
         self.SelectionStateJustChanged = False
         self.computeSensitivity = True
 
-    #    def getMainModel(entity):
-    #        if entity
 
     def getRowOfChild(self, child):
         """
@@ -265,7 +260,6 @@ class SBMLEntity(QObject):
 
         return True
 
-    #        self.updateVisuals()
 
 
     def setProducts(self, productIDString):
@@ -294,7 +288,6 @@ class SBMLEntity(QObject):
 
         return True
 
-    #        self.updateVisuals()
 
     def getTarget(self):
         """
@@ -350,11 +343,6 @@ class SBMLEntity(QObject):
         speciesRefList = model.getListOfSpecies()
         return ID in [x.getId() for x in speciesRefList]
 
-    #    def updateVisuals(self):
-    #        if not self.GraphicItem:
-    #            return
-    #
-    #        self.
 
     def isDefiningOde(self):
         """
@@ -406,15 +394,6 @@ class SBMLEntity(QObject):
         else:
             return "%s_%s" % (scope, self.getId())
 
-            #    def getValueFromActiveSet(self):
-            #        '''
-            #        Tries to get the current value (if self == Parameter)
-            #        from the active ParameterSet
-            #        '''
-            #        if self.Type != TYPE.PARAMETER: #only makes sense for Parameters
-            #            return
-            #
-            #        combinedId = self.getCombinedId()
 
     def _initThreshold(self):
         """
@@ -451,28 +430,6 @@ class SBMLEntity(QObject):
 
         logging.debug("SbmlEntity._initThreshold(): This line should never be reached.")
 
-    #    def _computeThreshold(self):
-    #        """
-    #        If no scale is given in the SBML file, the scale of a Species/Parameter is
-    #        calculated.
-    #          - For Species, the scale is just set to the Species' initial value.
-    #          - For Parameters it's the same but with a lower bound.
-    #
-    #        @since: 2011-05-23
-    #        """
-    #        if self.Type == TYPE.SPECIES:
-    #            return self.getInitialValue()
-    #        elif self.Type == TYPE.PARAMETER:
-    #            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
-    #            return max(self.getValue(), lowerBound)
-    #        elif self.Type == TYPE.COMPARTMENT:
-    #            lowerBound = 1E-05  # TODO: Don't hardcode this! Should somehow be obtained from SimWorkbench setting
-    #            return max(self.Item.getSize(), lowerBound)
-    #        elif self.Type == TYPE.NONE:    # for wrapping, top-level "Species" and "Parameters"
-    #            return
-    #
-    #        logging.debug("SbmlEntity._computeThreshold(): This line should never be reached.")
-    #        return 0
 
     def getThreshold(self):
         """

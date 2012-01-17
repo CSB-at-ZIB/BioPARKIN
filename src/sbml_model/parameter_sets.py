@@ -1,17 +1,17 @@
 from collections import OrderedDict
 import logging
 from PySide.QtCore import QObject, Signal
-from libsbml import SBase
 
 
-'''
-This class provides the data structures for storing multiple Parameter Sets
-in one SBML file.
+"""
+This file/module provides the data structures for storing multiple Parameter Sets
+in one SBML file. (Note: Scroll down, there is more than one class defined here!)
+
 It's modelled after a semi-official annotation for SBML:
 http://www.sys-bio.org/sbwWiki/_media/sysbio/sysbio/parametersets/2010-02-22_-_managingmultipleparametersets.pdf
 
 Objects of these classes will be saved as nested XML within a SBML Model's Annotation element.
-'''
+"""
 
 __author__ = "Moritz Wade"
 __contact__ = "wade@zib.de"
@@ -38,7 +38,6 @@ class ListOfParameterSets(QObject):
         self.selectedSet = None
         self._list = []
 
-#        QtCore.QObject.__init__(self)  # works but produces the same strange Singleton behaviour
         if paramSet:
             self._list.append(paramSet)
             self.activeSet = paramSet
@@ -47,7 +46,6 @@ class ListOfParameterSets(QObject):
     def createNewParameterSet(self, duplicate=False):
         baseSet = self.selectedSet if self.selectedSet else self.defaultSet
 
-        #id = "New Set" if not duplicate else "Duplicate Set"
         if not duplicate:
             id = "New Set"
         else:
@@ -100,7 +98,7 @@ class ListOfParameterSets(QObject):
     def getActiveSet(self):
         return self.activeSet
 
-    def setDefaulSet(self, set):
+    def setDefaultSet(self, set):
         self.defaultSet = set
 
     def getDefaultSet(self):
@@ -119,14 +117,14 @@ class ListOfParameterSets(QObject):
         self._list.append(item)
         self.changed.emit()
 
-#class ParameterSet(SBase):
+
 class ParameterSet(object):
-    '''
+    """
     Simple subclass of SBase (so that it inherits IDs, possibilities for Annotations, etc.)
     with a ListOfParameters.
 
     @since: 2011-03-21
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -150,10 +148,6 @@ class ParameterSet(object):
                 self._listOfParameters[paramId] = newParam
 
     def getParam(self, id):
-#        if id in self:
-#            return self[id]
-#        else:
-#            return
         try:
             return self[id]
         except:
@@ -205,7 +199,7 @@ class ParameterSet(object):
 
 
 class ListOfParameters(OrderedDict):
-    '''
+    """
     This is just kind of a "renamed" OrderedDict object
     to make the naming of things more coherent, to adhere to the standard
     set by the SBML Multiple Parameter Sets annotation and to have a place
@@ -215,7 +209,7 @@ class ListOfParameters(OrderedDict):
     as a key for every Parameter object.
 
     @since: 2011-03-21
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -225,12 +219,12 @@ class ListOfParameters(OrderedDict):
 
 
 class ParameterProxy(object):
-    '''
+    """
     Simple Parameter "proxy" object with references to the original libSBML Parameter
     (by Parameter and Reaction IDs) and the value of that Parameter within this Set.
 
     @since: 2011-03-21
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"

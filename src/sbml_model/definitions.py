@@ -12,8 +12,6 @@ __contact__ = "wade@zib.de"
 __copyright__ = "Zuse Institute Berlin 2011"
 
 
-
-
 CHANGETYPE = enum("CHANGETYPE", "ADD, REMOVE, CHANGE_REACTANTS, CHANGE_PRODUCTS, CHANGE_MODIFIERS")
 
 #### defining constant strings for Parameter Set XML ####
