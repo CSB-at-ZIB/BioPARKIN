@@ -1,9 +1,9 @@
-'''
+"""
 This file serves to define "CONSTANTS" to replace all occurrences of
 "magic strings" within the backend packages.
 
 It also contains some default values for the simulation (e.g. RTOL, ATOL).
-'''
+"""
 
 __author__ = 'Moritz Wade'
 
@@ -19,7 +19,6 @@ DEFAULT_ATOL = "1E-09"
 DEFAULT_XTOL = "1E-03"
 DEFAULT_MAX_NUM_NEWTON_STEPS = 50
 DEFAULT_SD_SPECIES = "1.0"
-#DEFAULT_ASSUME_SD = False  # obsolete
 
 DEFAULT_NO_AUTO_ROW_SCALING = False
 DEFAULT_JACOBIAN = 3
@@ -45,7 +44,6 @@ SETTING_XTOL = "setting_xtol"
 SETTING_SD_SPECIES = "setting_tolerance3"
 SETTING_MAX_NUM_NEWTON_STEPS = "setting_max_num_newton_steps"
 SETTING_USE_MEASURED_TIMEPOINTS = "setting_use_measured_timepoints"
-#SETTING_ASSUME_SD = "setting_assume_sd"    # obsolete
 
 SETTING_IDENTIFICATION_BACKEND = "setting_identification_backend"
 

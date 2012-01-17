@@ -2,7 +2,7 @@ __author__ = 'Moritz Wade'
 
 
 class Error(Exception):
-    '''Base class for exceptions in this module.'''
+    """Base class for exceptions in this module."""
     pass
 
 class InitError(Error):

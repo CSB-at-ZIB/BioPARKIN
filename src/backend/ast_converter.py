@@ -2,8 +2,8 @@ import logging
 import libsbml
 
 class AstConverter(object):
-    '''
-    Takes a BaseAstConverterTemplate and delegates all "language" specific calls to it,
+    """
+    Takes a BaseAstConverterTemplate and delegates all "language"-specific calls to it,
     thereby converting a libsbml ASTNode tree into an adequate representation of the math therein (e.g.
     either valid FORTRAN syntax, or a PARKINcpp Expression tree, etc.)
 
@@ -19,14 +19,14 @@ class AstConverter(object):
     @param idsToReplace: A dictionary with precomputed expressions that are inserted whenever
         an ASTNode leaf with an ID matching a dict key is encountered.
     @type idsToReplace: {}
-    '''
+    """
 
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
 
     def __init__(self, astConverterTemplate, mainModel=None,  idsToReplace=None):
-        '''
+        """
         A AstConverterTemplate needs to be provided. It defines the "language" to which to convert the libSBML
         ASTNode tree.
 
@@ -34,7 +34,7 @@ class AstConverter(object):
         been defined by the user.
 
         argsToReplace can be a dict with substitions for some libsbml.AST_NAME nodes' names.
-        '''
+        """
         if not astConverterTemplate:
             logging.debug("AstConverter.__init__(): No AstConverterTemplate given. Returning...")
             return
@@ -44,16 +44,15 @@ class AstConverter(object):
         self.astConverterTemplate = astConverterTemplate
         self.mainModel = mainModel
         self.idsToReplace = idsToReplace
-#        self.reactionIDsToReactions = reactionIDsToReactions
 
     def handle(self, node):
-        '''
+        """
         Recursive function to evaluate the type of the given libSBML
         ASTNode and build up a math expression according to the given AstConverterTemplate.
 
         @param node: The ASTNode that should be converted.
         @type node: libsbml.ASTNode
-        '''
+        """
         if node is None:
             return None
 
