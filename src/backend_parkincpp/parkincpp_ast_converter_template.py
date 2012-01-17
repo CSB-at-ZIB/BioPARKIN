@@ -3,7 +3,7 @@ from parkincpp.parkin import Expression
 from parkincpp import parkin
 
 class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
-    '''
+    """
     Implements the BaseAstConverterTemplate and fills all the predefined methods with actual code
     to convert libsbml ASTNodes into PARKINcpp Expression objects.
 
@@ -12,7 +12,7 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
     @type astConverter: backend.ASTConverter
 
     @since: 2010-12-21
-    '''
+    """
 
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
@@ -23,7 +23,6 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
         self.astConverter = astConverter
 
 
-
     def handlePlus(self, node):
         return Expression(parkin.PLUS, self.astConverter.handle(node.getLeftChild()), self.astConverter.handle(node.getRightChild()))
 
@@ -31,7 +30,6 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
         left = self.astConverter.handle(node.getLeftChild())
         right = self.astConverter.handle(node.getRightChild())
         if right and left:
-#            return Expression(parkin.TIMES, self.astConverter.handle(node.getLeftChild()), self.astConverter.handle(node.getRightChild()))
             return Expression(parkin.TIMES, left, right)
         else:
             return None
@@ -45,10 +43,8 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
         else:
             return Expression(parkin.MINUS, self.astConverter.handle(node.getLeftChild()))
 
-
     def handlePower(self, node):
         return Expression(parkin.POWER, self.astConverter.handle(node.getLeftChild()), self.astConverter.handle(node.getRightChild()))
-
 
     def handleLn(self, node):
         return Expression(parkin.LN, self.astConverter.handle(node.getLeftChild()))
@@ -56,16 +52,14 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
     def handleLog(self, node):
         return Expression(parkin.LOG, self.astConverter.handle(node.getLeftChild()))
 
-
-
     def handleInt(self, node):
-        ''' Handles ASTNodes representing a simple Integer. '''
+        """ Handles ASTNodes representing a simple Integer. """
         return Expression(node.getInteger())
 
     def handleReal(self, node):
-        ''' Handles ASTNodes representing a simple real/double/float. '''
+        """ Handles ASTNodes representing a simple real/double/float. """
         return Expression(node.getReal())
 
     def handleString(self, node):
-        ''' Handles ASTNodes representing a simple String. '''
+        """ Handles ASTNodes representing a simple String. """
         return Expression(node.getName())

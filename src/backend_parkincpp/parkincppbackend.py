@@ -1,11 +1,7 @@
 from collections import OrderedDict
 import logging
 import math, time
-import os
-from PySide.QtCore import QCoreApplication
 import libsbml
-
-
 import backend
 from backend.basebackend import BaseBackend
 from backend.exceptions import InitError
@@ -15,13 +11,10 @@ from datamanagement.dataset import DataSet
 from datamanagement.entitydata import EntityData
 from odehandling.odemanager import ODEManager
 from odehandling.odewrapper import ODEWrapper
-#from parkincpp.parkin import *
 from sbml_model.sbml_entities import SBMLEntity
 import services
 from services.dataservice import DataService
-#from operator import itemgetter
 from parkincpp.parkin import ValueList, StringList, ExpressionMap, BioSystem, Expression, Param, Vector, BioProcessor, Matrix, QRconDecomp, IOpt, MeasurementPoint, MeasurementList
-
 
 TASK_PARAMETER_IDENTIFICATION = "task_parameter_identification"
 TASK_SENSITIVITY_OVERVIEW = "task_sensitivity_overview"
@@ -61,16 +54,11 @@ class ParkinCppBackend(BaseBackend):
 
         logging.info("Loading PARKINcpp library interface...")
 
-#        self.gn = None
-#        self.bioPar = None
         self.selectedParams = None
 
         self.mainModel = None
         self.settings = None
         self.odeManager = None
-#        self.timepoints = None
-#        self.timepointsPruned = None
-
         self.bioSystem = None
         self.bioProcessor = None
 
@@ -97,17 +85,12 @@ class ParkinCppBackend(BaseBackend):
         self.paramThresholdMap = None
         self.speciesThresholdMap = None
         self.iOpt = None
-#        self.paramsForProb = None
-        #        self.paramIdToParamEntity = OrderedDict()
-
-#        self.deltaP = None  # TODO: Make GUI-definable
 
         self.dataService = DataService()
 
         self.mode = backend.settingsandvalues.MODE_INTEGRATE    # default mode
 
     def __del__(self):
-#        self.exiting = True
         self.wait() #blocks this thread until it has finished
 
     def setMode(self, mode):
@@ -178,7 +161,6 @@ class ParkinCppBackend(BaseBackend):
             if  startTime < timepoint and timepoint <= endTime:
                 self.sensitivityTimepoints.append(timepoint)
 
-#        self.sensitivityTimepoints = timepoints
 
 
     def initialize(self, mainModel, settings):
@@ -201,17 +183,13 @@ class ParkinCppBackend(BaseBackend):
             logging.error(errorMsg)
             raise InitError(errorMsg)
 
-#        self.statusUpdate.emit("Starting Simulation...", -1)
-
         initStartTime = time.time()
 
         # Create ODEManager and fill with data
         self.odeManager = self._createOdeManager()
 
         # create the "bio system" (basically one of the two main PARKINCpp classes for interfacing with BioPARKIN)
-#        if not self.bioSystem:
         self._createBioSystem()
-#        if not self.bioProcessor:
         self._createBioProcessor()
 
         initEndTime = time.time()
@@ -233,7 +211,6 @@ class ParkinCppBackend(BaseBackend):
 
         computeStartTime = time.time()
 
-
         # switch to relevant computation mode
         if self.mode == settingsandvalues.MODE_INTEGRATE:
             self.start_progress_report(False, "Starting Integrator...")
@@ -253,7 +230,6 @@ class ParkinCppBackend(BaseBackend):
                 logging.debug("ParkinCppBackend._compute(): Computation of sensitivities returned False.")
                 self.stop_progress_report("Error while computing sensitivities.")
                 return
-                #self._handleSensitivityResults()
             self.stop_progress_report(settingsandvalues.FINISHED_SENSITIVITY_OVERVIEW)    # also emits the finished signal
 
         elif self.mode == settingsandvalues.MODE_SENSITIVITIES_DETAILS:
@@ -264,7 +240,6 @@ class ParkinCppBackend(BaseBackend):
                 logging.debug("ParkinCppBackend._compute(): Computation of sensitivities returned False.")
                 self.stop_progress_report("Error while computing sensitivities.")
                 return
-                #self._handleSensitivityResults()
             self.stop_progress_report(settingsandvalues.FINISHED_SENSITIVITY_DETAILS)    # also emits the finished signal
 
         elif self.mode == settingsandvalues.MODE_PARAMETER_ESTIMATION:
@@ -290,10 +265,6 @@ class ParkinCppBackend(BaseBackend):
         """
         logging.debug("Creating ODE Manager...")
 
-#        self.useMeasuredTimepoints = self.settings[settingsandvalues.SETTING_USE_MEASURED_TIMEPOINTS]\
-#        if settingsandvalues.SETTING_USE_MEASURED_TIMEPOINTS\
-#        in self.settings else settingsandvalues.DEFAULT_USE_MEASURED_TIMEPOINTS
-
         self.odeManager = ODEManager(self.mainModel)
 
         self.odeManager.startTime = self.settings[settingsandvalues.SETTING_STARTTIME]\
@@ -302,10 +273,6 @@ class ParkinCppBackend(BaseBackend):
 
         self.odeManager.endTime = self.settings[settingsandvalues.SETTING_ENDTIME] if settingsandvalues.SETTING_ENDTIME\
         in self.settings else settingsandvalues.DEFAULT_ENDTIME
-
-#        odeManager.intervalCount = self.settings[settingsandvalues.SETTING_NUMBER_TIMEPOINTS]\
-#        if settingsandvalues.SETTING_NUMBER_TIMEPOINTS in self.settings\
-#        else settingsandvalues.DEFAULT_NUMBER_INTERVALS
 
         self.odeManager.rtol = self.settings[settingsandvalues.SETTING_RTOL] if settingsandvalues.SETTING_RTOL\
         in self.settings else settingsandvalues.DEFAULT_RTOL
@@ -316,11 +283,6 @@ class ParkinCppBackend(BaseBackend):
         self.odeManager.xtol = self.settings[settingsandvalues.SETTING_XTOL] if settingsandvalues.SETTING_XTOL\
         in self.settings else settingsandvalues.DEFAULT_XTOL
 
-#        odeManager.globalParamStdDeviation = self.settings[settingsandvalues.SETTING_SD_SPECIES]\
-#        if settingsandvalues.SETTING_SD_SPECIES in self.settings\
-#        else settingsandvalues.DEFAULT_SD_SPECIES
-
-#        odeManager.useMeasuredTimepoints = self.useMeasuredTimepoints
         self.odeManager.init()
         return self.odeManager
 
@@ -370,7 +332,6 @@ class ParkinCppBackend(BaseBackend):
             self.bioSystem.setInitialValue(speciesWrapper.getId(), value)
 
 
-
         # set expressions for ODE system
 
         # put reactions into the BioSystem (within ExpressionMap)
@@ -389,8 +350,6 @@ class ParkinCppBackend(BaseBackend):
         # Params are used with their combined ID: "scope_id"
         for paramWrapper in self.odeManager.parameterList:
             expression = Expression(paramWrapper.getCombinedId())
-#            if paramWrapper.getId() == "kd":
-#                logging.debug("%s: %s" % (paramWrapper.getId(),expression))
             substitutionMap[paramWrapper.getId()] = expression
 
         # Finally, ODE Expressions are created using all the above substitutions
@@ -439,7 +398,6 @@ class ParkinCppBackend(BaseBackend):
         events = OrderedDict()
         events[self.settings[
                settingsandvalues.SETTING_STARTTIME]] = None # kind of a default breakpoint at 0 that we always jump over
-        #        eventTimepoints = [0.0]
         for eventEntity in self.mainModel.SbmlEvents:
             try:
                 sbmlEvent = eventEntity.Item
@@ -452,15 +410,11 @@ class ParkinCppBackend(BaseBackend):
                     logging.error(errorMsg)
                     continue
                 timeString = triggerMathString.split(",")[1].split(")")[0].strip() # TODO: A RegEx would be nicer
-                #                if timeString in self.paramsForProb:   # TODO: Support parameters via their IDs
-                #                    time = self.paramsForProb[timeString]
-                #                else:
                 time = float(timeString)
                 if not self.settings[settingsandvalues.SETTING_STARTTIME] < time < self.settings[settingsandvalues.SETTING_ENDTIME]:
                     logging.info("Event ID %s at timepoint %s is out of integration interval." % (sbmlEvent.getId(), time))
                     continue
 
-                #                eventTimepoints.append(time)
                 logging.info("Processed event. ID: %s\tTime: %s" % (sbmlEvent.getId(), time))
 
                 numEventAssignments = sbmlEvent.getNumEventAssignments()
@@ -484,9 +438,6 @@ class ParkinCppBackend(BaseBackend):
 
         try:
             self.breakpoints = Vector(ValueList(events.keys()))
-#            breakpoints = Vector(len(events.keys()))
-#            for i, timepoint in enumerate(events.keys()):
-#                breakpoints[i] = timepoint
             self.bioSystem.setBreakpoints(self.breakpoints)
 
             for i, (time, assignmentList) in enumerate(events.items()):
@@ -498,7 +449,6 @@ class ParkinCppBackend(BaseBackend):
                 for target, assignment in assignmentList:
                     wrappedAssignment = ODEWrapper(None, mathNode=assignment, mainModel=self.mainModel)
                     expressionBioParkinCpp = wrappedAssignment.mathForBioParkinCpp()
-                    #                    expressionBioParkinCpp = Expression(expressionAstNode)
                     self.eventMap[target] = expressionBioParkinCpp
                     logging.info("Event #%s\tTime: %s\tTarget: %s\tExpression: %s" % (i,time,target,expressionBioParkinCpp))
 
@@ -518,7 +468,6 @@ class ParkinCppBackend(BaseBackend):
         The BioProcessor is the abstraction level between BioPARKIN and actual
         internal numerical classes like GaussNewton, Parkin, etc.
         """
-#        methodInt = settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND.index(self.settings[settingsandvalues.SETTING_IDENTIFICATION_BACKEND])
         self.bioProcessor = BioProcessor(self.bioSystem, self.settings[settingsandvalues.SETTING_IDENTIFICATION_BACKEND])
 
     def _doSimulation(self):
@@ -532,7 +481,6 @@ class ParkinCppBackend(BaseBackend):
         if not self.bioProcessor:
             logging.debug("ParkinCppBackend._doSimulation invoked without a BioProcessor.")
             return False
-
 
         rawSimData = self._computeTimecourse()
         simDataSet = self._handleSimulationResults(rawSimData)
@@ -561,8 +509,6 @@ class ParkinCppBackend(BaseBackend):
             data = list(dataTuple)
             data.insert(0, correspondingSpecies.getInitialValue())
             simResults[correspondingSpecies] = data
-            #            logging.debug("Species %s: %s" % (id, data))
-        #        logging.debug("Simulated  Experimental  Data: %s" % self.rawSimResultVector)
         return simResults
 
 
@@ -576,7 +522,6 @@ class ParkinCppBackend(BaseBackend):
         dataSet.setId(settingsandvalues.SIMULATION_RESULTS)
         dataSet.setSelected(True)
         for speciesEntity, data in simResults.items():
-        #            print data
             entityData = EntityData()
             entityData.setId(speciesEntity.getId())
             entityData.setType(datamanagement.entitydata.TYPE_SIMULATED)
@@ -647,10 +592,8 @@ class ParkinCppBackend(BaseBackend):
 #        os.dup2(null_fds[0], 1)
 #        os.dup2(null_fds[1], 2)
 
-
         self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
         self.sensitivityTrajectoryMap = self.bioProcessor.getScaledSensitivityTrajectories() # always get the scaled trajectories
-
 
         if not self.sensitivityTrajectoryMap:
             logging.error("Computation of Sensitivity Overview failed. Empty trajectory map returned.")
@@ -668,7 +611,6 @@ class ParkinCppBackend(BaseBackend):
 #        # close the temporary fds
 #        os.close(null_fds[0])
 #        os.close(null_fds[1])
-
 
         dataSets = {}
         for key, dataPoints in self.sensitivityTrajectoryMap.items():
@@ -709,10 +651,8 @@ class ParkinCppBackend(BaseBackend):
 
             dataSet.setData(entityData, keyEntity=speciesId)
 #            logging.debug("Adding data for Species %s" % speciesId)
-        #
 
         logging.info("Finished computing Sensitivity Overview...")
-#        self.report_progress(text="Computing Sensitivity Overview...")
 
         return True
 
@@ -726,9 +666,6 @@ class ParkinCppBackend(BaseBackend):
         if not self.sensitivityTimepoints:
             logging.debug("ParkinCppBackend._computeSensitivityDetails(): No timepoints set, aborting.")
             return False
-
-        # necessary to have scales...
-#        self.sensitivityTrajectoryMap = self.bioProcessor.computeSensitivityTrajectories() # compute non-scaled trajectories but don't use them
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
         self.sensitivityTimepointsVector = Vector(ValueList(self.sensitivityTimepoints))
@@ -783,7 +720,6 @@ class ParkinCppBackend(BaseBackend):
         speciesParameterSensitivity.setType(services.dataservice.SENSITIVITY_DETAILS_JACOBIAN)
         speciesParameterSensitivity.setSelected(True)
 
-
         for k, param in enumerate(self.selectedParams): # needed to get Param object corresponding to index
             jacobianColumn = rawJacobian.colm(k+1)  # note: type(rawJacobian)==Matrix starts counting with 1, not with 0
             paramID = param.getCombinedId()
@@ -807,16 +743,13 @@ class ParkinCppBackend(BaseBackend):
         Takes the qr-decomposed matrix and computes subconditions. This method
         then puts the resulting data into a DataSet.
         """
-
         if type(qr) is not QRconDecomp:
             logging.debug("FortranBackend._computeSensSubconditions: Didn't get a QRconDecomp as input.")
             return None
 
         logging.info("Computing Subconditions...")
 
-        #        logging.debug("Before line: diagonals = qr.getDiag()")
         diagonals = qr.getDiag()
-        #        logging.debug("Before line: diagonals = rank = qr.getRank()")
         rank = qr.getRank()    # not used right now
         logging.info("QR decomposition rank: %s" % rank)
         logging.debug("QR decompsition diag: %s" % diagonals.t())
@@ -830,7 +763,6 @@ class ParkinCppBackend(BaseBackend):
                 colSubcondition = firstDiag / diagEntry
                 colSubconditions.append(colSubcondition)
             else:
-            #                colSubcondition = float("nan")
                 colSubconditions.append(float("nan"))
 
         maxValue = max(colSubconditions)
@@ -839,13 +771,10 @@ class ParkinCppBackend(BaseBackend):
         for i in xrange(len(colSubconditions)):
             oldValue = colSubconditions[i]
             if math.isnan(oldValue):
-                #scaledValue = "N/A"
                 scaledValue = oldValue  # push "nan" through to the end; should be handled by Views
             else:
                 scaledValue = oldValue / maxValue
-                #colSubconditions[i] = scaledValue
             colSubconditionsScaled.append(scaledValue)
-
 
         # 4th: put into DataSet
         subconditionsDataSet = DataSet(None)
@@ -887,8 +816,6 @@ class ParkinCppBackend(BaseBackend):
             logging.error("No parameters selected.")
             return None, None
 
-
-
         if mode == TASK_PARAMETER_IDENTIFICATION:
             self.timepointVector, self.measurementMapVector = self._getBioParkinCppCompatibleMeasurements()
 
@@ -897,7 +824,6 @@ class ParkinCppBackend(BaseBackend):
                 return None, None
 
             self.bioSystem.setMeasurementList(self.timepointVector, self.measurementMapVector)
-
 
         # set up parameters for BioProcessor
         self.paramMap = Param()
@@ -915,7 +841,6 @@ class ParkinCppBackend(BaseBackend):
         self.bioProcessor.setCurrentParamValues(self.paramMap)
         self.bioProcessor.setCurrentParamThres(self.paramThresholdMap)
 
-
         # set up Species thresholds
         self.speciesThresholdMap = Param()
         for species in self.odeManager.speciesList:
@@ -926,7 +851,6 @@ class ParkinCppBackend(BaseBackend):
             self.speciesThresholdMap[id] = threshold
         if self.speciesThresholdMap:
             self.bioProcessor.setCurrentSpeciesThres(self.speciesThresholdMap)
-
 
         self.iOpt = IOpt()
         self.iOpt.mode = 0                                                                      # 0:normal run, 1:single step
@@ -950,11 +874,6 @@ class ParkinCppBackend(BaseBackend):
         """
 
         self._setUpBioProcessor(mode = TASK_PARAMETER_IDENTIFICATION)
-
-#        if not self.gn:
-#            return False
-#
-#        self.gn.run()
         if not self.bioProcessor:
             return
         
@@ -986,10 +905,8 @@ class ParkinCppBackend(BaseBackend):
             logging.info("No experimental data loaded. Can't estimate parameter values.")
             return None, None
 
-
         # Step 1: Create a global timepoint list. The number of times any timepoint occurs is the
         # maximum of occurences within the Species.
-
         timepointList = []
         for dataSetID, dataSet in expData.items():
             logging.debug("ParkinCppBacken._getBioParkinCppCompatibleMeasurements(): Getting timepoints from %s" % dataSetID)
@@ -999,8 +916,6 @@ class ParkinCppBackend(BaseBackend):
                 speciesTimepointsList = []
                 speciesTimepointsSet = set()
                 for i, dataDescriptor in enumerate(entityData.dataDescriptors):
-                #                    if i == 0:  # skip first time point. Right to do that here?
-                #                        continue
                     try:
                         if type(sbmlSpecies) is SBMLEntity:
                             speciesID = sbmlSpecies.getId()
@@ -1043,8 +958,6 @@ class ParkinCppBackend(BaseBackend):
                     continue
                 countTimepoints = {}
                 for i, dataDescriptor in enumerate(entityData.dataDescriptors):
-                #                    if i == 0:  # skip first time point. Right to do that here?
-                #                        continue
                     try:
                         if type(sbmlSpecies) is SBMLEntity:
                             speciesID = sbmlSpecies.getId()
@@ -1093,18 +1006,15 @@ class ParkinCppBackend(BaseBackend):
             measurementMapVector[i] = datapointList[i]
 
         timepointVector = Vector(ValueList(timepointList))
-#        timepointVector = Vector(len(timepointList))
-#        for i in xrange(len(timepointList)):
-#            timepointVector[i] = timepointList[i]
 
         return (timepointVector, measurementMapVector)
 
 
     def _handleEstimatedParamResults(self):
-        '''
+        """
         Takes the previously computed parameter values (stored in a OrderedDict), wraps
         them into EntityData objects and a DataSet and puts that into the DataService.
-        '''
+        """
         estimatedParamSet = DataSet(None)
         estimatedParamSet.setId("Identified Parameter Values")
         estimatedParamSet.setType(services.dataservice.ESTIMATED_PARAMS)
@@ -1112,8 +1022,6 @@ class ParkinCppBackend(BaseBackend):
             paramData = EntityData()
             if type(paramEntity) == str:
                 paramEntity = self.selectedParams[i]    # if key is str, try to get Param object
-#                paramData.setId(paramEntity)
-#            else:
             paramData.setId(paramEntity.getId())
             paramData.setType(datamanagement.entitydata.TYPE_PARAMETERS_ESTIMATED)
             paramData.setAssociatedDataSet(estimatedParamSet)
