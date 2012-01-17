@@ -1,8 +1,3 @@
-'''
-Created on Jun 4, 2010
-
-@author: bzfwadem
-'''
 import logging
 from PySide.QtCore import Signal, QObject
 
@@ -47,16 +42,15 @@ class EntityData(QObject):
                           "Provides a wrapper for the now-renamed self.dataDescriptors")
 
     def __init__(self):
-        '''
+        """
         Setting up some instance variables.
-        
-        '''
+
+        """
         super(EntityData, self).__init__(None)
 
         self.type = TYPE_NONE
         self.dataDescriptors = []
         self.datapoints = []
-#        self.weights = []
 
         self.isMetaData = False # by default, self is a "real" data object with measured/computed relevant data
         self.isWeightData = False
@@ -121,20 +115,20 @@ class EntityData(QObject):
 
 
     def getSbmlId(self):
-        '''
+        """
         A wrapper for the internal SBML Entity's getId() method.
-        '''
+        """
         try:
             return self.sbmlEntity.getId()
         except:
             return None
 
     def getUnit(self):
-        '''
+        """
         Primarily a getter for the internal unit variable, if set.
         Else:
         A wrapper for the internal SBML Entity's getSubstanceUnits() method.
-        '''
+        """
 
         try:
             if self.dataDescriptorUnit:
@@ -174,9 +168,9 @@ class EntityData(QObject):
         self.type = type
 
     def copy(self):
-        '''
+        """
         Makes a shallow (!) copy of self.
-        '''
+        """
         # TODO Update this method to reflect all the structural changes of the class!
 
         clone = EntityData()

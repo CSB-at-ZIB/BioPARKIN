@@ -1,33 +1,25 @@
-'''
-Created on Jul 2, 2010
-
-@author: bzfwadem
-'''
 from collections import OrderedDict
 import logging
 from PySide.QtCore import Signal, QObject
 from datamanagement.entitydata import EntityData
 import services.dataservice
 import datahandling
-
 from time import time
-
 
 FORMAT_SIM_DOP = "format_sim_dop"
 FORMAT_EXP_PARKIN = "format_exp_parkin"
 FORMAT_EXP_SIMPLE_CSV = "format_exp_simple_csv"
 
-
 class DataSet(QObject):
-    '''
+    """
     This class encapsulates all the data that is in an individual data file,
     either simulation or experimental data.
-    
+
     It contains a stable dictionary of EntityData objects. Each such object
     holds the data for one entity (usually a SBML Species).
-    
+
     @since: 2010-07-02
-    '''
+    """
     __author__ = "Moritz Wade"
     __contact__ = "wade@zib.de"
     __copyright__ = "Zuse Institute Berlin 2010"
@@ -36,11 +28,10 @@ class DataSet(QObject):
     dataChanged = Signal(object, EntityData)
 
     def __init__(self, filename, format=None, listOfEntities = None, type = None, parkinController=None):
-        '''
+        """
         Setting up needed instance variables.
-        '''
+        """
         super(DataSet, self).__init__(None)
-#        self._entityDataDict = OrderedDict()
         self.filename = filename
 
         # keys should be SBMLEntity objects!
@@ -65,9 +56,9 @@ class DataSet(QObject):
         entityData.dataChanged.connect(self.on_entityDataChanged)
 
     def loadFile(self, filename, format=None, listOfEntities = None, parkinController = None):
-        '''
+        """
         Loads a file of the optionally given format.
-        '''
+        """
         self.filename = filename
         
         # for now, we only support the proprietary PARKIN format
@@ -82,7 +73,6 @@ class DataSet(QObject):
                 logging.error("Can't load PARKIN simulation data without being provided a list of entities.")
                 return
             self.data = datahandling.read_integrated_data(filename, listOfEntities, dataSet = self)
-            #self.data.setAssociatedDataSet(self)
             self.type = services.dataservice.SIMULATION
 
         self.selected = False
@@ -104,25 +94,22 @@ class DataSet(QObject):
         return self.data.keys()
         
     def getData(self, keyEntity=None):
-        '''
+        """
         Get a dataset of given (Species) ID.
-        '''
+        """
         if not keyEntity:
             return self.data
 
-#        for species in self.data.keys():
-#            if species.getId() == id:
-#                return self.data[species]
         if self.data.has_key(keyEntity):
             return self.data[keyEntity]
         else:
             return None
 
     def setData(self, data, keyEntity=None):
-        '''
+        """
         Set a dataset of given (Species/Parameter/...) ID. Reset the complete internal
         data dict if no keyEntity is given.
-        '''
+        """
         if not keyEntity:
             self.data = data
         else:
