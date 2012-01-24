@@ -412,6 +412,12 @@ class IOpt(_object):
     __swig_setmethods__["mprtim"] = _parkin.IOpt_mprtim_set
     __swig_getmethods__["mprtim"] = _parkin.IOpt_mprtim_get
     if _newclass:mprtim = _swig_property(_parkin.IOpt_mprtim_get, _parkin.IOpt_mprtim_set)
+    __swig_setmethods__["transf"] = _parkin.IOpt_transf_set
+    __swig_getmethods__["transf"] = _parkin.IOpt_transf_get
+    if _newclass:transf = _swig_property(_parkin.IOpt_transf_get, _parkin.IOpt_transf_set)
+    __swig_setmethods__["itrans"] = _parkin.IOpt_itrans_set
+    __swig_getmethods__["itrans"] = _parkin.IOpt_itrans_get
+    if _newclass:itrans = _swig_property(_parkin.IOpt_itrans_get, _parkin.IOpt_itrans_set)
     __swig_setmethods__["lpos"] = _parkin.IOpt_lpos_set
     __swig_getmethods__["lpos"] = _parkin.IOpt_lpos_get
     if _newclass:lpos = _swig_property(_parkin.IOpt_lpos_get, _parkin.IOpt_lpos_set)
@@ -459,6 +465,12 @@ class GaussNewtonWk(_object):
     __swig_setmethods__["xr"] = _parkin.GaussNewtonWk_xr_set
     __swig_getmethods__["xr"] = _parkin.GaussNewtonWk_xr_get
     if _newclass:xr = _swig_property(_parkin.GaussNewtonWk_xr_get, _parkin.GaussNewtonWk_xr_set)
+    __swig_setmethods__["xlb"] = _parkin.GaussNewtonWk_xlb_set
+    __swig_getmethods__["xlb"] = _parkin.GaussNewtonWk_xlb_get
+    if _newclass:xlb = _swig_property(_parkin.GaussNewtonWk_xlb_get, _parkin.GaussNewtonWk_xlb_set)
+    __swig_setmethods__["xub"] = _parkin.GaussNewtonWk_xub_set
+    __swig_getmethods__["xub"] = _parkin.GaussNewtonWk_xub_get
+    if _newclass:xub = _swig_property(_parkin.GaussNewtonWk_xub_get, _parkin.GaussNewtonWk_xub_set)
     __swig_setmethods__["fcbnd"] = _parkin.GaussNewtonWk_fcbnd_set
     __swig_getmethods__["fcbnd"] = _parkin.GaussNewtonWk_fcbnd_get
     if _newclass:fcbnd = _swig_property(_parkin.GaussNewtonWk_fcbnd_get, _parkin.GaussNewtonWk_fcbnd_set)
@@ -562,6 +574,7 @@ class GaussNewton(_object):
     def run(self): return _parkin.GaussNewton_run(self)
     def analyse(self): return _parkin.GaussNewton_analyse(self)
     def getSolution(self): return _parkin.GaussNewton_getSolution(self)
+    def getIOpt(self): return _parkin.GaussNewton_getIOpt(self)
     def getWk(self): return _parkin.GaussNewton_getWk(self)
     def printCounter(self): return _parkin.GaussNewton_printCounter(self)
     def getSolutionIter(self): return _parkin.GaussNewton_getSolutionIter(self)
@@ -1389,6 +1402,8 @@ class BioProcessor(_object):
         except: self.this = this
     def setProcessingMethod(self, *args): return _parkin.BioProcessor_setProcessingMethod(self, *args)
     def setIOpt(self, *args): return _parkin.BioProcessor_setIOpt(self, *args)
+    def getIOpt(self): return _parkin.BioProcessor_getIOpt(self)
+    def setParameterConstraints(self, *args): return _parkin.BioProcessor_setParameterConstraints(self, *args)
     def setCurrentParamValues(self, *args): return _parkin.BioProcessor_setCurrentParamValues(self, *args)
     def getCurrentParamValues(self): return _parkin.BioProcessor_getCurrentParamValues(self)
     def setCurrentParamThres(self, *args): return _parkin.BioProcessor_setCurrentParamThres(self, *args)

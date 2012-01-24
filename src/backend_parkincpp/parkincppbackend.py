@@ -881,6 +881,9 @@ class ParkinCppBackend(BaseBackend):
 #                    upperbounds[index] = TODO # get upper bound float for param, 0 if not defined
 #                    lowerbounds[index] = TODO # get lower bound float for param, 0 if not defined
 
+            trans = Vector(ValueList(trans))
+            lowerbounds = Vector(ValueList(lowerbounds))
+            upperbounds = Vector(ValueList(upperbounds))
             self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
 
 
