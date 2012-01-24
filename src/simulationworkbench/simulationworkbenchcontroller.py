@@ -92,7 +92,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.optionJACGEN = backend.settingsandvalues.DEFAULT_JACOBIAN
         self.optionNONLIN = backend.settingsandvalues.DEFAULT_PROBLEM_TYPE
         self.optionRSCAL = backend.settingsandvalues.DEFAULT_RESIDUAL_SCALING
-        self.optionLPOS = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
+
+        self.optionParameterConstraints = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
+        self.optionParameterConstraintsLowerbound = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_LOWERBOUND
+        self.optionParameterConstraintsUpperbound = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_UPPERBOUND
+
 
         self.optionPlotExpDataOnSimulation = False
 
@@ -447,7 +451,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             backend.settingsandvalues.SETTING_JACOBIAN: self.optionJACGEN,
             backend.settingsandvalues.SETTING_PROBLEM_TYPE: self.optionNONLIN,
             backend.settingsandvalues.SETTING_RESIDUAL_SCALING: self.optionRSCAL,
-            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS: self.optionLPOS,
+            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS: self.optionParameterConstraints,
+            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND: self.optionParameterConstraintsLowerbound,
+            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND: self.optionParameterConstraintsUpperbound,
             backend.settingsandvalues.SETTING_IDENTIFICATION_BACKEND:
                 backend.settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND[self.comboBoxBackendSelect.currentIndex()]
         }
@@ -471,10 +477,13 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.lineEditXTOL.setText(str(self.optionXTOL))
         self.lineEditMaxNumNewtonSteps.setText(str(self.optionMaxNumNewtonSteps))
 
-        self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1)
-        self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1)
-        self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1)
-        self.comboBoxParameterConstraintsSelect.setCurrentIndex(int(self.optionLPOS) - 1)
+        self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1) # todo: switch to 0-based counting
+        self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1) # todo: switch to 0-based counting
+        self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1) # todo: switch to 0-based counting
+
+        self.comboBoxParameterConstraintsSelect.setCurrentIndex(int(self.optionParameterConstraints))
+        self.lineEditConstLowerBound.setText(str(self.optionParameterConstraintsLowerbound))
+        self.lineEditConstUpperBound.setText(str(self.optionParameterConstraintsUpperbound))
 
 
     def _getCurrentBackend(self, getNew=False):
@@ -820,7 +829,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         except:
             #self.lineEditStartTime.setText(str(parkinintegrator.DEFAULT_STARTTIME))
             self.lineEditStartTime.setText(str(self.optionStartTime))   #set last valid value
-            return
+
 
 
     @Slot("")
@@ -832,7 +841,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionEndTime = float(self.lineEditEndTime.text())
         except:
             self.lineEditEndTime.setText(str(self.optionEndTime))
-            return
+
 
 
     @Slot("")
@@ -844,7 +853,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionRTOL = float(self.lineEditRTOL.text())
         except:
             self.lineEditRTOL.setText(str(self.optionRTOL))
-            return
+
 
 
     @Slot("")
@@ -856,7 +865,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionATOL = float(self.lineEditATOL.text())
         except:
             self.lineEditATOL.setText(str(self.optionATOL))
-            return
+
 
 
     @Slot("")
@@ -868,7 +877,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionXTOL = float(self.lineEditXTOL.text())
         except:
             self.lineEditXTOL.setText(str(self.optionXTOL))
-            return
+
 
 
     @Slot("")
@@ -880,7 +889,30 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionTimeUnit = str(self.lineEditTimeUnit.text())
         except:
             self.lineEditTimeUnit.setText(str(self.optionTimeUnit))
-            return
+
+
+    @Slot("")
+    def on_lineEditConstLowerBound_editingFinished(self):
+        """
+        Ensures that only floats are entered into the lineEditConstLowerBound field.
+        """
+        try:
+            self.optionParameterConstraintsLowerbound = float(self.lineEditConstLowerBound.text())
+        except:
+            self.lineEditConstLowerBound.setText(str(self.optionParameterConstraintsLowerbound))
+
+    @Slot("")
+    def on_lineEditConstUpperBound_editingFinished(self):
+        """
+        Ensures that only floats are entered into the lineEditConstLowerBound field.
+        """
+        try:
+            self.optionParameterConstraintsUpperbound = float(self.lineEditConstUpperBound.text())
+        except:
+            self.lineEditConstUpperBound.setText(str(self.optionParameterConstraintsUpperbound))
+
+
+
 
 
     def backendRunFinished(self, text):
@@ -917,12 +949,38 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     def on_comboBoxResidualScalingSelect_currentIndexChanged(self):
         self.optionRSCAL = self.comboBoxResidualScalingSelect.currentIndex() + 1
 
-    @Slot("")
-    def on_comboBoxParameterConstraintsSelect_currentIndexChanged(self):
-        self.optionLPOS = self.comboBoxParameterConstraintsSelect.currentIndex() + 1
-        #
-        #TODO: include more constraints,
-        #      so far, only a positivity constraint (exp trafo) is available
+    @Slot("int")
+    def on_comboBoxParameterConstraintsSelect_currentIndexChanged(self, index):
+        self.optionParameterConstraints = index
+
+        if index == 0: # no constraints
+            self.labelConstLowerBound.setEnabled(False)
+            self.labelConstUpperBound.setEnabled(False)
+            self.lineEditConstLowerBound.setEnabled(False)
+            self.lineEditConstUpperBound.setEnabled(False)
+        elif index == 1: # positivity
+            self.labelConstLowerBound.setEnabled(False)
+            self.labelConstUpperBound.setEnabled(False)
+            self.lineEditConstLowerBound.setEnabled(False)
+            self.lineEditConstUpperBound.setEnabled(False)
+        if index == 2: #lower bound
+            self.labelConstLowerBound.setEnabled(True)
+            self.labelConstUpperBound.setEnabled(False)
+            self.lineEditConstLowerBound.setEnabled(True)
+            self.lineEditConstUpperBound.setEnabled(False)
+        if index == 3: #upper bound
+            self.labelConstLowerBound.setEnabled(False)
+            self.labelConstUpperBound.setEnabled(True)
+            self.lineEditConstLowerBound.setEnabled(False)
+            self.lineEditConstUpperBound.setEnabled(True)
+        if index == 4:  # interval
+            self.labelConstLowerBound.setEnabled(True)
+            self.labelConstUpperBound.setEnabled(True)
+            self.lineEditConstLowerBound.setEnabled(True)
+            self.lineEditConstUpperBound.setEnabled(True)
+
+
+
 
 
     def selectAllSensitivity(self, doSelect):
