@@ -200,7 +200,7 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
+          <item row="0" column="1">
            <widget class="QLineEdit" name="lineEditRTOL">
             <property name="text">
              <string/>
@@ -229,7 +229,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="1" column="1">
            <widget class="QLineEdit" name="lineEditATOL">
             <property name="text">
              <string/>
@@ -252,14 +252,127 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="2" column="1">
            <widget class="QLineEdit" name="lineEditXTOL"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelMaxNumNewtonSteps">
+            <property name="text">
+             <string>Max. # Newton Steps</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEditMaxNumNewtonSteps">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelLPOS">
+            <property name="text">
+             <string>Parameter Constraints</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_21">
+            <item>
+             <widget class="QComboBox" name="comboBoxParameterConstraintsSelect">
+              <item>
+               <property name="text">
+                <string>no constraints</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>strictly positive (exponential transformation)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>lower bound</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>upper bound</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>interval (combined lower and upper bound)</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelConstLowerBound">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Lower Bound</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditConstLowerBound">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>-inf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelConstUpperBound">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Upper Bound</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditConstUpperBound">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>inf</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="labelJACGEN">
             <property name="text">
              <string>Jacobian</string>
             </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBoxJacobianSelect">
+            <item>
+             <property name="text">
+              <string>Variational Equations</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Numerical Differentiation</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Numerical Diff. with Feedback</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="6" column="0">
@@ -269,7 +382,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="2">
+          <item row="6" column="1">
            <widget class="QComboBox" name="comboBoxProblemTypeSelect">
             <item>
              <property name="text">
@@ -300,7 +413,7 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="2">
+          <item row="7" column="1">
            <widget class="QComboBox" name="comboBoxResidualScalingSelect">
             <item>
              <property name="text">
@@ -315,60 +428,6 @@
             <item>
              <property name="text">
               <string>absolute scaling (w.r.t. upper/lower machine bound)</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QComboBox" name="comboBoxJacobianSelect">
-            <item>
-             <property name="text">
-              <string>Variational Equations</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Numerical Differentiation</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Numerical Diff. with Feedback</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLineEdit" name="lineEditMaxNumNewtonSteps">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="labelMaxNumNewtonSteps">
-            <property name="text">
-             <string>Max. # Newton Steps</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="labelLPOS">
-            <property name="text">
-             <string>Parameter Constraints</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QComboBox" name="comboBoxParameterConstraintsSelect">
-            <item>
-             <property name="text">
-              <string>no constraints</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>strictly positive (exponential transformation)</string>
              </property>
             </item>
            </widget>
