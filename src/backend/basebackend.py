@@ -22,7 +22,7 @@ class BaseBackend(BioParkinThreadBase):
         self.statusBar = None
       
         
-    def initialize(self, model):
+    def initialize(self, model, settings):
         """
         Do data- and parameter-dependent initialization here.
         """

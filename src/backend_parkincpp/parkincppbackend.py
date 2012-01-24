@@ -852,7 +852,7 @@ class ParkinCppBackend(BaseBackend):
         if self.speciesThresholdMap:
             self.bioProcessor.setCurrentSpeciesThres(self.speciesThresholdMap)
 
-        self.iOpt = IOpt()
+        self.iOpt = self.bioProcessor.getIOpt()
         self.iOpt.mode = 0                                                                      # 0:normal run, 1:single step
         self.iOpt.jacgen = int(self.settings[settingsandvalues.SETTING_JACOBIAN])               # 1:user supplied Jacobian, 2:num.diff., 3:num.diff.(with feedback)
         self.iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
@@ -863,6 +863,25 @@ class ParkinCppBackend(BaseBackend):
         self.iOpt.mprerr = 1
         self.iOpt.itmax = int(self.settings[backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS])
         self.bioProcessor.setIOpt(self.iOpt)
+
+        # if in "parameter identification mode", consider constraints
+        if mode == TASK_PARAMETER_IDENTIFICATION:
+            # global constraints
+            globalConstraintsType = self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS]
+            trans, upperbounds, lowerbounds = [],[],[]
+            if globalConstraintsType in (1,2,3,4): # 0 = no constraints
+                trans = [globalConstraintsType] * len(self.selectedParams)
+                lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
+                upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
+
+            # TODO:
+#            if self.globalConstraints == 0:
+#                for index, param in enumerate(self.parameters):
+#                    trans[index] = TODO # get constraint type from GUI
+#                    upperbounds[index] = TODO # get upper bound float for param, 0 if not defined
+#                    lowerbounds[index] = TODO # get lower bound float for param, 0 if not defined
+
+            self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
 
 
         
