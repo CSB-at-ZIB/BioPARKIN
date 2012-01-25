@@ -1,4 +1,5 @@
 from PySide.QtCore import QObject, SIGNAL, Signal
+import backend
 from basics.helpers.enum import enum
 import libsbml
 import logging
@@ -541,30 +542,34 @@ class SBMLEntity(QObject):
         self._constraintsXmlNode = None
         entity = self.Item
 
+        defaultValues = (backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS,
+                         backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_LOWERBOUND,
+                         backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_UPPERBOUND)
+
         if not entity:
-            return None, None, None
+            return defaultValues
 
         if not entity.isSetAnnotation():
-            logging.debug("Parameter %s does not have any annotations." % self.getId())
-            return None, None, None
+            logging.debug("Parameter %s does not have any annotations.\nSetting constraints to 'None'." % self.getId())
+            return defaultValues
 
         annotationRootNode = entity.getAnnotation()
         self._constraintsXmlNode = annotationRootNode.getChild(XML_CONSTRAINTS)
         if self._constraintsXmlNode.isEOF():
-            logging.debug("Parameter %s does have annotations but no Constraints information." % self.getId())
+            logging.debug("Parameter %s does have annotations but no Constraints information.\nSetting constraints to 'None'." % self.getId())
             self._constraintsXmlNode = None
-            return None, None, None
+            return defaultValues
 
         namespace = self._constraintsXmlNode.getNamespaceURI()
         if namespace != XML_CONSTRAINTS_NAMESPACE:
-            logging.warning("Constraints XML node in SBML file has unsupported namespace: %s" % namespace)
+            logging.warning("Constraints XML node in SBML file has unsupported namespace: %s\nContinuing anyway." % namespace)
 
 
         if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_TYPE):
             type = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_TYPE)
         else:
-            logging.warning("Species %s has a XML-defined Constraint tag but no type is set." % self.getId())
-            type = None
+            logging.warning("Species %s has a XML-defined Constraint tag but no type is set.\nSetting constraints to 'None'." % self.getId())
+            type = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
         if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_LOWERBOUND):
             lower = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_LOWERBOUND)
         else:
