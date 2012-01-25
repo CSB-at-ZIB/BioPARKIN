@@ -212,7 +212,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.sensitivityTableView.sortByColumn(0, Qt.AscendingOrder)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.INITIALVALUE)
         self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.ESTIMATE)
-        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.EMPTY_COL)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.CONSTRAINT_TYPE)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.CONSTRAINT_LOWER)
+        self.sensitivityTableView.hideColumn(parametertablemodel.COLUMN.CONSTRAINT_UPPER)
         self.sensitivityTableView.resizeColumnsToContents()
 
         sensitivitySpeciesProxyModel = QSortFilterProxyModel(self)
@@ -223,7 +226,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.tableViewSensitivitySpecies.sortByColumn(0, Qt.AscendingOrder)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.COMPARTMENT)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.INITIALQUANTITY)
-        self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.SCALE)
         self.tableViewSensitivitySpecies.hideColumn(speciestablemodel.COLUMN.ISBC)
         self.tableViewSensitivitySpecies.resizeColumnsToContents()
 
@@ -238,7 +240,6 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.estimateParamsTableView.setModel(estimateParamsProxyModel)
         self.estimateParamsTableView.sortByColumn(0, Qt.AscendingOrder)
         self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.COMPUTESENSITIVITY)
-        self.estimateParamsTableView.hideColumn(parametertablemodel.COLUMN.SCALE)
         self.estimateParamsTableView.resizeColumnsToContents()
 
 
@@ -481,7 +482,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1) # todo: switch to 0-based counting
         self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1) # todo: switch to 0-based counting
 
-        self.comboBoxParameterConstraintsSelect.setCurrentIndex(int(self.optionParameterConstraints))
+        self.comboBoxParameterConstraintsSelect.setCurrentIndex(backend.settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(self.optionParameterConstraints))
         self.lineEditConstLowerBound.setText(str(self.optionParameterConstraintsLowerbound))
         self.lineEditConstUpperBound.setText(str(self.optionParameterConstraintsUpperbound))
 
@@ -951,29 +952,29 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
     @Slot("int")
     def on_comboBoxParameterConstraintsSelect_currentIndexChanged(self, index):
-        self.optionParameterConstraints = index
+        self.optionParameterConstraints = backend.settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES[index]
 
-        if index == 0: # no constraints
+        if self.optionParameterConstraints == backend.settingsandvalues.OPTION_PARAMETER_CONSTRAINT_NONE: # no constraints
             self.labelConstLowerBound.setEnabled(False)
             self.labelConstUpperBound.setEnabled(False)
             self.lineEditConstLowerBound.setEnabled(False)
             self.lineEditConstUpperBound.setEnabled(False)
-        elif index == 1: # positivity
+        elif self.optionParameterConstraints == backend.settingsandvalues.OPTION_PARAMETER_CONSTRAINT_POSITIVITY: # positivity
             self.labelConstLowerBound.setEnabled(False)
             self.labelConstUpperBound.setEnabled(False)
             self.lineEditConstLowerBound.setEnabled(False)
             self.lineEditConstUpperBound.setEnabled(False)
-        if index == 2: #lower bound
+        if self.optionParameterConstraints == backend.settingsandvalues.OPTION_PARAMETER_CONSTRAINT_LOWERBOUND: #lower bound
             self.labelConstLowerBound.setEnabled(True)
             self.labelConstUpperBound.setEnabled(False)
             self.lineEditConstLowerBound.setEnabled(True)
             self.lineEditConstUpperBound.setEnabled(False)
-        if index == 3: #upper bound
+        if self.optionParameterConstraints == backend.settingsandvalues.OPTION_PARAMETER_CONSTRAINT_UPPERBOUND: #upper bound
             self.labelConstLowerBound.setEnabled(False)
             self.labelConstUpperBound.setEnabled(True)
             self.lineEditConstLowerBound.setEnabled(False)
             self.lineEditConstUpperBound.setEnabled(True)
-        if index == 4:  # interval
+        if self.optionParameterConstraints == backend.settingsandvalues.OPTION_PARAMETER_CONSTRAINT_INTERVAL:  # interval
             self.labelConstLowerBound.setEnabled(True)
             self.labelConstUpperBound.setEnabled(True)
             self.lineEditConstLowerBound.setEnabled(True)

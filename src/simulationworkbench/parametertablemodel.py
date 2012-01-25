@@ -3,8 +3,8 @@ from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 from basics.helpers import enum
 import libsbml
 
-COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE") # this effectively orders the columns
-NUM_COLUMNS = 8 # keep in sync with COLUMN!
+COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE, EMPTY_COL, CONSTRAINT_TYPE, CONSTRAINT_LOWER, CONSTRAINT_UPPER") # this effectively orders the columns
+NUM_COLUMNS = 12 # keep in sync with COLUMN!
 
 class ParameterTableModel(QAbstractTableModel):
     """
@@ -101,6 +101,14 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.COMPUTESENSITIVITY:
                 if not sbmlEntity.isConstant():
                     return "Disabled (Assignm.)"
+            elif column == COLUMN.EMPTY_COL:
+                return
+            elif column == COLUMN.CONSTRAINT_TYPE:
+                return sbmlEntity.getConstraintType()
+            elif column == COLUMN.CONSTRAINT_LOWER:
+                return sbmlEntity.getConstraintLowerBound()
+            elif column == COLUMN.CONSTRAINT_UPPER:
+                return sbmlEntity.getConstraintUpperBound()
 
 
 
@@ -160,6 +168,14 @@ class ParameterTableModel(QAbstractTableModel):
                 return "Compute Sensitivity"
             elif section == COLUMN.ESTIMATE:
                 return "Estimate Value"
+            elif section == COLUMN.EMPTY_COL:
+                return
+            elif section == COLUMN.CONSTRAINT_TYPE:
+                return "Constraint Type"
+            elif section == COLUMN.CONSTRAINT_LOWER:
+                return "Lower Bound"
+            elif section == COLUMN.CONSTRAINT_UPPER:
+                return "Upper Bound"
         return None
 
     def rowCount(self, index=QModelIndex()):

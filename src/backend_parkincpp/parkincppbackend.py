@@ -869,8 +869,8 @@ class ParkinCppBackend(BaseBackend):
             # global constraints
             globalConstraintsType = self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS]
             trans, upperbounds, lowerbounds = [],[],[]
-            if globalConstraintsType in (1,2,3,4): # 0 = no constraints
-                trans = [globalConstraintsType] * len(self.selectedParams)
+            if globalConstraintsType != settingsandvalues.OPTION_PARAMETER_CONSTRAINT_NONE:    # 0 = No constraints
+                trans = [settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(globalConstraintsType)] * len(self.selectedParams)
                 lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
                 upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
 
@@ -885,6 +885,8 @@ class ParkinCppBackend(BaseBackend):
             lowerbounds = Vector(ValueList(lowerbounds))
             upperbounds = Vector(ValueList(upperbounds))
             self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
+
+
 
 
         
