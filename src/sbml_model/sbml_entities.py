@@ -10,6 +10,12 @@ XML_THRESHOLD_NAMESPACE = "http://www.zib.de/SBML/Threshold" # more or less arbi
 XML_SCALE = "Scale"
 XML_THRESHOLD_VALUE = "Value"
 
+XML_CONSTRAINTS_NAMESPACE = "http://www.zib.de/SBML/ParameterConstraints" # more or less arbitrary string. Important to define a standard.
+XML_CONSTRAINTS = "Constraints"
+XML_CONSTRAINTS_TYPE = "Type"
+XML_CONSTRAINTS_LOWERBOUND = "LowerBound"
+XML_CONSTRAINTS_UPPERBOUND = "UpperBound"
+
 class SBMLEntity(QObject):
     """
     This is a simple wrapper for the entity classes of libsbml.
@@ -82,16 +88,17 @@ class SBMLEntity(QObject):
             self.Type = TYPE.COMPARTMENT
         elif isinstance(self.Item, libsbml.Species):
             self.Type = TYPE.SPECIES
+            self.Threshold = self._initThreshold()
         elif isinstance(self.Item, libsbml.Reaction):
             self.Type = TYPE.REACTION
         elif isinstance(self.Item, libsbml.Parameter):
             self.Type = TYPE.PARAMETER
+            self.Threshold = self._initThreshold()
+            self._constraintType, self._constraintLowerBound, self._constraintUpperBound = self._initConstraints()
         elif isinstance(self.Item, libsbml.Rule):
             self.Type = TYPE.RULE
         elif isinstance(self.Item, libsbml.Event):
             self.Type = TYPE.EVENT
-
-        self.Threshold = self._initThreshold()
 
         self.SelectionStateJustChanged = False
         self.computeSensitivity = True
@@ -398,7 +405,7 @@ class SBMLEntity(QObject):
     def _initThreshold(self):
         """
         Parses the wrapped Species' XML annotations and retrieves the scale value
-        if one is set. Otherwise, the scale value is set to the current initial value.
+        if one is set.
 
         @since: 2011-05-23
         """
@@ -480,3 +487,118 @@ class SBMLEntity(QObject):
 
     def getComputeSensitivity(self):
         return self.computeSensitivity
+
+    def getConstraintType(self):
+        """
+
+        @since: 2012-01-25
+        """
+        return self._constraintType
+
+    def setConstraintType(self, type):
+        """
+
+        @since: 2012-01-25
+        """
+        self._constraintType = type
+        self._setConstraintsXml(type, self._lowerBound, self._upperBound)
+
+    def getConstraintLowerBound(self):
+        """
+
+        @since: 2012-01-25
+        """
+        return self._constraintLowerBound
+
+    def setConstraintLowerBound(self, lower):
+        """
+
+        @since: 2012-01-25
+        """
+        self._constraintLowerBound = lower
+        self._setConstraintsXml(self._constraintType, lower, self._upperBound)
+
+    def getConstraintUpperBound(self):
+        """
+
+        @since: 2012-01-25
+        """
+        return self._constraintUpperBound
+
+    def setConstraintUpperBound(self, upper):
+        """
+
+        @since: 2012-01-25
+        """
+        self._constraintUpperBound = upper
+        self._setConstraintsXml(self._constraintType, self._lowerBound, upper)
+
+    def _initConstraints(self):
+        """
+
+        @since: 2012-01-25
+        """
+        self._constraintsXmlNode = None
+        entity = self.Item
+
+        if not entity:
+            return None, None, None
+
+        if not entity.isSetAnnotation():
+            logging.debug("Parameter %s does not have any annotations." % self.getId())
+            return None, None, None
+
+        annotationRootNode = entity.getAnnotation()
+        self._constraintsXmlNode = annotationRootNode.getChild(XML_CONSTRAINTS)
+        if self._constraintsXmlNode.isEOF():
+            logging.debug("Parameter %s does have annotations but no Constraints information." % self.getId())
+            self._constraintsXmlNode = None
+            return None, None, None
+
+        namespace = self._constraintsXmlNode.getNamespaceURI()
+        if namespace != XML_CONSTRAINTS_NAMESPACE:
+            logging.warning("Constraints XML node in SBML file has unsupported namespace: %s" % namespace)
+
+
+        if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_TYPE):
+            type = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_TYPE)
+        else:
+            logging.warning("Species %s has a XML-defined Constraint tag but no type is set." % self.getId())
+            type = None
+        if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_LOWERBOUND):
+            lower = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_LOWERBOUND)
+        else:
+            lower = None
+        if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_UPPERBOUND):
+            upper = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_UPPERBOUND)
+        else:
+            upper = None
+
+        return type, lower, upper
+
+
+    def _setConstraintsXml(self, type, lower, upper):
+        """
+
+        @since: 2012-01-25
+        """
+        if not self._constraintsXmlNode:  # have to create the XML node
+            constraintsNodeTriplet = libsbml.XMLTriple(XML_CONSTRAINTS, XML_CONSTRAINTS_NAMESPACE, "")
+            constraintsNodeAttribute = libsbml.XMLAttributes()
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_TYPE, str(type))
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_LOWERBOUND, str(lower))
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_UPPERBOUND, str(upper))
+
+            self._constraintsXmlNode = libsbml.XMLNode(constraintsNodeTriplet, constraintsNodeAttribute)
+
+            namespace = libsbml.XMLNamespaces() # seems to be necessary to do this again
+            namespace.add(XML_CONSTRAINTS_NAMESPACE)
+            self._constraintsXmlNode.setNamespaces(namespace)
+
+            self.Item.appendAnnotation(self._constraintsXmlNode)
+        else:
+            constraintsNodeAttribute = libsbml.XMLAttributes()
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_TYPE, str(type))
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_LOWERBOUND, str(lower))
+            constraintsNodeAttribute.add(XML_CONSTRAINTS_UPPERBOUND, str(upper))
+            self._constraintsXmlNode.setAttributes(constraintsNodeAttribute)
