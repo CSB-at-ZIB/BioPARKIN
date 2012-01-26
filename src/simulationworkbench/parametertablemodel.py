@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
 import backend
@@ -31,8 +32,8 @@ class ParameterTableModel(QAbstractTableModel):
         self.mainModel = mainModel
 
         # per default, all parameters are checked so that sensitivities are computed
-        self.paramsToSensitivityMap = {}
-        self.paramToEstimateMap = {}
+        self.paramsToSensitivityMap = OrderedDict()
+        self.paramToEstimateMap = OrderedDict()
 
         if self.paramList:
             for param in self.paramList:

@@ -68,10 +68,10 @@ class ParkinCppBackend(BaseBackend):
         self.sensitivityTimepoints = None
         self.sensitivityTrajectoryMap = None
 
-        self.paramToSensitivityMap = {}
+        self.paramToSensitivityMap = OrderedDict()
         self.parameterSensitivity = None
         self.speciesParameterSensitivity = None
-        self.paramToEstimateMap = {}
+        self.paramToEstimateMap = OrderedDict()
 
         # we set lots of variables as class variables because they might otherwise go out of scope (in Python)
         # when passed to SWIG-generated interfaces...
@@ -226,7 +226,7 @@ class ParkinCppBackend(BaseBackend):
             self.start_progress_report(False, "Computing Sensitivity Overview...")
             computationSuccess = self._computeSensitivityOverview()
             if not computationSuccess:
-                logging.error("Error while computing sensitivity overvier.")
+                logging.error("Error while computing sensitivity overview.")
                 logging.debug("ParkinCppBackend._compute(): Computation of sensitivities returned False.")
                 self.stop_progress_report("Error while computing sensitivities.")
                 return
@@ -576,7 +576,10 @@ class ParkinCppBackend(BaseBackend):
         logging.info("Computing Sensitivity Overview...")
         self.report_progress(text="Computing Sensitivity Overview...")
 
-        self._setUpBioProcessor(mode = TASK_SENSITIVITY_OVERVIEW)
+        isSetUp = self._setUpBioProcessor(mode = TASK_SENSITIVITY_OVERVIEW)
+        if not isSetUp:
+            logging.error("Could not start sensitivity computation.")
+            return False
 
         if not self.bioProcessor:
             return False
@@ -659,12 +662,16 @@ class ParkinCppBackend(BaseBackend):
     def _computeSensitivityDetails(self):
         logging.info("Computing Detailed Sensitivities...")
 
-        self._setUpBioProcessor(mode = TASK_SENSITIVITIES_DETAILS)
+        isSetUp = self._setUpBioProcessor(mode = TASK_SENSITIVITIES_DETAILS)
+        if not isSetUp:
+            logging.error("Could not start sensitivity computation.")
+            return False
 
         if not self.bioProcessor:
             return False
         if not self.sensitivityTimepoints:
             logging.debug("ParkinCppBackend._computeSensitivityDetails(): No timepoints set, aborting.")
+            logging.error("No timepoints given. Please provide some.")
             return False
 
         logging.debug("ParkinCppBackend._computeSensitivityDetails(): Setting timepoints for detailed sensitivities to %s" % self.sensitivityTimepoints)
@@ -814,14 +821,14 @@ class ParkinCppBackend(BaseBackend):
 
         if not self.selectedParams:
             logging.error("No parameters selected.")
-            return None, None
+            return False
 
         if mode == TASK_PARAMETER_IDENTIFICATION:
             self.timepointVector, self.measurementMapVector = self._getBioParkinCppCompatibleMeasurements()
 
             if not self.measurementMapVector or not self.timepointVector:
                 logging.debug("ParkinCppBackend._doParameterEstimation(): Could not obtain timepoints and/or datapoints.")
-                return None, None
+                return False
 
             self.bioSystem.setMeasurementList(self.timepointVector, self.measurementMapVector)
 
@@ -835,7 +842,7 @@ class ParkinCppBackend(BaseBackend):
             threshold = selectedParam.getThreshold()
             if not threshold:
                 logging.error("There are Parameters for which thresholds have not been set. Computing sensitivities is not possible without thresholds. Please, set thresholds!")
-                return None, None
+                return False
             self.paramThresholdMap[combinedId] = threshold
 #
         self.bioProcessor.setCurrentParamValues(self.paramMap)
@@ -874,21 +881,19 @@ class ParkinCppBackend(BaseBackend):
                 lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
                 upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
 
-            # TODO:
-#            if self.globalConstraints == 0:
-#                for index, param in enumerate(self.parameters):
-#                    trans[index] = TODO # get constraint type from GUI
-#                    upperbounds[index] = TODO # get upper bound float for param, 0 if not defined
-#                    lowerbounds[index] = TODO # get lower bound float for param, 0 if not defined
+            elif globalConstraintsType == settingsandvalues.OPTION_PARAMETER_CONSTRAINT_NONE:
+                for selectedParam in self.selectedParams:
+                    typeInt = settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(str(selectedParam.getConstraintType()))
+                    trans.append(typeInt)
+                    lowerbounds.append(float(selectedParam.getConstraintLowerBound()))
+                    upperbounds.append(float(selectedParam.getConstraintUpperBound()))
 
             trans = Vector(ValueList(trans))
             lowerbounds = Vector(ValueList(lowerbounds))
             upperbounds = Vector(ValueList(upperbounds))
             self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
 
-
-
-
+        return True
         
 
     def _doParameterEstimation(self):
@@ -897,9 +902,12 @@ class ParkinCppBackend(BaseBackend):
         and run the parameter identification.
         """
 
-        self._setUpBioProcessor(mode = TASK_PARAMETER_IDENTIFICATION)
+        isSetUp = self._setUpBioProcessor(mode = TASK_PARAMETER_IDENTIFICATION)
+        if not isSetUp:
+            logging.error("Could not start parameter identification.")
+            return False
         if not self.bioProcessor:
-            return
+            return False
         
         xtol = float(self.settings[settingsandvalues.SETTING_XTOL])
         error = self.bioProcessor.identifyParameters(xtol=xtol)
