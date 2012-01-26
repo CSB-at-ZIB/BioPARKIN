@@ -1,9 +1,11 @@
 import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
+import backend
 from basics.helpers import enum
 import libsbml
 
-COLUMN = enum.enum("ROW", "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE, EMPTY_COL, CONSTRAINT_TYPE, CONSTRAINT_LOWER, CONSTRAINT_UPPER") # this effectively orders the columns
+COLUMN = enum.enum("ROW",
+    "NUMBER, SCOPE, ID, NAME, INITIALVALUE, SCALE, COMPUTESENSITIVITY, ESTIMATE, EMPTY_COL, CONSTRAINT_TYPE, CONSTRAINT_LOWER, CONSTRAINT_UPPER") # this effectively orders the columns
 NUM_COLUMNS = 12 # keep in sync with COLUMN!
 
 class ParameterTableModel(QAbstractTableModel):
@@ -56,7 +58,7 @@ class ParameterTableModel(QAbstractTableModel):
         sbmlEntity = self.paramList[index.row()]
         param = sbmlEntity.Item
         column = index.column()
-        
+
         if role == Qt.TextAlignmentRole:
             if column == COLUMN.NUMBER:
                 return Qt.AlignRight | Qt.AlignVCenter
@@ -75,7 +77,7 @@ class ParameterTableModel(QAbstractTableModel):
                 #return param.getValue()
                 if not param.getConstant():
                     return "Assignm."
-                
+
                 combinedId = sbmlEntity.getCombinedId()
                 try:
                     return self.getActiveSet()[combinedId].getValue()
@@ -110,8 +112,6 @@ class ParameterTableModel(QAbstractTableModel):
             elif column == COLUMN.CONSTRAINT_UPPER:
                 return sbmlEntity.getConstraintUpperBound()
 
-
-
         if role == Qt.CheckStateRole:
             if column == COLUMN.ID:
                 return None
@@ -140,6 +140,17 @@ class ParameterTableModel(QAbstractTableModel):
                 return str(sbmlEntity.getThreshold())
             elif column == COLUMN.NAME:
                 return param.getName()
+            elif column == COLUMN.CONSTRAINT_TYPE:
+                typeStr = str(sbmlEntity.getConstraintType())
+                try:
+                    typeInt = backend.settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(typeStr)
+                    return str(typeInt) # cast int to str so that the "smart" UI does not try to interpret this value
+                except:
+                    return None
+            elif column == COLUMN.CONSTRAINT_LOWER:
+                return str(sbmlEntity.getConstraintLowerBound())
+            elif column == COLUMN.CONSTRAINT_UPPER:
+                return str(sbmlEntity.getConstraintUpperBound())
             else:
                 return None
 
@@ -196,22 +207,23 @@ class ParameterTableModel(QAbstractTableModel):
         sbmlEntity = self.paramList[index.row()]
 
         if index.column() == COLUMN.ESTIMATE:
-            return Qt.ItemIsUserCheckable| Qt.ItemIsEnabled
+            return Qt.ItemIsUserCheckable | Qt.ItemIsEnabled
 
         elif index.column() == COLUMN.COMPUTESENSITIVITY:
             if not sbmlEntity.isConstant():
                 return Qt.NoItemFlags
             else:
-                return Qt.ItemIsUserCheckable| Qt.ItemIsEnabled
+                return Qt.ItemIsUserCheckable | Qt.ItemIsEnabled
 
         elif index.column() == COLUMN.INITIALVALUE:
             if not sbmlEntity.isConstant():
                 return Qt.NoItemFlags
             else:
-                return Qt.ItemIsEnabled| Qt.ItemIsEditable
+                return Qt.ItemIsEnabled | Qt.ItemIsEditable
 
-        elif index.column() in (COLUMN.SCALE,COLUMN.NAME):
-            return Qt.ItemIsEnabled| Qt.ItemIsEditable
+        elif index.column() in (
+            COLUMN.SCALE, COLUMN.NAME, COLUMN.CONSTRAINT_TYPE, COLUMN.CONSTRAINT_LOWER, COLUMN.CONSTRAINT_UPPER):
+            return Qt.ItemIsEnabled | Qt.ItemIsEditable
 
         return Qt.NoItemFlags
 
@@ -236,6 +248,23 @@ class ParameterTableModel(QAbstractTableModel):
                 elif column == COLUMN.NAME:
                     try:
                         sbmlEntity.setName(str(value))
+                    except:
+                        return False
+                elif column == COLUMN.CONSTRAINT_TYPE:
+                    try:
+                        typeInt = int(value) # should be int anyway
+                        typeStr = backend.settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES[typeInt]
+                        sbmlEntity.setConstraintType(str(typeStr))
+                    except:
+                        return False
+                elif column == COLUMN.CONSTRAINT_LOWER:
+                    try:
+                        sbmlEntity.setConstraintLowerBound(float(value))
+                    except:
+                        return False
+                elif column == COLUMN.CONSTRAINT_UPPER:
+                    try:
+                        sbmlEntity.setConstraintUpperBound(float(value))
                     except:
                         return False
 

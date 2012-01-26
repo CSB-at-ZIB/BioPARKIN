@@ -517,7 +517,7 @@ class SBMLEntity(QObject):
         @since: 2012-01-25
         """
         self._constraintLowerBound = lower
-        self._setConstraintsXml(self._constraintType, lower, self._upperBound)
+        self._setConstraintsXml(self._constraintType, lower, self._constraintUpperBound)
 
     def getConstraintUpperBound(self):
         """
@@ -532,7 +532,7 @@ class SBMLEntity(QObject):
         @since: 2012-01-25
         """
         self._constraintUpperBound = upper
-        self._setConstraintsXml(self._constraintType, self._lowerBound, upper)
+        self._setConstraintsXml(self._constraintType, self._constraintLowerBound, upper)
 
     def _initConstraints(self):
         """
@@ -573,11 +573,11 @@ class SBMLEntity(QObject):
         if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_LOWERBOUND):
             lower = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_LOWERBOUND)
         else:
-            lower = None
+            lower = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_LOWERBOUND
         if self._constraintsXmlNode.hasAttr(XML_CONSTRAINTS_UPPERBOUND):
             upper = self._constraintsXmlNode.getAttrValue(XML_CONSTRAINTS_UPPERBOUND)
         else:
-            upper = None
+            upper = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_UPPERBOUND
 
         return type, lower, upper
 
