@@ -502,7 +502,7 @@ class SBMLEntity(QObject):
         @since: 2012-01-25
         """
         self._constraintType = type
-        self._setConstraintsXml(type, self._lowerBound, self._upperBound)
+        self._setConstraintsXml(type, self._constraintLowerBound, self._constraintUpperBound)
 
     def getConstraintLowerBound(self):
         """
