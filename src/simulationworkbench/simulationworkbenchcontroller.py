@@ -96,6 +96,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.optionParameterConstraints = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS
         self.optionParameterConstraintsLowerbound = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_LOWERBOUND
         self.optionParameterConstraintsUpperbound = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_UPPERBOUND
+        self.optionParameterConstraintsPerParameter = backend.settingsandvalues.DEFAULT_PARAMETER_CONSTRAINTS_PER_PARAMETER
 
 
         self.optionPlotExpDataOnSimulation = False
@@ -455,6 +456,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS: self.optionParameterConstraints,
             backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND: self.optionParameterConstraintsLowerbound,
             backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND: self.optionParameterConstraintsUpperbound,
+            backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_PER_PARAMETER: self.optionParameterConstraintsPerParameter,
             backend.settingsandvalues.SETTING_IDENTIFICATION_BACKEND:
                 backend.settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND[self.comboBoxBackendSelect.currentIndex()]
         }
@@ -481,6 +483,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.comboBoxJacobianSelect.setCurrentIndex(int(self.optionJACGEN) - 1) # todo: switch to 0-based counting
         self.comboBoxProblemTypeSelect.setCurrentIndex(int(self.optionNONLIN) - 1) # todo: switch to 0-based counting
         self.comboBoxResidualScalingSelect.setCurrentIndex(int(self.optionRSCAL) - 1) # todo: switch to 0-based counting
+        self.checkBoxParameterConstraintsPerParam.setChecked(self.optionParameterConstraintsPerParameter)
 
         self.comboBoxParameterConstraintsSelect.setCurrentIndex(backend.settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(self.optionParameterConstraints))
         self.lineEditConstLowerBound.setText(str(self.optionParameterConstraintsLowerbound))
@@ -819,6 +822,10 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     def on_checkBoxPlotExpDataDataBrowser_toggled(self, selected):
         self.optionPlotExpDataOnSimulation = selected
         self.checkBoxPlotExpData.setChecked(selected)
+
+    @Slot(bool)
+    def on_checkBoxParameterConstraintsPerParam_toggled(self, selected):
+        self.optionParameterConstraintsPerParameter = selected
 
     @Slot("")
     def on_lineEditStartTime_editingFinished(self):

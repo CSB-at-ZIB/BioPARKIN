@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
 #
-# Created: Tue Jan 24 10:46:19 2012
+# Created: Thu Jan 26 10:23:43 2012
 #      by: pyside-uic 0.2.13 running on PySide 1.0.7
 #
 # WARNING! All changes made in this file will be lost!
@@ -137,6 +137,7 @@ class Ui_SimulationWorkbench(object):
         self.horizontalLayout_21 = QtGui.QHBoxLayout()
         self.horizontalLayout_21.setObjectName("horizontalLayout_21")
         self.comboBoxParameterConstraintsSelect = QtGui.QComboBox(self.groupBoxTolerances)
+        self.comboBoxParameterConstraintsSelect.setEnabled(True)
         self.comboBoxParameterConstraintsSelect.setObjectName("comboBoxParameterConstraintsSelect")
         self.comboBoxParameterConstraintsSelect.addItem("")
         self.comboBoxParameterConstraintsSelect.addItem("")
@@ -160,6 +161,9 @@ class Ui_SimulationWorkbench(object):
         self.lineEditConstUpperBound.setEnabled(False)
         self.lineEditConstUpperBound.setObjectName("lineEditConstUpperBound")
         self.horizontalLayout_21.addWidget(self.lineEditConstUpperBound)
+        self.checkBoxParameterConstraintsPerParam = QtGui.QCheckBox(self.groupBoxTolerances)
+        self.checkBoxParameterConstraintsPerParam.setObjectName("checkBoxParameterConstraintsPerParam")
+        self.horizontalLayout_21.addWidget(self.checkBoxParameterConstraintsPerParam)
         self.gridLayout_2.addLayout(self.horizontalLayout_21, 4, 1, 1, 1)
         self.labelJACGEN = QtGui.QLabel(self.groupBoxTolerances)
         self.labelJACGEN.setObjectName("labelJACGEN")
@@ -530,6 +534,7 @@ class Ui_SimulationWorkbench(object):
         QtCore.QObject.connect(self.buttonInvertSelectionSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionInvertSelectionOfSpeciesForSensitivity.trigger)
         QtCore.QObject.connect(self.buttonSelectAllSensitivitySpecies, QtCore.SIGNAL("clicked()"), self.actionSelectAllSpeciesForSensitivity.trigger)
         QtCore.QObject.connect(self.simulateButtonParamSets, QtCore.SIGNAL("clicked()"), self.actionSimulate.trigger)
+        QtCore.QObject.connect(self.checkBoxParameterConstraintsPerParam, QtCore.SIGNAL("toggled(bool)"), self.comboBoxParameterConstraintsSelect.setDisabled)
         QtCore.QMetaObject.connectSlotsByName(SimulationWorkbench)
 
     def retranslateUi(self, SimulationWorkbench):
@@ -570,6 +575,7 @@ class Ui_SimulationWorkbench(object):
         self.lineEditConstLowerBound.setText(QtGui.QApplication.translate("SimulationWorkbench", "-inf", None, QtGui.QApplication.UnicodeUTF8))
         self.labelConstUpperBound.setText(QtGui.QApplication.translate("SimulationWorkbench", "Upper Bound", None, QtGui.QApplication.UnicodeUTF8))
         self.lineEditConstUpperBound.setText(QtGui.QApplication.translate("SimulationWorkbench", "inf", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBoxParameterConstraintsPerParam.setText(QtGui.QApplication.translate("SimulationWorkbench", "Constraints Per Parameter", None, QtGui.QApplication.UnicodeUTF8))
         self.labelJACGEN.setText(QtGui.QApplication.translate("SimulationWorkbench", "Jacobian", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxJacobianSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "Variational Equations", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxJacobianSelect.setItemText(1, QtGui.QApplication.translate("SimulationWorkbench", "Numerical Differentiation", None, QtGui.QApplication.UnicodeUTF8))

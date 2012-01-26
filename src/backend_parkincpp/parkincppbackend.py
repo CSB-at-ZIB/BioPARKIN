@@ -876,12 +876,12 @@ class ParkinCppBackend(BaseBackend):
             # global constraints
             globalConstraintsType = self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS]
             trans, upperbounds, lowerbounds = [],[],[]
-            if globalConstraintsType != settingsandvalues.OPTION_PARAMETER_CONSTRAINT_NONE:    # 0 = No constraints
+            if not self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_PER_PARAMETER]:
                 trans = [settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(globalConstraintsType)] * len(self.selectedParams)
                 lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
                 upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
 
-            elif globalConstraintsType == settingsandvalues.OPTION_PARAMETER_CONSTRAINT_NONE:
+            else:
                 for selectedParam in self.selectedParams:
                     typeInt = settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(str(selectedParam.getConstraintType()))
                     trans.append(typeInt)
