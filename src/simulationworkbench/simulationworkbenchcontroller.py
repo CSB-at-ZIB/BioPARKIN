@@ -609,7 +609,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         """
         dataImportWidget = DataImportWidget(self.dataBrowserPlusTab, self.parkinController)
         dataImportWidget.updatedDataEvent.connect(self.updateDataBrowser)
-        self.dataBrowserTabWidget.addTab(dataImportWidget,"+") # I create the tab here, because the layout is funky, otherwise
+        self.dataBrowserTabWidget.addTab(dataImportWidget,"+ Add Data +") # I create the tab here, because the layout is funky, otherwise
 
         self.dataBrowserTabWidget.removeTab(0)  # remove the tab placed their by default
 
