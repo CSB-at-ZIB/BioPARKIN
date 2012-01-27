@@ -865,33 +865,32 @@ class ParkinCppBackend(BaseBackend):
         self.iOpt.qrank1 = False                                                                # allow Broyden rank-1 updates if __true__
         self.iOpt.nonlin = int(self.settings[settingsandvalues.SETTING_PROBLEM_TYPE])           # 1:linear, 2:mildly nonlin., 3:highly nonlin., 4:extremely nonlin.
         self.iOpt.rscal = int(self.settings[settingsandvalues.SETTING_RESIDUAL_SCALING])        # 1:use unchanged fscal, 2:recompute/modify fscal, 3:use automatic scaling only
-        self.iOpt.lpos = (self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS] != 1)
         self.iOpt.mprmon = 2
         self.iOpt.mprerr = 1
         self.iOpt.itmax = int(self.settings[backend.settingsandvalues.SETTING_MAX_NUM_NEWTON_STEPS])
         self.bioProcessor.setIOpt(self.iOpt)
 
-        # if in "parameter identification mode", consider constraints
-        if mode == TASK_PARAMETER_IDENTIFICATION:
-            # global constraints
-            globalConstraintsType = self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS]
-            trans, upperbounds, lowerbounds = [],[],[]
-            if not self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_PER_PARAMETER]:
-                trans = [settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(globalConstraintsType)] * len(self.selectedParams)
-                lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
-                upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
+        # consider contstarints for both parameter identification *and* sensitivities
 
-            else:
-                for selectedParam in self.selectedParams:
-                    typeInt = settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(str(selectedParam.getConstraintType()))
-                    trans.append(typeInt)
-                    lowerbounds.append(float(selectedParam.getConstraintLowerBound()))
-                    upperbounds.append(float(selectedParam.getConstraintUpperBound()))
+        # global constraints
+        globalConstraintsType = self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS]
+        trans, upperbounds, lowerbounds = [],[],[]
+        if not self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_PER_PARAMETER]:
+            trans = [settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(globalConstraintsType)] * len(self.selectedParams)
+            lowerbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_LOWERBOUND]] * len(self.selectedParams)
+            upperbounds = [self.settings[settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND]] * len(self.selectedParams)
 
-            trans = Vector(ValueList(trans))
-            lowerbounds = Vector(ValueList(lowerbounds))
-            upperbounds = Vector(ValueList(upperbounds))
-            self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
+        else: #local constraints
+            for selectedParam in self.selectedParams:
+                typeInt = settingsandvalues.OPTIONS_PARAMETER_CONSTRAINT_TYPES.index(str(selectedParam.getConstraintType()))
+                trans.append(typeInt)
+                lowerbounds.append(float(selectedParam.getConstraintLowerBound()))
+                upperbounds.append(float(selectedParam.getConstraintUpperBound()))
+
+        trans = Vector(ValueList(trans))
+        lowerbounds = Vector(ValueList(lowerbounds))
+        upperbounds = Vector(ValueList(upperbounds))
+        self.bioProcessor.setParameterConstraints(trans, lowerbounds, upperbounds)
 
         return True
         
