@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="labelCopyright">
        <property name="text">
-        <string>© Zuse Institute Berlin 2011</string>
+        <string>© Zuse Institute Berlin 2011-2012</string>
        </property>
       </widget>
      </item>
