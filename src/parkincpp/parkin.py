@@ -1255,6 +1255,8 @@ class BioRHS(_object):
         this = _parkin.new_BioRHS(*args)
         try: self.this.append(this)
         except: self.this = this
+    def setRHSType(self, *args): return _parkin.BioRHS_setRHSType(self, *args)
+    def getRHSType(self): return _parkin.BioRHS_getRHSType(self)
     def setRHS(self, *args): return _parkin.BioRHS_setRHS(self, *args)
     def getRHS(self): return _parkin.BioRHS_getRHS(self)
     def getdRHS(self): return _parkin.BioRHS_getdRHS(self)
@@ -1263,6 +1265,7 @@ class BioRHS(_object):
     def setParameters(self, *args): return _parkin.BioRHS_setParameters(self, *args)
     def getParameters(self): return _parkin.BioRHS_getParameters(self)
     def setParBase(self, *args): return _parkin.BioRHS_setParBase(self, *args)
+    def b(self, *args): return _parkin.BioRHS_b(self, *args)
     def f(self, *args): return _parkin.BioRHS_f(self, *args)
     def Jf(self, *args): return _parkin.BioRHS_Jf(self, *args)
     def df(self, *args): return _parkin.BioRHS_df(self, *args)
@@ -1298,8 +1301,11 @@ class BioSystem(_object):
     def getODE(self): return _parkin.BioSystem_getODE(self)
     def getVarExpr(self): return _parkin.BioSystem_getVarExpr(self)
     def getODEExpr(self): return _parkin.BioSystem_getODEExpr(self)
+    def getODETypes(self): return _parkin.BioSystem_getODETypes(self)
     def setODESystem(self, *args): return _parkin.BioSystem_setODESystem(self, *args)
+    def setODETypes(self, *args): return _parkin.BioSystem_setODETypes(self, *args)
     def getMeasurementList(self): return _parkin.BioSystem_getMeasurementList(self)
+    def getSimTrajectoryList(self): return _parkin.BioSystem_getSimTrajectoryList(self)
     def setMeasurementList(self, *args): return _parkin.BioSystem_setMeasurementList(self, *args)
     def setEmptyMeasurementList(self): return _parkin.BioSystem_setEmptyMeasurementList(self)
     def getMeasurements(self): return _parkin.BioSystem_getMeasurements(self)
@@ -1522,6 +1528,55 @@ class ExpressionMap(_object):
     __del__ = lambda self : None;
 ExpressionMap_swigregister = _parkin.ExpressionMap_swigregister
 ExpressionMap_swigregister(ExpressionMap)
+
+class ExprTypeMap(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ExprTypeMap, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ExprTypeMap, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.ExprTypeMap_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.ExprTypeMap___nonzero__(self)
+    def __bool__(self): return _parkin.ExprTypeMap___bool__(self)
+    def __len__(self): return _parkin.ExprTypeMap___len__(self)
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args): return _parkin.ExprTypeMap___getitem__(self, *args)
+    def __delitem__(self, *args): return _parkin.ExprTypeMap___delitem__(self, *args)
+    def has_key(self, *args): return _parkin.ExprTypeMap_has_key(self, *args)
+    def keys(self): return _parkin.ExprTypeMap_keys(self)
+    def values(self): return _parkin.ExprTypeMap_values(self)
+    def items(self): return _parkin.ExprTypeMap_items(self)
+    def __contains__(self, *args): return _parkin.ExprTypeMap___contains__(self, *args)
+    def key_iterator(self): return _parkin.ExprTypeMap_key_iterator(self)
+    def value_iterator(self): return _parkin.ExprTypeMap_value_iterator(self)
+    def __setitem__(self, *args): return _parkin.ExprTypeMap___setitem__(self, *args)
+    def asdict(self): return _parkin.ExprTypeMap_asdict(self)
+    def __init__(self, *args): 
+        this = _parkin.new_ExprTypeMap(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def empty(self): return _parkin.ExprTypeMap_empty(self)
+    def size(self): return _parkin.ExprTypeMap_size(self)
+    def clear(self): return _parkin.ExprTypeMap_clear(self)
+    def swap(self, *args): return _parkin.ExprTypeMap_swap(self, *args)
+    def get_allocator(self): return _parkin.ExprTypeMap_get_allocator(self)
+    def begin(self): return _parkin.ExprTypeMap_begin(self)
+    def end(self): return _parkin.ExprTypeMap_end(self)
+    def rbegin(self): return _parkin.ExprTypeMap_rbegin(self)
+    def rend(self): return _parkin.ExprTypeMap_rend(self)
+    def count(self, *args): return _parkin.ExprTypeMap_count(self, *args)
+    def erase(self, *args): return _parkin.ExprTypeMap_erase(self, *args)
+    def find(self, *args): return _parkin.ExprTypeMap_find(self, *args)
+    def lower_bound(self, *args): return _parkin.ExprTypeMap_lower_bound(self, *args)
+    def upper_bound(self, *args): return _parkin.ExprTypeMap_upper_bound(self, *args)
+    __swig_destroy__ = _parkin.delete_ExprTypeMap
+    __del__ = lambda self : None;
+ExprTypeMap_swigregister = _parkin.ExprTypeMap_swigregister
+ExprTypeMap_swigregister(ExprTypeMap)
 
 # This file is compatible with both classic and new-style classes.
 

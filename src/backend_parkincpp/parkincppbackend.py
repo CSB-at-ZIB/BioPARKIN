@@ -920,6 +920,46 @@ class ParkinCppBackend(BaseBackend):
         for id, value in paramMap.items():
             self.estimatedParams[id] = value
 
+	# 26.04.12 td
+	# compute RMS values according to available measurement points and
+	# for each species seperately (in relation!)
+	measMapVector = self.bioSystem.getMeasurementList()
+	synMapVector = self.bioSystem.getSimTrajectoryList()
+	if measMapVector and synMapVector:
+		logging.info("------------------------------")
+		logging.info("Computing relative RMS values.")
+		self.relRMS = OrderedDict()
+		countMeas = 0
+		for i in xrange(len(measMapVector)):
+			measPointMap = measMapVector[i]
+			synPointMap = synMapVector[i]
+			for speciesID in measPointMap.keys():
+				(measVal, weight) = measPointMap[speciesID]
+				if speciesID in synPointMap:
+					(synVal, dummy) = synPointMap[speciesID]
+				else:
+					continue
+				dval = 0.0
+				countMeas += 1
+				if float(weight) != 0.0 and float(weight) != float("nan"):
+					dval = (float(measVal) - float(synVal)) / float(weight)
+				
+				if speciesID in self.relRMS.keys():
+					self.relRMS[speciesID] += dval*dval
+				else:
+					self.relRMS[speciesID] = dval*dval
+
+		if countMeas > 0:
+			totRMS = sum([self.relRMS[spec] for spec in self.relRMS.keys()])
+			logging.info(" Total RMS**2: %e" % (float(totRMS)/float(countMeas)) )
+			for speciesID, rmsValue in self.relRMS.items():
+				logging.info("    (%5.2f%%)   %e  =  relRMS[%s]**2 " % (
+                                	      100.0*float(rmsValue)/float(totRMS), float(rmsValue)/float(countMeas), speciesID) )
+		else:
+			logging.warning("   Found no measurements?!?  ")
+		logging.info("------------------------------")
+
+
         return True # computation successful
 
 
