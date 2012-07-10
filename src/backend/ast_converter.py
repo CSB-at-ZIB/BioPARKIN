@@ -67,15 +67,15 @@ class AstConverter(object):
             else:
                 return self.astConverterTemplate.handleString(node)
 
-        elif node.getType() == libsbml.AST_PLUS:
+        elif node.getType() == ord(libsbml.AST_PLUS):
             return self.astConverterTemplate.handlePlus(node)
-        elif node.getType() == libsbml.AST_MINUS:
+        elif node.getType() == ord(libsbml.AST_MINUS):
             return self.astConverterTemplate.handleMinus(node)
-        elif node.getType() == libsbml.AST_DIVIDE:
+        elif node.getType() == ord(libsbml.AST_DIVIDE):
             return self.astConverterTemplate.handleDivide(node)
-        elif node.getType() == libsbml.AST_TIMES:
+        elif node.getType() == ord(libsbml.AST_TIMES):
             return self.astConverterTemplate.handleTimes(node)
-        elif node.getType() == libsbml.AST_POWER or node.getType() == libsbml.AST_FUNCTION_POWER:
+        elif node.getType() == ord(libsbml.AST_POWER) or node.getType() == libsbml.AST_FUNCTION_POWER:
             return self.astConverterTemplate.handlePower(node)
         elif node.getType() == libsbml.AST_FUNCTION_LN:
             return self.astConverterTemplate.handleLn(node)
