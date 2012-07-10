@@ -30,9 +30,9 @@ BioPARKIN comes with a pre-compiled version of PARKINcpp for Windows 32bit and f
 
 BioPARKIN uses the following open-source libraries:
 
-* [PySide](http://www.pyside.org/) >= 1.0.6
-* [libSBML](http://sbml.org/Software/libSBML) with Python bindings >= 4.02
-* [matplotlib](http://matplotlib.sourceforge.net/) >= 1.1.0 
+* [PySide](http://www.pyside.org/) >= 1.1.0
+* [libSBML](http://sbml.org/Software/libSBML) with Python bindings == 4.3.1 (!)
+* [matplotlib](http://matplotlib.sourceforge.net/) >= 1.2.1 
   * (up-to-date version currently only available as [source via their github repo](https://github.com/matplotlib/matplotlib))
 * [Python Image Library](http://www.pythonware.com/products/pil/) >= 1.1.7
 * [NetworkX](http://networkx.lanl.gov/) >= 1.3 
