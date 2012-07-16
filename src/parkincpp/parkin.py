@@ -431,6 +431,9 @@ class IOpt(_object):
     __swig_setmethods__["qstat"] = _parkin.IOpt_qstat_set
     __swig_getmethods__["qstat"] = _parkin.IOpt_qstat_get
     if _newclass:qstat = _swig_property(_parkin.IOpt_qstat_get, _parkin.IOpt_qstat_set)
+    __swig_setmethods__["zerodat"] = _parkin.IOpt_zerodat_set
+    __swig_getmethods__["zerodat"] = _parkin.IOpt_zerodat_get
+    if _newclass:zerodat = _swig_property(_parkin.IOpt_zerodat_get, _parkin.IOpt_zerodat_set)
     def __init__(self): 
         this = _parkin.new_IOpt()
         try: self.this.append(this)
@@ -1286,6 +1289,7 @@ class BioSystem(_object):
         except: self.this = this
     def getSolverRTol(self): return _parkin.BioSystem_getSolverRTol(self)
     def setSolverRTol(self, *args): return _parkin.BioSystem_setSolverRTol(self, *args)
+    def getSolverATol(self): return _parkin.BioSystem_getSolverATol(self)
     def setSolverATol(self, *args): return _parkin.BioSystem_setSolverATol(self, *args)
     def getSysPar(self): return _parkin.BioSystem_getSysPar(self)
     def getOptPar(self): return _parkin.BioSystem_getOptPar(self)
@@ -1390,6 +1394,7 @@ class BioPAR(UserFunc):
     __del__ = lambda self : None;
     def fcn(self, *args): return _parkin.BioPAR_fcn(self, *args)
     def jac(self, *args): return _parkin.BioPAR_jac(self, *args)
+    def setEvalMode(self, *args): return _parkin.BioPAR_setEvalMode(self, *args)
     def setCurrentParameter(self, *args): return _parkin.BioPAR_setCurrentParameter(self, *args)
     def getCurrentParameter(self): return _parkin.BioPAR_getCurrentParameter(self)
     def getParameters(self): return _parkin.BioPAR_getParameters(self)

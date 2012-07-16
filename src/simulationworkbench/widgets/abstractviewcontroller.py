@@ -76,12 +76,12 @@ class AbstractViewController(QWidget):
         selectableTableHeaderHorizontal.setNonSelectableIndexes([0])
         selectableTableHeaderHorizontal.sectionSelectionChanged.connect(self.on_columnSelectionChanged)
         selectableTableHeaderHorizontal.connectSelectionModel(self.dataSourceTableModel)
-        self.dataSourceTableView.setHorizontalHeader(selectableTableHeaderHorizontal)
+#        self.dataSourceTableView.setHorizontalHeader(selectableTableHeaderHorizontal)
 
         selectableTableHeaderVertical = SelectableTableHeader(Qt.Vertical, self.dataSourceTableView)
         selectableTableHeaderVertical.sectionSelectionChanged.connect(self.on_rowSelectionChanged)
         selectableTableHeaderVertical.connectSelectionModel(self.dataSourceTableModel)
-        self.dataSourceTableView.setVerticalHeader(selectableTableHeaderVertical)
+#        self.dataSourceTableView.setVerticalHeader(selectableTableHeaderVertical)
 
         self.dataSourceTableView.resizeColumnsToContents()
 
