@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/BioPARKIN_v2.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/BioPARKIN.ui'
 #
-# Created: Tue Jul 17 14:29:58 2012
+# Created: Tue Jul 17 14:29:56 2012
 #      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,11 +12,18 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        MainWindow.setMinimumSize(QtCore.QSize(600, 400))
+        MainWindow.resize(1000, 700)
+        MainWindow.setMinimumSize(QtCore.QSize(800, 0))
         MainWindow.setAcceptDrops(True)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Selected, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap(":/application/images/2010-12-22 - Poem Icon v1.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -55,11 +62,14 @@ class Ui_MainWindow(object):
         self._mdiArea.setDocumentMode(False)
         self._mdiArea.setObjectName("_mdiArea")
         self.verticalLayout.addWidget(self.splitter_2)
+        self.bottomLayout = QtGui.QHBoxLayout()
+        self.bottomLayout.setObjectName("bottomLayout")
+        self.verticalLayout.addLayout(self.bottomLayout)
         self.mainTabWidget.addTab(self.tabModel, "")
         self.horizontalLayout.addWidget(self.mainTabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 21))
         self.menubar.setObjectName("menubar")
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
@@ -161,6 +171,8 @@ class Ui_MainWindow(object):
         self.actionProperties.setObjectName("actionProperties")
         self.actionSimulate = QtGui.QAction(MainWindow)
         self.actionSimulate.setObjectName("actionSimulate")
+        self.actionComputeSensitivities = QtGui.QAction(MainWindow)
+        self.actionComputeSensitivities.setObjectName("actionComputeSensitivities")
         self.actionEstimateParameterValues = QtGui.QAction(MainWindow)
         self.actionEstimateParameterValues.setObjectName("actionEstimateParameterValues")
         self.actionClose_Model = QtGui.QAction(MainWindow)
@@ -179,10 +191,6 @@ class Ui_MainWindow(object):
         self.actionShow_Warnings.setIcon(icon13)
         self.actionShow_Warnings.setVisible(True)
         self.actionShow_Warnings.setObjectName("actionShow_Warnings")
-        self.actionComputeSensitivityOverview = QtGui.QAction(MainWindow)
-        self.actionComputeSensitivityOverview.setObjectName("actionComputeSensitivityOverview")
-        self.actionCompute_Detailed_Sensitivities = QtGui.QAction(MainWindow)
-        self.actionCompute_Detailed_Sensitivities.setObjectName("actionCompute_Detailed_Sensitivities")
         self.menuHelp.addAction(self.actionAbout)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSave)
@@ -192,16 +200,15 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionQuit)
         self.menuTools.addAction(self.actionODEGenerator)
         self.menuSimulation.addAction(self.actionSimulate)
-        self.menuSimulation.addAction(self.actionComputeSensitivityOverview)
-        self.menuSimulation.addAction(self.actionCompute_Detailed_Sensitivities)
+        self.menuSimulation.addAction(self.actionComputeSensitivities)
         self.menuSimulation.addAction(self.actionEstimateParameterValues)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuSimulation.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
         self.fileToolBar.addAction(self.actionOpen)
-        self.fileToolBar.addAction(self.actionSave_as)
         self.fileToolBar.addAction(self.actionSave)
+        self.fileToolBar.addAction(self.actionSave_as)
         self.toolBar.addAction(self.actionODEGenerator)
         self.toolBar.addAction(self.actionShow_Results_Window)
         self.toolBar.addSeparator()
@@ -214,13 +221,13 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "BioPARKIN", None, QtGui.QApplication.UnicodeUTF8))
-        self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.tabModel), QtGui.QApplication.translate("MainWindow", "Model Overview", None, QtGui.QApplication.UnicodeUTF8))
+        self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.tabModel), QtGui.QApplication.translate("MainWindow", "Model", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "&Help", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "&File", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "&Tools", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "&Actions", None, QtGui.QApplication.UnicodeUTF8))
-        self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "File Action Tool Bar", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Actions Tool Bar", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSimulation.setTitle(QtGui.QApplication.translate("MainWindow", "Actions", None, QtGui.QApplication.UnicodeUTF8))
+        self.fileToolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "&New...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setToolTip(QtGui.QApplication.translate("MainWindow", "Create a new project", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setStatusTip(QtGui.QApplication.translate("MainWindow", "Create a new project", None, QtGui.QApplication.UnicodeUTF8))
@@ -278,6 +285,9 @@ class Ui_MainWindow(object):
         self.actionSimulate.setText(QtGui.QApplication.translate("MainWindow", "&Simulate", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSimulate.setToolTip(QtGui.QApplication.translate("MainWindow", "Simulate with current settings", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSimulate.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionComputeSensitivities.setText(QtGui.QApplication.translate("MainWindow", "Compute Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionComputeSensitivities.setToolTip(QtGui.QApplication.translate("MainWindow", "Compute sensitivities of the currently selected Species", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionComputeSensitivities.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+C", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEstimateParameterValues.setText(QtGui.QApplication.translate("MainWindow", "Estimate Parameter Values", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEstimateParameterValues.setToolTip(QtGui.QApplication.translate("MainWindow", "Starts the parameter value estimation process", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEstimateParameterValues.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+F", None, QtGui.QApplication.UnicodeUTF8))
@@ -291,12 +301,6 @@ class Ui_MainWindow(object):
         self.actionShow_Warnings.setStatusTip(QtGui.QApplication.translate("MainWindow", "Opens a Window showing recent Warnings and Errors", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Warnings.setWhatsThis(QtGui.QApplication.translate("MainWindow", "Opens a Window showing recent Warnings and Errors", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Warnings.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+W", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputeSensitivityOverview.setText(QtGui.QApplication.translate("MainWindow", "Compute Sensitivity &Overview", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputeSensitivityOverview.setToolTip(QtGui.QApplication.translate("MainWindow", "Compute Sensitivity Overview for currently selected Species and Parameters", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputeSensitivityOverview.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+O", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompute_Detailed_Sensitivities.setText(QtGui.QApplication.translate("MainWindow", "Compute &Detailed Sensitivities", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompute_Detailed_Sensitivities.setToolTip(QtGui.QApplication.translate("MainWindow", "Compute Detailed Sensitivities (a dialog to choose timepoints will open)", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompute_Detailed_Sensitivities.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Alt+D", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc
 

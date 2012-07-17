@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\sbml_views\sbmlentitywidget.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/sbml_views/sbmlentitywidget.ui'
 #
-# Created: Mon Sep 26 08:08:46 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:29:54 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -42,3 +42,13 @@ class Ui_SBMLEntityWidget(object):
         self.labelEntityTree.setText(QtGui.QApplication.translate("SBMLEntityWidget", "Entity Tree", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    SBMLEntityWidget = QtGui.QWidget()
+    ui = Ui_SBMLEntityWidget()
+    ui.setupUi(SBMLEntityWidget)
+    SBMLEntityWidget.show()
+    sys.exit(app.exec_())
+

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\timepointchooser.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/timepointchooser.ui'
 #
-# Created: Thu Sep 29 13:30:31 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:30:00 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -136,4 +136,14 @@ class Ui_TimepointChooser(object):
         self.button_Calculate.setText(QtGui.QApplication.translate("TimepointChooser", "Calculate", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_Timepoints.setTitle(QtGui.QApplication.translate("TimepointChooser", "Timepoints (space-separated)", None, QtGui.QApplication.UnicodeUTF8))
         self.labelTimepointsInvalid.setText(QtGui.QApplication.translate("TimepointChooser", "The list of time points is invalid! (It may only contain digits, e.g. \"12.5\", delimited by white space.)", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    TimepointChooser = QtGui.QDialog()
+    ui = Ui_TimepointChooser()
+    ui.setupUi(TimepointChooser)
+    TimepointChooser.show()
+    sys.exit(app.exec_())
 

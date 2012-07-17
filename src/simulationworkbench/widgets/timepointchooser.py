@@ -2,7 +2,7 @@ import logging
 from PySide.QtCore import Slot, Qt
 from PySide.QtGui import QDialog, QDialogButtonBox
 from services.dataservice import DataService
-from simulationworkbench.widgets.ui_timepointchooser import Ui_TimepointChooser
+from simulationworkbench.widgets.Ui_timepointchooser import Ui_TimepointChooser
 
 class TimepointChooser(QDialog, Ui_TimepointChooser):
     """

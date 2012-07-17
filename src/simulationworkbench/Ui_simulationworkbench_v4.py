@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\simulationworkbench_v4.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/simulationworkbench_v4.ui'
 #
-# Created: Thu Jan 26 10:23:43 2012
-#      by: pyside-uic 0.2.13 running on PySide 1.0.7
+# Created: Tue Jul 17 14:29:57 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -656,4 +656,14 @@ class Ui_SimulationWorkbench(object):
         self.actionSelectAllSpeciesForSensitivity.setText(QtGui.QApplication.translate("SimulationWorkbench", "Select all Species for Sensitivity Computation", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeselectAllSpeciesForSensitivity.setText(QtGui.QApplication.translate("SimulationWorkbench", "Deselect all Species for Sensitivity Calculation", None, QtGui.QApplication.UnicodeUTF8))
         self.actionInvertSelectionOfSpeciesForSensitivity.setText(QtGui.QApplication.translate("SimulationWorkbench", "Invert the selection of Species for Sensitivity Calculation", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    SimulationWorkbench = QtGui.QWidget()
+    ui = Ui_SimulationWorkbench()
+    ui.setupUi(SimulationWorkbench)
+    SimulationWorkbench.show()
+    sys.exit(app.exec_())
 

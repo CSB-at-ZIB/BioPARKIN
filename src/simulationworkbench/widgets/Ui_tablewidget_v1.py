@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\tablewidget_v1.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/tablewidget_v1.ui'
 #
-# Created: Wed Oct 05 14:28:21 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.7
+# Created: Tue Jul 17 14:29:50 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -183,4 +183,14 @@ class Ui_TableWidget(object):
         self.actionDeselectAll.setToolTip(QtGui.QApplication.translate("TableWidget", "Deselect All Data Sources", None, QtGui.QApplication.UnicodeUTF8))
         self.actionInvertSelection.setText(QtGui.QApplication.translate("TableWidget", "Invert Selection", None, QtGui.QApplication.UnicodeUTF8))
         self.actionInvertSelection.setToolTip(QtGui.QApplication.translate("TableWidget", "Invert the Current Selection of Data Sources", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    TableWidget = QtGui.QWidget()
+    ui = Ui_TableWidget()
+    ui.setupUi(TableWidget)
+    TableWidget.show()
+    sys.exit(app.exec_())
 

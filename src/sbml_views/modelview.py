@@ -3,7 +3,7 @@ import logging
 from PySide.QtCore import QFileInfo
 from PySide.QtGui import QWidget
 
-from sbml_views.ui_modelview import Ui_ModelView
+from sbml_views.Ui_modelview import Ui_ModelView
 
 class ModelView(QWidget, Ui_ModelView):
     """

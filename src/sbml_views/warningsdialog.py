@@ -2,7 +2,7 @@ import logging
 from PySide.QtCore import Slot
 from PySide.QtGui import QDialog, QIcon, QPixmap
 from services.statusbarservice import StatusBarService
-from sbml_views.ui_warningsdialog import Ui_WarningsDialog
+from sbml_views.Ui_warningsdialog import Ui_WarningsDialog
 
 class WarningsDialog(QDialog, Ui_WarningsDialog):
     """

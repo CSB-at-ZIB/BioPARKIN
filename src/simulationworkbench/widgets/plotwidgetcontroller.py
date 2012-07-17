@@ -20,7 +20,7 @@ from matplotlib.colors import rgb2hex, Normalize, Colormap
 
 from matplotlib.figure import Figure
 from itertools import imap
-from simulationworkbench.widgets.ui_plotwidget_v1 import Ui_PlotWidget
+from simulationworkbench.widgets.Ui_plotwidget_v1 import Ui_PlotWidget
 
 OPTION_LABEL_X = "option_label_x"
 OPTION_SHOW_LEGEND = "option_show_legend"

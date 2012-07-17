@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\simulationworkbench\widgets\plotwidget_v1.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/plotwidget_v1.ui'
 #
-# Created: Wed Oct 05 14:28:21 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.7
+# Created: Tue Jul 17 14:29:48 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -110,4 +110,14 @@ class Ui_PlotWidget(object):
         self.actionSelectAll.setText(QtGui.QApplication.translate("PlotWidget", "Select All", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDeselectAll.setText(QtGui.QApplication.translate("PlotWidget", "Deselect All", None, QtGui.QApplication.UnicodeUTF8))
         self.actionInvertSelection.setText(QtGui.QApplication.translate("PlotWidget", "Invert Selection", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    PlotWidget = QtGui.QWidget()
+    ui = Ui_PlotWidget()
+    ui.setupUi(PlotWidget)
+    PlotWidget.show()
+    sys.exit(app.exec_())
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\simulationworkbench_v1.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/simulationworkbench_v1.ui'
 #
-# Created: Tue Sep 20 10:15:24 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:29:50 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -388,3 +388,13 @@ class Ui_SimulationWindow(object):
         self.actionComputeSensitivities.setToolTip(QtGui.QApplication.translate("SimulationWindow", "Compute sensitivities of the currently selected Species", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    SimulationWindow = QtGui.QMainWindow()
+    ui = Ui_SimulationWindow()
+    ui.setupUi(SimulationWindow)
+    SimulationWindow.show()
+    sys.exit(app.exec_())
+

@@ -8,7 +8,7 @@ from basics.widgets.selectabletableheader import SelectableTableHeader
 from datamanagement.entitydata import EntityData
 from services.dataservice import DataService
 from simulationworkbench.widgets.databrowsermodel import DataBrowserModel
-from simulationworkbench.widgets.ui_databrowser import Ui_DataBrowser
+from simulationworkbench.widgets.Ui_databrowser import Ui_DataBrowser
 from services.optionsservice import OptionsService
 
 class DataBrowser(QWidget, Ui_DataBrowser):

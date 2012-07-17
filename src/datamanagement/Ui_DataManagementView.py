@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\datamanagement\DataManagementView.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/datamanagement/DataManagementView.ui'
 #
-# Created: Tue Sep 20 10:15:23 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:29:52 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -97,3 +97,13 @@ class Ui_DataManagementView(object):
         self.pushButton_RemoveSimulation.setText(QtGui.QApplication.translate("DataManagementView", "&Remove", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    DataManagementView = QtGui.QDialog()
+    ui = Ui_DataManagementView()
+    ui.setupUi(DataManagementView)
+    DataManagementView.show()
+    sys.exit(app.exec_())
+

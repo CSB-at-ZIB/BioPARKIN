@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/resultswindow.ui'
 #
-# Created: Thu Jun 28 16:13:16 2012
+# Created: Tue Jul 17 14:29:49 2012
 #      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -54,7 +54,7 @@ class Ui_ResultsWindow(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         ResultsWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(ResultsWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 896, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 896, 21))
         self.menubar.setObjectName("menubar")
         ResultsWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(ResultsWindow)

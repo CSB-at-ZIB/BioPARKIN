@@ -7,7 +7,7 @@ from basics.helpers import filehelpers
 import datamanagement
 import services
 from services.dataservice import DataService
-from simulationworkbench.widgets.ui_dataimportwidget import Ui_DataImportWidget
+from simulationworkbench.widgets.Ui_dataimportwidget import Ui_DataImportWidget
 
 class DataImportWidget(QWidget, Ui_DataImportWidget):
     """

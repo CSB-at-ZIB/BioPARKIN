@@ -1,5 +1,5 @@
 from PySide.QtGui import QWidget
-from sbml_views.ui_sbmlentitywidget import Ui_SBMLEntityWidget
+from sbml_views.Ui_sbmlentitywidget import Ui_SBMLEntityWidget
 
 class SBMLEntityWidget(QWidget, Ui_SBMLEntityWidget):
     """

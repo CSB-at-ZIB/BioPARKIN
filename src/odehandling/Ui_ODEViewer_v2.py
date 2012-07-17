@@ -2,48 +2,43 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/odehandling/ODEViewer_v2.ui'
 #
-# Created: Tue Aug  2 16:49:39 2011
-#      by: PyQt4 UI code generator 4.8.3
+# Created: Tue Jul 17 14:29:59 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
 class Ui_ODEViewer(object):
     def setupUi(self, ODEViewer):
-        ODEViewer.setObjectName(_fromUtf8("ODEViewer"))
+        ODEViewer.setObjectName("ODEViewer")
         ODEViewer.resize(920, 553)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Bitstream Vera Sans Mono"))
+        font.setFamily("Bitstream Vera Sans Mono")
         ODEViewer.setFont(font)
         self.horizontalLayout = QtGui.QHBoxLayout(ODEViewer)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtGui.QVBoxLayout()
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout.setObjectName("verticalLayout")
         self.plainTextEdit = QtGui.QPlainTextEdit(ODEViewer)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Bitstream Vera Sans Mono"))
+        font.setFamily("Bitstream Vera Sans Mono")
         self.plainTextEdit.setFont(font)
         self.plainTextEdit.setReadOnly(True)
-        self.plainTextEdit.setObjectName(_fromUtf8("plainTextEdit"))
+        self.plainTextEdit.setObjectName("plainTextEdit")
         self.verticalLayout.addWidget(self.plainTextEdit)
         self.buttonBox = QtGui.QDialogButtonBox(ODEViewer)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Close)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.actionGenerateODEs = QtGui.QAction(ODEViewer)
-        self.actionGenerateODEs.setObjectName(_fromUtf8("actionGenerateODEs"))
+        self.actionGenerateODEs.setObjectName("actionGenerateODEs")
 
         self.retranslateUi(ODEViewer)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), ODEViewer.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), ODEViewer.reject)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), ODEViewer.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), ODEViewer.reject)
         QtCore.QMetaObject.connectSlotsByName(ODEViewer)
 
     def retranslateUi(self, ODEViewer):

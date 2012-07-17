@@ -9,7 +9,7 @@ from PySide.QtCore import Qt, Slot
 from datamanagement.dataset import DataSet
 from services.dataservice import DataService
 from simulationworkbench.widgets.sortedtablewidgetitem import SortedTableWidgetItem
-from simulationworkbench.widgets.ui_tablewidget_v1 import Ui_TableWidget
+from simulationworkbench.widgets.Ui_tablewidget_v1 import Ui_TableWidget
 from simulationworkbench.widgets.abstractviewcontroller import AbstractViewController
 
 ORIENTATION_HORIZONTAL = "orientation_horizontal"

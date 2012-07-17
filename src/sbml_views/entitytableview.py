@@ -1,7 +1,7 @@
 import logging
 from PySide.QtGui import QWidget
 from sbml_model.sbml_entities import SBMLEntity
-from sbml_views.ui_entitytableview import Ui_EntityTableView
+from sbml_views.Ui_entitytableview import Ui_EntityTableView
 from sbml_model.sbml_entitytablemodel import SBMLEntityTableModel
 
 class EntityTableView(QWidget, Ui_EntityTableView):

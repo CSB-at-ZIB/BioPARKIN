@@ -1,6 +1,6 @@
 from PySide.QtCore import Qt, Slot
 from PySide.QtGui import  QMainWindow, QMdiArea, QMdiSubWindow
-from simulationworkbench.widgets.ui_resultswindow import Ui_ResultsWindow
+from simulationworkbench.widgets.Ui_resultswindow import Ui_ResultsWindow
 
 class ResultsWindowController(QMainWindow, Ui_ResultsWindow):
     """

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project BioPARKIN -->
-<!-- Saved: 2012-06-28, 15:54:33 -->
+<!-- Saved: 2012-07-17, 14:36:57 -->
 <!-- Copyright (C) 2012 Moritz Wade, Thomas Dierkes, Susanna Röblitz, moritzwade@gmail.com -->
 <Project version="4.6">
   <Language>en</Language>
@@ -28,19 +28,13 @@
     <Source>src/parkincpp/parkin.py</Source>
     <Source>src/simulationworkbench/widgets/sortedtablewidgetitem.py</Source>
     <Source>src/simulationworkbench/widgets/resultswindowcontroller.py</Source>
-    <Source>src/simulationworkbench/widgets/ui_tablewidget_v1.py</Source>
     <Source>src/simulationworkbench/widgets/__init__.py</Source>
     <Source>src/simulationworkbench/widgets/tablewidgetcontroller.py</Source>
     <Source>src/simulationworkbench/widgets/abstractviewcontroller.py</Source>
-    <Source>src/simulationworkbench/widgets/ui_plotwidget_v1.py</Source>
     <Source>src/simulationworkbench/widgets/plotwidgetcontroller.py</Source>
-    <Source>src/simulationworkbench/widgets/ui_resultswindow.py</Source>
     <Source>src/simulationworkbench/parametersetstablemodel.py</Source>
     <Source>src/simulationworkbench/parametertablemodel.py</Source>
-    <Source>src/simulationworkbench/ui_simulationworkbench_v1.py</Source>
     <Source>src/simulationworkbench/simulationworkbenchcontroller.py</Source>
-    <Source>src/simulationworkbench/ui_simulationworkbench_v2.py</Source>
-    <Source>src/simulationworkbench/ui_simulationworkbench_v3.py</Source>
     <Source>src/simulationworkbench/__init__.py</Source>
     <Source>src/simulationworkbench/speciestablemodel.py</Source>
     <Source>src/simulationworkbench/datasourcestablemodel.py</Source>
@@ -74,19 +68,14 @@
     <Source>src/basics/threadbase.py</Source>
     <Source>src/datamanagement/datamanagementcontroller.py</Source>
     <Source>src/datamanagement/datahandling.py</Source>
-    <Source>src/datamanagement/ui_DataManagementView.py</Source>
     <Source>src/datamanagement/__init__.py</Source>
     <Source>src/datamanagement/dataset.py</Source>
     <Source>src/datamanagement/entitydata.py</Source>
-    <Source>src/sbml_views/ui_modelview.py</Source>
     <Source>src/sbml_views/warningsdialog.py</Source>
     <Source>src/sbml_views/modelview.py</Source>
-    <Source>src/sbml_views/ui_sbmlentitywidget.py</Source>
-    <Source>src/sbml_views/ui_entitytableview.py</Source>
     <Source>src/sbml_views/sbmlentitywidget.py</Source>
     <Source>src/sbml_views/__init__.py</Source>
     <Source>src/sbml_views/entitytableview.py</Source>
-    <Source>src/sbml_views/ui_warningsdialog.py</Source>
     <Source>src/odehandling/odewrapper.py</Source>
     <Source>src/odehandling/odeviewer.py</Source>
     <Source>src/odehandling/compartmentwrapper.py</Source>
@@ -98,7 +87,6 @@
     <Source>src/odehandling/helpers.py</Source>
     <Source>src/odehandling/odemanager.py</Source>
     <Source>src/odehandling/reactionwrapper.py</Source>
-    <Source>src/odehandling/ui_ODEViewer.py</Source>
     <Source>src/sbml_model/sbml_entitytabledelegate.py</Source>
     <Source>src/sbml_model/parameter_sets.py</Source>
     <Source>src/sbml_model/__init__.py</Source>
@@ -110,15 +98,13 @@
     <Source>src/sbml_model/modelcontroller.py</Source>
     <Source>src/aboutdialog.py</Source>
     <Source>src/resources_rc.py</Source>
-    <Source>src/ui_bioparkin.py</Source>
     <Source>src/libsbml_test.py</Source>
-    <Source>src/ui_aboutdialog.py</Source>
     <Source>src/simulationworkbench/Ui_simulationworkbench_v4.py</Source>
     <Source>src/Ui_aboutdialog_v2.py</Source>
     <Source>src/Ui_BioPARKIN_v2.py</Source>
     <Source>src/odehandling/Ui_ODEViewer_v2.py</Source>
-    <Source>src/simulationworkbench/widgets/Ui_plotwidget_v1.py</Source>
     <Source>src/simulationworkbench/widgets/Ui_resultswindow.py</Source>
+    <Source>src/simulationworkbench/widgets/Ui_plotwidget_v1.py</Source>
     <Source>src/simulationworkbench/widgets/Ui_tablewidget_v1.py</Source>
     <Source>src/simulationworkbench/Ui_simulationworkbench_v1.py</Source>
     <Source>src/simulationworkbench/Ui_simulationworkbench_v2.py</Source>
@@ -131,6 +117,9 @@
     <Source>src/odehandling/Ui_ODEViewer.py</Source>
     <Source>src/Ui_BioPARKIN.py</Source>
     <Source>src/Ui_aboutdialog.py</Source>
+    <Source>src/simulationworkbench/widgets/Ui_databrowser.py</Source>
+    <Source>src/simulationworkbench/widgets/Ui_timepointchooser.py</Source>
+    <Source>src/simulationworkbench/widgets/Ui_dataimportwidget.py</Source>
   </Sources>
   <Forms>
     <Form>src/simulationworkbench/widgets/plotwidget_v1.ui</Form>
@@ -151,6 +140,9 @@
     <Form>src/aboutdialog_v2.ui</Form>
     <Form>src/BioPARKIN_v2.ui</Form>
     <Form>src/odehandling/ODEViewer_v2.ui</Form>
+    <Form>src/simulationworkbench/widgets/databrowser.ui</Form>
+    <Form>src/simulationworkbench/widgets/timepointchooser.ui</Form>
+    <Form>src/simulationworkbench/widgets/dataimportwidget.ui</Form>
   </Forms>
   <Translations>
   </Translations>

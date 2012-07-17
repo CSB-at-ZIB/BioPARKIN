@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\BioPARKIN\src\aboutdialog_v2.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/aboutdialog_v2.ui'
 #
-# Created: Tue Jan 24 10:46:18 2012
-#      by: pyside-uic 0.2.13 running on PySide 1.0.7
+# Created: Tue Jul 17 14:29:58 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -89,4 +89,14 @@ class Ui_AboutDialog(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:11pt; font-style:italic;\">ZIB report</span><span style=\" font-family:\'Ubuntu\'; font-size:11pt;\"> </span><span style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:600;\">11-15 </span><span style=\" font-family:\'Ubuntu\'; font-size:11pt;\">(2011).</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Ubuntu\'; font-size:11pt;\"> </span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.labelCopyright.setText(QtGui.QApplication.translate("AboutDialog", "© Zuse Institute Berlin 2011-2012", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    AboutDialog = QtGui.QDialog()
+    ui = Ui_AboutDialog()
+    ui.setupUi(AboutDialog)
+    AboutDialog.show()
+    sys.exit(app.exec_())
 

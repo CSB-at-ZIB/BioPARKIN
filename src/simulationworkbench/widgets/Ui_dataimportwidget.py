@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\simulationworkbench\widgets\dataimportwidget.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/dataimportwidget.ui'
 #
-# Created: Tue Sep 20 10:15:25 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:30:01 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -65,4 +65,14 @@ class Ui_DataImportWidget(object):
         self.label.setText(QtGui.QApplication.translate("DataImportWidget", "Import a Data File", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonBrowse.setText(QtGui.QApplication.translate("DataImportWidget", "Browse...", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonImport.setText(QtGui.QApplication.translate("DataImportWidget", "Import", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    DataImportWidget = QtGui.QWidget()
+    ui = Ui_DataImportWidget()
+    ui.setupUi(DataImportWidget)
+    DataImportWidget.show()
+    sys.exit(app.exec_())
 

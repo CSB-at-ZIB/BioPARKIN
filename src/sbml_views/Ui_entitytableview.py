@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\bioparkin\src\sbml_views\entitytableview.ui'
+# Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/sbml_views/entitytableview.ui'
 #
-# Created: Tue Sep 20 10:15:23 2011
-#      by: pyside-uic 0.2.13 running on PySide 1.0.6
+# Created: Tue Jul 17 14:29:55 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -28,4 +28,14 @@ class Ui_EntityTableView(object):
     def retranslateUi(self, EntityTableView):
         EntityTableView.setWindowTitle(QtGui.QApplication.translate("EntityTableView", "EntityTableView", None, QtGui.QApplication.UnicodeUTF8))
         self.labelEntityDetails.setText(QtGui.QApplication.translate("EntityTableView", "Entity Details", None, QtGui.QApplication.UnicodeUTF8))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    EntityTableView = QtGui.QWidget()
+    ui = Ui_EntityTableView()
+    ui.setupUi(EntityTableView)
+    EntityTableView.show()
+    sys.exit(app.exec_())
 
