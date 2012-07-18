@@ -1,5 +1,24 @@
 import libsbml
 
+
+# 18.07.12 td: some idiotic type mismatches for AST identifiers in different libsbml versions
+if not type(libsbml.AST_PLUS) == type(1):
+    libsbml.AST_PLUS = ord(libsbml.AST_PLUS)
+
+if not type(libsbml.AST_MINUS) == type(1):
+    libsbml.AST_MINUS = ord(libsbml.AST_MINUS)
+
+if not type(libsbml.AST_TIMES) == type(1):
+    libsbml.AST_TIMES = ord(libsbml.AST_TIMES)
+
+if not type(libsbml.AST_DIVIDE) == type(1):
+    libsbml.AST_DIVIDE = ord(libsbml.AST_DIVIDE)
+
+if not type(libsbml.AST_POWER) == type(1):
+    libsbml.AST_POWER = ord(libsbml.AST_POWER)
+
+
+
 def handleMathNode(node, argsToReplace=None):
     """
     Recursive function to evaluate the type of the given libSBML

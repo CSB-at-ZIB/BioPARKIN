@@ -1,6 +1,25 @@
 import logging
 import libsbml
 
+
+# 18.07.12 td: some idiotic type mismatches for AST identifiers in different libsbml versions
+if not type(libsbml.AST_PLUS) == type(1):
+    libsbml.AST_PLUS = ord(libsbml.AST_PLUS)
+
+if not type(libsbml.AST_MINUS) == type(1):
+    libsbml.AST_MINUS = ord(libsbml.AST_MINUS)
+
+if not type(libsbml.AST_TIMES) == type(1):
+    libsbml.AST_TIMES = ord(libsbml.AST_TIMES)
+
+if not type(libsbml.AST_DIVIDE) == type(1):
+    libsbml.AST_DIVIDE = ord(libsbml.AST_DIVIDE)
+
+if not type(libsbml.AST_POWER) == type(1):
+    libsbml.AST_POWER = ord(libsbml.AST_POWER)
+
+
+
 class AstConverter(object):
     """
     Takes a BaseAstConverterTemplate and delegates all "language"-specific calls to it,
@@ -45,6 +64,7 @@ class AstConverter(object):
         self.mainModel = mainModel
         self.idsToReplace = idsToReplace
 
+
     def handle(self, node):
         """
         Recursive function to evaluate the type of the given libSBML
@@ -67,15 +87,15 @@ class AstConverter(object):
             else:
                 return self.astConverterTemplate.handleString(node)
 
-        elif node.getType() == ord(libsbml.AST_PLUS):
+        elif node.getType() == libsbml.AST_PLUS:
             return self.astConverterTemplate.handlePlus(node)
-        elif node.getType() == ord(libsbml.AST_MINUS):
+        elif node.getType() == libsbml.AST_MINUS:
             return self.astConverterTemplate.handleMinus(node)
-        elif node.getType() == ord(libsbml.AST_DIVIDE):
+        elif node.getType() == libsbml.AST_DIVIDE:
             return self.astConverterTemplate.handleDivide(node)
-        elif node.getType() == ord(libsbml.AST_TIMES):
+        elif node.getType() == libsbml.AST_TIMES:
             return self.astConverterTemplate.handleTimes(node)
-        elif node.getType() == ord(libsbml.AST_POWER) or node.getType() == libsbml.AST_FUNCTION_POWER:
+        elif node.getType() == libsbml.AST_POWER or node.getType() == libsbml.AST_FUNCTION_POWER:
             return self.astConverterTemplate.handlePower(node)
         elif node.getType() == libsbml.AST_FUNCTION_LN:
             return self.astConverterTemplate.handleLn(node)
