@@ -1,3 +1,4 @@
+import math
 from backend.base_ast_converter_template import BaseAstConverterTemplate
 from parkincpp.parkin import Expression
 from parkincpp import parkin
@@ -52,6 +53,25 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
     def handleLog(self, node):
         return Expression(parkin.LOG, self.astConverter.handle(node.getLeftChild()))
 
+    def handleExp(self, node):
+        return Expression(parkin.EXP, self.astConverter.handle(node.getLeftChild()))
+
+    def handleAbs(self, node):
+        return Expression(parkin.ABS, self.astConverter.handle(node.getLeftChild()))
+
+    def handleCeiling(self, node):
+        return Expression(parkin.CEIL, self.astConverter.handle(node.getLeftChild()))
+
+    def handleFloor(self, node):
+        return Expression(parkin.FLOOR, self.astConverter.handle(node.getLeftChild()))
+
+    def handleSin(self, node):
+        return Expression(parkin.SIN, self.astConverter.handle(node.getLeftChild()))
+
+    def handleCos(self, node):
+        return Expression(parkin.COS, self.astConverter.handle(node.getLeftChild()))
+
+
     def handleInt(self, node):
         """ Handles ASTNodes representing a simple Integer. """
         return Expression(node.getInteger())
@@ -63,3 +83,25 @@ class BioParkinCppAstConverterTemplate(BaseAstConverterTemplate):
     def handleString(self, node):
         """ Handles ASTNodes representing a simple String. """
         return Expression(node.getName())
+
+    def handleOdeTime(self, node=None):
+        """ Handles ASTNodes representing the (ODE-)time variable. """
+        return Expression("odeTime")
+
+
+    def handleConstE(self, node=None):
+        """ Handles ASTNodes representing the Euler constant e. """
+        return Expression(math.e)
+
+    def handleConstPi(self, node=None):
+        """ Handles ASTNodes representing the constant pi. """
+        return Expression(math.pi)
+
+    def handleConstTrue(self, node=None):
+        """ Handles ASTNodes representing a simple real/double/float. """
+        return Expression(1.0)
+
+    def handleConstFalse(self, node=None):
+        """ Handles ASTNodes representing a simple real/double/float. """
+        return Expression(0.0)
+

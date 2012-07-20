@@ -25,6 +25,26 @@ class BaseAstConverterTemplate(object):
         """
         self.astConverter = astConverter
 
+    def handleConstE(self, astNode):
+        """ Handles ASTNodes representing the Euler constant e. """
+        logging.debug("AstConverter.handleConstE has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleConstPi(self, astNode):
+        """ Handles ASTNodes representing the constant pi. """
+        logging.debug("AstConverter.handleConstPi has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleConstTrue(self, astNode):
+        """ Handles ASTNodes representing "true". """
+        logging.debug("AstConverter.handleConstTrue has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleConstFalse(self, astNode):
+        """ Handles ASTNodes representing "false". """
+        logging.debug("AstConverter.handleConstFalse has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
     def handlePlus(self, astNode):
         """ Handles ASTNodes representing a "+". """
         logging.debug("AstConverter.handlePlus has not been implemented. The resulting mathematical expression will contain errors.")
@@ -60,6 +80,36 @@ class BaseAstConverterTemplate(object):
         logging.debug("AstConverter.handleLn has not been implemented. The resulting mathematical expression will contain errors.")
         return None
 
+    def handleExp(self, node):
+        """ Handles ASTNodes representing an exp function. """
+        logging.debug("AstConverter.handleExp has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleAbs(self, node):
+        """ Handles ASTNodes representing an abs function. """
+        logging.debug("AstConverter.handleAbs has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleCeiling(self, node):
+        """ Handles ASTNodes representing a ceil function. """
+        logging.debug("AstConverter.handleCeiling has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleFloor(self, node):
+        """ Handles ASTNodes representing a floor function. """
+        logging.debug("AstConverter.handleFloor has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleSin(self, node):
+        """ Handles ASTNodes representing a sin function. """
+        logging.debug("AstConverter.handleSin has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleCos(self, node):
+        """ Handles ASTNodes representing a cos function. """
+        logging.debug("AstConverter.handleCos has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
     def handleHill(self, astNode):
         """ Handles ASTNodes representing a Hill function. """
         logging.debug("AstConverter.handleHill has not been implemented. The resulting mathematical expression will contain errors.")
@@ -86,6 +136,11 @@ class BaseAstConverterTemplate(object):
     def handleReal(self, astNode):
         """ Handles ASTNodes representing a Real value. """
         logging.debug("AstConverter.handleReal has not been implemented. The resulting mathematical expression will contain errors.")
+        return None
+
+    def handleOdeTime(self, astNode):
+        """ Handles ASTNodes representing the (ODE-)Time value. """
+        logging.debug("AstConverter.handleOdeTime has not been implemented. The resulting mathematical expression will contain errors.")
         return None
 
     def handleString(self, astNode):

@@ -77,10 +77,22 @@ class AstConverter(object):
             return None
 
         # handle node based on node type
+        if node.getType() == libsbml.AST_CONSTANT_E:
+            return self.astConverterTemplate.handleConstE(node)
+        elif node.getType() == libsbml.AST_CONSTANT_PI:
+            return self.astConverterTemplate.handleConstPi(node)
+        elif node.getType() == libsbml.AST_CONSTANT_TRUE:
+            return self.astConverterTemplate.handleConstTrue(node)
+        elif node.getType() == libsbml.AST_CONSTANT_FALSE:
+            return self.astConverterTemplate.handleConstFalse(node)
+
         if node.getType() == libsbml.AST_INTEGER:
             return self.astConverterTemplate.handleInt(node)
         elif node.isReal():
             return self.astConverterTemplate.handleReal(node)
+        elif node.getType() == libsbml.AST_NAME_TIME:
+            #logging.info("AstConverter.handle(): processing time variable as string: '%s'" % node.getName())
+            return self.astConverterTemplate.handleOdeTime(node)
         elif node.getType() == libsbml.AST_NAME:
             if self.idsToReplace and node.getName() in self.idsToReplace.keys():
                 return self.idsToReplace[node.getName()]
@@ -101,6 +113,19 @@ class AstConverter(object):
             return self.astConverterTemplate.handleLn(node)
         elif node.getType() == libsbml.AST_FUNCTION_LOG:
             return self.astConverterTemplate.handleLog(node)
+        elif node.getType() == libsbml.AST_FUNCTION_EXP:
+            return self.astConverterTemplate.handleExp(node)
+        elif node.getType() == libsbml.AST_FUNCTION_ABS:
+            return self.astConverterTemplate.handleAbs(node)
+        elif node.getType() == libsbml.AST_FUNCTION_CEILING:
+            return self.astConverterTemplate.handleCeiling(node)
+        elif node.getType() == libsbml.AST_FUNCTION_FLOOR:
+            return self.astConverterTemplate.handleFloor(node)
+        elif node.getType() == libsbml.AST_FUNCTION_SIN:
+            return self.astConverterTemplate.handleSin(node)
+        elif node.getType() == libsbml.AST_FUNCTION_COS:
+            return self.astConverterTemplate.handleCos(node)
+
         elif node.getType() == libsbml.AST_FUNCTION:
             # this has to be handled differently because in this case, we have
             # a function that is defined in the SBML itself
@@ -124,6 +149,10 @@ class AstConverter(object):
             return self.handle(mathNode)
         elif node.getType() == libsbml.AST_LAMBDA:
             # the right child contains the body of the math expression
+            #logging.info("AstConverter.handle(): Encountered a lambda function node in SBML model.")
+            #logging.info("AstConverter.handle(): node.getId() = '%s'." % node.getId())
+            #logging.info("AstConverter.handle(): node.getLeftChild().getType() = '%s'." % node.getLeftChild().getType())
+            #logging.info("AstConverter.handle(): node.getLeftChild().getName() = '%s'." % node.getLeftChild().getName())
             return self.handle(node.getRightChild())
 
 
