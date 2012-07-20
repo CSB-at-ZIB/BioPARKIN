@@ -129,10 +129,14 @@ class AstConverter(object):
         elif node.getType() == libsbml.AST_FUNCTION:
             # this has to be handled differently because in this case, we have
             # a function that is defined in the SBML itself
+            #logging.info("AstConverter.handle(): Encountered a user function node in SBML model.")
+            #logging.info("AstConverter.handle(): node.getName() = '%s'." % node.getName())
             if not self.mainModel:
                 logging.debug("AstConverter.handle(): Can't handle node of type AST_FUNCTION without a reference to the main SBML model.")
                 return None
             functionDefinition = self.mainModel.SbmlModel.Item.getFunctionDefinition(node.getName())
+
+            mathNode = functionDefinition.getMath()
 
             numOfArguments = functionDefinition.getNumArguments()
             argsToReplace = {}
@@ -144,15 +148,14 @@ class AstConverter(object):
                 #TODO: elif valueNode.isFunction():
 
                 argsToReplace[key] = value
+		#logging.info("AstConverter.handle(): Replace '%s': '%s'." % (key, value))
+                mathNode.replaceArgument(key,valueNode)
 
-            mathNode = functionDefinition.getMath()
             return self.handle(mathNode)
+
         elif node.getType() == libsbml.AST_LAMBDA:
             # the right child contains the body of the math expression
             #logging.info("AstConverter.handle(): Encountered a lambda function node in SBML model.")
-            #logging.info("AstConverter.handle(): node.getId() = '%s'." % node.getId())
-            #logging.info("AstConverter.handle(): node.getLeftChild().getType() = '%s'." % node.getLeftChild().getType())
-            #logging.info("AstConverter.handle(): node.getLeftChild().getName() = '%s'." % node.getLeftChild().getName())
             return self.handle(node.getRightChild())
 
 
