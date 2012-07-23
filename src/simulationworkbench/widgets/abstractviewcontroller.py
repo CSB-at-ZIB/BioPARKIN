@@ -75,13 +75,13 @@ class AbstractViewController(QWidget):
         selectableTableHeaderHorizontal = SelectableTableHeader(Qt.Horizontal, self.dataSourceTableView)
         selectableTableHeaderHorizontal.setNonSelectableIndexes([0])
         selectableTableHeaderHorizontal.sectionSelectionChanged.connect(self.on_columnSelectionChanged)
-        selectableTableHeaderHorizontal.connectSelectionModel(self.dataSourceTableModel)
-#        self.dataSourceTableView.setHorizontalHeader(selectableTableHeaderHorizontal)
+#        selectableTableHeaderHorizontal.connectSelectionModel(self.dataSourceTableModel)
+        self.dataSourceTableView.setHorizontalHeader(selectableTableHeaderHorizontal)
 
         selectableTableHeaderVertical = SelectableTableHeader(Qt.Vertical, self.dataSourceTableView)
         selectableTableHeaderVertical.sectionSelectionChanged.connect(self.on_rowSelectionChanged)
-        selectableTableHeaderVertical.connectSelectionModel(self.dataSourceTableModel)
-#        self.dataSourceTableView.setVerticalHeader(selectableTableHeaderVertical)
+#        selectableTableHeaderVertical.connectSelectionModel(self.dataSourceTableModel)
+        self.dataSourceTableView.setVerticalHeader(selectableTableHeaderVertical)
 
         self.dataSourceTableView.resizeColumnsToContents()
 
@@ -133,8 +133,13 @@ class AbstractViewController(QWidget):
 
     def _getSelectedData(self):
         if not self.allData:    # only get actual data the first time
-            self.allData = self.dataService.get_all_data()
-
+            self.allData = OrderedDict()
+            allData = self.dataService.get_all_data()
+            # 23.07.12 td:
+            # do a deep copy here; in order to get the different abstract views independent of each other!
+            for key in allData.keys():
+                self.allData[key] = allData[key]
+            
         selectedIDs = self.dataSourceTableModel.getSelectedIDs() # this returns a dict {ID: ("Simulation", "filename1", ...)}
         selectedData = {}
         for i, (selectedID, sources) in enumerate(selectedIDs.items()):

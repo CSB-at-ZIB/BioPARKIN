@@ -274,7 +274,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         logging.info("Creating Plot...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
-            self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
+            # already set just in c'tor: self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
 
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
@@ -301,6 +301,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         logging.info("Creating data table (simulated data)...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
+            # already set just in c'tor: self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
 
         # TODO: Either remove the old table widget or store all table widgets in a []/{}
         dataTableWidget = TableWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
