@@ -78,7 +78,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
     @organization: Zuse Insitute Berlin
     """
 
-    __version__ = "1.2.21"
+    __version__ = "1.2.23"
     __author__ = "Moritz Wade & Thomas Dierkes"
     __contact__ = "wade@zib.de or dierkes@zib.de"
     __copyright__ = "Zuse Institute Berlin 2011"
@@ -449,7 +449,8 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             self.ModelControllers.pop(modelController.filename)
 
         if len(self.ModelControllers) == 0:
-#            self.dataService.remove_all_simulated_data()
+            # 26.07.12 td: the next line has been commented out
+            self.dataService.remove_all_simulated_data()
             self.ActiveModelController = None
             for view in self.mainWindowViews:
                 view.setModel(None)
