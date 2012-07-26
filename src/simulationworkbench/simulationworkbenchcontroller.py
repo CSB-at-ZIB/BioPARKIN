@@ -271,7 +271,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         Gets the data selected in the dataSourcesTable and plots it to the
         plot tab by inserting a PlotWidget into the Tab.
         """
-        logging.info("Creating Plot...")
+        logging.info("Creating plot...")
         if not self.resultsWindow:
             self.resultsWindow = ResultsWindowController(None)
             # already set just in c'tor: self.resultsWindow.setAttribute(Qt.WA_QuitOnClose)
@@ -334,7 +334,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
                 continue
             newDataSets[key] = dataSet
 
-        logging.info("Creating data table (sensitivity trajectory data)...")
+        logging.info("Creating data plot (sensitivity trajectory data)...")
         # TODO: Either remove the old plot widget or store all plot widgets in a []/{}
         plotWidget = PlotWidgetController(parent=self.resultsWindow.getMdiArea(), host=self,
             title="Sensitivity (Plot) - %s" % time.strftime("%H:%M:%S", time.localtime()))

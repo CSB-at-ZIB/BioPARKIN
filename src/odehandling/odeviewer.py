@@ -206,20 +206,25 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
         for reactionWrapper in self.model.SbmlReactions:
             kineticLaw = reactionWrapper[0].Item.getKineticLaw()
-            id = reactionWrapper[0].Item.getId()
+            ID = reactionWrapper[0].Item.getId()
             if kineticLaw is not None:
                 math = libsbml.formulaToString(kineticLaw.getMath())
 
                 for entityID in entityIdList:
                     if entityID in math:
-                        math = math.replace(entityID, "'%s{%d}'" % (names[entityID]))
+                        math = math.replace( entityID, "#%d#" % (names[entityID][2]) )
 
-                reactionText = "'%s{%d}': %s" % (names[id] + (math, ))
+                for entityID in entityIdList:
+                    key = "#%d#" % (names[entityID][2])
+                    if key in math:
+                        math = math.replace( key, "'%s{%d}'" % (names[entityID][:2]) )
+
+                reactionText = "'%s{%d}': %s" % (names[ID][:2] + (math, ))
                 logging.info(reactionText)
                 self.plainTextEdit.insertPlainText(reactionText + "\n")
-                reactions[id] = math
+                reactions[ID] = math
             else:
-                logging.error("Reaction '%s{%d}' has no kinetic Law." % (names[id]))
+                logging.error("Reaction '%s{%d}' has no kinetic Law." % (names[ID][:2]))
 
         odeGenerator = ODEGenerator(self.model)
 
@@ -246,15 +251,17 @@ class ODEViewer(QDialog, Ui_ODEViewer):
                 if reactionID in odeMath:
                     odeMath = odeMath.replace(reactionID, "(%s)" % (reactions[reactionID]))
 
-            odeText = "d '%s{%d}' /dt  =  %s" % (names[odeID] + (odeMath,))
+            odeText = "d '%s{%d}' /dt  =  %s" % (names[odeID][:2] + (odeMath,))
             logging.info(odeText)
             self.plainTextEdit.insertPlainText(odeText + "\n\n")
 
 
     def _getIdToNamesMap(self, sbmlMainModel):
-        map = {}
+        namesMap = {}
+        hashval = 0
 
-        entityTypes = [sbmlMainModel.SbmlSpecies,
+        entityTypes = [sbmlMainModel.SbmlCompartments,
+                       sbmlMainModel.SbmlSpecies,
                        sbmlMainModel.SbmlParameters,
                        sbmlMainModel.SbmlReactions]
 
@@ -262,30 +269,32 @@ class ODEViewer(QDialog, Ui_ODEViewer):
             if not entityType:
                 continue
             for entity in entityType:
-                id = None
+                ID = None
                 if type(entity) == tuple:
                     entity = entity[0]
                 try:
-                    id = entity.getId()
+                    ID = entity.getId()
                     name = entity.Item.getName()
                 except:
-                    if id:
+                    if ID:
                         name = "noname"
-                        namesSoFar = [value[0] for value in map.values()]
+                        namesSoFar = [value[0] for value in namesMap.values()]
                         j = namesSoFar.count(name)
-                        map[id] = (name, j + 1)
+                        hashval = hashval + 1
+                        namesMap[ID] = (name, j + 1, hashval)
                     logging.debug("sbmlhelpers: Problem with SBMLEntity '%s'; continuing anyway." % entity)
                     continue
 
                 if len(name) < 1:
                     name = "noname"
 
-                namesSoFar = [value[0] for value in map.values()]
+                namesSoFar = [value[0] for value in namesMap.values()]
                 j = namesSoFar.count(name)
+                hashval = hashval + 1
 
-                map[id] = (name, j + 1)
+                namesMap[ID] = (name, j + 1, hashval)
 
-        return map
+        return namesMap
 
 
     def _bylength(self, word1, word2):

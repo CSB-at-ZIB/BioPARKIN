@@ -836,14 +836,14 @@ class ParkinCppBackend(BaseBackend):
         self.paramMap = Param()
         self.paramThresholdMap = Param()
         for selectedParam in self.selectedParams:
-            combinedId = selectedParam.getCombinedId()  # includes "scope_"
-            value = self.mainModel.getValueFromActiveSet(combinedId)
-            self.paramMap[combinedId] = value
-            threshold = selectedParam.getThreshold()
-            if not threshold:
+            combinedID = selectedParam.getCombinedId()  # includes "scope_"
+            value = self.mainModel.getValueFromActiveSet(combinedID)
+            self.paramMap[combinedID] = value
+            thres = selectedParam.getThreshold()
+            if not thres:
                 logging.error("There are Parameters for which thresholds have not been set. Computing sensitivities is not possible without thresholds. Please, set thresholds!")
                 return False
-            self.paramThresholdMap[combinedId] = threshold
+            self.paramThresholdMap[combinedID] = thres
 #
         self.bioProcessor.setCurrentParamValues(self.paramMap)
         self.bioProcessor.setCurrentParamThres(self.paramThresholdMap)
@@ -851,11 +851,11 @@ class ParkinCppBackend(BaseBackend):
         # set up Species thresholds
         self.speciesThresholdMap = Param()
         for species in self.odeManager.speciesList:
-            id = species.getId()
-            threshold = species.getThreshold()
-            if not threshold:
+            speciesID = species.getId()
+            thres = species.getThreshold()
+            if not thres:
                 continue
-            self.speciesThresholdMap[id] = threshold
+            self.speciesThresholdMap[speciesID] = thres
         if self.speciesThresholdMap:
             self.bioProcessor.setCurrentSpeciesThres(self.speciesThresholdMap)
 
@@ -910,15 +910,18 @@ class ParkinCppBackend(BaseBackend):
         
         xtol = float(self.settings[settingsandvalues.SETTING_XTOL])
         error = self.bioProcessor.identifyParameters(xtol=xtol)
-        if error != 0:
+        # 24.07.12 td
+        # condition error == 0 for successful convergence is too much to ask
+        # if error != 0:
+        if error > 2:
             logging.error("Error during parameter identification in PARKINcpp.")
             return False
         paramMap = self.bioProcessor.getIdentificationResults()
 
         # convert results; put into class variable
         self.estimatedParams = OrderedDict()
-        for id, value in paramMap.items():
-            self.estimatedParams[id] = value
+        for paramID, value in paramMap.items():
+            self.estimatedParams[paramID] = value
 
 	# 26.04.12 td
 	# compute RMS values according to available measurement points and
@@ -956,7 +959,7 @@ class ParkinCppBackend(BaseBackend):
 				logging.info("    (%5.2f%%)   %e  =  relRMS[%s]**2 " % (
                                 	      100.0*float(rmsValue)/float(totRMS), float(rmsValue)/float(countMeas), speciesID) )
 		else:
-			logging.warning("   Found no measurements?!?  ")
+			logging.warning("   No measurements present?!?  ")
 		logging.info("------------------------------")
 
 
@@ -1042,12 +1045,23 @@ class ParkinCppBackend(BaseBackend):
                             continue
 
                         dataPoint = float(entityData.datapoints[i])
+
+                        # 26.07.12 td
+                        try:
+                            thres = abs(sbmlSpecies.getThreshold())
+                        except:
+                            thres = 0.0
+
                         try:
                             weightRaw = entityData.getWeights()[i]
-                            weight = float(weightRaw)
-                            weight /= sbmlSpecies.getThreshold()
-                        except: # take user-defined value if no float was provided by the loaded data
-                            weight = float(self.settings[settingsandvalues.SETTING_SD_SPECIES])
+                            weight = max( abs(float(weightRaw)), thres )
+                        #    weight /= sbmlSpecies.getThreshold()
+                        # except: # take user-defined value if no float was provided by the loaded data
+                        #     weight = float(self.settings[settingsandvalues.SETTING_SD_SPECIES])
+                        # 25.07.12 td
+                        except: # take datapoint value if no float was provided by the loaded data (as in YeOldeParkin!)
+                            weight = max( abs(dataPoint), thres )
+
                     except Exception, e:
                         logging.debug(
                             "ParkinCppBackend._getBioParkinCppCompatibleMeasurements(): Problem while getting data of Species %s" % speciesID)
@@ -1089,17 +1103,24 @@ class ParkinCppBackend(BaseBackend):
         estimatedParamSet = DataSet(None)
         estimatedParamSet.setId("Identified Parameter Values")
         estimatedParamSet.setType(services.dataservice.ESTIMATED_PARAMS)
-        for i, (paramEntity, estimatedValue) in enumerate(self.estimatedParams.items()):
+
+	selected = {}
+        for selectedParam in self.selectedParams:
+            selected[selectedParam.getCombinedId()] = selectedParam
+
+        for i, (paramID, estimatedValue) in enumerate(self.estimatedParams.items()):
+            if not paramID in selected.keys():
+                continue
+            param = selected[paramID]  # if paramID is in selected dict, get the related sbmlEntity object 
             paramData = EntityData()
-            if type(paramEntity) == str:
-                paramEntity = self.selectedParams[i]    # if key is str, try to get Param object
-            paramData.setId(paramEntity.getId())
+            paramData.setId(param.getId())
             paramData.setType(datamanagement.entitydata.TYPE_PARAMETERS_ESTIMATED)
             paramData.setAssociatedDataSet(estimatedParamSet)
             paramData.dataDescriptors = ["Identified Value"]
             paramData.datapoints = [estimatedValue]
-            paramData.sbmlEntity = paramEntity
+            paramData.sbmlEntity = param
 
-            estimatedParamSet.setData(paramData, paramEntity)
+            estimatedParamSet.setData(paramData, keyEntity=param)
+
         self.dataService.add_data(estimatedParamSet)
 

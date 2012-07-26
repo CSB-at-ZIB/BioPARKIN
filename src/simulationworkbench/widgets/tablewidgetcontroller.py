@@ -400,8 +400,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         expDataSet.setType(services.dataservice.EXPERIMENTAL)
         expDataSet.setSelected(True)
         first = True
-        for key, list in self.data.items():
-            for oldItem in list:
+        for key, itemList in self.data.items():
+            for oldItem in itemList:
                 item = oldItem.copy()
 
                 if type(item.getId()) != str:

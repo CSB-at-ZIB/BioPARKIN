@@ -69,6 +69,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         }
 
         self.host = host
+        self.title = title
 
         self.data = None
         self.labels = None
@@ -203,7 +204,10 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                                 color = "black" # default... should never happen :)
                                 logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
 
-                        if len(entityDataList) > 1:
+                        # 26.07.12 td
+                        # the following line yields no originID in plot label fi olny one column is selected in sens overview...
+                        # if len(entityDataList) > 1:  
+                        if originID and ("Sensitivity (Plot)" in self.title):  # awful hack
                             plotLabel = "%s (%s)" % (label, originID)
                         else:
                             plotLabel = label
