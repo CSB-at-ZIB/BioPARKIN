@@ -143,8 +143,9 @@ class ParameterSet(object):
                 id = baseParam.getId()
                 value = baseParam.getValue() if duplicate else 0
                 reactionId = baseParam.getReactionId()
+                isEstimated = baseParam.isEstimated() if duplicate else False     # 01.08.12 td
 
-                newParam = ParameterProxy(paramId, id, value, reactionId)
+                newParam = ParameterProxy(paramId, id, value, reactionId, isEstimated)
                 self._listOfParameters[paramId] = newParam
 
     def getParam(self, id):
@@ -153,8 +154,8 @@ class ParameterSet(object):
         except:
             return
 
-    def add(self, combinedId, id, value, reactionId=None):
-        newParam = ParameterProxy(combinedId, id, value, reactionId)
+    def add(self, combinedId, id, value, reactionId=None, isEstimated=None):
+        newParam = ParameterProxy(combinedId, id, value, reactionId, isEstimated)   # 01.08.12 td
         self._listOfParameters[combinedId] = newParam
 
     def setId(self, id):
@@ -233,11 +234,14 @@ class ParameterProxy(object):
     value = None # float
     reactionId = None #str: associated Reaction ID for local Parameters
 
-    def __init__(self, combinedId, id, value, reactionId=None):
+    def __init__(self, combinedId, id, value, reactionId=None, isEstimated=None):
         self.sbmlId = id
         self.value = value
         self.reactionId = reactionId
         self.combinedId = combinedId
+        self.estimated = False
+        if isEstimated:
+            self.estimated = True
 
     def getValue(self):
         return self.value
@@ -253,3 +257,12 @@ class ParameterProxy(object):
 
     def getCombinedId(self):
         return self.combinedId
+
+    def isEstimated(self):
+        return self.estimated
+
+    def setEstimated(self, value):
+        self.estimated = True
+        if type(value) is bool:
+            self.estimated = value
+

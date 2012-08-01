@@ -1,6 +1,6 @@
 import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
-from PySide.QtGui import QFont
+from PySide.QtGui import QFont, QBrush
 from basics.helpers import enum
 
 ROW = enum.enum("ROW", "ID, ACTIVE, SELECTED") # this effectively orders the rows; Param ID rows will be appended
@@ -52,6 +52,31 @@ class ParameterSetsTableModel(QAbstractTableModel):
 
         if role == Qt.TextAlignmentRole:
             return Qt.AlignCenter
+
+        # 01.08.12 td: introduced colour labeling of estimated values
+        if role == Qt.BackgroundRole:
+            if row == ROW.ID:
+                return None
+            elif row == ROW.ACTIVE:
+                return None
+            elif row == ROW.SELECTED:
+                return None
+            else:
+                if not paramSet[self.paramIds[offsetRow]].isEstimated():
+                    return None
+                return QBrush(Qt.darkCyan)
+
+        if role == Qt.ForegroundRole:
+            if row == ROW.ID:
+                return None
+            elif row == ROW.ACTIVE:
+                return None
+            elif row == ROW.SELECTED:
+                return None
+            else:
+                if not paramSet[self.paramIds[offsetRow]].isEstimated():
+                    return None
+                return QBrush(Qt.white)
 
         if role == Qt.DisplayRole:
             if row == ROW.ID:
@@ -174,6 +199,7 @@ class ParameterSetsTableModel(QAbstractTableModel):
                 try:
                     value = float(value)
                     paramSet[self.paramIds[offsetRow]].setValue(value)
+                    paramSet[self.paramIds[offsetRow]].setEstimated(False)  # 01.08.12 td
                 except:
                     logging.debug(
                         "ParameterSetsTableModel.setData(): Could not set value (%s) for row %s" % (value, offsetRow))

@@ -232,6 +232,10 @@ class DataService(QObject):
             logging.error("DataService.remove_data(): Error while trying to remove DataSet %s" % dataSet.getId())
 
     def remove_all_simulated_data(self):
+        # 01.08.12 td: safe guard added
+        if not self.data:
+            return
+
         toRemove = []
         for dataSet in self.data:
             if dataSet.type == EXPERIMENTAL:    # only leave EXPERIMENTAL data

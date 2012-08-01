@@ -571,7 +571,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         filenameTuple = QFileDialog.getSaveFileName(parent=self,
             dir=self.ActiveModelController.filename,
             caption="Save as...",
-            filter="SBML file (*.sbml)")
+            filter="SBML file (*.sbml *.xml)")
         if filenameTuple:
             self.saveActiveNetwork(filenameTuple[0])
 

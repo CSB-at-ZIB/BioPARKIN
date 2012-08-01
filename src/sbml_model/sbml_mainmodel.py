@@ -1,6 +1,6 @@
 from PySide.QtCore import QObject, Signal, Slot, QModelIndex
 import libsbml
-from sbml_model.definitions import CHANGETYPE, XML_PARAMETER_SET_NAME, XML_PARAMETER_SET_ID, XML_PARAMETER_SBML_ID, XML_PARAMETER_VALUE, XML_PARAMETER_REACTION_ID, XML_LIST_OF_PARAMETER_SETS_ACTIVE, XML_NAMESPACE_PARAMETER_SETS, XML_LIST_OF_PARAMETER_SETS, XML_PARAMETER, XML_PARAMETER_SET, PARAM_SET_INITIAL_GUESS, PARAM_SET_ORIGINAL, PARAM_SET_FIT
+from sbml_model.definitions import CHANGETYPE, XML_PARAMETER_SET_NAME, XML_PARAMETER_SET_ID, XML_PARAMETER_SBML_ID, XML_PARAMETER_VALUE, XML_PARAMETER_REACTION_ID, XML_PARAMETER_IS_ESTIMATED, XML_LIST_OF_PARAMETER_SETS_ACTIVE, XML_NAMESPACE_PARAMETER_SETS, XML_LIST_OF_PARAMETER_SETS, XML_PARAMETER, XML_PARAMETER_SET, PARAM_SET_INITIAL_GUESS, PARAM_SET_ORIGINAL, PARAM_SET_FIT
 from sbml_model.parameter_sets import ListOfParameterSets, ParameterSet, ParameterProxy
 import logging
 from sbml_model.sbml_entities import SBMLEntity
@@ -798,9 +798,11 @@ class SBMLMainModel(QObject):
         # But: We have to remove the "old" ParamSetsList from the Model's XML annotations
 
         annotationRootNode = self.SbmlModel.Item.getAnnotation()    # returns a libsbml.XMLNode
-        paramSetsListNodeIndex = annotationRootNode.getIndex(XML_LIST_OF_PARAMETER_SETS)
-        if paramSetsListNodeIndex != -1:
-            annotationRootNode.removeChild(paramSetsListNodeIndex)
+        # 01.08.12 td: safe guard added if no annotation is yet available
+        if annotationRootNode:
+            paramSetsListNodeIndex = annotationRootNode.getIndex(XML_LIST_OF_PARAMETER_SETS)
+            if paramSetsListNodeIndex != -1:
+                annotationRootNode.removeChild(paramSetsListNodeIndex)
 
         #creating the main list
         parListTriplet = libsbml.XMLTriple(XML_LIST_OF_PARAMETER_SETS, XML_NAMESPACE_PARAMETER_SETS, "")
@@ -828,12 +830,14 @@ class SBMLMainModel(QObject):
                 sbmlId = paramProxy.getId()
                 value = paramProxy.getValue()
                 reactionId = paramProxy.getReactionId()
+                estimated = paramProxy.isEstimated()                                   # 01.08.12 td: added
                 parProxyTriplet = libsbml.XMLTriple(XML_PARAMETER)
                 parProxyAttributes = libsbml.XMLAttributes()
                 parProxyAttributes.add(XML_PARAMETER_SBML_ID, str(sbmlId))
                 parProxyAttributes.add(XML_PARAMETER_VALUE, str(value))
                 if reactionId:
                     parProxyAttributes.add(XML_PARAMETER_REACTION_ID, str(reactionId))
+                parProxyAttributes.add(XML_PARAMETER_IS_ESTIMATED, str(estimated))  # 01.08.12 td: added
                 parProxyNode = libsbml.XMLNode(parProxyTriplet, parProxyAttributes)
 
                 parSetNode.addChild(parProxyNode)
@@ -897,10 +901,11 @@ class SBMLMainModel(QObject):
                 sbmlId = parNode.getAttrValue(XML_PARAMETER_SBML_ID)
                 value = float(parNode.getAttrValue(XML_PARAMETER_VALUE))
                 reactionId = parNode.getAttrValue(XML_PARAMETER_REACTION_ID)
+                estimated = parNode.getAttrValue(XML_PARAMETER_IS_ESTIMATED)=="True"    # 01.08.12 td: added (and two lines below modified)
 
                 combinedId = sbmlId if not reactionId else "%s_%s" % (reactionId, sbmlId)
 
-                parProxy = ParameterProxy(combinedId, sbmlId, value, reactionId)
+                parProxy = ParameterProxy(combinedId, sbmlId, value, reactionId, estimated)
                 parSet[combinedId] = parProxy
 
 
@@ -947,6 +952,7 @@ class SBMLMainModel(QObject):
             paramProxy = fitSet.getParam(combinedId)
             if paramProxy:
                 paramProxy.setValue(value)
+                paramProxy.setEstimated(True)
                 
         self.ListOfParameterSets.append(fitSet) # also emits change signal
         self.ListOfParameterSets.activeSet = fitSet

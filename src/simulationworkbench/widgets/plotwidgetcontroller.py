@@ -204,13 +204,17 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                                 color = "black" # default... should never happen :)
                                 logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
 
+                        # 31.07.12 td
+                        #   inserted an additional space in front of plotLabel 
+                        #   (in case of IDs with underscore as first character)
                         # 26.07.12 td
-                        # the following line yields no originID in plot label fi olny one column is selected in sens overview...
+                        #   the following line yields no originID in plot label if only one column 
+                        #   is selected in sens overview...
                         # if len(entityDataList) > 1:  
                         if originID and ("Sensitivity (Plot)" in self.title):  # awful hack
-                            plotLabel = "%s (%s)" % (label, originID)
+                            plotLabel = " %s (%s) " % (label, originID)
                         else:
-                            plotLabel = label
+                            plotLabel = " %s " % (label)
 
                         if plotStyle == PLOT_LINE:
                             self.axes.plot(timepoints, datapoints, color=color, linestyle=plotStyle, label=plotLabel)

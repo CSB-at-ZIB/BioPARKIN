@@ -1044,7 +1044,14 @@ class ParkinCppBackend(BaseBackend):
                         or timepoint > self.settings[settingsandvalues.SETTING_ENDTIME]:
                             continue
 
+                        # 31.07.12 td
+                        # ignore datapoint if not set/loaded at all
+                        if not entityData.datapoints[i]:
+                            continue
+
+
                         dataPoint = float(entityData.datapoints[i])
+
 
                         # 26.07.12 td
                         try:

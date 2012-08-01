@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import logging
 from PySide.QtCore import QAbstractTableModel, Qt, QModelIndex, SIGNAL
+from PySide.QtGui import QBrush
 import backend
 from basics.helpers import enum
 import libsbml
@@ -65,6 +66,37 @@ class ParameterTableModel(QAbstractTableModel):
                 return Qt.AlignRight | Qt.AlignVCenter
             else:
                 return Qt.AlignCenter
+
+
+        # 01.08.12 td: introduced colour labeling of estimated values
+        if role == Qt.BackgroundRole:
+            if column == COLUMN.INITIALVALUE:
+                if not param.getConstant():
+                    return None
+                combinedId = sbmlEntity.getCombinedId()
+                try:
+                    if not self.getActiveSet()[combinedId].isEstimated():
+                        return None
+                    return QBrush(Qt.darkCyan)
+                except:
+                    return QBrush(Qt.darkGray)
+            else:
+                return None
+
+        if role == Qt.ForegroundRole:
+            if column == COLUMN.INITIALVALUE:
+                if not param.getConstant():
+                    return None
+                combinedId = sbmlEntity.getCombinedId()
+                try:
+                    if not self.getActiveSet()[combinedId].isEstimated():
+                        return None
+                    return QBrush(Qt.white)
+                except:
+                    return QBrush(Qt.white)
+            else:
+                return None
+
 
         if role == Qt.DisplayRole:
             if column == COLUMN.NUMBER:
@@ -239,6 +271,7 @@ class ParameterTableModel(QAbstractTableModel):
                     try:
                         floatValue = float(value)
                         self.getActiveSet()[combinedId].setValue(floatValue)
+                        self.getActiveSet()[combinedId].setEstimated(False)  # 01.08.12 td: added
                     except:
                         pass    # don't touch the old value
                 elif column == COLUMN.SCALE:

@@ -156,8 +156,9 @@ class ModelController(QObject):
             self.sbmlModel.save(filename)
             self.Dirty = False
         except Exception, e:
-            QMessageBox.warning(self.networkView, "Filename is not valid.",
-                "Please, try to select another filename.")
+            # 01.08.12 td: removed QMessageBox
+            # QMessageBox.warning(self.networkView, "Filename is not valid.",
+            #                     "Please, try to select another filename.")
             logging.warning("Selected an invalid filename: %s\nException: %s" % (filename, e))
 
     def getNetworkView(self):
