@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="HEAD" name="---------- PYRIDINE ----------">
+    <annotation>
+      <listOfParameterSets xmlns="http://sys-bio.org/ParameterSets" active="Initial Guess">
+        <parameterSet id="Original" name="None">
+          <parameter sbmlId="p1" value="1.0" reaction="reaction1" estimated="False"/>
+          <parameter sbmlId="p2" value="0.494" reaction="reaction2" estimated="False"/>
+          <parameter sbmlId="p3" value="29.0" reaction="reaction3" estimated="False"/>
+          <parameter sbmlId="p4" value="9.0" reaction="reaction4" estimated="False"/>
+          <parameter sbmlId="p5" value="0.053" reaction="reaction5" estimated="False"/>
+          <parameter sbmlId="p6" value="2.0" reaction="reaction6" estimated="False"/>
+          <parameter sbmlId="p7" value="0.06" reaction="reaction7" estimated="False"/>
+          <parameter sbmlId="p8" value="5.0" reaction="reaction8" estimated="False"/>
+          <parameter sbmlId="p9" value="0.02" reaction="reaction9" estimated="False"/>
+          <parameter sbmlId="p10" value="0.5" reaction="reaction10" estimated="False"/>
+          <parameter sbmlId="p11" value="1.19" reaction="reaction11" estimated="False"/>
+        </parameterSet>
+        <parameterSet id="Initial Guess" name="None">
+          <parameter sbmlId="p1" value="1.0" reaction="reaction1" estimated="False"/>
+          <parameter sbmlId="p2" value="0.494" reaction="reaction2" estimated="False"/>
+          <parameter sbmlId="p3" value="29.0" reaction="reaction3" estimated="False"/>
+          <parameter sbmlId="p4" value="9.0" reaction="reaction4" estimated="False"/>
+          <parameter sbmlId="p5" value="0.053" reaction="reaction5" estimated="False"/>
+          <parameter sbmlId="p6" value="2.0" reaction="reaction6" estimated="False"/>
+          <parameter sbmlId="p7" value="0.06" reaction="reaction7" estimated="False"/>
+          <parameter sbmlId="p8" value="5.0" reaction="reaction8" estimated="False"/>
+          <parameter sbmlId="p9" value="0.02" reaction="reaction9" estimated="False"/>
+          <parameter sbmlId="p10" value="0.5" reaction="reaction10" estimated="False"/>
+          <parameter sbmlId="p11" value="1.19" reaction="reaction11" estimated="False"/>
+        </parameterSet>
+        <parameterSet id="Fit" name="None">
+          <parameter sbmlId="p1" value="1.80653653605" reaction="reaction1" estimated="True"/>
+          <parameter sbmlId="p2" value="0.889949724385" reaction="reaction2" estimated="True"/>
+          <parameter sbmlId="p3" value="29.0" reaction="reaction3" estimated="False"/>
+          <parameter sbmlId="p4" value="9.26641095346" reaction="reaction4" estimated="True"/>
+          <parameter sbmlId="p5" value="0.05905210933" reaction="reaction5" estimated="True"/>
+          <parameter sbmlId="p6" value="2.43732517049" reaction="reaction6" estimated="True"/>
+          <parameter sbmlId="p7" value="0.06" reaction="reaction7" estimated="False"/>
+          <parameter sbmlId="p8" value="5.69260566951" reaction="reaction8" estimated="True"/>
+          <parameter sbmlId="p9" value="0.020191790703" reaction="reaction9" estimated="True"/>
+          <parameter sbmlId="p10" value="0.575022322574" reaction="reaction10" estimated="True"/>
+          <parameter sbmlId="p11" value="2.06644324284" reaction="reaction11" estimated="True"/>
+        </parameterSet>
+        <parameterSet id="Fit" name="None">
+          <parameter sbmlId="p1" value="1.8058738715" reaction="reaction1" estimated="True"/>
+          <parameter sbmlId="p2" value="0.893694343212" reaction="reaction2" estimated="True"/>
+          <parameter sbmlId="p3" value="29.4028224704" reaction="reaction3" estimated="True"/>
+          <parameter sbmlId="p4" value="9.21202769882" reaction="reaction4" estimated="True"/>
+          <parameter sbmlId="p5" value="0.053" reaction="reaction5" estimated="False"/>
+          <parameter sbmlId="p6" value="2.42817232472" reaction="reaction6" estimated="True"/>
+          <parameter sbmlId="p7" value="0.0643077472426" reaction="reaction7" estimated="True"/>
+          <parameter sbmlId="p8" value="5.5508326803" reaction="reaction8" estimated="True"/>
+          <parameter sbmlId="p9" value="0.02" reaction="reaction9" estimated="False"/>
+          <parameter sbmlId="p10" value="0.577282536145" reaction="reaction10" estimated="True"/>
+          <parameter sbmlId="p11" value="2.15531597126" reaction="reaction11" estimated="True"/>
+        </parameterSet>
+        <parameterSet id="Fit" name="None">
+          <parameter sbmlId="p1" value="1.80587560719" reaction="reaction1" estimated="True"/>
+          <parameter sbmlId="p2" value="0.893694549111" reaction="reaction2" estimated="True"/>
+          <parameter sbmlId="p3" value="29.4027589216" reaction="reaction3" estimated="True"/>
+          <parameter sbmlId="p4" value="9.21198593" reaction="reaction4" estimated="True"/>
+          <parameter sbmlId="p5" value="0.0580481364376" reaction="reaction5" estimated="True"/>
+          <parameter sbmlId="p6" value="2.42817669335" reaction="reaction6" estimated="True"/>
+          <parameter sbmlId="p7" value="0.0643073557824" reaction="reaction7" estimated="True"/>
+          <parameter sbmlId="p8" value="5.55080179487" reaction="reaction8" estimated="True"/>
+          <parameter sbmlId="p9" value="0.0201423887079" reaction="reaction9" estimated="True"/>
+          <parameter sbmlId="p10" value="0.577281920096" reaction="reaction10" estimated="True"/>
+          <parameter sbmlId="p11" value="2.15529250005" reaction="reaction11" estimated="True"/>
+        </parameterSet>
+      </listOfParameterSets>
+    </annotation>
+    <listOfCompartments>
+      <compartment id="cell" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A" name="A" compartment="cell" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="B" name="B" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="C" name="C" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="D" name="D" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="E" name="E" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="F" name="F" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+      <species id="G" name="G" compartment="cell" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p1 </ci>
+              <ci> A </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p1" value="1">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction2" name="reaction2" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p2 </ci>
+              <ci> B </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p2" value="0.494">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction3" name="reaction3" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1" constant="false"/>
+          <speciesReference species="F" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p3 </ci>
+              <ci> B </ci>
+              <ci> C </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p3" value="29">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction4" name="reaction4" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="E" stoichiometry="1" constant="false"/>
+          <speciesReference species="F" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p4 </ci>
+              <ci> C </ci>
+              <ci> C </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p4" value="9">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction5" name="reaction5" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="E" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p5 </ci>
+              <ci> D </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p5" value="0.053">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction6" name="reaction6" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="F" stoichiometry="1" constant="false"/>
+          <speciesReference species="G" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p6 </ci>
+              <ci> C </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p6" value="2">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction7" name="reaction7" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+          <speciesReference species="G" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p7 </ci>
+              <ci> D </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p7" value="0.06">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction8" name="reaction8" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="E" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+          <speciesReference species="G" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p8 </ci>
+              <ci> E </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p8" value="5">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction9" name="reaction9" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p9 </ci>
+              <ci> B </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p9" value="0.02">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction10" name="reaction10" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1" constant="false"/>
+          <speciesReference species="F" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1" constant="false"/>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p10 </ci>
+              <ci> D </ci>
+              <ci> F </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p10" value="0.5">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction11" name="reaction11" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="E" stoichiometry="1" constant="false"/>
+          <speciesReference species="F" stoichiometry="1" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+          <speciesReference species="C" stoichiometry="1" constant="false"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> p11 </ci>
+              <ci> E </ci>
+              <ci> F </ci>
+            </apply>
+          </math>
+          <listOfLocalParameters>
+            <localParameter id="p11" value="1.19">
+              <annotation>
+                <Scale xmlns="http://www.zib.de/SBML/Threshold" Value="2.22044604925e-16"/>
+              </annotation>
+            </localParameter>
+          </listOfLocalParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
