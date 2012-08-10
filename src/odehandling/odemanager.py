@@ -98,7 +98,7 @@ class ODEManager(object):
         index = 1
         odeGenerator = ODEGenerator(self.mainModel)
         for odeWrapper in odeGenerator.wrappedODEs:
-            if odeWrapper.isValid():
+            if odeWrapper.isValid() or odeWrapper.isDAE():
                 odeWrapper.index = index
                 self.odeList.append(odeWrapper)
                 index += 1

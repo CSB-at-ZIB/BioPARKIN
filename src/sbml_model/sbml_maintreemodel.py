@@ -55,6 +55,7 @@ class SBMLMainTreeModel(QAbstractItemModel):
         self.ParameterWrapper = self.MainModel.ParameterWrapper
         self.RateRuleWrapper = self.MainModel.RateRuleWrapper
         self.AssignmentRuleWrapper = self.MainModel.AssignmentRuleWrapper
+        self.AlgebraicRuleWrapper = self.MainModel.AlgebraicRuleWrapper
         self.EventWrapper = self.MainModel.EventsWrapper
 
         self._connectToSignals(self.CompartmentWrapper)
@@ -63,6 +64,7 @@ class SBMLMainTreeModel(QAbstractItemModel):
         self._connectToSignals(self.ParameterWrapper)
         self._connectToSignals(self.RateRuleWrapper)
         self._connectToSignals(self.AssignmentRuleWrapper)
+        self._connectToSignals(self.AlgebraicRuleWrapper)
         self._connectToSignals(self.EventWrapper)
 
         
@@ -163,6 +165,11 @@ class SBMLMainTreeModel(QAbstractItemModel):
                 return
             if index.column() == COLUMN.ID:
                 return "Assignment Rules"
+        elif node == self.AlgebraicRuleWrapper:
+            if role == Qt.UserRole: # used for sorting; set fixed sorting
+                return
+            if index.column() == COLUMN.ID:
+                return "Algebraic Rules"
         elif node == self.EventWrapper:
             if role == Qt.UserRole: # used for sorting; set fixed sorting
                 return
@@ -192,10 +199,16 @@ class SBMLMainTreeModel(QAbstractItemModel):
                 return node.Item.getName()
             
         elif node.Item is not None and isinstance(node.Item, libsbml.Rule):
-            if index.column() == COLUMN.ID:
-                return node.Item.getId()
-            if index.column() == COLUMN.NAME:
-                return node.Item.getName()
+            if node.Item.isAlgebraic():
+                if index.column() == COLUMN.ID:
+                    return node.getLabel()        # 09.08.12 td: slight misuse of node label ...!  
+                else:
+                    return None
+            else:
+                if index.column() == COLUMN.ID:
+                    return node.Item.getId()
+                if index.column() == COLUMN.NAME:
+                    return node.Item.getName()
         else:
             if index.column() == COLUMN.ID:
                 if node.Item:

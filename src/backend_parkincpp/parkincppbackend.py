@@ -14,7 +14,7 @@ from odehandling.odewrapper import ODEWrapper
 from sbml_model.sbml_entities import SBMLEntity
 import services
 from services.dataservice import DataService
-from parkincpp.parkin import ValueList, StringList, ExpressionMap, BioSystem, Expression, Param, Vector, BioProcessor, Matrix, QRconDecomp, IOpt, MeasurementPoint, MeasurementList
+from parkincpp.parkin import ValueList, StringList, ExpressionMap, ExprTypeMap, BioSystem, Expression, Param, Vector, BioProcessor, Matrix, QRconDecomp, IOpt, MeasurementPoint, MeasurementList
 
 TASK_PARAMETER_IDENTIFICATION = "task_parameter_identification"
 TASK_SENSITIVITY_OVERVIEW = "task_sensitivity_overview"
@@ -300,6 +300,7 @@ class ParkinCppBackend(BaseBackend):
 
         parameter = StringList()
         expressionMap = ExpressionMap()
+        typeMap = ExprTypeMap()
         self.bioSystem = BioSystem(float(self.odeManager.startTime), float(self.odeManager.endTime))
         logging.info("Start time: %s" % self.odeManager.startTime)
         logging.info("End time: %s" % self.odeManager.endTime)
@@ -355,10 +356,17 @@ class ParkinCppBackend(BaseBackend):
         # Finally, ODE Expressions are created using all the above substitutions
         for odeWrapper in self.odeManager.odeList:
             expression = odeWrapper.mathForBioParkinCpp(idsToReplace=substitutionMap)
-            logging.info("ODE for ID %s = %s" % (odeWrapper.getId(), expression))
             expressionMap[odeWrapper.getId()] = expression
+            if odeWrapper.isDAE():
+                typeMap[odeWrapper.getId()] = 2
+                logging.info("DAE with ID %s : 0 = %s" % (odeWrapper.getId(), expression))
+            else:
+                # 09.08.12 td: default value for typeMap within PARKINcpp
+                # typeMap[odeWrapper.getId()] = 1
+                logging.info("ODE for ID %s = %s" % (odeWrapper.getId(), expression))
 
         self.bioSystem.setODESystem(expressionMap)
+        self.bioSystem.setODETypes(typeMap)
 
         self._initBioSystemParameters()
 
@@ -505,10 +513,12 @@ class ParkinCppBackend(BaseBackend):
         simResults = OrderedDict()
         for speciesId in trajectoryMap.keys():
             correspondingSpecies = self.mainModel.getSpecies(speciesId)
-            dataTuple = trajectoryMap[speciesId]
-            data = list(dataTuple)
-            data.insert(0, correspondingSpecies.getInitialValue())
-            simResults[correspondingSpecies] = data
+            if correspondingSpecies:  # 09.08.12 td: what happens with DAE entries??? They have no SBML corresponding IDs
+                dataTuple = trajectoryMap[speciesId]
+                data = list(dataTuple)
+                data.insert(0, correspondingSpecies.getInitialValue())
+                simResults[correspondingSpecies] = data
+
         return simResults
 
 

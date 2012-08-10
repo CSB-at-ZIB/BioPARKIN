@@ -65,21 +65,25 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
 
         text = "\n\n"
-        text += "ODEs:\n"
-        text += "-----\n\n"
+        text += "ODE / DAE system:\n"
+        text += "-----------------\n\n"
         self.plainTextEdit.insertPlainText(text)
         odeGenerator = ODEGenerator(self.model)
         for wrappedODE in odeGenerator.wrappedODEs:
-            odeText = "d %s /dt  =  %s" % (wrappedODE.getId(), libsbml.formulaToString(wrappedODE.mathNode))
+            # 10.08.12 td: added DAE handling
+            if wrappedODE.isDAE():
+                odeText = "0  =  %s" % (libsbml.formulaToString(wrappedODE.mathNode))
+            else:
+                odeText = "d %s /dt  =  %s" % (wrappedODE.getId(), libsbml.formulaToString(wrappedODE.mathNode))
             logging.info(odeText)
             self.plainTextEdit.insertPlainText(odeText + "\n")
 
 
         # create ODEs with reaction IDs replaced with actual reaction for convenience
         text = "\n\n"
-        text += "ODEs (Reaction IDs replaced with actual equations)\n"
-        text += "     (Assignment Rules are NOT applied here      ):\n"
-        text += "---------------------------------------------------\n\n"
+        text += "ODE/DAE (Reaction IDs replaced with actual equations)\n"
+        text += "        (Assignment Rules are NOT applied here      ):\n"
+        text += "------------------------------------------------------\n\n"
         self.plainTextEdit.insertPlainText(text)
 
         reactionIdList = []
@@ -98,7 +102,11 @@ class ODEViewer(QDialog, Ui_ODEViewer):
                 if reactionID in odeMath:
                     odeMath = odeMath.replace(reactionID, "(%s)" % (reactions[reactionID]))
 
-            odeText = "d %s /dt  =  %s" % (odeID, odeMath)
+            # 10.08.12 td: added DAE handling
+            if wrappedODE.isDAE():
+                odeText = "0  =  %s" % (odeMath)
+            else:
+                odeText = "d %s /dt  =  %s" % (odeID, odeMath)
             logging.info(odeText)
             self.plainTextEdit.insertPlainText(odeText + "\n\n")
 
@@ -118,9 +126,9 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
 
         text = "\n\n"
-        text += "ODEs (Reaction IDs replaced with actual equations)\n"
-        text += "     (Assignment Rules ARE applied here          ):\n"
-        text += "---------------------------------------------------\n\n"
+        text += "ODE/DAE (Reaction IDs replaced with actual equations)\n"
+        text += "        (Assignment Rules ARE applied here          ):\n"
+        text += "------------------------------------------------------\n\n"
         self.plainTextEdit.insertPlainText(text)
 
         reactionsWithRules = {}
@@ -138,7 +146,11 @@ class ODEViewer(QDialog, Ui_ODEViewer):
                 if reactionID in odeMath:
                     odeMath = odeMath.replace(reactionID, "(%s)" % (reactionsWithRules[reactionID]))
 
-            odeText = "d %s /dt  =  %s" % (odeID, odeMath)
+            # 10.08.12 td: added DAE handling
+            if wrappedODE.isDAE():
+                odeText = "0  =  %s" % (odeMath)
+            else:
+                odeText = "d %s /dt  =  %s" % (odeID, odeMath)
             logging.info(odeText)
             self.plainTextEdit.insertPlainText(odeText + "\n\n")
 
@@ -157,7 +169,7 @@ class ODEViewer(QDialog, Ui_ODEViewer):
         text = ""
         text += "\n\n\n\n"
         text += "   **************************************************************\n"
-        text += "   * !!!                 ODE View (by Names)                !!! *\n"
+        text += "   * !!!               ODE/DAE View (by Names)              !!! *\n"
         text += "   *                                                            *\n"
         text += "   * Same output as above; but now unique IDs replaced by Names *\n"
         text += "   *                                                            *\n"
@@ -238,8 +250,8 @@ class ODEViewer(QDialog, Ui_ODEViewer):
 
         # create ODEs with reaction IDs replaced with actual reaction for convenience
         text = "\n\n"
-        text += "ODEs (IDs replaced by Names):\n"
-        text += "-----------------------------\n\n"
+        text += "ODE / DAE system (IDs replaced by Names):\n"
+        text += "-----------------------------------------\n\n"
         self.plainTextEdit.insertPlainText(text)
 
         for wrappedODE in odeGenerator.wrappedODEs:
@@ -251,7 +263,20 @@ class ODEViewer(QDialog, Ui_ODEViewer):
                 if reactionID in odeMath:
                     odeMath = odeMath.replace(reactionID, "(%s)" % (reactions[reactionID]))
 
-            odeText = "d '%s{%d}' /dt  =  %s" % (names[odeID][:2] + (odeMath,))
+            # 10.08.12 td: added DAE handling
+            if wrappedODE.isDAE():
+                for entityID in entityIdList:
+                    if entityID in odeMath:
+                        odeMath = odeMath.replace( entityID, "#%d#" % (names[entityID][2]) )
+
+                for entityID in entityIdList:
+                    key = "#%d#" % (names[entityID][2])
+                    if key in odeMath:
+                        odeMath = odeMath.replace( key, "'%s{%d}'" % (names[entityID][:2]) )
+
+                odeText = "0  =  %s" % (odeMath)
+            else:
+                odeText = "d '%s{%d}' /dt  =  %s" % (names[odeID][:2] + (odeMath,))
             logging.info(odeText)
             self.plainTextEdit.insertPlainText(odeText + "\n\n")
 

@@ -50,6 +50,7 @@ class ODEGenerator(object):
         self.mainModel = mainModel
 
         self.ODEs = None
+        self.speciesDAE = None
 
         self._generateODEs()
 
@@ -61,19 +62,46 @@ class ODEGenerator(object):
         logging.info("Starting ODE generation...")
         self.ODEs = []
         self.wrappedODEs = []
+        self.speciesDAE = []
         index = 0
+
         for speciesEntity in self.mainModel.SbmlSpecies:
             if not speciesEntity.isDefiningOde():
                 continue
 
             ode = self._odeFromReactions(speciesEntity)
             if ode:
+                ode.DAE = False
                 ode.speciesEntity = speciesEntity
                 self.ODEs.append(ode)
                 wrappedODE = ODEWrapper(index, mathNode=ode, mainModel=self.mainModel, id=speciesEntity.getId(),
                                         speciesEntity=speciesEntity)
                 self.wrappedODEs.append(wrappedODE)
                 index += 1
+            else:
+                self.speciesDAE.append(speciesEntity)
+                # self.speciesDAE.insert(0,speciesEntity)
+
+        # 09.08.12 td: adding the handling for Algebraic Rules (resulting in a DAE system)
+        for algRule in self.mainModel.SbmlAlgebraicRules:
+            if self.speciesDAE:
+                speciesEntity = self.speciesDAE.pop()
+                id = speciesEntity.getId()
+            else:
+                id = algRule.getLabel()
+
+            ode = algRule.Item.getMath()
+
+            if ode:
+                ode.DAE = True
+                ode.speciesEntity = algRule
+                self.ODEs.append(ode)
+                wrappedODE = ODEWrapper(index, mathNode=ode, mainModel=self.mainModel, id=id, 
+                                        speciesEntity=algRule)
+                self.wrappedODEs.append(wrappedODE)
+                index += 1
+        # 09.08.12 td
+
 
     def _odeFromReactions(self, speciesEntity):
         """

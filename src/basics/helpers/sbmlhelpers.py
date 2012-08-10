@@ -23,7 +23,7 @@ def findSbmlEntity(id, sbmlMainModel):
                  sbmlMainModel.SbmlCompartments,
                  sbmlMainModel.SbmlReactions,
                  sbmlMainModel.SbmlParameters,
-                 sbmlMainModel.SbmlAlgebraicRules,
+                 # sbmlMainModel.SbmlAlgebraicRules,  #  09.08.12 td: SbmlAlgebraicRules do not have an ID at all...
                  sbmlMainModel.SbmlAssignmentRules,
                  sbmlMainModel.SbmlRateRules,
                  sbmlMainModel.SbmlEvents]

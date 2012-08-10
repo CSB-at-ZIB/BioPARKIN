@@ -64,7 +64,7 @@ class SBMLMainModel(QObject):
         self.SbmlReactions = None
         self.SbmlParameters = None
         self.SbmlRateRules = None
-#        self.SbmlAlgebraicRules = None
+        self.SbmlAlgebraicRules = None
         self.SbmlAssignmentRules = None
         self.SbmlEvents = None
 
@@ -77,11 +77,12 @@ class SBMLMainModel(QObject):
         self.ReactionWrapper = None
         self.ParameterWrapper = None
         self.RateRuleWrapper = None
-#        self.AlgebraicRuleWrapper = None
+        self.AlgebraicRuleWrapper = None
         self.AssignmentRuleWrapper = None
         self.EventsWrapper = None
 
         self.newSpeciesCount = 0 # used for creating implicit Species (needed by some Reactions)
+        self.newAlgebraicCount = 0 # used for creating Algebraic Rules
 
         self.paramSetsListNode = None   # will hold the libsbml.XMLNode
 
@@ -180,6 +181,8 @@ class SBMLMainModel(QObject):
         self.RateRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Rate Rules", parent=self.SbmlModel)
         self.AssignmentRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Assignment Rules",
                                                            parent=self.SbmlModel)
+        self.AlgebraicRuleWrapper = self.createSBMLEntity(sbmlobject=None, label="Algebraic Rules", 
+                                                          parent=self.SbmlModel)
         self.EventsWrapper = self.createSBMLEntity(sbmlobject=None, label="Events", parent=self.SbmlModel)
 
         self.prepareReactions()
@@ -573,15 +576,26 @@ class SBMLMainModel(QObject):
         self.SbmlAssignmentRules = []
         self.dictOfAssignmentRules = {}
         for rule in listOfRules:
-            logging.info("Rule: %s\t%s" % (rule.getId(), rule.getName()))
+            ID = rule.getId()
+            if rule.isAlgebraic():
+                self.newAlgebraicCount += 1
+                ID = "alg_%s" % self.newAlgebraicCount
+                # In SBML, AlgebraicRules do not have any IDs nor Names (...sigh...)
+                # rule.setId(ID)
+                # rule.setName(ID)
+                # 09.08.12 td: hence, we will (slightly) misuse the label attribute of our SBMLEntity...!
+                wrappedRule = self.createSBMLEntity(rule, parent=self.AlgebraicRuleWrapper, label=ID)
+                self.SbmlAlgebraicRules.append(wrappedRule)
+                self.dictOfAlgebraicRules[ID] = wrappedRule
             if rule.isAssignment():
                 wrappedRule = self.createSBMLEntity(rule, parent=self.AssignmentRuleWrapper)
                 self.SbmlAssignmentRules.append(wrappedRule)
-                self.dictOfAssignmentRules[rule.getId()] = wrappedRule
+                self.dictOfAssignmentRules[ID] = wrappedRule
             elif rule.isRate():
                 wrappedRule = self.createSBMLEntity(rule, parent=self.RateRuleWrapper)
                 self.SbmlRateRules.append(wrappedRule)
-                self.dictOfRateRules[rule.getId()] = wrappedRule
+                self.dictOfRateRules[ID] = wrappedRule
+            logging.info("Rule: %s\t%s" % (ID, rule.getName()))
 
     
     def wrapEvents(self):

@@ -50,8 +50,8 @@ class ODEWrapper(object):
 
         self.index = index
         self.mathNode = mathNode    # libSBML ASTNode root node
-        self.formula = formula  # is used if given
-        self.rule = rule  # this ODE may wrap a libSBML Rule
+        self.formula = formula      # is used if given
+        self.rule = rule            # this ODE may wrap a libSBML Rule
         self.mainModel = mainModel  # to get to function definitions contained in the model
         self.speciesEntity = speciesEntity
 
@@ -138,6 +138,16 @@ class ODEWrapper(object):
 
         return odeString
 
+    # 09.08.12 td: check for DAE entry
+    def isDAE(self):
+        """
+        @returns: True, if the wrapped ODE has the attribute self.mathNode.DAE == True
+        """
+        if self.mathNode and hasattr(self.mathNode, "DAE"):
+            return self.mathNode.DAE
+        return False
+
+
     def isValid(self):
         """
         @returns: True, if the wrapped ODE (generated or given by a rule)
@@ -149,6 +159,11 @@ class ODEWrapper(object):
 
         if self.id.startswith("helper"):
             return False
+
+        # # 09.08.12 td: added special case of DAE for Algebraic Rules
+        # if self.id.startswith("alg_"):
+        #     return True 
+        # #
 
         if self.speciesEntity:
             species = self.speciesEntity.Item
