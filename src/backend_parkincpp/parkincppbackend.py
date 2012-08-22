@@ -1,7 +1,8 @@
 from collections import OrderedDict
 import logging
-import math, time
+import math, time, sys
 import libsbml
+from basics.logging.stdoutwrapper import StdOutWrapper
 import backend
 from backend.basebackend import BaseBackend
 from backend.exceptions import InitError
@@ -15,6 +16,7 @@ from sbml_model.sbml_entities import SBMLEntity
 import services
 from services.dataservice import DataService
 from parkincpp.parkin import ValueList, StringList, ExpressionMap, ExprTypeMap, BioSystem, Expression, Param, Vector, BioProcessor, Matrix, QRconDecomp, IOpt, MeasurementPoint, MeasurementList
+from parkincpp.parkin import MakeCppOStream
 
 TASK_PARAMETER_IDENTIFICATION = "task_parameter_identification"
 TASK_SENSITIVITY_OVERVIEW = "task_sensitivity_overview"
@@ -314,12 +316,12 @@ class ParkinCppBackend(BaseBackend):
 
         # set names / identifies of parameters
         for paramWrapper in self.odeManager.parameterList:
-            id = paramWrapper.getCombinedId()
-#            logging.debug("Putting Parameter %s into BioSystem." % id)
-            parameter.push_back(id)
+            pID = paramWrapper.getCombinedId()
+#            logging.debug("Putting Parameter %s into BioSystem." % pID)
+            parameter.push_back(pID)
         for compartmentWrapper in self.odeManager.compartmentList:   # we handle compartments as if they were parameters
-            id = compartmentWrapper.getId()
-            parameter.push_back(id)
+            pID = compartmentWrapper.getId()
+            parameter.push_back(pID)
 
         self.bioSystem.setParameters(parameter)
 
@@ -378,13 +380,13 @@ class ParkinCppBackend(BaseBackend):
         Set initial param values for BioSystem.
         """
         for paramWrapper in self.odeManager.parameterList:
-            id = paramWrapper.getCombinedId()
-            initialValue = self.mainModel.getValueFromActiveSet(id)
-            self.bioSystem.setParamValue(id, initialValue)
+            pID = paramWrapper.getCombinedId()
+            initialValue = self.mainModel.getValueFromActiveSet(pID)
+            self.bioSystem.setParamValue(pID, initialValue)
         for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
-            id = compartmentWrapper.getId()
+            pID = compartmentWrapper.getId()
             initialSize = compartmentWrapper.getSize()
-            self.bioSystem.setParamValue(id, initialSize)
+            self.bioSystem.setParamValue(pID, initialSize)
 
 
 
@@ -477,6 +479,10 @@ class ParkinCppBackend(BaseBackend):
         internal numerical classes like GaussNewton, Parkin, etc.
         """
         self.bioProcessor = BioProcessor(self.bioSystem, self.settings[settingsandvalues.SETTING_IDENTIFICATION_BACKEND])
+
+        # 22.08.12 td : need to wrap sys.stdout *first* ; only then the redirected stream can be set to parkin
+        # # 21.08.12 td : an awkward trail to get the two logging systems (dlib::logger & logging), somehow unified
+        # self.bioProcessor.setLogStream(MakeCppOStream(sys.stdout))
 
     def _doSimulation(self):
         """
@@ -917,9 +923,15 @@ class ParkinCppBackend(BaseBackend):
             return False
         if not self.bioProcessor:
             return False
-        
+
         xtol = float(self.settings[settingsandvalues.SETTING_XTOL])
+
+        # 21.08.12 td : counterpart of logging unification test
+        out = StdOutWrapper()
+        self.bioProcessor.setLogStream(MakeCppOStream(sys.stdout))
         error = self.bioProcessor.identifyParameters(xtol=xtol)
+        out.close()
+
         # 24.07.12 td
         # condition error == 0 for successful convergence is too much to ask
         # if error != 0:

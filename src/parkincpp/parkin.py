@@ -67,6 +67,499 @@ except AttributeError:
     _newclass = 0
 
 
+class SwigPyIterator(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _parkin.delete_SwigPyIterator
+    __del__ = lambda self : None;
+    def value(self): return _parkin.SwigPyIterator_value(self)
+    def incr(self, n = 1): return _parkin.SwigPyIterator_incr(self, n)
+    def decr(self, n = 1): return _parkin.SwigPyIterator_decr(self, n)
+    def distance(self, *args): return _parkin.SwigPyIterator_distance(self, *args)
+    def equal(self, *args): return _parkin.SwigPyIterator_equal(self, *args)
+    def copy(self): return _parkin.SwigPyIterator_copy(self)
+    def next(self): return _parkin.SwigPyIterator_next(self)
+    def __next__(self): return _parkin.SwigPyIterator___next__(self)
+    def previous(self): return _parkin.SwigPyIterator_previous(self)
+    def advance(self, *args): return _parkin.SwigPyIterator_advance(self, *args)
+    def __eq__(self, *args): return _parkin.SwigPyIterator___eq__(self, *args)
+    def __ne__(self, *args): return _parkin.SwigPyIterator___ne__(self, *args)
+    def __iadd__(self, *args): return _parkin.SwigPyIterator___iadd__(self, *args)
+    def __isub__(self, *args): return _parkin.SwigPyIterator___isub__(self, *args)
+    def __add__(self, *args): return _parkin.SwigPyIterator___add__(self, *args)
+    def __sub__(self, *args): return _parkin.SwigPyIterator___sub__(self, *args)
+    def __iter__(self): return self
+SwigPyIterator_swigregister = _parkin.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+
+class Param(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Param, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Param, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.Param_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.Param___nonzero__(self)
+    def __bool__(self): return _parkin.Param___bool__(self)
+    def __len__(self): return _parkin.Param___len__(self)
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args): return _parkin.Param___getitem__(self, *args)
+    def __delitem__(self, *args): return _parkin.Param___delitem__(self, *args)
+    def has_key(self, *args): return _parkin.Param_has_key(self, *args)
+    def keys(self): return _parkin.Param_keys(self)
+    def values(self): return _parkin.Param_values(self)
+    def items(self): return _parkin.Param_items(self)
+    def __contains__(self, *args): return _parkin.Param___contains__(self, *args)
+    def key_iterator(self): return _parkin.Param_key_iterator(self)
+    def value_iterator(self): return _parkin.Param_value_iterator(self)
+    def __setitem__(self, *args): return _parkin.Param___setitem__(self, *args)
+    def asdict(self): return _parkin.Param_asdict(self)
+    def __init__(self, *args): 
+        this = _parkin.new_Param(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def empty(self): return _parkin.Param_empty(self)
+    def size(self): return _parkin.Param_size(self)
+    def clear(self): return _parkin.Param_clear(self)
+    def swap(self, *args): return _parkin.Param_swap(self, *args)
+    def get_allocator(self): return _parkin.Param_get_allocator(self)
+    def begin(self): return _parkin.Param_begin(self)
+    def end(self): return _parkin.Param_end(self)
+    def rbegin(self): return _parkin.Param_rbegin(self)
+    def rend(self): return _parkin.Param_rend(self)
+    def count(self, *args): return _parkin.Param_count(self, *args)
+    def erase(self, *args): return _parkin.Param_erase(self, *args)
+    def find(self, *args): return _parkin.Param_find(self, *args)
+    def lower_bound(self, *args): return _parkin.Param_lower_bound(self, *args)
+    def upper_bound(self, *args): return _parkin.Param_upper_bound(self, *args)
+    __swig_destroy__ = _parkin.delete_Param
+    __del__ = lambda self : None;
+Param_swigregister = _parkin.Param_swigregister
+Param_swigregister(Param)
+
+class StringList(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, StringList, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, StringList, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.StringList_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.StringList___nonzero__(self)
+    def __bool__(self): return _parkin.StringList___bool__(self)
+    def __len__(self): return _parkin.StringList___len__(self)
+    def pop(self): return _parkin.StringList_pop(self)
+    def __getslice__(self, *args): return _parkin.StringList___getslice__(self, *args)
+    def __setslice__(self, *args): return _parkin.StringList___setslice__(self, *args)
+    def __delslice__(self, *args): return _parkin.StringList___delslice__(self, *args)
+    def __delitem__(self, *args): return _parkin.StringList___delitem__(self, *args)
+    def __getitem__(self, *args): return _parkin.StringList___getitem__(self, *args)
+    def __setitem__(self, *args): return _parkin.StringList___setitem__(self, *args)
+    def append(self, *args): return _parkin.StringList_append(self, *args)
+    def empty(self): return _parkin.StringList_empty(self)
+    def size(self): return _parkin.StringList_size(self)
+    def clear(self): return _parkin.StringList_clear(self)
+    def swap(self, *args): return _parkin.StringList_swap(self, *args)
+    def get_allocator(self): return _parkin.StringList_get_allocator(self)
+    def begin(self): return _parkin.StringList_begin(self)
+    def end(self): return _parkin.StringList_end(self)
+    def rbegin(self): return _parkin.StringList_rbegin(self)
+    def rend(self): return _parkin.StringList_rend(self)
+    def pop_back(self): return _parkin.StringList_pop_back(self)
+    def erase(self, *args): return _parkin.StringList_erase(self, *args)
+    def __init__(self, *args): 
+        this = _parkin.new_StringList(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _parkin.StringList_push_back(self, *args)
+    def front(self): return _parkin.StringList_front(self)
+    def back(self): return _parkin.StringList_back(self)
+    def assign(self, *args): return _parkin.StringList_assign(self, *args)
+    def resize(self, *args): return _parkin.StringList_resize(self, *args)
+    def insert(self, *args): return _parkin.StringList_insert(self, *args)
+    def reserve(self, *args): return _parkin.StringList_reserve(self, *args)
+    def capacity(self): return _parkin.StringList_capacity(self)
+    __swig_destroy__ = _parkin.delete_StringList
+    __del__ = lambda self : None;
+StringList_swigregister = _parkin.StringList_swigregister
+StringList_swigregister(StringList)
+
+class ValueList(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ValueList, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ValueList, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.ValueList_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.ValueList___nonzero__(self)
+    def __bool__(self): return _parkin.ValueList___bool__(self)
+    def __len__(self): return _parkin.ValueList___len__(self)
+    def pop(self): return _parkin.ValueList_pop(self)
+    def __getslice__(self, *args): return _parkin.ValueList___getslice__(self, *args)
+    def __setslice__(self, *args): return _parkin.ValueList___setslice__(self, *args)
+    def __delslice__(self, *args): return _parkin.ValueList___delslice__(self, *args)
+    def __delitem__(self, *args): return _parkin.ValueList___delitem__(self, *args)
+    def __getitem__(self, *args): return _parkin.ValueList___getitem__(self, *args)
+    def __setitem__(self, *args): return _parkin.ValueList___setitem__(self, *args)
+    def append(self, *args): return _parkin.ValueList_append(self, *args)
+    def empty(self): return _parkin.ValueList_empty(self)
+    def size(self): return _parkin.ValueList_size(self)
+    def clear(self): return _parkin.ValueList_clear(self)
+    def swap(self, *args): return _parkin.ValueList_swap(self, *args)
+    def get_allocator(self): return _parkin.ValueList_get_allocator(self)
+    def begin(self): return _parkin.ValueList_begin(self)
+    def end(self): return _parkin.ValueList_end(self)
+    def rbegin(self): return _parkin.ValueList_rbegin(self)
+    def rend(self): return _parkin.ValueList_rend(self)
+    def pop_back(self): return _parkin.ValueList_pop_back(self)
+    def erase(self, *args): return _parkin.ValueList_erase(self, *args)
+    def __init__(self, *args): 
+        this = _parkin.new_ValueList(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _parkin.ValueList_push_back(self, *args)
+    def front(self): return _parkin.ValueList_front(self)
+    def back(self): return _parkin.ValueList_back(self)
+    def assign(self, *args): return _parkin.ValueList_assign(self, *args)
+    def resize(self, *args): return _parkin.ValueList_resize(self, *args)
+    def insert(self, *args): return _parkin.ValueList_insert(self, *args)
+    def reserve(self, *args): return _parkin.ValueList_reserve(self, *args)
+    def capacity(self): return _parkin.ValueList_capacity(self)
+    __swig_destroy__ = _parkin.delete_ValueList
+    __del__ = lambda self : None;
+ValueList_swigregister = _parkin.ValueList_swigregister
+ValueList_swigregister(ValueList)
+
+class VectorList(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, VectorList, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, VectorList, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.VectorList_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.VectorList___nonzero__(self)
+    def __bool__(self): return _parkin.VectorList___bool__(self)
+    def __len__(self): return _parkin.VectorList___len__(self)
+    def pop(self): return _parkin.VectorList_pop(self)
+    def __getslice__(self, *args): return _parkin.VectorList___getslice__(self, *args)
+    def __setslice__(self, *args): return _parkin.VectorList___setslice__(self, *args)
+    def __delslice__(self, *args): return _parkin.VectorList___delslice__(self, *args)
+    def __delitem__(self, *args): return _parkin.VectorList___delitem__(self, *args)
+    def __getitem__(self, *args): return _parkin.VectorList___getitem__(self, *args)
+    def __setitem__(self, *args): return _parkin.VectorList___setitem__(self, *args)
+    def append(self, *args): return _parkin.VectorList_append(self, *args)
+    def empty(self): return _parkin.VectorList_empty(self)
+    def size(self): return _parkin.VectorList_size(self)
+    def clear(self): return _parkin.VectorList_clear(self)
+    def swap(self, *args): return _parkin.VectorList_swap(self, *args)
+    def get_allocator(self): return _parkin.VectorList_get_allocator(self)
+    def begin(self): return _parkin.VectorList_begin(self)
+    def end(self): return _parkin.VectorList_end(self)
+    def rbegin(self): return _parkin.VectorList_rbegin(self)
+    def rend(self): return _parkin.VectorList_rend(self)
+    def pop_back(self): return _parkin.VectorList_pop_back(self)
+    def erase(self, *args): return _parkin.VectorList_erase(self, *args)
+    def __init__(self, *args): 
+        this = _parkin.new_VectorList(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _parkin.VectorList_push_back(self, *args)
+    def front(self): return _parkin.VectorList_front(self)
+    def back(self): return _parkin.VectorList_back(self)
+    def assign(self, *args): return _parkin.VectorList_assign(self, *args)
+    def resize(self, *args): return _parkin.VectorList_resize(self, *args)
+    def insert(self, *args): return _parkin.VectorList_insert(self, *args)
+    def reserve(self, *args): return _parkin.VectorList_reserve(self, *args)
+    def capacity(self): return _parkin.VectorList_capacity(self)
+    __swig_destroy__ = _parkin.delete_VectorList
+    __del__ = lambda self : None;
+VectorList_swigregister = _parkin.VectorList_swigregister
+VectorList_swigregister(VectorList)
+
+class MatrixList(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MatrixList, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, MatrixList, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.MatrixList_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.MatrixList___nonzero__(self)
+    def __bool__(self): return _parkin.MatrixList___bool__(self)
+    def __len__(self): return _parkin.MatrixList___len__(self)
+    def pop(self): return _parkin.MatrixList_pop(self)
+    def __getslice__(self, *args): return _parkin.MatrixList___getslice__(self, *args)
+    def __setslice__(self, *args): return _parkin.MatrixList___setslice__(self, *args)
+    def __delslice__(self, *args): return _parkin.MatrixList___delslice__(self, *args)
+    def __delitem__(self, *args): return _parkin.MatrixList___delitem__(self, *args)
+    def __getitem__(self, *args): return _parkin.MatrixList___getitem__(self, *args)
+    def __setitem__(self, *args): return _parkin.MatrixList___setitem__(self, *args)
+    def append(self, *args): return _parkin.MatrixList_append(self, *args)
+    def empty(self): return _parkin.MatrixList_empty(self)
+    def size(self): return _parkin.MatrixList_size(self)
+    def clear(self): return _parkin.MatrixList_clear(self)
+    def swap(self, *args): return _parkin.MatrixList_swap(self, *args)
+    def get_allocator(self): return _parkin.MatrixList_get_allocator(self)
+    def begin(self): return _parkin.MatrixList_begin(self)
+    def end(self): return _parkin.MatrixList_end(self)
+    def rbegin(self): return _parkin.MatrixList_rbegin(self)
+    def rend(self): return _parkin.MatrixList_rend(self)
+    def pop_back(self): return _parkin.MatrixList_pop_back(self)
+    def erase(self, *args): return _parkin.MatrixList_erase(self, *args)
+    def __init__(self, *args): 
+        this = _parkin.new_MatrixList(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _parkin.MatrixList_push_back(self, *args)
+    def front(self): return _parkin.MatrixList_front(self)
+    def back(self): return _parkin.MatrixList_back(self)
+    def assign(self, *args): return _parkin.MatrixList_assign(self, *args)
+    def resize(self, *args): return _parkin.MatrixList_resize(self, *args)
+    def insert(self, *args): return _parkin.MatrixList_insert(self, *args)
+    def reserve(self, *args): return _parkin.MatrixList_reserve(self, *args)
+    def capacity(self): return _parkin.MatrixList_capacity(self)
+    __swig_destroy__ = _parkin.delete_MatrixList
+    __del__ = lambda self : None;
+MatrixList_swigregister = _parkin.MatrixList_swigregister
+MatrixList_swigregister(MatrixList)
+
+class QRconDecompList(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, QRconDecompList, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, QRconDecompList, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.QRconDecompList_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.QRconDecompList___nonzero__(self)
+    def __bool__(self): return _parkin.QRconDecompList___bool__(self)
+    def __len__(self): return _parkin.QRconDecompList___len__(self)
+    def pop(self): return _parkin.QRconDecompList_pop(self)
+    def __getslice__(self, *args): return _parkin.QRconDecompList___getslice__(self, *args)
+    def __setslice__(self, *args): return _parkin.QRconDecompList___setslice__(self, *args)
+    def __delslice__(self, *args): return _parkin.QRconDecompList___delslice__(self, *args)
+    def __delitem__(self, *args): return _parkin.QRconDecompList___delitem__(self, *args)
+    def __getitem__(self, *args): return _parkin.QRconDecompList___getitem__(self, *args)
+    def __setitem__(self, *args): return _parkin.QRconDecompList___setitem__(self, *args)
+    def append(self, *args): return _parkin.QRconDecompList_append(self, *args)
+    def empty(self): return _parkin.QRconDecompList_empty(self)
+    def size(self): return _parkin.QRconDecompList_size(self)
+    def clear(self): return _parkin.QRconDecompList_clear(self)
+    def swap(self, *args): return _parkin.QRconDecompList_swap(self, *args)
+    def get_allocator(self): return _parkin.QRconDecompList_get_allocator(self)
+    def begin(self): return _parkin.QRconDecompList_begin(self)
+    def end(self): return _parkin.QRconDecompList_end(self)
+    def rbegin(self): return _parkin.QRconDecompList_rbegin(self)
+    def rend(self): return _parkin.QRconDecompList_rend(self)
+    def pop_back(self): return _parkin.QRconDecompList_pop_back(self)
+    def erase(self, *args): return _parkin.QRconDecompList_erase(self, *args)
+    def __init__(self, *args): 
+        this = _parkin.new_QRconDecompList(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def push_back(self, *args): return _parkin.QRconDecompList_push_back(self, *args)
+    def front(self): return _parkin.QRconDecompList_front(self)
+    def back(self): return _parkin.QRconDecompList_back(self)
+    def assign(self, *args): return _parkin.QRconDecompList_assign(self, *args)
+    def resize(self, *args): return _parkin.QRconDecompList_resize(self, *args)
+    def insert(self, *args): return _parkin.QRconDecompList_insert(self, *args)
+    def reserve(self, *args): return _parkin.QRconDecompList_reserve(self, *args)
+    def capacity(self): return _parkin.QRconDecompList_capacity(self)
+    __swig_destroy__ = _parkin.delete_QRconDecompList
+    __del__ = lambda self : None;
+QRconDecompList_swigregister = _parkin.QRconDecompList_swigregister
+QRconDecompList_swigregister(QRconDecompList)
+
+class ValuePair(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ValuePair, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ValuePair, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _parkin.new_ValuePair(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_setmethods__["first"] = _parkin.ValuePair_first_set
+    __swig_getmethods__["first"] = _parkin.ValuePair_first_get
+    if _newclass:first = _swig_property(_parkin.ValuePair_first_get, _parkin.ValuePair_first_set)
+    __swig_setmethods__["second"] = _parkin.ValuePair_second_set
+    __swig_getmethods__["second"] = _parkin.ValuePair_second_get
+    if _newclass:second = _swig_property(_parkin.ValuePair_second_get, _parkin.ValuePair_second_set)
+    def __len__(self): return 2
+    def __repr__(self): return str((self.first, self.second))
+    def __getitem__(self, index): 
+      if not (index % 2): 
+        return self.first
+      else:
+        return self.second
+    def __setitem__(self, index, val):
+      if not (index % 2): 
+        self.first = val
+      else:
+        self.second = val
+    __swig_destroy__ = _parkin.delete_ValuePair
+    __del__ = lambda self : None;
+ValuePair_swigregister = _parkin.ValuePair_swigregister
+ValuePair_swigregister(ValuePair)
+
+class MeasurementPoint(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MeasurementPoint, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, MeasurementPoint, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.MeasurementPoint_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.MeasurementPoint___nonzero__(self)
+    def __bool__(self): return _parkin.MeasurementPoint___bool__(self)
+    def __len__(self): return _parkin.MeasurementPoint___len__(self)
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args): return _parkin.MeasurementPoint___getitem__(self, *args)
+    def __delitem__(self, *args): return _parkin.MeasurementPoint___delitem__(self, *args)
+    def has_key(self, *args): return _parkin.MeasurementPoint_has_key(self, *args)
+    def keys(self): return _parkin.MeasurementPoint_keys(self)
+    def values(self): return _parkin.MeasurementPoint_values(self)
+    def items(self): return _parkin.MeasurementPoint_items(self)
+    def __contains__(self, *args): return _parkin.MeasurementPoint___contains__(self, *args)
+    def key_iterator(self): return _parkin.MeasurementPoint_key_iterator(self)
+    def value_iterator(self): return _parkin.MeasurementPoint_value_iterator(self)
+    def __setitem__(self, *args): return _parkin.MeasurementPoint___setitem__(self, *args)
+    def asdict(self): return _parkin.MeasurementPoint_asdict(self)
+    def __init__(self, *args): 
+        this = _parkin.new_MeasurementPoint(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def empty(self): return _parkin.MeasurementPoint_empty(self)
+    def size(self): return _parkin.MeasurementPoint_size(self)
+    def clear(self): return _parkin.MeasurementPoint_clear(self)
+    def swap(self, *args): return _parkin.MeasurementPoint_swap(self, *args)
+    def get_allocator(self): return _parkin.MeasurementPoint_get_allocator(self)
+    def begin(self): return _parkin.MeasurementPoint_begin(self)
+    def end(self): return _parkin.MeasurementPoint_end(self)
+    def rbegin(self): return _parkin.MeasurementPoint_rbegin(self)
+    def rend(self): return _parkin.MeasurementPoint_rend(self)
+    def count(self, *args): return _parkin.MeasurementPoint_count(self, *args)
+    def erase(self, *args): return _parkin.MeasurementPoint_erase(self, *args)
+    def find(self, *args): return _parkin.MeasurementPoint_find(self, *args)
+    def lower_bound(self, *args): return _parkin.MeasurementPoint_lower_bound(self, *args)
+    def upper_bound(self, *args): return _parkin.MeasurementPoint_upper_bound(self, *args)
+    __swig_destroy__ = _parkin.delete_MeasurementPoint
+    __del__ = lambda self : None;
+MeasurementPoint_swigregister = _parkin.MeasurementPoint_swigregister
+MeasurementPoint_swigregister(MeasurementPoint)
+
+class Trajectory(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Trajectory, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Trajectory, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.Trajectory_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.Trajectory___nonzero__(self)
+    def __bool__(self): return _parkin.Trajectory___bool__(self)
+    def __len__(self): return _parkin.Trajectory___len__(self)
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args): return _parkin.Trajectory___getitem__(self, *args)
+    def __delitem__(self, *args): return _parkin.Trajectory___delitem__(self, *args)
+    def has_key(self, *args): return _parkin.Trajectory_has_key(self, *args)
+    def keys(self): return _parkin.Trajectory_keys(self)
+    def values(self): return _parkin.Trajectory_values(self)
+    def items(self): return _parkin.Trajectory_items(self)
+    def __contains__(self, *args): return _parkin.Trajectory___contains__(self, *args)
+    def key_iterator(self): return _parkin.Trajectory_key_iterator(self)
+    def value_iterator(self): return _parkin.Trajectory_value_iterator(self)
+    def __setitem__(self, *args): return _parkin.Trajectory___setitem__(self, *args)
+    def asdict(self): return _parkin.Trajectory_asdict(self)
+    def __init__(self, *args): 
+        this = _parkin.new_Trajectory(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def empty(self): return _parkin.Trajectory_empty(self)
+    def size(self): return _parkin.Trajectory_size(self)
+    def clear(self): return _parkin.Trajectory_clear(self)
+    def swap(self, *args): return _parkin.Trajectory_swap(self, *args)
+    def get_allocator(self): return _parkin.Trajectory_get_allocator(self)
+    def begin(self): return _parkin.Trajectory_begin(self)
+    def end(self): return _parkin.Trajectory_end(self)
+    def rbegin(self): return _parkin.Trajectory_rbegin(self)
+    def rend(self): return _parkin.Trajectory_rend(self)
+    def count(self, *args): return _parkin.Trajectory_count(self, *args)
+    def erase(self, *args): return _parkin.Trajectory_erase(self, *args)
+    def find(self, *args): return _parkin.Trajectory_find(self, *args)
+    def lower_bound(self, *args): return _parkin.Trajectory_lower_bound(self, *args)
+    def upper_bound(self, *args): return _parkin.Trajectory_upper_bound(self, *args)
+    __swig_destroy__ = _parkin.delete_Trajectory
+    __del__ = lambda self : None;
+Trajectory_swigregister = _parkin.Trajectory_swigregister
+Trajectory_swigregister(Trajectory)
+
+class TrajectoryMap(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TrajectoryMap, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, TrajectoryMap, name)
+    __repr__ = _swig_repr
+    def iterator(self): return _parkin.TrajectoryMap_iterator(self)
+    def __iter__(self): return self.iterator()
+    def __nonzero__(self): return _parkin.TrajectoryMap___nonzero__(self)
+    def __bool__(self): return _parkin.TrajectoryMap___bool__(self)
+    def __len__(self): return _parkin.TrajectoryMap___len__(self)
+    def __iter__(self): return self.key_iterator()
+    def iterkeys(self): return self.key_iterator()
+    def itervalues(self): return self.value_iterator()
+    def iteritems(self): return self.iterator()
+    def __getitem__(self, *args): return _parkin.TrajectoryMap___getitem__(self, *args)
+    def __delitem__(self, *args): return _parkin.TrajectoryMap___delitem__(self, *args)
+    def has_key(self, *args): return _parkin.TrajectoryMap_has_key(self, *args)
+    def keys(self): return _parkin.TrajectoryMap_keys(self)
+    def values(self): return _parkin.TrajectoryMap_values(self)
+    def items(self): return _parkin.TrajectoryMap_items(self)
+    def __contains__(self, *args): return _parkin.TrajectoryMap___contains__(self, *args)
+    def key_iterator(self): return _parkin.TrajectoryMap_key_iterator(self)
+    def value_iterator(self): return _parkin.TrajectoryMap_value_iterator(self)
+    def __setitem__(self, *args): return _parkin.TrajectoryMap___setitem__(self, *args)
+    def asdict(self): return _parkin.TrajectoryMap_asdict(self)
+    def __init__(self, *args): 
+        this = _parkin.new_TrajectoryMap(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def empty(self): return _parkin.TrajectoryMap_empty(self)
+    def size(self): return _parkin.TrajectoryMap_size(self)
+    def clear(self): return _parkin.TrajectoryMap_clear(self)
+    def swap(self, *args): return _parkin.TrajectoryMap_swap(self, *args)
+    def get_allocator(self): return _parkin.TrajectoryMap_get_allocator(self)
+    def begin(self): return _parkin.TrajectoryMap_begin(self)
+    def end(self): return _parkin.TrajectoryMap_end(self)
+    def rbegin(self): return _parkin.TrajectoryMap_rbegin(self)
+    def rend(self): return _parkin.TrajectoryMap_rend(self)
+    def count(self, *args): return _parkin.TrajectoryMap_count(self, *args)
+    def erase(self, *args): return _parkin.TrajectoryMap_erase(self, *args)
+    def find(self, *args): return _parkin.TrajectoryMap_find(self, *args)
+    def lower_bound(self, *args): return _parkin.TrajectoryMap_lower_bound(self, *args)
+    def upper_bound(self, *args): return _parkin.TrajectoryMap_upper_bound(self, *args)
+    __swig_destroy__ = _parkin.delete_TrajectoryMap
+    __del__ = lambda self : None;
+TrajectoryMap_swigregister = _parkin.TrajectoryMap_swigregister
+TrajectoryMap_swigregister(TrajectoryMap)
+
 EPMACH = _parkin.EPMACH
 sqrtEPMACH = _parkin.sqrtEPMACH
 class ErrType(_object):
@@ -568,6 +1061,7 @@ class GaussNewton(_object):
         except: self.this = this
     __swig_destroy__ = _parkin.delete_GaussNewton
     __del__ = lambda self : None;
+    def setLogStream(self, *args): return _parkin.GaussNewton_setLogStream(self, *args)
     def setIOpt(self, *args): return _parkin.GaussNewton_setIOpt(self, *args)
     def setWk(self, *args): return _parkin.GaussNewton_setWk(self, *args)
     def setProblem(self, *args): return _parkin.GaussNewton_setProblem(self, *args)
@@ -636,6 +1130,7 @@ class YeOldeParkinCore(_object):
         except: self.this = this
     __swig_destroy__ = _parkin.delete_YeOldeParkinCore
     __del__ = lambda self : None;
+    def setLogStream(self, *args): return _parkin.YeOldeParkinCore_setLogStream(self, *args)
     def setIOpt(self, *args): return _parkin.YeOldeParkinCore_setIOpt(self, *args)
     def setWk(self, *args): return _parkin.YeOldeParkinCore_setWk(self, *args)
     def setProblem(self, *args): return _parkin.YeOldeParkinCore_setProblem(self, *args)
@@ -704,499 +1199,6 @@ class ODETrajectory(_object):
     def setDim(self, *args): return _parkin.ODETrajectory_setDim(self, *args)
 ODETrajectory_swigregister = _parkin.ODETrajectory_swigregister
 ODETrajectory_swigregister(ODETrajectory)
-
-class SwigPyIterator(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _parkin.delete_SwigPyIterator
-    __del__ = lambda self : None;
-    def value(self): return _parkin.SwigPyIterator_value(self)
-    def incr(self, n = 1): return _parkin.SwigPyIterator_incr(self, n)
-    def decr(self, n = 1): return _parkin.SwigPyIterator_decr(self, n)
-    def distance(self, *args): return _parkin.SwigPyIterator_distance(self, *args)
-    def equal(self, *args): return _parkin.SwigPyIterator_equal(self, *args)
-    def copy(self): return _parkin.SwigPyIterator_copy(self)
-    def next(self): return _parkin.SwigPyIterator_next(self)
-    def __next__(self): return _parkin.SwigPyIterator___next__(self)
-    def previous(self): return _parkin.SwigPyIterator_previous(self)
-    def advance(self, *args): return _parkin.SwigPyIterator_advance(self, *args)
-    def __eq__(self, *args): return _parkin.SwigPyIterator___eq__(self, *args)
-    def __ne__(self, *args): return _parkin.SwigPyIterator___ne__(self, *args)
-    def __iadd__(self, *args): return _parkin.SwigPyIterator___iadd__(self, *args)
-    def __isub__(self, *args): return _parkin.SwigPyIterator___isub__(self, *args)
-    def __add__(self, *args): return _parkin.SwigPyIterator___add__(self, *args)
-    def __sub__(self, *args): return _parkin.SwigPyIterator___sub__(self, *args)
-    def __iter__(self): return self
-SwigPyIterator_swigregister = _parkin.SwigPyIterator_swigregister
-SwigPyIterator_swigregister(SwigPyIterator)
-
-class Param(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Param, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, Param, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.Param_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.Param___nonzero__(self)
-    def __bool__(self): return _parkin.Param___bool__(self)
-    def __len__(self): return _parkin.Param___len__(self)
-    def __iter__(self): return self.key_iterator()
-    def iterkeys(self): return self.key_iterator()
-    def itervalues(self): return self.value_iterator()
-    def iteritems(self): return self.iterator()
-    def __getitem__(self, *args): return _parkin.Param___getitem__(self, *args)
-    def __delitem__(self, *args): return _parkin.Param___delitem__(self, *args)
-    def has_key(self, *args): return _parkin.Param_has_key(self, *args)
-    def keys(self): return _parkin.Param_keys(self)
-    def values(self): return _parkin.Param_values(self)
-    def items(self): return _parkin.Param_items(self)
-    def __contains__(self, *args): return _parkin.Param___contains__(self, *args)
-    def key_iterator(self): return _parkin.Param_key_iterator(self)
-    def value_iterator(self): return _parkin.Param_value_iterator(self)
-    def __setitem__(self, *args): return _parkin.Param___setitem__(self, *args)
-    def asdict(self): return _parkin.Param_asdict(self)
-    def __init__(self, *args): 
-        this = _parkin.new_Param(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def empty(self): return _parkin.Param_empty(self)
-    def size(self): return _parkin.Param_size(self)
-    def clear(self): return _parkin.Param_clear(self)
-    def swap(self, *args): return _parkin.Param_swap(self, *args)
-    def get_allocator(self): return _parkin.Param_get_allocator(self)
-    def begin(self): return _parkin.Param_begin(self)
-    def end(self): return _parkin.Param_end(self)
-    def rbegin(self): return _parkin.Param_rbegin(self)
-    def rend(self): return _parkin.Param_rend(self)
-    def count(self, *args): return _parkin.Param_count(self, *args)
-    def erase(self, *args): return _parkin.Param_erase(self, *args)
-    def find(self, *args): return _parkin.Param_find(self, *args)
-    def lower_bound(self, *args): return _parkin.Param_lower_bound(self, *args)
-    def upper_bound(self, *args): return _parkin.Param_upper_bound(self, *args)
-    __swig_destroy__ = _parkin.delete_Param
-    __del__ = lambda self : None;
-Param_swigregister = _parkin.Param_swigregister
-Param_swigregister(Param)
-
-class StringList(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, StringList, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, StringList, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.StringList_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.StringList___nonzero__(self)
-    def __bool__(self): return _parkin.StringList___bool__(self)
-    def __len__(self): return _parkin.StringList___len__(self)
-    def pop(self): return _parkin.StringList_pop(self)
-    def __getslice__(self, *args): return _parkin.StringList___getslice__(self, *args)
-    def __setslice__(self, *args): return _parkin.StringList___setslice__(self, *args)
-    def __delslice__(self, *args): return _parkin.StringList___delslice__(self, *args)
-    def __delitem__(self, *args): return _parkin.StringList___delitem__(self, *args)
-    def __getitem__(self, *args): return _parkin.StringList___getitem__(self, *args)
-    def __setitem__(self, *args): return _parkin.StringList___setitem__(self, *args)
-    def append(self, *args): return _parkin.StringList_append(self, *args)
-    def empty(self): return _parkin.StringList_empty(self)
-    def size(self): return _parkin.StringList_size(self)
-    def clear(self): return _parkin.StringList_clear(self)
-    def swap(self, *args): return _parkin.StringList_swap(self, *args)
-    def get_allocator(self): return _parkin.StringList_get_allocator(self)
-    def begin(self): return _parkin.StringList_begin(self)
-    def end(self): return _parkin.StringList_end(self)
-    def rbegin(self): return _parkin.StringList_rbegin(self)
-    def rend(self): return _parkin.StringList_rend(self)
-    def pop_back(self): return _parkin.StringList_pop_back(self)
-    def erase(self, *args): return _parkin.StringList_erase(self, *args)
-    def __init__(self, *args): 
-        this = _parkin.new_StringList(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _parkin.StringList_push_back(self, *args)
-    def front(self): return _parkin.StringList_front(self)
-    def back(self): return _parkin.StringList_back(self)
-    def assign(self, *args): return _parkin.StringList_assign(self, *args)
-    def resize(self, *args): return _parkin.StringList_resize(self, *args)
-    def insert(self, *args): return _parkin.StringList_insert(self, *args)
-    def reserve(self, *args): return _parkin.StringList_reserve(self, *args)
-    def capacity(self): return _parkin.StringList_capacity(self)
-    __swig_destroy__ = _parkin.delete_StringList
-    __del__ = lambda self : None;
-StringList_swigregister = _parkin.StringList_swigregister
-StringList_swigregister(StringList)
-
-class ValueList(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ValueList, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, ValueList, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.ValueList_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.ValueList___nonzero__(self)
-    def __bool__(self): return _parkin.ValueList___bool__(self)
-    def __len__(self): return _parkin.ValueList___len__(self)
-    def pop(self): return _parkin.ValueList_pop(self)
-    def __getslice__(self, *args): return _parkin.ValueList___getslice__(self, *args)
-    def __setslice__(self, *args): return _parkin.ValueList___setslice__(self, *args)
-    def __delslice__(self, *args): return _parkin.ValueList___delslice__(self, *args)
-    def __delitem__(self, *args): return _parkin.ValueList___delitem__(self, *args)
-    def __getitem__(self, *args): return _parkin.ValueList___getitem__(self, *args)
-    def __setitem__(self, *args): return _parkin.ValueList___setitem__(self, *args)
-    def append(self, *args): return _parkin.ValueList_append(self, *args)
-    def empty(self): return _parkin.ValueList_empty(self)
-    def size(self): return _parkin.ValueList_size(self)
-    def clear(self): return _parkin.ValueList_clear(self)
-    def swap(self, *args): return _parkin.ValueList_swap(self, *args)
-    def get_allocator(self): return _parkin.ValueList_get_allocator(self)
-    def begin(self): return _parkin.ValueList_begin(self)
-    def end(self): return _parkin.ValueList_end(self)
-    def rbegin(self): return _parkin.ValueList_rbegin(self)
-    def rend(self): return _parkin.ValueList_rend(self)
-    def pop_back(self): return _parkin.ValueList_pop_back(self)
-    def erase(self, *args): return _parkin.ValueList_erase(self, *args)
-    def __init__(self, *args): 
-        this = _parkin.new_ValueList(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _parkin.ValueList_push_back(self, *args)
-    def front(self): return _parkin.ValueList_front(self)
-    def back(self): return _parkin.ValueList_back(self)
-    def assign(self, *args): return _parkin.ValueList_assign(self, *args)
-    def resize(self, *args): return _parkin.ValueList_resize(self, *args)
-    def insert(self, *args): return _parkin.ValueList_insert(self, *args)
-    def reserve(self, *args): return _parkin.ValueList_reserve(self, *args)
-    def capacity(self): return _parkin.ValueList_capacity(self)
-    __swig_destroy__ = _parkin.delete_ValueList
-    __del__ = lambda self : None;
-ValueList_swigregister = _parkin.ValueList_swigregister
-ValueList_swigregister(ValueList)
-
-class VectorList(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VectorList, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VectorList, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.VectorList_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.VectorList___nonzero__(self)
-    def __bool__(self): return _parkin.VectorList___bool__(self)
-    def __len__(self): return _parkin.VectorList___len__(self)
-    def pop(self): return _parkin.VectorList_pop(self)
-    def __getslice__(self, *args): return _parkin.VectorList___getslice__(self, *args)
-    def __setslice__(self, *args): return _parkin.VectorList___setslice__(self, *args)
-    def __delslice__(self, *args): return _parkin.VectorList___delslice__(self, *args)
-    def __delitem__(self, *args): return _parkin.VectorList___delitem__(self, *args)
-    def __getitem__(self, *args): return _parkin.VectorList___getitem__(self, *args)
-    def __setitem__(self, *args): return _parkin.VectorList___setitem__(self, *args)
-    def append(self, *args): return _parkin.VectorList_append(self, *args)
-    def empty(self): return _parkin.VectorList_empty(self)
-    def size(self): return _parkin.VectorList_size(self)
-    def clear(self): return _parkin.VectorList_clear(self)
-    def swap(self, *args): return _parkin.VectorList_swap(self, *args)
-    def get_allocator(self): return _parkin.VectorList_get_allocator(self)
-    def begin(self): return _parkin.VectorList_begin(self)
-    def end(self): return _parkin.VectorList_end(self)
-    def rbegin(self): return _parkin.VectorList_rbegin(self)
-    def rend(self): return _parkin.VectorList_rend(self)
-    def pop_back(self): return _parkin.VectorList_pop_back(self)
-    def erase(self, *args): return _parkin.VectorList_erase(self, *args)
-    def __init__(self, *args): 
-        this = _parkin.new_VectorList(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _parkin.VectorList_push_back(self, *args)
-    def front(self): return _parkin.VectorList_front(self)
-    def back(self): return _parkin.VectorList_back(self)
-    def assign(self, *args): return _parkin.VectorList_assign(self, *args)
-    def resize(self, *args): return _parkin.VectorList_resize(self, *args)
-    def insert(self, *args): return _parkin.VectorList_insert(self, *args)
-    def reserve(self, *args): return _parkin.VectorList_reserve(self, *args)
-    def capacity(self): return _parkin.VectorList_capacity(self)
-    __swig_destroy__ = _parkin.delete_VectorList
-    __del__ = lambda self : None;
-VectorList_swigregister = _parkin.VectorList_swigregister
-VectorList_swigregister(VectorList)
-
-class MatrixList(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, MatrixList, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, MatrixList, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.MatrixList_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.MatrixList___nonzero__(self)
-    def __bool__(self): return _parkin.MatrixList___bool__(self)
-    def __len__(self): return _parkin.MatrixList___len__(self)
-    def pop(self): return _parkin.MatrixList_pop(self)
-    def __getslice__(self, *args): return _parkin.MatrixList___getslice__(self, *args)
-    def __setslice__(self, *args): return _parkin.MatrixList___setslice__(self, *args)
-    def __delslice__(self, *args): return _parkin.MatrixList___delslice__(self, *args)
-    def __delitem__(self, *args): return _parkin.MatrixList___delitem__(self, *args)
-    def __getitem__(self, *args): return _parkin.MatrixList___getitem__(self, *args)
-    def __setitem__(self, *args): return _parkin.MatrixList___setitem__(self, *args)
-    def append(self, *args): return _parkin.MatrixList_append(self, *args)
-    def empty(self): return _parkin.MatrixList_empty(self)
-    def size(self): return _parkin.MatrixList_size(self)
-    def clear(self): return _parkin.MatrixList_clear(self)
-    def swap(self, *args): return _parkin.MatrixList_swap(self, *args)
-    def get_allocator(self): return _parkin.MatrixList_get_allocator(self)
-    def begin(self): return _parkin.MatrixList_begin(self)
-    def end(self): return _parkin.MatrixList_end(self)
-    def rbegin(self): return _parkin.MatrixList_rbegin(self)
-    def rend(self): return _parkin.MatrixList_rend(self)
-    def pop_back(self): return _parkin.MatrixList_pop_back(self)
-    def erase(self, *args): return _parkin.MatrixList_erase(self, *args)
-    def __init__(self, *args): 
-        this = _parkin.new_MatrixList(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _parkin.MatrixList_push_back(self, *args)
-    def front(self): return _parkin.MatrixList_front(self)
-    def back(self): return _parkin.MatrixList_back(self)
-    def assign(self, *args): return _parkin.MatrixList_assign(self, *args)
-    def resize(self, *args): return _parkin.MatrixList_resize(self, *args)
-    def insert(self, *args): return _parkin.MatrixList_insert(self, *args)
-    def reserve(self, *args): return _parkin.MatrixList_reserve(self, *args)
-    def capacity(self): return _parkin.MatrixList_capacity(self)
-    __swig_destroy__ = _parkin.delete_MatrixList
-    __del__ = lambda self : None;
-MatrixList_swigregister = _parkin.MatrixList_swigregister
-MatrixList_swigregister(MatrixList)
-
-class QRconDecompList(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, QRconDecompList, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, QRconDecompList, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.QRconDecompList_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.QRconDecompList___nonzero__(self)
-    def __bool__(self): return _parkin.QRconDecompList___bool__(self)
-    def __len__(self): return _parkin.QRconDecompList___len__(self)
-    def pop(self): return _parkin.QRconDecompList_pop(self)
-    def __getslice__(self, *args): return _parkin.QRconDecompList___getslice__(self, *args)
-    def __setslice__(self, *args): return _parkin.QRconDecompList___setslice__(self, *args)
-    def __delslice__(self, *args): return _parkin.QRconDecompList___delslice__(self, *args)
-    def __delitem__(self, *args): return _parkin.QRconDecompList___delitem__(self, *args)
-    def __getitem__(self, *args): return _parkin.QRconDecompList___getitem__(self, *args)
-    def __setitem__(self, *args): return _parkin.QRconDecompList___setitem__(self, *args)
-    def append(self, *args): return _parkin.QRconDecompList_append(self, *args)
-    def empty(self): return _parkin.QRconDecompList_empty(self)
-    def size(self): return _parkin.QRconDecompList_size(self)
-    def clear(self): return _parkin.QRconDecompList_clear(self)
-    def swap(self, *args): return _parkin.QRconDecompList_swap(self, *args)
-    def get_allocator(self): return _parkin.QRconDecompList_get_allocator(self)
-    def begin(self): return _parkin.QRconDecompList_begin(self)
-    def end(self): return _parkin.QRconDecompList_end(self)
-    def rbegin(self): return _parkin.QRconDecompList_rbegin(self)
-    def rend(self): return _parkin.QRconDecompList_rend(self)
-    def pop_back(self): return _parkin.QRconDecompList_pop_back(self)
-    def erase(self, *args): return _parkin.QRconDecompList_erase(self, *args)
-    def __init__(self, *args): 
-        this = _parkin.new_QRconDecompList(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def push_back(self, *args): return _parkin.QRconDecompList_push_back(self, *args)
-    def front(self): return _parkin.QRconDecompList_front(self)
-    def back(self): return _parkin.QRconDecompList_back(self)
-    def assign(self, *args): return _parkin.QRconDecompList_assign(self, *args)
-    def resize(self, *args): return _parkin.QRconDecompList_resize(self, *args)
-    def insert(self, *args): return _parkin.QRconDecompList_insert(self, *args)
-    def reserve(self, *args): return _parkin.QRconDecompList_reserve(self, *args)
-    def capacity(self): return _parkin.QRconDecompList_capacity(self)
-    __swig_destroy__ = _parkin.delete_QRconDecompList
-    __del__ = lambda self : None;
-QRconDecompList_swigregister = _parkin.QRconDecompList_swigregister
-QRconDecompList_swigregister(QRconDecompList)
-
-class ValuePair(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ValuePair, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, ValuePair, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        this = _parkin.new_ValuePair(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_setmethods__["first"] = _parkin.ValuePair_first_set
-    __swig_getmethods__["first"] = _parkin.ValuePair_first_get
-    if _newclass:first = _swig_property(_parkin.ValuePair_first_get, _parkin.ValuePair_first_set)
-    __swig_setmethods__["second"] = _parkin.ValuePair_second_set
-    __swig_getmethods__["second"] = _parkin.ValuePair_second_get
-    if _newclass:second = _swig_property(_parkin.ValuePair_second_get, _parkin.ValuePair_second_set)
-    def __len__(self): return 2
-    def __repr__(self): return str((self.first, self.second))
-    def __getitem__(self, index): 
-      if not (index % 2): 
-        return self.first
-      else:
-        return self.second
-    def __setitem__(self, index, val):
-      if not (index % 2): 
-        self.first = val
-      else:
-        self.second = val
-    __swig_destroy__ = _parkin.delete_ValuePair
-    __del__ = lambda self : None;
-ValuePair_swigregister = _parkin.ValuePair_swigregister
-ValuePair_swigregister(ValuePair)
-
-class MeasurementPoint(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, MeasurementPoint, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, MeasurementPoint, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.MeasurementPoint_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.MeasurementPoint___nonzero__(self)
-    def __bool__(self): return _parkin.MeasurementPoint___bool__(self)
-    def __len__(self): return _parkin.MeasurementPoint___len__(self)
-    def __iter__(self): return self.key_iterator()
-    def iterkeys(self): return self.key_iterator()
-    def itervalues(self): return self.value_iterator()
-    def iteritems(self): return self.iterator()
-    def __getitem__(self, *args): return _parkin.MeasurementPoint___getitem__(self, *args)
-    def __delitem__(self, *args): return _parkin.MeasurementPoint___delitem__(self, *args)
-    def has_key(self, *args): return _parkin.MeasurementPoint_has_key(self, *args)
-    def keys(self): return _parkin.MeasurementPoint_keys(self)
-    def values(self): return _parkin.MeasurementPoint_values(self)
-    def items(self): return _parkin.MeasurementPoint_items(self)
-    def __contains__(self, *args): return _parkin.MeasurementPoint___contains__(self, *args)
-    def key_iterator(self): return _parkin.MeasurementPoint_key_iterator(self)
-    def value_iterator(self): return _parkin.MeasurementPoint_value_iterator(self)
-    def __setitem__(self, *args): return _parkin.MeasurementPoint___setitem__(self, *args)
-    def asdict(self): return _parkin.MeasurementPoint_asdict(self)
-    def __init__(self, *args): 
-        this = _parkin.new_MeasurementPoint(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def empty(self): return _parkin.MeasurementPoint_empty(self)
-    def size(self): return _parkin.MeasurementPoint_size(self)
-    def clear(self): return _parkin.MeasurementPoint_clear(self)
-    def swap(self, *args): return _parkin.MeasurementPoint_swap(self, *args)
-    def get_allocator(self): return _parkin.MeasurementPoint_get_allocator(self)
-    def begin(self): return _parkin.MeasurementPoint_begin(self)
-    def end(self): return _parkin.MeasurementPoint_end(self)
-    def rbegin(self): return _parkin.MeasurementPoint_rbegin(self)
-    def rend(self): return _parkin.MeasurementPoint_rend(self)
-    def count(self, *args): return _parkin.MeasurementPoint_count(self, *args)
-    def erase(self, *args): return _parkin.MeasurementPoint_erase(self, *args)
-    def find(self, *args): return _parkin.MeasurementPoint_find(self, *args)
-    def lower_bound(self, *args): return _parkin.MeasurementPoint_lower_bound(self, *args)
-    def upper_bound(self, *args): return _parkin.MeasurementPoint_upper_bound(self, *args)
-    __swig_destroy__ = _parkin.delete_MeasurementPoint
-    __del__ = lambda self : None;
-MeasurementPoint_swigregister = _parkin.MeasurementPoint_swigregister
-MeasurementPoint_swigregister(MeasurementPoint)
-
-class Trajectory(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, Trajectory, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, Trajectory, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.Trajectory_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.Trajectory___nonzero__(self)
-    def __bool__(self): return _parkin.Trajectory___bool__(self)
-    def __len__(self): return _parkin.Trajectory___len__(self)
-    def __iter__(self): return self.key_iterator()
-    def iterkeys(self): return self.key_iterator()
-    def itervalues(self): return self.value_iterator()
-    def iteritems(self): return self.iterator()
-    def __getitem__(self, *args): return _parkin.Trajectory___getitem__(self, *args)
-    def __delitem__(self, *args): return _parkin.Trajectory___delitem__(self, *args)
-    def has_key(self, *args): return _parkin.Trajectory_has_key(self, *args)
-    def keys(self): return _parkin.Trajectory_keys(self)
-    def values(self): return _parkin.Trajectory_values(self)
-    def items(self): return _parkin.Trajectory_items(self)
-    def __contains__(self, *args): return _parkin.Trajectory___contains__(self, *args)
-    def key_iterator(self): return _parkin.Trajectory_key_iterator(self)
-    def value_iterator(self): return _parkin.Trajectory_value_iterator(self)
-    def __setitem__(self, *args): return _parkin.Trajectory___setitem__(self, *args)
-    def asdict(self): return _parkin.Trajectory_asdict(self)
-    def __init__(self, *args): 
-        this = _parkin.new_Trajectory(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def empty(self): return _parkin.Trajectory_empty(self)
-    def size(self): return _parkin.Trajectory_size(self)
-    def clear(self): return _parkin.Trajectory_clear(self)
-    def swap(self, *args): return _parkin.Trajectory_swap(self, *args)
-    def get_allocator(self): return _parkin.Trajectory_get_allocator(self)
-    def begin(self): return _parkin.Trajectory_begin(self)
-    def end(self): return _parkin.Trajectory_end(self)
-    def rbegin(self): return _parkin.Trajectory_rbegin(self)
-    def rend(self): return _parkin.Trajectory_rend(self)
-    def count(self, *args): return _parkin.Trajectory_count(self, *args)
-    def erase(self, *args): return _parkin.Trajectory_erase(self, *args)
-    def find(self, *args): return _parkin.Trajectory_find(self, *args)
-    def lower_bound(self, *args): return _parkin.Trajectory_lower_bound(self, *args)
-    def upper_bound(self, *args): return _parkin.Trajectory_upper_bound(self, *args)
-    __swig_destroy__ = _parkin.delete_Trajectory
-    __del__ = lambda self : None;
-Trajectory_swigregister = _parkin.Trajectory_swigregister
-Trajectory_swigregister(Trajectory)
-
-class TrajectoryMap(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, TrajectoryMap, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, TrajectoryMap, name)
-    __repr__ = _swig_repr
-    def iterator(self): return _parkin.TrajectoryMap_iterator(self)
-    def __iter__(self): return self.iterator()
-    def __nonzero__(self): return _parkin.TrajectoryMap___nonzero__(self)
-    def __bool__(self): return _parkin.TrajectoryMap___bool__(self)
-    def __len__(self): return _parkin.TrajectoryMap___len__(self)
-    def __iter__(self): return self.key_iterator()
-    def iterkeys(self): return self.key_iterator()
-    def itervalues(self): return self.value_iterator()
-    def iteritems(self): return self.iterator()
-    def __getitem__(self, *args): return _parkin.TrajectoryMap___getitem__(self, *args)
-    def __delitem__(self, *args): return _parkin.TrajectoryMap___delitem__(self, *args)
-    def has_key(self, *args): return _parkin.TrajectoryMap_has_key(self, *args)
-    def keys(self): return _parkin.TrajectoryMap_keys(self)
-    def values(self): return _parkin.TrajectoryMap_values(self)
-    def items(self): return _parkin.TrajectoryMap_items(self)
-    def __contains__(self, *args): return _parkin.TrajectoryMap___contains__(self, *args)
-    def key_iterator(self): return _parkin.TrajectoryMap_key_iterator(self)
-    def value_iterator(self): return _parkin.TrajectoryMap_value_iterator(self)
-    def __setitem__(self, *args): return _parkin.TrajectoryMap___setitem__(self, *args)
-    def asdict(self): return _parkin.TrajectoryMap_asdict(self)
-    def __init__(self, *args): 
-        this = _parkin.new_TrajectoryMap(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def empty(self): return _parkin.TrajectoryMap_empty(self)
-    def size(self): return _parkin.TrajectoryMap_size(self)
-    def clear(self): return _parkin.TrajectoryMap_clear(self)
-    def swap(self, *args): return _parkin.TrajectoryMap_swap(self, *args)
-    def get_allocator(self): return _parkin.TrajectoryMap_get_allocator(self)
-    def begin(self): return _parkin.TrajectoryMap_begin(self)
-    def end(self): return _parkin.TrajectoryMap_end(self)
-    def rbegin(self): return _parkin.TrajectoryMap_rbegin(self)
-    def rend(self): return _parkin.TrajectoryMap_rend(self)
-    def count(self, *args): return _parkin.TrajectoryMap_count(self, *args)
-    def erase(self, *args): return _parkin.TrajectoryMap_erase(self, *args)
-    def find(self, *args): return _parkin.TrajectoryMap_find(self, *args)
-    def lower_bound(self, *args): return _parkin.TrajectoryMap_lower_bound(self, *args)
-    def upper_bound(self, *args): return _parkin.TrajectoryMap_upper_bound(self, *args)
-    __swig_destroy__ = _parkin.delete_TrajectoryMap
-    __del__ = lambda self : None;
-TrajectoryMap_swigregister = _parkin.TrajectoryMap_swigregister
-TrajectoryMap_swigregister(TrajectoryMap)
 
 PLUS = _parkin.PLUS
 MINUS = _parkin.MINUS
@@ -1417,6 +1419,7 @@ class BioProcessor(_object):
         try: self.this.append(this)
         except: self.this = this
     def setProcessingMethod(self, *args): return _parkin.BioProcessor_setProcessingMethod(self, *args)
+    def setLogStream(self, *args): return _parkin.BioProcessor_setLogStream(self, *args)
     def setIOpt(self, *args): return _parkin.BioProcessor_setIOpt(self, *args)
     def getIOpt(self): return _parkin.BioProcessor_getIOpt(self)
     def setParameterConstraints(self, *args): return _parkin.BioProcessor_setParameterConstraints(self, *args)
@@ -1582,6 +1585,45 @@ class ExprTypeMap(_object):
     __del__ = lambda self : None;
 ExprTypeMap_swigregister = _parkin.ExprTypeMap_swigregister
 ExprTypeMap_swigregister(ExprTypeMap)
+
+class CPyOutbuf(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CPyOutbuf, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CPyOutbuf, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _parkin.new_CPyOutbuf(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _parkin.delete_CPyOutbuf
+    __del__ = lambda self : None;
+CPyOutbuf_swigregister = _parkin.CPyOutbuf_swigregister
+CPyOutbuf_swigregister(CPyOutbuf)
+
+class CPyOstream(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CPyOstream, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CPyOstream, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _parkin.new_CPyOstream(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _parkin.delete_CPyOstream
+    __del__ = lambda self : None;
+CPyOstream_swigregister = _parkin.CPyOstream_swigregister
+CPyOstream_swigregister(CPyOstream)
+
+def MakeCppOStream(file):
+    os = CPyOstream(file)
+    os.thisown = False
+    return os
+    # ls = LogStream_ostream(os)
+    # ls.thisown = False
+    # return ls
+
 
 # This file is compatible with both classic and new-style classes.
 
