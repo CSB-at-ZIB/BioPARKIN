@@ -41,6 +41,7 @@ from basics.helpers import filehelpers
 from sbml_views.modelview import ModelView
 #from sbml_networkview.networkviewcontroller import NetworkViewController # not used for now
 from libsbml import LIBSBML_DOTTED_VERSION
+from parkincpp.parkin import PARKINCPP_DOTTED_VERSION
 from services.dataservice import DataService
 from sbml_model.modelcontroller import ModelController
 from services.progressbarservice import ProgressBarService, DummyProgressThread, DummyThrobberThread
@@ -149,6 +150,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
         logging.info("Command line arguments: %s" % args)
         logging.info("Python version: %s" % sys.version)
         logging.info("PySide version: %s" % PySide.__version__)
+        logging.info("PARKINcpp version: %s" % PARKINCPP_DOTTED_VERSION)
         logging.info("libSBML version: %s" % LIBSBML_DOTTED_VERSION)
         logging.info("Matplotlib version: %s" % matplotlib.__version__)
 #        logging.info("NetworkX version: %s" % networkx.__version__)

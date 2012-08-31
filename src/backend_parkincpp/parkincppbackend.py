@@ -15,6 +15,7 @@ from odehandling.odewrapper import ODEWrapper
 from sbml_model.sbml_entities import SBMLEntity
 import services
 from services.dataservice import DataService
+from services.optionsservice import OptionsService
 from parkincpp.parkin import ValueList, StringList, ExpressionMap, ExprTypeMap, BioSystem, Expression, Param, Vector, BioProcessor, Matrix, QRconDecomp, IOpt, MeasurementPoint, MeasurementList
 from parkincpp.parkin import MakeCppOStream
 
@@ -88,6 +89,7 @@ class ParkinCppBackend(BaseBackend):
         self.speciesThresholdMap = None
         self.iOpt = None
 
+        self.optionsService = OptionsService()
         self.dataService = DataService()
 
         self.mode = backend.settingsandvalues.MODE_INTEGRATE    # default mode
@@ -276,6 +278,9 @@ class ParkinCppBackend(BaseBackend):
         self.odeManager.endTime = self.settings[settingsandvalues.SETTING_ENDTIME] if settingsandvalues.SETTING_ENDTIME\
         in self.settings else settingsandvalues.DEFAULT_ENDTIME
 
+        # 29.08.12 td: debug flag for ODE solver: switched on if debugging active via command line switch
+        self.odeManager.debugflag = 1 if self.optionsService.getDebug() else 0
+
         self.odeManager.rtol = self.settings[settingsandvalues.SETTING_RTOL] if settingsandvalues.SETTING_RTOL\
         in self.settings else settingsandvalues.DEFAULT_RTOL
 
@@ -313,6 +318,10 @@ class ParkinCppBackend(BaseBackend):
         logging.info("ATOL: %s" % aTol)
         self.bioSystem.setSolverRTol(rTol)
         self.bioSystem.setSolverATol(aTol)
+
+	flag = int(self.odeManager.debugflag)
+	self.bioSystem.setSolverDebugFlag(flag)
+        logging.info("Monitoring of ODE Solver: %d" % flag)
 
         # set names / identifies of parameters
         for paramWrapper in self.odeManager.parameterList:

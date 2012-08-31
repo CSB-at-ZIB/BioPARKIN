@@ -60,9 +60,10 @@ class ODEManager(object):
         self.startTime = None
         self.endTime = None
         
-        self.rtol = None    # relative tolerance for integrator
-        self.atol = None    # absolute tolerance for integrator
-        self.xtol = None    # required tolerance for gauss newton
+        self.debugflag = None   #
+        self.rtol = None        # relative tolerance for integrator
+        self.atol = None        # absolute tolerance for integrator
+        self.xtol = None        # required tolerance for gauss newton
         self.globalParamStdDeviation = None
 
         self.useMeasuredTimepoints = False
