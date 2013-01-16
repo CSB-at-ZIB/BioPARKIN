@@ -70,8 +70,8 @@ class PlotStyleManager ():
                     minItems = 11
                     reduced = -2
                 else: minItems = 23
-                cmap = cm.get_cmap(colorMap, min(self.items,minItems))
-                colorM = cmap(Normalize(**norm_args)(range(min(self.items,minItems))))
+                cmap = cm.get_cmap(colorMap, min(self.items+1,minItems+1))
+                colorM = cmap(Normalize(**norm_args)(range(min(self.items+1,minItems+1))))
                 from itertools import imap
                 if self.items!=1:
                     self.colorMap = list(imap(tuple,colorM[:reduced,:]))
