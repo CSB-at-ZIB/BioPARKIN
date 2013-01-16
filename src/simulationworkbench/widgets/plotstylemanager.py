@@ -64,17 +64,18 @@ class PlotStyleManager ():
             try:
                 from matplotlib import cm
                 from matplotlib.colors import Normalize
-                minItems, reduced = 0, -1
+                reduced = -1
                 if colorMap=='gray':
                     self.isGray = True
                     minItems = 11
                     reduced = -2
                 else: minItems = 23
-                cmap = cm.get_cmap(colorMap, minItems)
-                colorM = cmap(Normalize(**norm_args)(range(minItems)))
-                colorM1= colorM[:reduced,:]
+                cmap = cm.get_cmap(colorMap, min(self.items,minItems))
+                colorM = cmap(Normalize(**norm_args)(range(min(self.items,minItems))))
                 from itertools import imap
-                self.colorMap = list(imap(tuple,colorM1))
+                if self.items!=1:
+                    self.colorMap = list(imap(tuple,colorM[:reduced,:]))
+                else: self.colorMap = list(imap(tuple,colorM))
             except Exception: raise TypeError ('\nNo such color map: %s'%colorMap)
     def setDataType(self,dataType):
         if not isinstance(dataType,str): TypeError('\nUnexpected type: %s'%dataType)
@@ -92,6 +93,6 @@ class PlotStyleManager ():
     
     
     
-    
-        
+if __name__=='__main__':
+    print min(12,25)
         

@@ -275,7 +275,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                             else:
                                 color = "black" # default... should never happen :)
                                 logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
-                        print 'data type: '+str((originID,label,self.title))
+                        #print 'data type: '+str((originID,label,self.title))
                         # 31.07.12 td
                         #   inserted an additional space in front of plotLabel 
                         #   (in case of IDs with underscore as first character)
@@ -291,14 +291,14 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                             if expPlot: markr = markerIt.next()
                             if 'Simulation' in self.title:
                                 if 'Simulation' in originID:
-                                    if markr in 'o': markr = markerIt.next()
-                                    self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='-',label=plotLabel)#,marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = True
                                 else:
-                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='-',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)#,marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = False
                             else:
-                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                #while markr=='o': markr = markerIt.next()
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                 expPlot = True
                             #if plotStyle == PLOT_LINE:
                             #    self.axes.plot(timepoints, datapoints, color=color, linestyle=lineIt.next(), label=plotLabel)
@@ -311,15 +311,15 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                                 plotLabel = " %s " % (label)
                             if expPlot: markr = markerIt.next()
                             if 'Simulation' in self.title:
-                                if 'Simulation' in originID:
-                                    if markr in 'o': markr = markerIt.next()
+                                if 'Simulation' in originID:                                    
                                     self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = True
                                 else:
-                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = False
                             else:
-                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                if markr in 'o': markr = markerIt.next()
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                 expPlot = True
                     #END for
                     
@@ -367,8 +367,8 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             #get the color map - one color object per item (entity)
             #colors = self.map_colors(range(numItems), DEFAULT_COLORMAP)
             #if self.plotStyleManager.items<numItems:
-            if self.useGrayColor: self.plotStyleManager.setItems(11)
-            else: self.plotStyleManager.setItems(23)
+            if self.checkBoxOneColorPerRow.isChecked() and entityIDs: self.plotStyleManager.setItems(len(entityIDs))
+            elif selectedSourceEntityTuples:self.plotStyleManager.setItems(len(selectedSourceEntityTuples))
             colorIt = self.plotStyleManager.getColorIterator()
             self.plotColors = {}
 
@@ -505,7 +505,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         else:
             logging.info("Switching plot coloring mode to spectral")
             self.plotStyleManager.isGray = False
-            #self.plotStyleManager.setItems(23)
+            if self.plotStyleManager.items==1: self.plotStyleManager.setItems(len(self.allData.keys()))
             self.plotStyleManager.setColorMap('spectral')
         self.useGrayColor = isChecked
         self._updateDataView()
