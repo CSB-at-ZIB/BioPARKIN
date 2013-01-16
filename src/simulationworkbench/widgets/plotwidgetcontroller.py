@@ -8,10 +8,12 @@ import logging
 from services.statusbarservice import StatusBarService
 from simulationworkbench.widgets.abstractviewcontroller import AbstractViewController
 
+from itertools import cycle, imap
+
 import matplotlib
 matplotlib.use('Qt4Agg')
 matplotlib.rcParams['backend.qt4'] = "PySide"
-
+ 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
@@ -19,8 +21,10 @@ from matplotlib import cm
 from matplotlib.colors import rgb2hex, Normalize, Colormap
 
 from matplotlib.figure import Figure
-from itertools import imap
-from simulationworkbench.widgets.Ui_plotwidget_v1 import Ui_PlotWidget
+from simulationworkbench.widgets.Ui_plotwidget_v2 import Ui_PlotWidget
+
+from plotstylemanager import PlotStyleManager
+#from plotstyle import PlotStyleManager
 
 OPTION_LABEL_X = "option_label_x"
 OPTION_SHOW_LEGEND = "option_show_legend"
@@ -32,6 +36,27 @@ PLOT_CIRCLE = "o"
 
 DEFAULT_COLORMAP = "spectral" # also possible: Set1, hsv, spectral
 # more: http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps
+
+MARKER_STYLES = ['.',',','o','v','^','<','>','1','2','3','4','s','p','*','h','H','+','x','D','d','|','_']
+
+LINE_STYLES = ['-','--','-.',':']
+
+COLOR_STYLES = ['spectral','gray']
+
+def getColorMap(colorMap='spectral',numberOfItems=1,**norm_args):
+    if not isinstance(colorMap,str): raise TypeError('\nIncorrect type: %s'%colorMap.__class__)
+    if not isinstance(numberOfItems,int):raise TypeError('\nIncorrect type: %s'%colorMap.__class__)
+    if numberOfItems<=0: raise ValueError('\nNon positive number of items!')
+    if not norm_args: norm_args = {}
+    try:
+        #from matplotlib import cm
+        minItems = min(numberOfItems,11)
+        cmap = cm.get_cmap(colorMap, numberOfItems)
+        colorM = cmap(Normalize(**norm_args)(range(minItems)))
+        colorM1= colorM[:-2,:]
+        return list(imap(tuple,colorM1))
+    except Exception: raise TypeError ('\nNo such color map: %s'%colorMap)
+
 
 class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
     """
@@ -52,7 +77,10 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         """
         Constructor
         """
+        #super class constructor
         super(PlotWidgetController, self).__init__(parent)
+        
+        
         self.setupUi(self)
         self.setWindowTitle(title)
 
@@ -62,6 +90,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         if host:
             self.timeUnit = str(host.optionTimeUnit)
 
+        #options: time unit, logarithmic y-axis and 'show legend'
         self.options = {
             OPTION_LABEL_X: "Time [%s]" % (self.timeUnit), #default
             OPTION_LOG_Y_AXIS: self.checkBoxLogYAxis.isChecked(),
@@ -79,6 +108,11 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         self.axes = None
         self.mpl_toolbar = None
         self.dpi = None
+        
+        self.useGrayColor = False
+        
+        self.plotStyleManager = PlotStyleManager()
+        if self.title!='Plot': self.plotStyleManager.setDataType(self.title)
 
         self.plotStyle = {
             0: PLOT_LINE} #default plot style; if there are more elements, each numbered element corresponds to one data source
@@ -87,7 +121,13 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 
 
     def _updateView(self, data=None):
+        '''
+        '''
+        #wrap it in a try-catch
         try:
+            
+            #if the data argument is not None
+            #assign it to the instance var data
             if data:
                 self.data = data
 
@@ -122,7 +162,14 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
 
     def setAxesAndData(self):
         try:
+            #TODO: deprecated since a new plot style manager class!!!
+            #if not self.plotStyleManager.colorMap: self.plotStyleManager.setColorMap('spectral')
             self.computeColors()
+            
+            #if no color map specified yet - set default to spectral
+            
+            from plotstylemanager import DATA_TYPES
+            if not self.plotStyleManager.dataType and self.title in DATA_TYPES:self.plotStyleManager.dataType = self.title
             # some of this has to be done before the data is set
             self.setAxes()
             self.setData()
@@ -142,7 +189,8 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         try:
             self.axes.clear()
             self.axes.grid(True)
-
+            
+            
             # set x label
             for entityDataList in self.data.values():
                 for entityData in entityDataList:
@@ -163,28 +211,52 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             logging.debug("PlotWidgetController.setAxes: Error occurred: %s" % e)
 
     def setData(self):
-        try:
+        try:#wrap it in a try-catch close
+            
+            #BEGIN if-if there's some data
             if self.data:
+
+                #get new cyclic iterators over the marker styles, line style and color                
+                markerIt, lineIt= self.plotStyleManager.getMarkerIterator(), self.plotStyleManager.getLineIterator()
+                expPlot = True
+                markr = None
+                
+                #BEGIN for-iterating over the data values
                 for j, entityDataList in enumerate(self.data.values()):
+                    
+                    #BEGIN for-iterating over the data entities
                     for entityData in entityDataList:
                         timepoints = entityData.timepoints
                         datapoints = entityData.datapoints
                         label = entityData.getId()
 
-                        # select correct plot style (points, lines) based
-                        # on what has been set from the outside (e.g. SimulationWorkbench)
+                        #first, get the right plotting style info for
+                        #the current data entity:
+                        #
+                        #1. getting the associated entity id
                         if entityData.getAssociatedDataSet():
                             originID = entityData.getAssociatedDataSet().getId()
+                            
+                        #if no such id
                         else:
                             originID = None
-                        if originID in self.dataSourceIDs:
-                            dataIndex = self.dataSourceIDs.index(originID)
-                            if dataIndex in self.plotStyle:
-                                plotStyle = self.plotStyle[dataIndex]
-                            else:
-                                plotStyle = self.plotStyle[0]   # 0 as key always exists
-                        else:
-                            plotStyle = self.plotStyle[0]   # 0 as key always exists
+                        #TODO: deprecated!!!
+                        #2. check if there is some data source id associated
+                        #   with data entity id
+                        #if originID in self.dataSourceIDs:
+                        #    dataIndex = self.dataSourceIDs.index(originID)
+                        #    
+                        #    #2a. if there is, get the corresponding plotting style
+                        #    if dataIndex in self.plotStyle:
+                        #        plotStyle = self.plotStyle[dataIndex]
+                            #2b. if no such style is there, take the default plotting
+                        #    #    style always associated with 0-key,
+                        #    else:
+                        #        plotStyle = self.plotStyle[0]
+                                
+                        #2c. if no such source id found, use default plotting style    
+                        #else:
+                        #    plotStyle = self.plotStyle[0]
 
                         # handle colour (prepend the colour code to style string)
                         if self.checkBoxOneColorPerRow.isChecked():
@@ -203,23 +275,59 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                             else:
                                 color = "black" # default... should never happen :)
                                 logging.debug("PlotWidgetController.setData(): Reverting to default line color. This should not happen. ID: %s" % label)
-
+                        print 'data type: '+str((originID,label,self.title))
                         # 31.07.12 td
                         #   inserted an additional space in front of plotLabel 
                         #   (in case of IDs with underscore as first character)
                         # 26.07.12 td
                         #   the following line yields no originID in plot label if only one column 
                         #   is selected in sens overview...
-                        # if len(entityDataList) > 1:  
-                        if originID and ("Sensitivity (Plot)" in self.title):  # awful hack
-                            plotLabel = " %s (%s) " % (label, originID)
+                        # if len(entityDataList) > 1:
+                        if not self.useGrayColor:
+                            if originID and ("Sensitivity (Plot)" in self.title):  # awful hack
+                                plotLabel = " %s (%s) " % (label, originID)
+                            else:
+                                plotLabel = " %s " % (label)
+                            if expPlot: markr = markerIt.next()
+                            if 'Simulation' in self.title:
+                                if 'Simulation' in originID:
+                                    if markr in 'o': markr = markerIt.next()
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    expPlot = True
+                                else:
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    expPlot = False
+                            else:
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                expPlot = True
+                            #if plotStyle == PLOT_LINE:
+                            #    self.axes.plot(timepoints, datapoints, color=color, linestyle=lineIt.next(), label=plotLabel)
+                            #elif plotStyle == PLOT_POINT or plotStyle == PLOT_CIRCLE:
+                            #    self.axes.plot(timepoints, datapoints, color=color, linestyle= "", marker=plotStyle, label=plotLabel)
                         else:
-                            plotLabel = " %s " % (label)
-
-                        if plotStyle == PLOT_LINE:
-                            self.axes.plot(timepoints, datapoints, color=color, linestyle=plotStyle, label=plotLabel)
-                        elif plotStyle == PLOT_POINT or plotStyle == PLOT_CIRCLE:
-                            self.axes.plot(timepoints, datapoints, color=color, linestyle= "", marker=plotStyle, label=plotLabel)
+                            if originID and ("Sensitivity (Plot)" in self.title):  # awful hack
+                                plotLabel = " %s (%s) " % (label, originID)
+                            else:
+                                plotLabel = " %s " % (label)
+                            if expPlot: markr = markerIt.next()
+                            if 'Simulation' in self.title:
+                                if 'Simulation' in originID:
+                                    if markr in 'o': markr = markerIt.next()
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    expPlot = True
+                                else:
+                                    self.axes.plot(timepoints,datapoints,color=color,linestyle='',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                    expPlot = False
+                            else:
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                expPlot = True
+                    #END for
+                    
+                #END for
+                
+            #END if
+            
+        #catch exception and write to the debug logger
         except Exception as e:
             logging.debug("PlotWidgetController.setData: Error occurred: %s" % e)
 
@@ -227,35 +335,53 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         """
         Takes the number of data items (e.g. Species) and computes one color for each one.
         """
+        #check data object present
         if not self.data:
+            
+            #error - info: no data source to color
             logging.error("PlotWidgetController: Can't compute colors without data.")
+            
             return
 
         try:
-
+            
+            #check, whether the color per row checkbox is activated
             if self.checkBoxOneColorPerRow.isChecked():
+                
+                
                 entityIDs = self.getEntityIDs()
+                
+                #no entries - nothing to color
                 if not entityIDs:
                     return
-                numItems = len(entityIDs)
+                
+                #number of entity ids determines the number of color object to construct
+                #numItems = len(entityIDs)
             else:
+                
                 selectedSourceEntityTuples = self.getSelectedCombinations()
-                numItems = len(selectedSourceEntityTuples)
-
-            colors = self.map_colors(range(numItems), DEFAULT_COLORMAP)
-
+                #numItems = len(selectedSourceEntityTuples)
+            #TODO: fix color item issue - only 10 items in 'spectral' though should
+            #TODO: be 22 ?!
+            #
+            #get the color map - one color object per item (entity)
+            #colors = self.map_colors(range(numItems), DEFAULT_COLORMAP)
+            #if self.plotStyleManager.items<numItems:
+            if self.useGrayColor: self.plotStyleManager.setItems(11)
+            else: self.plotStyleManager.setItems(23)
+            colorIt = self.plotStyleManager.getColorIterator()
             self.plotColors = {}
 
             if self.checkBoxOneColorPerRow.isChecked():
-                for i, entityID in enumerate(entityIDs):
-                    self.plotColors[entityID] = colors[i]
+                for j, entityID in enumerate(entityIDs):
+                    self.plotColors[entityID] = colorIt.next()
             else:
-                for i, sourceEntityCombination in enumerate(selectedSourceEntityTuples):
-                    self.plotColors[sourceEntityCombination] = colors[i]
+                for j, sourceEntityCombination in enumerate(selectedSourceEntityTuples):
+                    self.plotColors[sourceEntityCombination] = colorIt.next()
 
         except Exception, e:
             logging.debug("PlotWidgetController.computeColors(): Error while computing colors: %s" % e)
-
+    
     def setPlotStyle(self, style, plotNumber=None):
         if not plotNumber:
             self.plotStyle = {0: style}
@@ -368,4 +494,18 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
     @Slot("bool")
     def on_checkBoxOneColorPerRow_toggled(self, isChecked):
         logging.info("Switching plot coloring mode.")
+        self._updateDataView()
+    @Slot("bool")
+    def on_checkBoxGrayColor_toggled(self, isChecked):
+        if isChecked:
+            logging.info("Switching plot coloring mode to gray")
+            self.plotStyleManager.isGray = True
+            #self.plotStyleManager.setItems(11)
+            self.plotStyleManager.setColorMap('gray')
+        else:
+            logging.info("Switching plot coloring mode to spectral")
+            self.plotStyleManager.isGray = False
+            #self.plotStyleManager.setItems(23)
+            self.plotStyleManager.setColorMap('spectral')
+        self.useGrayColor = isChecked
         self._updateDataView()

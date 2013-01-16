@@ -15,6 +15,9 @@ class ResultsWindowController(QMainWindow, Ui_ResultsWindow):
 
 
     def __init__(self, parent):
+        """
+        Constructs the result window controller: 
+        """
         super(ResultsWindowController, self).__init__(parent)
         self.setupUi(self)
         self.setAttribute(Qt.WA_QuitOnClose)
