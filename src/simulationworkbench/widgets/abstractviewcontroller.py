@@ -132,6 +132,11 @@ class AbstractViewController(QWidget):
 
 
     def _getSelectedData(self):
+        """
+        Returns an ordered dictionary view of the selected data
+        items - the returned dictionary is a key-based sorted version
+        of all data entries
+        """
         if not self.allData:    # only get actual data the first time
             self.allData = OrderedDict()
             allData = self.dataService.get_all_data()
@@ -155,7 +160,7 @@ class AbstractViewController(QWidget):
                 else:
                     selectedData[selectedID] = [dataOfID]
 
-        return selectedData
+        return OrderedDict(sorted(selectedData.items(), key=lambda t:t[0]))
 
 
     def _updateView(self, data):
