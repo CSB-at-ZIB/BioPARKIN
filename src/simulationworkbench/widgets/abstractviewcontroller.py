@@ -160,7 +160,7 @@ class AbstractViewController(QWidget):
                 else:
                     selectedData[selectedID] = [dataOfID]
 
-        return OrderedDict(sorted(selectedData.items(), key=lambda t:t[0]))
+        return selectedData#OrderedDict(sorted(selectedData.items(), key=lambda t:t[0]))
 
 
     def _updateView(self, data):

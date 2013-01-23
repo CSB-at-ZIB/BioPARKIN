@@ -222,7 +222,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                 markr = None
                 
                 #BEGIN for-iterating over the data values
-                for j, entityDataList in enumerate(self.data.values()):
+                for j, entityDataList in enumerate(sorted(self.data.values())):
                     
                     #BEGIN for-iterating over the data entities
                     for entityData in entityDataList:
@@ -296,8 +296,10 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                                 else:
                                     self.axes.plot(timepoints,datapoints,color=color,linestyle='-',marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)#,marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = False
-                            else:
-                                #while markr=='o': markr = markerIt.next()
+                            elif 'Sensitivity' in self.title:
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle='-',label=plotLabel)#,marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                expPlot = False
+                            else:    #while markr=='o': markr = markerIt.next()
                                 self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                 expPlot = True
                             #if plotStyle == PLOT_LINE:
@@ -309,14 +311,19 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
                                 plotLabel = " %s (%s) " % (label, originID)
                             else:
                                 plotLabel = " %s " % (label)
-                            if expPlot: markr = markerIt.next()
+                            if not expPlot: markr = markerIt.next()
                             if 'Simulation' in self.title:
-                                if 'Simulation' in originID:                                    
+                                if expPlot: markr = markerIt.next()
+                                if 'Simulation' in originID:
+                                    if markr=='o': markr = markerIt.next()                           
                                     self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = True
                                 else:
                                     self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)
                                     expPlot = False
+                            elif 'Sensitivity' in self.title:
+                                self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)#,marker=markr,markeredgecolor='black',markerfacecolor=color,label=plotLabel)
+                                expPlot = False
                             else:
                                 if markr in 'o': markr = markerIt.next()
                                 self.axes.plot(timepoints,datapoints,color=color,linestyle=lineIt.next(),marker='o',markeredgecolor='black',markerfacecolor=color,label=plotLabel)

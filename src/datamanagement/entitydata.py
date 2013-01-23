@@ -263,3 +263,18 @@ class EntityData(QObject):
 
     def setDatapointUnit(self, unit):
         self.datapointUnit = str(unit)
+        
+    def __cmp__(self,other):
+        if isinstance(other,EntityData):
+            if other.type==self.type:
+                if other.id and self.id:
+                    return cmp(self.id,other.id)
+                elif other.name and self.name:
+                    return cmp(self.name,other.name)
+                else: raise RuntimeError('Either no name or id provided for the EntityData objects to compare')
+            elif other.type and self.type:
+                if self.type<other.type:return-1
+                elif self.type==other.type:return 0
+                else: return 1
+            else: raise RuntimeError('No type provided for the EntityData objects to compare')
+        else: raise TypeError('Inappropriate type: %s'%other)
