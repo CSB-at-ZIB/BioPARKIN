@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # BioPARKIN
 ## Biology-related Parameter Identification in Large Kinetic Networks
 
@@ -69,4 +68,3 @@ Sensitivity Overview plot of all parameter/species pairs of a model.
 
 Colorized sensitivitiy values at a specific timepoint.
 
->>>>>>> b4901684a762df4f0ec0d15d588668d85bb113b0
