@@ -68,9 +68,5 @@ Sensitivity Overview plot of all parameter/species pairs of a model.
 ![Colorized sensitivitiy values](https://github.com/CSB-at-ZIB/BioPARKIN/raw/master/doc/screenshots/2011-10-25_1108_GUI_Results_ColoredSens.png)
 
 Colorized sensitivitiy values at a specific timepoint.
-=======
-aljebra-topo
-============
 
-basic algebraic and topological crap
 >>>>>>> b4901684a762df4f0ec0d15d588668d85bb113b0
