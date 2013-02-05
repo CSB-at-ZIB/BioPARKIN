@@ -176,7 +176,10 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
         self.dataTableRowCount = -1
         self.dataTableRowHeaders = None
         self.maxValue = -1
+        
+        #BEGIN FOR: iterate over all data block
         for (entity, entityDataList) in data.items():
+            
             for entityData in entityDataList:
                 dataDescriptors = entityData.dataDescriptors
                 if not self.dataTableRowHeaders:
@@ -205,26 +208,26 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     self.dataTableRowCount = len(dataDescriptors)
 
                 #datapoints = entityData.datapoints
-                datapoints = []
+                datapoints = self.__convertEntityData(entityData)
 
                 # shorten datapoints
-                for i, datapoint in enumerate(entityData.datapoints):
-                    try:
-                        floatValue = float(datapoint)   # will jump to except if no float
-                        valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
-                        datapoints.append(valueString)
+                #for i, datapoint in enumerate(entityData.datapoints):
+                #    try:
+                #        floatValue = float(datapoint)   # will jump to except if no float
+                #        valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
+                #        datapoints.append(valueString)
 
                         # preparing color computation
                         #                        logging.debug(entityData.dataDescriptorName)
                         #                        logging.debug(entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE)
-                        if self._mode == MODE_SUBCONDITIONS\
-                           and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE\
-                           and floatValue > self.maxValue\
-                        and floatValue < self.colorThreshold:
-                            self.maxValue = floatValue
+                #        if self._mode == MODE_SUBCONDITIONS\
+                #           and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE\
+                #           and floatValue > self.maxValue\
+                #        and floatValue < self.colorThreshold:
+                #            self.maxValue = floatValue
 
-                    except:
-                        datapoints.append(str(datapoint))
+                #    except:
+                #        datapoints.append(str(datapoint))
 
                         #                logging.debug("TableWidgetController - datapoints: %s" % datapoints)   # too much overhead
                         #self.dataTableHeaders.append("Data species %s [%s]" % (str(speciesID), entityData.getUnit()))
@@ -234,6 +237,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     self.dataTableHeaders.append("%s" % entity.getCombinedId())
                 self.dataTableColumnData.append(datapoints)
 
+        #END FOR: 
+        
         # Put those labels into the actual data that would be the vertical/row labels.
         # We can't use .setVerticalHeaderLabers() because those labels don't get sorted together with the data.
         # Very weird but that seems to be the intended behaviour of Qt.
@@ -264,10 +269,40 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 self.dataTableRowHeaders)  # has to be called after setRowCount?
 
         #put data into table
+        self.__addData()
+        #for col in xrange(len(self.dataTableColumnData)):
+        #    for row in xrange(len(self.dataTableColumnData[col])):
+        #        try:
+        #            value = self.dataTableColumnData[col][row]  # don't touch "values"; they could be pre-formatted strings
+        #            newItem = SortedTableWidgetItem()    # use custom item class
+        #            newItem.setData(Qt.DisplayRole, value)
+        #            newItem.setTextAlignment(Qt.AlignRight)
+        #            newItem.setFont(QFont("Fixed"))
+        #            if self.isColored:
+        #                if not(self._mode == MODE_SUBCONDITIONS and row != 2): #color only row 2 of subcondition tables
+        #                    color = self._computeColor(value)
+        #                    if color:
+        #                        newItem.setBackground(QBrush(color))
+        #        except Exception, e:
+        #            logging.debug(
+        #                "TableWidgetController._updateDataTable(): Could not put value into widget item: %s\nError: %s" % (
+        #                    value, e))
+        #        if self.orientation == ORIENTATION_HORIZONTAL:
+        #            self.dataTableWidget.setItem(row, col, newItem)
+        #        elif self.orientation == ORIENTATION_VERTICAL:
+        #            self.dataTableWidget.setItem(col, row, newItem)
+
+        if self.sortColumn != -1 and self.orientation==ORIENTATION_HORIZONTAL:
+            self.dataTableWidget.sortItems(self.sortColumn)
+
+        self.dataTableWidget.resizeColumnsToContents()
+        
+    def __addData(self):#oddly in the vertical mode some data entries seem to be missing
         for col in xrange(len(self.dataTableColumnData)):
-            for row in xrange(len(self.dataTableColumnData[col])):
+            dataList = self.dataTableColumnData[col]
+            for row in xrange(len(dataList)):
                 try:
-                    value = self.dataTableColumnData[col][row]  # don't touch "values"; they could be pre-formatted strings
+                    value = dataList[row]  # don't touch "values"; they could be pre-formatted strings
                     newItem = SortedTableWidgetItem()    # use custom item class
                     newItem.setData(Qt.DisplayRole, value)
                     newItem.setTextAlignment(Qt.AlignRight)
@@ -286,10 +321,27 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                 elif self.orientation == ORIENTATION_VERTICAL:
                     self.dataTableWidget.setItem(col, row, newItem)
 
-        if self.sortColumn != -1:
-            self.dataTableWidget.sortItems(self.sortColumn)
 
-        self.dataTableWidget.resizeColumnsToContents()
+    def __convertEntityData(self,entityData):
+        datapoints = []
+        for i, datapoint in enumerate(entityData.datapoints):
+            try:
+                floatValue = float(datapoint)   # will jump to except if no float
+                valueString = "N/A" if math.isnan(floatValue) else ' {0:-.4f}'.format(floatValue)
+                datapoints.append(valueString)
+
+                # preparing color computation
+                #                        logging.debug(entityData.dataDescriptorName)
+                #                        logging.debug(entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE)
+                if self._mode == MODE_SUBCONDITIONS\
+                    and entityData.dataDescriptors[i] == settingsandvalues.SUBCONDITION_HEADER_ABSOLUTE\
+                    and floatValue > self.maxValue\
+                    and floatValue < self.colorThreshold:
+                            self.maxValue = floatValue
+
+            except:
+                datapoints.append(str(datapoint))
+        return datapoints
 
 
     def setOrientation(self, orientation):
@@ -418,6 +470,8 @@ class TableWidgetController(AbstractViewController, Ui_TableWidget):
                     expDataSet.dataDescriptorUnit = item.dataDescriptorUnit
                     first = False
         dataService.add_data(expDataSet)
+        
+                
 
 
     #### COLORING-RELATED METHODS ####

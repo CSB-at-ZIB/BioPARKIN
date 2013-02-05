@@ -37,6 +37,13 @@ class PlotStyleManager ():
         self.lineIt   = None
         self.markerIt = None
         
+    def __cmp__(self,other):
+        if(isinstance(other,PlotStyleManager)):
+            if(self.items<other.items): return -1
+            if(self.items==other.items):return 0
+            return 1
+        else: raise TypeError('unknown type')
+        
     def getColorIterator(self):
         '''
         Returns a cyclic iterator over all
@@ -53,9 +60,7 @@ class PlotStyleManager ():
         return cycle(MARKER_STYLES)
     
     def getLineIterator (self):
-        if self.dataType and self.dataType=='Experimental Plot':
-            return cycle([''])
-        elif self.dataType: return cycle(LINE_STYLES)
+        return cycle(LINE_STYLES)
     
     def setColorMap(self,colorMap,**norm_args):
         if colorMap and isinstance(colorMap,str):
@@ -95,4 +100,13 @@ class PlotStyleManager ():
     
 if __name__=='__main__':
     print min(12,25)
+    plstman1 = PlotStyleManager()
+    plstman1.items = 14
+    plstman2 = PlotStyleManager()
+    plstman2.items = 11
+    if plstman1.__cmp__(plstman2)<0:
+        print "plotManager1 < plotManager2"
+    elif plstman1.__cmp__(plstman2)==0:
+        print "plotManager1 == plotManager2"
+    else: print "plotManager1 > plotManager2"
         
