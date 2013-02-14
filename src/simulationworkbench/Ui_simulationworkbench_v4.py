@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/simulationworkbench_v4.ui'
 #
-# Created: Tue Jul 17 14:29:57 2012
-#      by: pyside-uic 0.2.13 running on PySide 1.1.1
+# Created: Thu Feb 14 09:19:39 2013
+#      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_SimulationWorkbench(object):
     def setupUi(self, SimulationWorkbench):
         SimulationWorkbench.setObjectName("SimulationWorkbench")
-        SimulationWorkbench.resize(724, 842)
+        SimulationWorkbench.resize(1149, 842)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -563,7 +563,7 @@ class Ui_SimulationWorkbench(object):
         self.labelXTOL.setToolTip(QtGui.QApplication.translate("SimulationWorkbench", "Required tolerance for Gauß Newton", None, QtGui.QApplication.UnicodeUTF8))
         self.labelXTOL.setStatusTip(QtGui.QApplication.translate("SimulationWorkbench", "Required tolerance for Gauß Newton", None, QtGui.QApplication.UnicodeUTF8))
         self.labelXTOL.setWhatsThis(QtGui.QApplication.translate("SimulationWorkbench", "Required tolerance for Gauß Newton", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelXTOL.setText(QtGui.QApplication.translate("SimulationWorkbench", "Required Tolerance (XTOL)", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelXTOL.setText(QtGui.QApplication.translate("SimulationWorkbench", "Required Tolerance (PTOL)", None, QtGui.QApplication.UnicodeUTF8))
         self.labelMaxNumNewtonSteps.setText(QtGui.QApplication.translate("SimulationWorkbench", "Max. # Newton Steps", None, QtGui.QApplication.UnicodeUTF8))
         self.labelLPOS.setText(QtGui.QApplication.translate("SimulationWorkbench", "Parameter Constraints", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxParameterConstraintsSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "no constraints", None, QtGui.QApplication.UnicodeUTF8))
