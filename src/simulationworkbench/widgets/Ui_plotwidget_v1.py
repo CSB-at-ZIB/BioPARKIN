@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/widgets/plotwidget_v1.ui'
 #
-# Created: Tue Jul 17 14:29:48 2012
-#      by: pyside-uic 0.2.13 running on PySide 1.1.1
+# Created: Fri Feb 15 10:25:15 2013
+#      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
 

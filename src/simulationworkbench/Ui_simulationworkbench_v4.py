@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/simulationworkbench_v4.ui'
 #
-# Created: Thu Feb 14 09:19:39 2013
+# Created: Fri Feb 15 10:25:24 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
