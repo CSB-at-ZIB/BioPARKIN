@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultsWindow</class>
+ <widget class="QMainWindow" name="ResultsWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>896</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Results</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QMdiArea" name="mdiArea">
+        <property name="viewMode">
+         <enum>QMdiArea::TabbedView</enum>
+        </property>
+        <property name="documentMode">
+         <bool>false</bool>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::West</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="buttonCloseAll">
+          <property name="text">
+           <string>Close &amp;All</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ButtonClose">
+          <property name="text">
+           <string>&amp;Close</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBoxTabMode">
+          <property name="text">
+           <string>&amp;Tab Mode</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="buttonTileWindows">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>T&amp;ile Windows</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <property name="autoRepeat">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="buttonCascadeWindows">
+          <property name="text">
+           <string>Casca&amp;de &amp;Windows</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacerBottom">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>896</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>buttonCloseAll</tabstop>
+  <tabstop>ButtonClose</tabstop>
+  <tabstop>checkBoxTabMode</tabstop>
+  <tabstop>buttonTileWindows</tabstop>
+  <tabstop>buttonCascadeWindows</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>checkBoxTabMode</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>buttonTileWindows</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>632</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>307</x>
+     <y>633</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxTabMode</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>buttonCascadeWindows</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>643</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>645</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCloseAll</sender>
+   <signal>clicked()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>closeAllSubWindows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>39</x>
+     <y>638</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>491</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ButtonClose</sender>
+   <signal>clicked()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>closeActiveSubWindow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>630</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>579</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonTileWindows</sender>
+   <signal>clicked()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>tileSubWindows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>302</x>
+     <y>642</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>303</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCascadeWindows</sender>
+   <signal>clicked()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>cascadeSubWindows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>416</x>
+     <y>628</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>417</x>
+     <y>555</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
