@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1149</width>
+    <width>1248</width>
     <height>842</height>
    </rect>
   </property>
@@ -90,6 +90,13 @@
            <widget class="QCheckBox" name="checkBoxPlotExpData">
             <property name="text">
              <string>Include Experimental Data in Simulation Plots</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxUseCubicHermite">
+            <property name="text">
+             <string>Use Cubic Hermite Interpolation in Simulation</string>
             </property>
            </widget>
           </item>

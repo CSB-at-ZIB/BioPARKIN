@@ -100,6 +100,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
 
 
         self.optionPlotExpDataOnSimulation = False
+        self.optionUseCubicHermiteOnSimulation = backend.settingsandvalues.DEFAULT_CUBIC_HERMITE
 
 
         self.currentExpDataFilename = ""
@@ -444,6 +445,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.progressBarService.connect_to_thread(self.currentBackend)
 
         settings = {
+            backend.settingsandvalues.SETTING_USE_CUBIC_HERMITE: self.optionUseCubicHermiteOnSimulation, 
             backend.settingsandvalues.SETTING_STARTTIME: self.optionStartTime,
             backend.settingsandvalues.SETTING_ENDTIME: self.optionEndTime,
             backend.settingsandvalues.SETTING_RTOL: self.optionRTOL,
@@ -474,6 +476,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         Sets up various input fields with their standard values (that have been previously loaded
         into class variables).
         """
+        self.checkBoxUseCubicHermite.setChecked(self.optionUseCubicHermiteOnSimulation)
+        
         self.lineEditStartTime.setText(str(self.optionStartTime))
         self.lineEditEndTime.setText(str(self.optionEndTime))
         self.lineEditRTOL.setText(str(self.optionRTOL))
@@ -814,6 +818,11 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.labelRSCAL.setEnabled(True)
             self.comboBoxResidualScalingSelect.setEnabled(True)
 
+
+    @Slot(bool)
+    def on_checkBoxUseCubicHermite_toggled(self,  selected):
+        self.optionUseCubicHermiteOnSimulation = selected
+        
     @Slot(bool)
     def on_checkBoxPlotExpData_toggled(self, selected):
         self.optionPlotExpDataOnSimulation = selected

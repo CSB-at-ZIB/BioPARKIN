@@ -270,6 +270,11 @@ class ParkinCppBackend(BaseBackend):
         logging.debug("Creating ODE Manager...")
 
         self.odeManager = ODEManager(self.mainModel)
+        
+        # 04.03.13 td: cubic Hermite interpolation flag
+        self.odeManager.cubintflag = self.settings[settingsandvalues.SETTING_USE_CUBIC_HERMITE]\
+        if settingsandvalues.SETTING_USE_CUBIC_HERMITE in self.settings\
+        else settingsandvalues.DEFAULT_CUBIC_HERMITE
 
         self.odeManager.startTime = self.settings[settingsandvalues.SETTING_STARTTIME]\
         if settingsandvalues.SETTING_STARTTIME in self.settings\
@@ -319,9 +324,13 @@ class ParkinCppBackend(BaseBackend):
         self.bioSystem.setSolverRTol(rTol)
         self.bioSystem.setSolverATol(aTol)
 
-	flag = int(self.odeManager.debugflag)
-	self.bioSystem.setSolverDebugFlag(flag)
-        logging.info("Monitoring of ODE Solver: %d" % flag)
+        cflag = int(not self.odeManager.cubintflag)
+        self.bioSystem.setSolverInterpolationFlag(cflag)
+        logging.info("Cubic Hermite Interpolation: %s" % ("ON" if cflag <= 0 else "OFF"))
+        
+        dflag = int(self.odeManager.debugflag)
+        self.bioSystem.setSolverDebugFlag(dflag)
+        logging.info("Monitoring of ODE Solver: %s" % ("OFF" if dflag <= 0 else "ON"))
 
         # set names / identifies of parameters
         for paramWrapper in self.odeManager.parameterList:
@@ -987,8 +996,7 @@ class ParkinCppBackend(BaseBackend):
 			totRMS = sum([self.relRMS[spec] for spec in self.relRMS.keys()])
 			logging.info(" Total RMS**2: %e" % (float(totRMS)/float(countMeas)) )
 			for speciesID, rmsValue in self.relRMS.items():
-				logging.info("    (%5.2f%%)   %e  =  relRMS[%s]**2 " % (
-                                	      100.0*float(rmsValue)/float(totRMS), float(rmsValue)/float(countMeas), speciesID) )
+				logging.info("    (%5.2f%%)   %e  =  relRMS[%s]**2 " % ( 100.0*float(rmsValue)/float(totRMS), float(rmsValue)/float(countMeas), speciesID) )
 		else:
 			logging.warning("   No measurements present?!?  ")
 		logging.info("------------------------------")
@@ -1142,7 +1150,7 @@ class ParkinCppBackend(BaseBackend):
         estimatedParamSet.setId("Identified Parameter Values")
         estimatedParamSet.setType(services.dataservice.ESTIMATED_PARAMS)
 
-	selected = {}
+        selected = {}
         for selectedParam in self.selectedParams:
             selected[selectedParam.getCombinedId()] = selectedParam
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/simulationworkbench/simulationworkbench_v4.ui'
 #
-# Created: Fri Feb 15 10:25:24 2013
+# Created: Fri Mar  1 09:56:01 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_SimulationWorkbench(object):
     def setupUi(self, SimulationWorkbench):
         SimulationWorkbench.setObjectName("SimulationWorkbench")
-        SimulationWorkbench.resize(1149, 842)
+        SimulationWorkbench.resize(1248, 842)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -48,6 +48,9 @@ class Ui_SimulationWorkbench(object):
         self.checkBoxPlotExpData = QtGui.QCheckBox(self.groupBox)
         self.checkBoxPlotExpData.setObjectName("checkBoxPlotExpData")
         self.verticalLayout_7.addWidget(self.checkBoxPlotExpData)
+        self.checkBoxUseCubicHermite = QtGui.QCheckBox(self.groupBox)
+        self.checkBoxUseCubicHermite.setObjectName("checkBoxUseCubicHermite")
+        self.verticalLayout_7.addWidget(self.checkBoxUseCubicHermite)
         self.verticalLayout_4.addWidget(self.groupBox)
         self.groupBoxTimes = QtGui.QGroupBox(self.tabSettings)
         self.groupBoxTimes.setObjectName("groupBoxTimes")
@@ -546,6 +549,7 @@ class Ui_SimulationWorkbench(object):
         self.comboBoxBackendSelect.setItemText(0, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (NLSCON)", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBoxBackendSelect.setItemText(1, QtGui.QApplication.translate("SimulationWorkbench", "Gauß-Newton (PARKIN)", None, QtGui.QApplication.UnicodeUTF8))
         self.checkBoxPlotExpData.setText(QtGui.QApplication.translate("SimulationWorkbench", "Include Experimental Data in Simulation Plots", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBoxUseCubicHermite.setText(QtGui.QApplication.translate("SimulationWorkbench", "Use Cubic Hermite Interpolation in Simulation", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBoxTimes.setTitle(QtGui.QApplication.translate("SimulationWorkbench", "Time Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.labelStartTime.setText(QtGui.QApplication.translate("SimulationWorkbench", "Start Time", None, QtGui.QApplication.UnicodeUTF8))
         self.labelEndTime.setText(QtGui.QApplication.translate("SimulationWorkbench", "End Time", None, QtGui.QApplication.UnicodeUTF8))

@@ -61,6 +61,7 @@ class ODEManager(object):
         self.endTime = None
         
         self.debugflag = None   #
+        self.cubintflag = None  # use cubic Hermite interpolation
         self.rtol = None        # relative tolerance for integrator
         self.atol = None        # absolute tolerance for integrator
         self.xtol = None        # required tolerance for gauss newton
