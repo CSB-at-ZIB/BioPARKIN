@@ -28,7 +28,9 @@ Typical usage:
 Raises error "ParseError" on a fatal parsing error.
 """
 
-ParseError="Parsing error"
+class ParseError(Exception):
+    def __str__(self):
+        sys.stdout.write("Parsing error")
 
 
 class Parser(object):
@@ -200,6 +202,22 @@ parses SBML model and writes SBML-shorthand to outStream"""
                     outS.write('v')
                 if (p.isSetName()):
                     outS.write(' "'+p.getName()+'"')
+                outS.write('\n')
+        if self.m.getNumFunctionDefinitions():
+            outS.write('@functions\n')
+            for f in self.m.getListOfFunctionDefinitions():
+                outS.write(' '+f.getId()+'(')
+                math=f.getMath()
+                n=math.getNumChildren()
+                for j in range(n-1):
+                    ch=math.getChild(j)
+                    if (j>0):
+                        outS.write(',')
+                    outS.write(ch.getName())
+                if (n>0):
+                    outS.write(') = '+libsbml.formulaToString(math.getChild(n-1)))
+                else:
+                    outS.write(') = ()')
                 outS.write('\n')
         if self.m.getNumRules():
             outS.write('@rules\n')

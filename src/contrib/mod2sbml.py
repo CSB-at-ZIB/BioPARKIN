@@ -30,7 +30,10 @@ Typical usage:
 Raises error "ParseError" on a fatal parsing error.
 """
 
-ParseError="Parsing error"
+class ParseError(Exception):
+    def __str__(self):
+        sys.stdout.write("Parsing error")
+
 
 class Parser(object):
     """Parser class
@@ -47,12 +50,13 @@ and the following public methods:
     COMPARTMENTS=4
     SPECIES=5
     PARAMETERS=6
-    RULES=7
-    REAC1=8
-    REAC2=9
-    REAC3=10
-    REAC4=11
-    EVENTS=12
+    FUNCTIONS=7
+    RULES=8
+    REAC1=9
+    REAC2=10
+    REAC3=11
+    REAC4=12
+    EVENTS=13
 
     def __init__(self):
         self.context=self.SBML
@@ -100,6 +104,8 @@ object"""
                 self.handleSpecies(line,name)
             elif (self.context==self.PARAMETERS):
                 self.handleParameters(line,name)
+            elif (self.context==self.FUNCTIONS):
+                self.handleFunctions(line,name)
             elif (self.context==self.RULES):
                 self.handleRules(line,name)
             elif (self.context==self.REAC1):
@@ -197,6 +203,8 @@ object"""
             self.context=self.SPECIES
         elif (line[:4]=="@par"):
             self.context=self.PARAMETERS
+        elif (line[:4]=="@fun"):
+            self.context=self.FUNCTIONS
         elif (line[:4]=="@rul"):
             self.context=self.RULES
         elif (line[:4]=="@rea"):
@@ -356,6 +364,39 @@ object"""
             if (name!=""):
                 p.setName(name)
             #print self.d.toSBML()
+
+    def handleFunctions(self,line,name):
+        # expect either a function or a new section
+        if (line[0]=="@"):
+            self.handleNewContext(line,name)
+        else:
+            bits=line.split("=")
+            if (len(bits)!=2):
+                sys.stderr.write('Error: expected "=" on line ')
+                sys.stderr.write(str(self.count)+'\n')
+                raise ParseError
+            (bit,body)=bits
+            bits=bit.split("(")
+            if (len(bits)!=2):
+                sys.stderr.write('Error: expected "(" on function header ')
+                sys.stderr.write(str(self.count)+'\n')
+                raise ParseError
+            (id,args)=bits
+            if (args[-1]==")"):
+                args=args[:-1]
+            else:
+                sys.stderr.write('Error: expected ")" on function header ')
+                sys.stderr.write(str(self.count)+'\n')
+                raise ParseError
+            if (len(args.strip())>0):
+                lam = "lambda("+args+", "+body+" )"
+            else:
+                lam = "lambda( "+body+" )"
+            value=libsbml.parseFormula(lam)
+            # self.replaceTime(value)
+            f=self.m.createFunctionDefinition()
+            f.setId(id)
+            f.setMath(value)
 
     def handleRules(self,line,name):
         # expect either a rule or a new section
