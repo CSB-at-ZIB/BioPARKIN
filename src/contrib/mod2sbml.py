@@ -471,9 +471,9 @@ object"""
             sys.stderr.write(str(self.count)+'\n')
             raise ParseError
         (lhs,rhs)=bits
-        if (lhs):
+        if (lhs and lhs.strip()!="()"):
             self.handleTerms(lhs,True)
-        if (rhs):
+        if (rhs and rhs.strip()!="()"):
             self.handleTerms(rhs,False)
         self.context=self.REAC3
 
