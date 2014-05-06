@@ -39,7 +39,7 @@ from services.statusbarservice import StatusBarService
 from aboutdialog import AboutDialog
 from basics.helpers import filehelpers
 from sbml_views.modelview import ModelView
-#from sbml_networkview.networkviewcontroller import NetworkViewController # not used for now
+###from sbml_networkview.networkviewcontroller import NetworkViewController # not used for now
 from libsbml import LIBSBML_DOTTED_VERSION
 from parkincpp.parkin import PARKINCPP_DOTTED_VERSION
 from services.dataservice import DataService
@@ -173,7 +173,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
             # handles the case if only one file is in the "list" in Linux (it's retrieved as unicode string in this case)
             if type(self.recentFiles) is str or type(self.recentFiles) is unicode:
                 self.recentFiles = [self.recentFiles]
-                
+
             logging.info("Recently opened files: %s" % self.recentFiles)
         except:
             logging.warning("Can't access list of recently opened files. Resetting the list.")
@@ -441,7 +441,7 @@ class BioParkinController(QMainWindow, Ui_MainWindow):
 #            self.dummyThread = DummyThrobberThread()
 #            self.progressBarService.connect_to_thread(self.dummyThread)
 #            self.dummyThread.start()
-            
+
 
             ########################################
 

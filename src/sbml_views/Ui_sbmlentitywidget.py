@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '/home/tom/Work/Eric4/BioPARKIN/src/sbml_views/sbmlentitywidget.ui'
 #
-# Created: Fri Feb 15 10:25:21 2013
-#      by: pyside-uic 0.2.13 running on PySide 1.1.2
+# Created: Mon Sep  9 14:28:37 2013
+#      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
 

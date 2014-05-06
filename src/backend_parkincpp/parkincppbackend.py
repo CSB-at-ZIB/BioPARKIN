@@ -400,7 +400,9 @@ class ParkinCppBackend(BaseBackend):
         for paramWrapper in self.odeManager.parameterList:
             pID = paramWrapper.getCombinedId()
             initialValue = self.mainModel.getValueFromActiveSet(pID)
+            ## initialValue = float(self.mainModel.getValueFromActiveSet(pID))
             self.bioSystem.setParamValue(pID, initialValue)
+
         for compartmentWrapper in self.odeManager.compartmentList:  #again, handle compartments as parameters
             pID = compartmentWrapper.getId()
             initialSize = compartmentWrapper.getSize()

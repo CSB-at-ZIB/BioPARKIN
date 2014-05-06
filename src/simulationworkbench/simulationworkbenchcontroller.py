@@ -1,13 +1,13 @@
 from collections import OrderedDict
 import time
-from PySide.QtCore import  Slot, Qt
+from PySide.QtCore import Slot, Qt
 from PySide.QtGui import QSortFilterProxyModel, QTabBar, QMessageBox, QTableWidgetItem, QWidget
 from backend_parkincpp.parkincppbackend import ParkinCppBackend
 from parkincpp import parkin
 from services import dataservice
 import services.dataservice
 import datamanagement.dataset
-import backend
+import backend.settingsandvalues
 import parametertablemodel, speciestablemodel
 from services.optionsservice import OptionsService
 from services.statusbarservice import StatusBarService
@@ -15,7 +15,7 @@ import simulationworkbench
 import logging
 from simulationworkbench.parametersetstablemodel import ParameterSetsTableModel
 from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
-from simulationworkbench.widgets import tablewidgetcontroller
+from simulationworkbench.widgets import tablewidgetcontroller  # for mode labels
 from simulationworkbench.widgets.databrowser import DataBrowser
 from simulationworkbench.widgets.dataimportwidget import DataImportWidget
 from simulationworkbench.widgets.resultswindowcontroller import ResultsWindowController
@@ -26,8 +26,8 @@ from simulationworkbench.speciestablemodel import SpeciesTableModel
 from simulationworkbench.parametertablemodel import ParameterTableModel
 from services.progressbarservice import ProgressBarService
 from services.dataservice import DataService
-from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
 from simulationworkbench.widgets.tablewidgetcontroller import TableWidgetController
+from simulationworkbench.widgets.plotwidgetcontroller import PlotWidgetController
 from backend.exceptions import InitError
 
 
