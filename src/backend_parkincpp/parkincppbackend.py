@@ -319,10 +319,13 @@ class ParkinCppBackend(BaseBackend):
 
         rTol = float(self.odeManager.rtol)
         aTol = float(self.odeManager.atol)
+        xTol = float(self.odeManager.xtol)
         logging.info("RTOL: %s" % rTol)
         logging.info("ATOL: %s" % aTol)
+        logging.info("PTOL: %s" % xTol)
         self.bioSystem.setSolverRTol(rTol)
         self.bioSystem.setSolverATol(aTol)
+        self.bioSystem.setSystemTol(xTol)
 
         cflag = int(not self.odeManager.cubintflag)
         self.bioSystem.setSolverInterpolationFlag(cflag)
