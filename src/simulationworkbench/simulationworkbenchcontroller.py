@@ -14,7 +14,7 @@ from services.statusbarservice import StatusBarService
 import simulationworkbench
 import logging
 from simulationworkbench.parametersetstablemodel import ParameterSetsTableModel
-from simulationworkbench.Ui_simulationworkbench_v4 import Ui_SimulationWorkbench
+from simulationworkbench.Ui_simulationworkbench_v5 import Ui_SimulationWorkbench
 from simulationworkbench.widgets import tablewidgetcontroller  # for mode labels
 from simulationworkbench.widgets.databrowser import DataBrowser
 from simulationworkbench.widgets.dataimportwidget import DataImportWidget
@@ -78,6 +78,7 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.currentBackend = None
 
         self.on_comboBoxBackendSelect_currentIndexChanged(0) # for updating the GUI
+        self.on_comboBoxIntegratorSelect_currentIndexChanged(0) # for updating the GUI
 
         self.optionStartTime = backend.settingsandvalues.DEFAULT_STARTTIME
         self.optionEndTime = backend.settingsandvalues.DEFAULT_ENDTIME
@@ -461,7 +462,9 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_UPPERBOUND: self.optionParameterConstraintsUpperbound,
             backend.settingsandvalues.SETTING_PARAMETER_CONSTRAINTS_PER_PARAMETER: self.optionParameterConstraintsPerParameter,
             backend.settingsandvalues.SETTING_IDENTIFICATION_BACKEND:
-                backend.settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND[self.comboBoxBackendSelect.currentIndex()]
+                backend.settingsandvalues.OPTIONS_IDENTIFICATION_BACKEND[self.comboBoxBackendSelect.currentIndex()],
+            backend.settingsandvalues.SETTING_INTEGRATOR_BACKEND:
+                backend.settingsandvalues.OPTIONS_INTEGRATOR_BACKEND[self.comboBoxIntegratorSelect.currentIndex()]
         }
 
         try:
@@ -817,6 +820,19 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.comboBoxProblemTypeSelect.setEnabled(True)
             self.labelRSCAL.setEnabled(True)
             self.comboBoxResidualScalingSelect.setEnabled(True)
+
+
+    @Slot(int)
+    def on_comboBoxIntegratorSelect_currentIndexChanged(self, index):
+        if index == 2: # dop853
+            self.labelJACGEN.setEnabled(True)
+            self.comboBoxJacobianSelect.setEnabled(True)
+        if index == 1: # metan1
+            self.labelJACGEN.setEnabled(True)
+            self.comboBoxJacobianSelect.setEnabled(True)
+        else: # limex
+            self.labelJACGEN.setEnabled(True)
+            self.comboBoxJacobianSelect.setEnabled(True)
 
 
     @Slot(bool)

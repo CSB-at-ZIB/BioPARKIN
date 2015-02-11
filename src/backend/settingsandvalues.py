@@ -9,6 +9,8 @@ __author__ = 'Moritz Wade'
 
 # defining options (enum-like)
 OPTIONS_IDENTIFICATION_BACKEND = ["nlscon", "parkin"]
+# 10.02.15 td: added options (enums) for possible numerical integrator
+OPTIONS_INTEGRATOR_BACKEND = ["limex", "metan1", "dop853"]
 
 OPTION_PARAMETER_CONSTRAINT_NONE = "No Constraints"
 OPTION_PARAMETER_CONSTRAINT_POSITIVITY = "Positivity (Exponential Transformation)"
@@ -52,6 +54,8 @@ DEFAULT_PARAMETER_CONSTRAINTS_PER_PARAMETER = False
 
 DEFAULT_USE_MEASURED_TIMEPOINTS = False
 DEFAULT_IDENTIFICATION_BACKEND = OPTIONS_IDENTIFICATION_BACKEND[0]
+# 10.02.15 td: added default value for numerical integrator (LIMEX)
+DEFAULT_INTEGRATOR_BACKEND = OPTIONS_INTEGRATOR_BACKEND[0]
 
 
 #### CONSTANT STRINGS ###
@@ -71,6 +75,8 @@ SETTING_MAX_NUM_NEWTON_STEPS = "setting_max_num_newton_steps"
 SETTING_USE_MEASURED_TIMEPOINTS = "setting_use_measured_timepoints"
 
 SETTING_IDENTIFICATION_BACKEND = "setting_identification_backend"
+# 10.02.15 td: added option setting for numerical integrator backend
+SETTING_INTEGRATOR_BACKEND = "setting_integrator_backend"
 
 
 SETTING_NO_AUTO_ROW_SCALING = "setting_no_auto_row_scaling"

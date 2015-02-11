@@ -87,30 +87,47 @@
            </layout>
           </item>
           <item>
-           <spacer name="horizontalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox"/>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_22"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_22">
+            <item>
+             <widget class="QLabel" name="labelIntegratorBackend">
+              <property name="text">
+               <string>Numerical Integrator:   </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxIntegratorSelect">
+              <item>
+               <property name="text">
+                <string>LIMEX</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>METAN1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>DOP853</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBoxPlotExpData">

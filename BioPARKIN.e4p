@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project BioPARKIN -->
-<!-- Saved: 2012-07-17, 14:36:57 -->
-<!-- Copyright (C) 2012 Moritz Wade, Thomas Dierkes, Susanna Röblitz, moritzwade@gmail.com -->
+<!-- Saved: 2015-02-10, 14:41:38 -->
+<!-- Copyright (C) 2015 Moritz Wade, Thomas Dierkes, Susanna Röblitz, moritzwade@gmail.com -->
 <Project version="4.6">
   <Language>en</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
@@ -120,6 +120,7 @@
     <Source>src/simulationworkbench/widgets/Ui_databrowser.py</Source>
     <Source>src/simulationworkbench/widgets/Ui_timepointchooser.py</Source>
     <Source>src/simulationworkbench/widgets/Ui_dataimportwidget.py</Source>
+    <Source>src/simulationworkbench/Ui_simulationworkbench_v5.py</Source>
   </Sources>
   <Forms>
     <Form>src/simulationworkbench/widgets/plotwidget_v1.ui</Form>
@@ -143,6 +144,7 @@
     <Form>src/simulationworkbench/widgets/databrowser.ui</Form>
     <Form>src/simulationworkbench/widgets/timepointchooser.ui</Form>
     <Form>src/simulationworkbench/widgets/dataimportwidget.ui</Form>
+    <Form>src/simulationworkbench/simulationworkbench_v5.ui</Form>
   </Forms>
   <Translations>
   </Translations>

@@ -271,6 +271,11 @@ class ParkinCppBackend(BaseBackend):
 
         self.odeManager = ODEManager(self.mainModel)
         
+        # 10.02.14 td: numerical integrator switch
+        self.odeManager.odesolver = self.settings[settingsandvalues.SETTING_INTEGRATOR_BACKEND]\
+        if settingsandvalues.SETTING_INTEGRATOR_BACKEND in self.settings\
+        else settingsandvalues.DEFAULT_INTEGRATOR_BACKEND
+
         # 04.03.13 td: cubic Hermite interpolation flag
         self.odeManager.cubintflag = self.settings[settingsandvalues.SETTING_USE_CUBIC_HERMITE]\
         if settingsandvalues.SETTING_USE_CUBIC_HERMITE in self.settings\
@@ -317,12 +322,20 @@ class ParkinCppBackend(BaseBackend):
         logging.info("Start time: %s" % self.odeManager.startTime)
         logging.info("End time: %s" % self.odeManager.endTime)
 
+        odeSolver = self.odeManager.odesolver
         rTol = float(self.odeManager.rtol)
         aTol = float(self.odeManager.atol)
         xTol = float(self.odeManager.xtol)
+        logging.info("INTEGARTOR: %s" % odeSolver)
         logging.info("RTOL: %s" % rTol)
         logging.info("ATOL: %s" % aTol)
         logging.info("PTOL: %s" % xTol)
+        if odeSolver==settingsandvalues.OPTIONS_INTEGRATOR_BACKEND[1]: # metan1
+            self.bioSystem.setSolver(3)
+        elif odeSolver==settingsandvalues.OPTIONS_INTEGRATOR_BACKEND[2]: # dop853
+            self.bioSystem.setSolver(2)
+        else: # limex
+            self.bioSystem.setSolver(1)
         self.bioSystem.setSolverRTol(rTol)
         self.bioSystem.setSolverATol(aTol)
         self.bioSystem.setSystemTol(xTol)

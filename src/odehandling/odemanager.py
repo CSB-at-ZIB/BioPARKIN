@@ -60,6 +60,7 @@ class ODEManager(object):
         self.startTime = None
         self.endTime = None
         
+        self.odesolver = None   # which numerical integrator to use
         self.debugflag = None   #
         self.cubintflag = None  # use cubic Hermite interpolation
         self.rtol = None        # relative tolerance for integrator
