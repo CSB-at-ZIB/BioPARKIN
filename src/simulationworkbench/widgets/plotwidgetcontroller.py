@@ -27,6 +27,7 @@ from plotstylemanager import PlotStyleManager
 #from plotstyle import PlotStyleManager
 
 OPTION_LABEL_X = "option_label_x"
+OPTION_LABEL_Y = "option_label_y"
 OPTION_SHOW_LEGEND = "option_show_legend"
 OPTION_LOG_Y_AXIS = "option_log_y_axis"
 
@@ -87,12 +88,19 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
         self._initialize()
 
         self.timeUnit = "a.u." #default ?
+        self.speciesUnit = "a.u." #default ?
+        self.speciesLabel = "Concentration" #default ?
         if host:
             self.timeUnit = str(host.optionTimeUnit)
+            self.speciesUnit = str(host.optionSpeciesUnit)
+            self.speciesLabel = str(host.optionSpeciesLabel)
 
         #options: time unit, logarithmic y-axis and 'show legend'
+        # 24.2.2015 td 
+        #options: species label, species unit 
         self.options = {
             OPTION_LABEL_X: "Time [%s]" % (self.timeUnit), #default
+            OPTION_LABEL_Y: "%s [%s]" % (self.speciesLabel,self.speciesUnit), #default
             OPTION_LOG_Y_AXIS: self.checkBoxLogYAxis.isChecked(),
             OPTION_SHOW_LEGEND: self.checkBoxShowLegend.isChecked()
         }
@@ -192,15 +200,18 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
             
             
             # set x label
-            for entityDataList in self.data.values():
-                for entityData in entityDataList:
-                    yLabel = str(entityData.getAxisLabel())
-                    break
-            self.axes.set_ylabel(yLabel)
+            if OPTION_LABEL_Y in self.options:
+                yLabel = str(self.options[OPTION_LABEL_Y])
+            else:
+                for entityDataList in self.data.values():
+                    for entityData in entityDataList:
+                        yLabel = str(entityData.getAxisLabel())
+                        break
+            self.axes.set_ylabel(yLabel,fontsize="x-large")
 
             # set y label
             if OPTION_LABEL_X in self.options:
-                self.axes.set_xlabel(str(self.options[OPTION_LABEL_X]))
+                self.axes.set_xlabel(str(self.options[OPTION_LABEL_X]),fontsize="x-large")
             else:
                 self.axes.set_xlabel("N/A")
 
@@ -502,6 +513,7 @@ class PlotWidgetController(AbstractViewController, Ui_PlotWidget):
     def on_checkBoxOneColorPerRow_toggled(self, isChecked):
         logging.info("Switching plot coloring mode.")
         self._updateDataView()
+
     @Slot("bool")
     def on_checkBoxGrayColor_toggled(self, isChecked):
         if isChecked:

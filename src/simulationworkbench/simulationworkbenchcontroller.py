@@ -32,6 +32,8 @@ from backend.exceptions import InitError
 
 
 DEFAULT_TIMEUNIT = "s"
+DEFAULT_SPECIESUNIT = "a.u."
+DEFAULT_SPECIESLABEL = "Concentration"
 
 class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
     """
@@ -83,6 +85,8 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
         self.optionStartTime = backend.settingsandvalues.DEFAULT_STARTTIME
         self.optionEndTime = backend.settingsandvalues.DEFAULT_ENDTIME
         self.optionTimeUnit = DEFAULT_TIMEUNIT
+        self.optionSpeciesUnit = DEFAULT_SPECIESUNIT
+        self.optionSpeciesLabel = DEFAULT_SPECIESLABEL
 
         self.optionRTOL = backend.settingsandvalues.DEFAULT_RTOL
         self.optionATOL = backend.settingsandvalues.DEFAULT_ATOL
@@ -923,6 +927,29 @@ class SimulationWorkbenchController(QWidget, Ui_SimulationWorkbench):
             self.optionTimeUnit = str(self.lineEditTimeUnit.text())
         except:
             self.lineEditTimeUnit.setText(str(self.optionTimeUnit))
+
+
+    @Slot("")
+    def on_lineEditSpeciesUnit_editingFinished(self):
+        """
+        Ensures that only strings are entered into the lineEditSpeciesUnit field.
+        """
+        try:
+            self.optionSpeciesUnit = str(self.lineEditSpeciesUnit.text())
+        except:
+            self.lineEditSpeciesUnit.setText(str(self.optionSpeciesUnit))
+
+
+    @Slot("")
+    def on_lineEditSpeciesLabel_editingFinished(self):
+        """
+        Ensures that only strings are entered into the lineEditSpeciesLabel field.
+        """
+        try:
+            self.optionSpeciesLabel = str(self.lineEditSpeciesLabel.text())
+        except:
+            self.lineEditSpeciesLabel.setText(str(self.optionSpeciesLabel))
+
 
 
     @Slot("")

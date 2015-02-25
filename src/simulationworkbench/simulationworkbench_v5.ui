@@ -205,6 +205,39 @@
               </property>
              </widget>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelSpeciesUnit">
+              <property name="text">
+               <string>Species Unit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditSpeciesUnit"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelSpeciesLabel">
+              <property name="text">
+               <string>Species Label</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditSpeciesLabel"/>
+            </item>
            </layout>
           </item>
          </layout>
